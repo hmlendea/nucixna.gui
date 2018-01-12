@@ -1,4 +1,4 @@
-﻿namespace GielinorAdventures.Input.Enumerations
+﻿namespace NuciXNA.Input.Enumerations
 {
     /// <summary>
     /// Keyboard key state.

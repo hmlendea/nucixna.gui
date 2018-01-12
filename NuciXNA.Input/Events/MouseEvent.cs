@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GielinorAdventures.Input.Events
+namespace NuciXNA.Input.Events
 {
     /// <summary>
     /// Mouse event handler.

@@ -4,10 +4,10 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Input;
 
-using GielinorAdventures.Input.Enumerations;
-using GielinorAdventures.Input.Events;
+using NuciXNA.Input.Enumerations;
+using NuciXNA.Input.Events;
 
-namespace GielinorAdventures.Input
+namespace NuciXNA.Input
 {
     /// <summary>
     /// Input manager.

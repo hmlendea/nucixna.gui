@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-using GielinorAdventures.Input.Enumerations;
+using NuciXNA.Input.Enumerations;
 
-namespace GielinorAdventures.Input.Events
+namespace NuciXNA.Input.Events
 {
     /// <summary>
     /// Keyboard key event handler.
