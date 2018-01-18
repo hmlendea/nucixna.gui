@@ -45,6 +45,8 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
+        public Type StartingScreenType { get; set; }
+
         /// <summary>
         /// Gets the size.
         /// </summary>
@@ -74,8 +76,6 @@ namespace NuciXNA.Gui.Screens
             Size = new Size2D(
                 GraphicsManager.Instance.Graphics.PreferredBackBufferWidth,
                 GraphicsManager.Instance.Graphics.PreferredBackBufferHeight);
-
-            currentScreen = new Screen();
         }
 
         /// <summary>
@@ -83,6 +83,8 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public void LoadContent()
         {
+            currentScreen = (Screen)Activator.CreateInstance(StartingScreenType);
+
             transitionSprite = new Sprite
             {
                 ContentFile = "ScreenManager/FillImage",
@@ -144,22 +146,27 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Changes the screen.
         /// </summary>
-        /// <param name="screenName">Screen name.</param>
-        public void ChangeScreens(string screenName)
+        /// <param name="screenType">Screen type.</param>
+        public void ChangeScreens(Type screenType)
         {
-            ChangeScreens(screenName, null);
+            ChangeScreens(screenType, null);
         }
 
         /// <summary>
         /// Changes the screen.
         /// </summary>
-        /// <param name="screenName">Screen name.</param>
+        /// <param name="screenType">Screen type.</param>
         /// <param name="screenArgs">Screen arguments.</param>
-        public void ChangeScreens(string screenName, string[] screenArgs)
+        public void ChangeScreens(Type screenType, string[] screenArgs)
         {
-            newScreen = (Screen)Activator.CreateInstance(Type.GetType($"{typeof(Screen).Namespace}.{screenName}"));
-
+            newScreen = (Screen)Activator.CreateInstance(screenType);
             newScreen.ScreenArgs = screenArgs;
+
+            if (currentScreen == null)
+            {
+                currentScreen = newScreen;
+                return;
+            }
 
             transitionSprite.FadeEffect.Activate();
 
