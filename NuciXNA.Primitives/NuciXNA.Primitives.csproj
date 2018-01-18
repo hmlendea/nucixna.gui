@@ -48,10 +48,13 @@
     <Compile Include="Mapping\SizeMappingExtensions.cs" />
     <Compile Include="Point2D.cs" />
     <Compile Include="Point3D.cs" />
+    <Compile Include="PointF2D.cs" />
+    <Compile Include="PointF3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle2D.cs" />
     <Compile Include="Scale2D.cs" />
     <Compile Include="Size2D.cs" />
+    <Compile Include="SizeF2D.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
