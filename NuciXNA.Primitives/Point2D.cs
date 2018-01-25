@@ -123,6 +123,28 @@ namespace NuciXNA.Primitives
                        source.Y - other.Y);
 
         /// <summary>
+        /// Multiples the values of a <see cref="Point2D"/> from those of another <see cref="Point2D"/>,
+        /// yielding a new <see cref="Point2D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Point2D"/> to multiply.</param>
+        /// <param name="other">The second <see cref="Point2D"/> to multiply.</param>
+        /// <returns>The <see cref="Point2D"/> whose values are the produce of the values of <c>source</c> and <c>other</c>.</returns>
+        public static Point2D operator *(Point2D source, Point2D other)
+        => new Point2D(source.X * other.X,
+                        source.Y * other.Y);
+
+        /// <summary>
+        /// Divides the values of a <see cref="Point2D"/> from those of another <see cref="Point2D"/>,
+        /// yielding a new <see cref="Point2D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Point2D"/> to divide.</param>
+        /// <param name="other">The second <see cref="Point2D"/> to divide.</param>
+        /// <returns>The <see cref="Point2D"/> whose values are the division of the values of <c>source</c> and <c>other</c>.</returns>
+        public static Point2D operator /(Point2D source, Point2D other)
+        => new Point2D(source.X / other.X,
+                        source.Y / other.Y);
+
+        /// <summary>
         /// Determines whether a specified instance of <see cref="Point2D"/> is equal to another specified <see cref="Point2D"/>.
         /// </summary>
         /// <param name="source">The first <see cref="Point2D"/> to compare.</param>

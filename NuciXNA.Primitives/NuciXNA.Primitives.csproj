@@ -46,6 +46,7 @@
     <Compile Include="Mapping\RectangleMappingExtensions.cs" />
     <Compile Include="Mapping\ScaleMappingExtensions.cs" />
     <Compile Include="Mapping\SizeMappingExtensions.cs" />
+    <Compile Include="Mapping\VectorMappingExtensions.cs" />
     <Compile Include="Point2D.cs" />
     <Compile Include="Point3D.cs" />
     <Compile Include="PointF2D.cs" />
@@ -55,6 +56,8 @@
     <Compile Include="Scale2D.cs" />
     <Compile Include="Size2D.cs" />
     <Compile Include="SizeF2D.cs" />
+    <Compile Include="Vector2D.cs" />
+    <Compile Include="Vector3D.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

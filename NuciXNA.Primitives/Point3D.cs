@@ -124,6 +124,30 @@ namespace NuciXNA.Primitives
                        source.Z - other.Z);
 
         /// <summary>
+        /// Multiples the values of a <see cref="Point3D"/> from those of another <see cref="Point3D"/>,
+        /// yielding a new <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Point3D"/> to multiply.</param>
+        /// <param name="other">The second <see cref="Point3D"/> to multiply.</param>
+        /// <returns>The <see cref="Point3D"/> whose values are the produce of the values of <c>source</c> and <c>other</c>.</returns>
+        public static Point3D operator *(Point3D source, Point3D other)
+        => new Point3D(source.X * other.X,
+                       source.Y * other.Y,
+                       source.Z * other.Z);
+
+        /// <summary>
+        /// Divides the values of a <see cref="Point3D"/> from those of another <see cref="Point3D"/>,
+        /// yielding a new <see cref="Point3D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Point3D"/> to divide.</param>
+        /// <param name="other">The second <see cref="Point3D"/> to divide.</param>
+        /// <returns>The <see cref="Point3D"/> whose values are the division of the values of <c>source</c> and <c>other</c>.</returns>
+        public static Point3D operator /(Point3D source, Point3D other)
+        => new Point3D(source.X / other.X,
+                       source.Y / other.Y,
+                       source.Z / other.Z);
+
+        /// <summary>
         /// Determines whether a specified instance of <see cref="Point3D"/> is equal to another specified <see cref="Point3D"/>.
         /// </summary>
         /// <param name="source">The first <see cref="Point3D"/> to compare.</param>

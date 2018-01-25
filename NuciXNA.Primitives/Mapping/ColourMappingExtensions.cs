@@ -11,7 +11,7 @@ namespace NuciXNA.Primitives.Mapping
     public static class ColourMappingExtensions
     {
         /// <summary>
-        /// Convers a <see cref="SystemColor"/> into to a <see cref="Colour"/>.
+        /// Converts a <see cref="SystemColor"/> into to a <see cref="Colour"/>.
         /// </summary>
         /// <returns>The <see cref="Colour"/>.</returns>
         /// <param name="source">Source <see cref="SystemColor"/>.</param>
@@ -19,7 +19,7 @@ namespace NuciXNA.Primitives.Mapping
         => Colour.FromArgb(source.A, source.R, source.G, source.B);
 
         /// <summary>
-        /// Convers a <see cref="XnaColor"/> into to a <see cref="Colour"/>.
+        /// Converts a <see cref="XnaColor"/> into to a <see cref="Colour"/>.
         /// </summary>
         /// <returns>The <see cref="Colour"/>.</returns>
         /// <param name="source">Source <see cref="XnaColor"/>.</param>
@@ -27,7 +27,7 @@ namespace NuciXNA.Primitives.Mapping
         => Colour.FromArgb(source.A, source.R, source.G, source.B);
 
         /// <summary>
-        /// Convers a <see cref="Colour"/> into to a <see cref="SystemColor"/>.
+        /// Converts a <see cref="Colour"/> into to a <see cref="SystemColor"/>.
         /// </summary>
         /// <returns>The <see cref="SystemColor"/>.</returns>
         /// <param name="source">Source <see cref="Colour"/>.</param>
@@ -35,7 +35,7 @@ namespace NuciXNA.Primitives.Mapping
         => SystemColor.FromArgb(source.A, source.R, source.G, source.B);
 
         /// <summary>
-        /// Convers a <see cref="XnaColor"/> into to a <see cref="SystemColor"/>.
+        /// Converts a <see cref="XnaColor"/> into to a <see cref="SystemColor"/>.
         /// </summary>
         /// <returns>The <see cref="SystemColor"/>.</returns>
         /// <param name="source">Source <see cref="XnaColor"/>.</param>
@@ -43,7 +43,7 @@ namespace NuciXNA.Primitives.Mapping
         => SystemColor.FromArgb(source.A, source.R, source.G, source.B);
 
         /// <summary>
-        /// Convers a <see cref="Colour"/> into to a <see cref="XnaColor"/>.
+        /// Converts a <see cref="Colour"/> into to a <see cref="XnaColor"/>.
         /// </summary>
         /// <returns>The <see cref="XnaColor"/>.</returns>
         /// <param name="source">Source <see cref="Colour"/>.</param>
@@ -51,7 +51,7 @@ namespace NuciXNA.Primitives.Mapping
         => new XnaColor(source.R, source.G, source.B, source.A);
 
         /// <summary>
-        /// Convers a <see cref="SystemColor"/> into to a <see cref="SystemColor"/>.
+        /// Converts a <see cref="SystemColor"/> into to a <see cref="SystemColor"/>.
         /// </summary>
         /// <returns>The <see cref="SystemColor"/>.</returns>
         /// <param name="source">Source <see cref="SystemColor"/>.</param>
@@ -59,7 +59,7 @@ namespace NuciXNA.Primitives.Mapping
         => new XnaColor(source.R, source.G, source.B, source.A);
 
         /// <summary>
-        /// Convers an array of <see cref="Colour"/> into to an array of <see cref="SystemColor"/>.
+        /// Converts an array of <see cref="Colour"/> into to an array of <see cref="SystemColor"/>.
         /// </summary>
         /// <returns>The <see cref="SystemColor"/> array.</returns>
         /// <param name="source">Source <see cref="Colour"/> array.</param>
@@ -67,7 +67,7 @@ namespace NuciXNA.Primitives.Mapping
         => source.Select(x => x.ToColour()).ToArray();
 
         /// <summary>
-        /// Convers an array of <see cref="XnaColor"/> into to an array of <see cref="Colour"/>.
+        /// Converts an array of <see cref="XnaColor"/> into to an array of <see cref="Colour"/>.
         /// </summary>
         /// <returns>The <see cref="Colour"/> array.</returns>
         /// <param name="source">Source <see cref="XnaColor"/> array.</param>
@@ -75,7 +75,7 @@ namespace NuciXNA.Primitives.Mapping
         => source.Select(x => x.ToColour()).ToArray();
 
         /// <summary>
-        /// Convers an array of <see cref="XnaColor"/> into to an array of <see cref="SystemColor"/>.
+        /// Converts an array of <see cref="XnaColor"/> into to an array of <see cref="SystemColor"/>.
         /// </summary>
         /// <returns>The <see cref="SystemColor"/> array.</returns>
         /// <param name="source">Source <see cref="XnaColor"/> array.</param>
@@ -83,7 +83,7 @@ namespace NuciXNA.Primitives.Mapping
         => source.Select(x => x.ToSystemColor()).ToArray();
 
         /// <summary>
-        /// Convers an array of <see cref="Colour"/> into to an array of <see cref="SystemColor"/>.
+        /// Converts an array of <see cref="Colour"/> into to an array of <see cref="SystemColor"/>.
         /// </summary>
         /// <returns>The <see cref="SystemColor"/> array.</returns>
         /// <param name="source">Source <see cref="Colour"/> array.</param>
@@ -91,7 +91,7 @@ namespace NuciXNA.Primitives.Mapping
         => source.Select(x => x.ToSystemColor()).ToArray();
 
         /// <summary>
-        /// Convers an array of <see cref="Colour"/> into to an array of <see cref="XnaColor"/>.
+        /// Converts an array of <see cref="Colour"/> into to an array of <see cref="XnaColor"/>.
         /// </summary>
         /// <returns>The <see cref="XnaColor"/> array.</returns>
         /// <param name="source">Source <see cref="Colour"/> array.</param>
@@ -99,7 +99,7 @@ namespace NuciXNA.Primitives.Mapping
         => source.Select(x => x.ToXnaColor()).ToArray();
 
         /// <summary>
-        /// Convers an array of <see cref="SystemColor"/> into to an array of <see cref="XnaColor"/>.
+        /// Converts an array of <see cref="SystemColor"/> into to an array of <see cref="XnaColor"/>.
         /// </summary>
         /// <returns>The <see cref="XnaColor"/> array.</returns>
         /// <param name="source">Source <see cref="SystemColor"/> array.</param>

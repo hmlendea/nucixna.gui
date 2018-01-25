@@ -8,7 +8,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO MY PRIMITIVE
 
         /// <summary>
-        /// Convers a <see cref="SystemRectangle"/> into to a <see cref="Rectangle2D"/>.
+        /// Converts a <see cref="SystemRectangle"/> into to a <see cref="Rectangle2D"/>.
         /// </summary>
         /// <param name="source">Source <see cref="SystemRectangle"/>.</param>
         /// <returns>The <see cref="Rectangle2D"/>.</returns>
@@ -16,7 +16,7 @@ namespace NuciXNA.Primitives.Mapping
         => new Rectangle2D(source.X, source.Y, source.Width, source.Height);
 
         /// <summary>
-        /// Convers a <see cref="XnaRectangle"/> into to a <see cref="Rectangle2D"/>.
+        /// Converts a <see cref="XnaRectangle"/> into to a <see cref="Rectangle2D"/>.
         /// </summary>
         /// <param name="source">Source <see cref="XnaRectangle"/>.</param>
         /// <returns>The <see cref="Rectangle2D"/>.</returns>
@@ -26,7 +26,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO SYSTEM
 
         /// <summary>
-        /// Convers a <see cref="Rectangle2D"/> into to a <see cref="SystemRectangle"/>.
+        /// Converts a <see cref="Rectangle2D"/> into to a <see cref="SystemRectangle"/>.
         /// </summary>
         /// <param name="source">Source <see cref="Rectangle2D"/>.</param>
         /// <returns>The <see cref="SystemRectangle"/>.</returns>
@@ -34,7 +34,7 @@ namespace NuciXNA.Primitives.Mapping
         => new SystemRectangle(source.X, source.Y, source.Width, source.Height);
 
         /// <summary>
-        /// Convers a <see cref="XnaRectangle"/> into to a <see cref="SystemRectangle"/>.
+        /// Converts a <see cref="XnaRectangle"/> into to a <see cref="SystemRectangle"/>.
         /// </summary>
         /// <param name="source">Source <see cref="XnaRectangle"/>.</param>
         /// <returns>The <see cref="SystemRectangle"/>.</returns>
@@ -44,7 +44,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO XNA
 
         /// <summary>
-        /// Convers a <see cref="Rectangle2D"/> into to a <see cref="XnaRectangle"/>.
+        /// Converts a <see cref="Rectangle2D"/> into to a <see cref="XnaRectangle"/>.
         /// </summary>
         /// <param name="source">Source <see cref="Rectangle2D"/>.</param>
         /// <returns>The <see cref="XnaRectangle"/>.</returns>
@@ -52,7 +52,7 @@ namespace NuciXNA.Primitives.Mapping
         => new XnaRectangle(source.X, source.Y, source.Width, source.Height);
 
         /// <summary>
-        /// Convers a <see cref="SystemRectangle"/> into to a <see cref="XnaRectangle"/>.
+        /// Converts a <see cref="SystemRectangle"/> into to a <see cref="XnaRectangle"/>.
         /// </summary>
         /// <param name="source">Source <see cref="SystemRectangle"/>.</param>
         /// <returns>The <see cref="XnaRectangle"/>.</returns>

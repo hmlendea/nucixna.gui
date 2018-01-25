@@ -7,7 +7,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO MY PRIMITIVE
 
         /// <summary>
-        /// Convers a <see cref="XnaVector2"/> into to a <see cref="Scale2D"/>.
+        /// Converts a <see cref="XnaVector2"/> into to a <see cref="Scale2D"/>.
         /// </summary>
         /// <param name="source">Source <see cref="XnaVector2"/>.</param>
         /// <returns>The <see cref="Scale2D"/>.</returns>
@@ -17,7 +17,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO XNA
 
         /// <summary>
-        /// Convers a <see cref="Scale2D"/> into to a <see cref="XnaVector2"/>.
+        /// Converts a <see cref="Scale2D"/> into to a <see cref="XnaVector2"/>.
         /// </summary>
         /// <param name="source">Source <see cref="Scale2D"/>.</param>
         /// <returns>The <see cref="XnaVector2"/>.</returns>

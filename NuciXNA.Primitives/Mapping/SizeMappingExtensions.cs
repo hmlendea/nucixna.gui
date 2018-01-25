@@ -8,7 +8,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO MY PRIMITIVE
 
         /// <summary>
-        /// Convers a <see cref="SystemSize"/> into to a <see cref="Size2D"/>.
+        /// Converts a <see cref="SystemSize"/> into to a <see cref="Size2D"/>.
         /// </summary>
         /// <param name="source">Source <see cref="SystemSize"/>.</param>
         /// <returns>The <see cref="Size2D"/>.</returns>
@@ -16,7 +16,7 @@ namespace NuciXNA.Primitives.Mapping
         => new Size2D(source.Width, source.Height);
 
         /// <summary>
-        /// Convers a <see cref="XnaPoint"/> into to a <see cref="Size2D"/>.
+        /// Converts a <see cref="XnaPoint"/> into to a <see cref="Size2D"/>.
         /// </summary>
         /// <param name="source">Source <see cref="XnaPoint"/>.</param>
         /// <returns>The <see cref="Size2D"/>.</returns>
@@ -26,7 +26,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO SYSTEM
 
         /// <summary>
-        /// Convers a <see cref="Size2D"/> into to a <see cref="SystemSize"/>.
+        /// Converts a <see cref="Size2D"/> into to a <see cref="SystemSize"/>.
         /// </summary>
         /// <param name="source">Source <see cref="Size2D"/>.</param>
         /// <returns>The <see cref="SystemSize"/>.</returns>
@@ -34,7 +34,7 @@ namespace NuciXNA.Primitives.Mapping
         => new SystemSize(source.Width, source.Height);
 
         /// <summary>
-        /// Convers a <see cref="XnaPoint"/> into to a <see cref="SystemSize"/>.
+        /// Converts a <see cref="XnaPoint"/> into to a <see cref="SystemSize"/>.
         /// </summary>
         /// <param name="source">Source <see cref="XnaPoint"/>.</param>
         /// <returns>The <see cref="SystemSize"/>.</returns>
@@ -44,7 +44,7 @@ namespace NuciXNA.Primitives.Mapping
         // >>> TO XNA
 
         /// <summary>
-        /// Convers a <see cref="Size2D"/> into to a <see cref="XnaPoint"/>.
+        /// Converts a <see cref="Size2D"/> into to a <see cref="XnaPoint"/>.
         /// </summary>
         /// <param name="source">Source <see cref="Size2D"/>.</param>
         /// <returns>The <see cref="XnaPoint"/>.</returns>
@@ -52,7 +52,7 @@ namespace NuciXNA.Primitives.Mapping
         => new XnaPoint(source.Width, source.Height);
 
         /// <summary>
-        /// Convers a <see cref="SystemSize"/> into to a <see cref="XnaPoint"/>.
+        /// Converts a <see cref="SystemSize"/> into to a <see cref="XnaPoint"/>.
         /// </summary>
         /// <param name="source">Source <see cref="SystemSize"/>.</param>
         /// <returns>The <see cref="XnaPoint"/>.</returns>
