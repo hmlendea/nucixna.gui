@@ -11,7 +11,7 @@ namespace NuciXNA.DataAccess.Repositories
     /// <summary>
     /// XML-based repository.
     /// </summary>
-    public abstract class XmlRepository<TDataObject> where TDataObject : EntityBase
+    public abstract class XmlRepository<TDataObject> : IRepository<string, TDataObject> where TDataObject : EntityBase
     {
         /// <summary>
         /// The stored entities.
