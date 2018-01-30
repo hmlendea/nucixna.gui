@@ -41,6 +41,13 @@ namespace NuciXNA.DataAccess.Resources
         }
 
         /// <summary>
+        /// Gets or sets placeholder used when a texture is missing.
+        /// If a value is set, this texture will be displayed when the desired one is missing, instead of throwing an exception.
+        /// </summary>
+        /// <value>The path to the content file.</value>
+        public static string MissingTexturePlaceholder { get; set; }
+
+        /// <summary>
         /// Loads the content.
         /// </summary>
         /// <param name="content">Content manager.</param>
@@ -84,18 +91,18 @@ namespace NuciXNA.DataAccess.Resources
         /// Loads a 2D texture either from the Content Pipeline or from disk (PNGs only).
         /// </summary>
         /// <returns>The 2D texture.</returns>
-        /// <param name="filePath">The path to the file (without extension).</param>
-        public Texture2D LoadTexture2D(string filePath)
+        /// <param name="contentPath">The path to the file (without extension).</param>
+        public Texture2D LoadTexture2D(string contentPath)
         {
             Texture2D texture2D = null;
 
             try
             {
-                texture2D = content.Load<Texture2D>(filePath);
+                texture2D = content.Load<Texture2D>(contentPath);
             }
             catch
             {
-                string diskFilePath = Path.Combine(content.RootDirectory, $"{filePath}.png");
+                string diskFilePath = Path.Combine(content.RootDirectory, $"{contentPath}.png");
 
                 if (File.Exists(diskFilePath))
                 {
@@ -105,10 +112,17 @@ namespace NuciXNA.DataAccess.Resources
 
             if (texture2D == null)
             {
-                texture2D = content.Load<Texture2D>("ScreenManager/missing-texture");
+                if (!string.IsNullOrWhiteSpace(MissingTexturePlaceholder))
+                {
+                    texture2D = content.Load<Texture2D>(MissingTexturePlaceholder);
 
-                //string logMessage = "The repository cannot be accessed";
-                // TODO: Log the an error
+                    //string logMessage = "The repository cannot be accessed";
+                    // TODO: Log the an error
+                }
+                else
+                {
+                    throw new ContentLoadException($"Could not find the desired content file: {contentPath}");
+                }
             }
 
             return texture2D;
