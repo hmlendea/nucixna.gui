@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Microsoft.Xna.Framework;
+
 namespace NuciXNA.Primitives
 {
     /// <summary>
@@ -172,6 +174,16 @@ namespace NuciXNA.Primitives
                 return (X.GetHashCode() * 397) ^
                         Y.GetHashCode();
             }
+        }
+
+        public static implicit operator Vector2(Vector2D source)
+        {
+            return new Vector2(source.X, source.Y);
+        }
+
+        public static implicit operator Vector2D(Vector2 source)
+        {
+            return new Vector2D(source.X, source.Y);
         }
     }
 }
