@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+
+using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NuciXNA.Primitives
 {
@@ -251,6 +254,26 @@ namespace NuciXNA.Primitives
                         Width.GetHashCode() ^
                         Height.GetHashCode();
             }
+        }
+
+        public static implicit operator Rectangle(Rectangle2D source)
+        {
+            return new Rectangle(source.X, source.Y, source.Width, source.Height);
+        }
+
+        public static implicit operator Rectangle2D(Rectangle source)
+        {
+            return new Rectangle2D(source.X, source.Y, source.Width, source.Height);
+        }
+
+        public static implicit operator XnaRectangle(Rectangle2D source)
+        {
+            return new XnaRectangle(source.X, source.Y, source.Width, source.Height);
+        }
+
+        public static implicit operator Rectangle2D(XnaRectangle source)
+        {
+            return new Rectangle2D(source.X, source.Y, source.Width, source.Height);
         }
     }
 }

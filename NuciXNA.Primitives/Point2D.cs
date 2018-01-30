@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace NuciXNA.Primitives
 {
@@ -175,6 +176,21 @@ namespace NuciXNA.Primitives
                 return (X.GetHashCode() * 397) ^
                         Y.GetHashCode();
             }
+        }
+
+        public static implicit operator Point(Point2D source)
+        {
+            return new Point(source.X, source.Y);
+        }
+
+        public static implicit operator Point2D(Point source)
+        {
+            return new Point2D(source.X, source.Y);
+        }
+
+        public static implicit operator PointF2D(Point2D source)
+        {
+            return new PointF2D(source.X, source.Y);
         }
     }
 }

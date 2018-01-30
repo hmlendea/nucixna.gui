@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace NuciXNA.Primitives
 {
@@ -160,6 +161,21 @@ namespace NuciXNA.Primitives
                 return (Width.GetHashCode() * 397) ^
                         Height.GetHashCode();
             }
+        }
+
+        public static implicit operator Size(Size2D source)
+        {
+            return new Size(source.Width, source.Height);
+        }
+
+        public static implicit operator Size2D(Size source)
+        {
+            return new Size2D(source.Width, source.Height);
+        }
+
+        public static implicit operator SizeF2D(Size2D source)
+        {
+            return new SizeF2D(source.Width, source.Height);
         }
     }
 }
