@@ -14,6 +14,18 @@ namespace NuciXNA.DataAccess.Repositories
     public abstract class XmlRepository<TDataObject> : Repository<TDataObject> where TDataObject : EntityBase
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="T:XmlRepository"/> class.
+        /// </summary>
+        /// <param name="fileName">File name.</param>
+        public XmlRepository(string fileName) : base(fileName) { }
+    }
+
+    /// <summary>
+    /// XML-based repository.
+    /// </summary>
+    public abstract class XmlRepository<TKey, TDataObject> : Repository<TKey, TDataObject> where TDataObject : EntityBase<TKey>
+    {
+        /// <summary>
         /// The XML file.
         /// </summary>
         protected readonly XmlFileCollection<TDataObject> XmlFile;
@@ -58,7 +70,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="id">Identifier.</param>
-        public override TDataObject Get(string id)
+        public override TDataObject Get(TKey id)
         {
             LoadEntitiesIfNeeded();
 
@@ -80,7 +92,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// Removes the entity with the specified identifier.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public override void Remove(string id)
+        public override void Remove(TKey id)
         {
             LoadEntitiesIfNeeded();
 
@@ -92,7 +104,7 @@ namespace NuciXNA.DataAccess.Repositories
             }
             catch
             {
-                throw new DuplicateEntityException(id, nameof(TDataObject));
+                throw new DuplicateEntityException(id.ToString(), nameof(TDataObject));
             }
         }
 

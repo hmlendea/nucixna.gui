@@ -1,11 +1,13 @@
 ﻿namespace NuciXNA.DataAccess.DataObjects
 {
-    public class EntityBase
+    public class EntityBase : EntityBase<string> { }
+
+    public class EntityBase<TKey>
     {
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-        public string Id { get; set; }
+        public TKey Id { get; set; }
     }
 }

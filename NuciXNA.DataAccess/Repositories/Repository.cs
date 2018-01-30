@@ -7,16 +7,26 @@ using NuciXNA.DataAccess.Exceptions;
 namespace NuciXNA.DataAccess.Repositories
 {
     /// <summary>
-    /// XML-based repository.
+    /// In-memory repository.
     /// </summary>
-    public abstract class Repository<TDataObject> : IRepository<string, TDataObject> where TDataObject : EntityBase
+    public abstract class Repository<TDataObject> : Repository<string, TDataObject> where TDataObject : EntityBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:Repository"/> class.
+        /// </summary>
+        /// <param name="fileName">File name.</param>
+        public Repository(string fileName) : base(fileName) { }
+    }
+
+    /// <summary>
+    /// In-memory repository.
+    /// </summary>
+    public abstract class Repository<TKey, TDataObject> : IRepository<TKey, TDataObject> where TDataObject : EntityBase<TKey>
     {
         /// <summary>
         /// The stored entities.
         /// </summary>
         protected List<TDataObject> Entities;
-        
-        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Repository"/> class.
@@ -41,13 +51,13 @@ namespace NuciXNA.DataAccess.Repositories
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="id">Identifier.</param>
-        public virtual TDataObject Get(string id)
+        public virtual TDataObject Get(TKey id)
         {
-            TDataObject entity = Entities.FirstOrDefault(x => x.Id == id);
+            TDataObject entity = Entities.FirstOrDefault(x => x.Id.Equals(id));
 
             if (entity == null)
             {
-                throw new EntityNotFoundException(id, nameof(TDataObject));
+                throw new EntityNotFoundException(id.ToString(), nameof(TDataObject));
             }
 
             return entity;
@@ -72,9 +82,9 @@ namespace NuciXNA.DataAccess.Repositories
         /// Removes the entity with the specified identifier.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public virtual void Remove(string id)
+        public virtual void Remove(TKey id)
         {
-            Entities.RemoveAll(x => x.Id == id);
+            Entities.RemoveAll(x => x.Id.Equals(id));
         }
     }
 }
