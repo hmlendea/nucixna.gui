@@ -11,13 +11,8 @@ namespace NuciXNA.DataAccess.Repositories
     /// <summary>
     /// XML-based repository.
     /// </summary>
-    public abstract class XmlRepository<TDataObject> : IRepository<string, TDataObject> where TDataObject : EntityBase
+    public abstract class XmlRepository<TDataObject> : Repository<TDataObject> where TDataObject : EntityBase
     {
-        /// <summary>
-        /// The stored entities.
-        /// </summary>
-        protected List<TDataObject> Entities;
-
         /// <summary>
         /// The XML file.
         /// </summary>
@@ -29,10 +24,9 @@ namespace NuciXNA.DataAccess.Repositories
         /// Initializes a new instance of the <see cref="T:XmlRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
-        public XmlRepository(string fileName)
+        public XmlRepository(string fileName) : base(fileName)
         {
             XmlFile = new XmlFileCollection<TDataObject>(fileName);
-            Entities = new List<TDataObject>();
         }
 
         public void ApplyChanges()
@@ -52,11 +46,11 @@ namespace NuciXNA.DataAccess.Repositories
         /// Adds the specified entity.
         /// </summary>
         /// <param name="entity">Entity.</param>
-        public void Add(TDataObject entity)
+        public override void Add(TDataObject entity)
         {
             LoadEntitiesIfNeeded();
 
-            Entities.Add(entity);
+            base.Add(entity);
         }
 
         /// <summary>
@@ -64,46 +58,33 @@ namespace NuciXNA.DataAccess.Repositories
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="id">Identifier.</param>
-        public TDataObject Get(string id)
+        public override TDataObject Get(string id)
         {
             LoadEntitiesIfNeeded();
 
-            TDataObject entity = Entities.FirstOrDefault(x => x.Id == id);
-
-            if (entity == null)
-            {
-                throw new EntityNotFoundException(id, nameof(TDataObject));
-            }
-
-            return entity;
+            return base.Get(id);
         }
 
         /// <summary>
         /// Gets all the entities.
         /// </summary>
         /// <returns>The entities</returns>
-        public IEnumerable<TDataObject> GetAll()
+        public override IEnumerable<TDataObject> GetAll()
         {
             LoadEntitiesIfNeeded();
 
-            return Entities;
+            return base.GetAll();
         }
-
-        /// <summary>
-        /// Updates the specified entity.
-        /// </summary>
-        /// <param name="entity">Entity.</param>
-        public abstract void Update(TDataObject entity);
-
+        
         /// <summary>
         /// Removes the entity with the specified identifier.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public void Remove(string id)
+        public override void Remove(string id)
         {
             LoadEntitiesIfNeeded();
 
-            Entities.RemoveAll(x => x.Id == id);
+            base.Remove(id);
 
             try
             {
