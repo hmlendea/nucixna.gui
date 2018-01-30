@@ -42,7 +42,6 @@
     <Compile Include="Exceptions\DuplicateEntityException.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="Exceptions\InvalidEntityFieldException.cs" />
-    <Compile Include="Exceptions\InvalidTargetProvinceException.cs" />
     <Compile Include="IO\XmlFileCollection.cs" />
     <Compile Include="IO\XmlFileObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
