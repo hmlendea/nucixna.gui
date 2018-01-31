@@ -73,18 +73,29 @@ namespace NuciXNA.DataAccess.Repositories
         }
 
         /// <summary>
-        /// Updates the specified entity.
+        /// Updates the specified entity's fields.
         /// </summary>
         /// <param name="entity">Entity.</param>
         public abstract void Update(TDataObject entity);
+        
+        /// <summary>
+        /// Removes the specified entity.
+        /// </summary>
+        /// <param name="entity">Entity.</param>
+        public virtual void Remove(TDataObject entity)
+        {
+            Entities.Remove(entity);
+        }
 
         /// <summary>
         /// Removes the entity with the specified identifier.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public virtual void Remove(TKey id)
+        public void Remove(TKey id)
         {
-            Entities.RemoveAll(x => x.Id.Equals(id));
+            TDataObject entity = Get(id);
+
+            Remove(entity);
         }
     }
 }

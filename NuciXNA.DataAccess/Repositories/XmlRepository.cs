@@ -11,7 +11,7 @@ namespace NuciXNA.DataAccess.Repositories
     /// <summary>
     /// XML-based repository.
     /// </summary>
-    public abstract class XmlRepository<TDataObject> : Repository<TDataObject> where TDataObject : EntityBase
+    public abstract class XmlRepository<TDataObject> : XmlRepository<string, TDataObject> where TDataObject : EntityBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:XmlRepository"/> class.
@@ -87,16 +87,16 @@ namespace NuciXNA.DataAccess.Repositories
 
             return base.GetAll();
         }
-        
+
         /// <summary>
-        /// Removes the entity with the specified identifier.
+        /// Removes the specified entity.
         /// </summary>
-        /// <param name="id">Identifier.</param>
-        public override void Remove(TKey id)
+        /// <param name="entity">Entity.</param>
+        public override void Remove(TDataObject entity)
         {
             LoadEntitiesIfNeeded();
 
-            base.Remove(id);
+            base.Remove(entity);
 
             try
             {
@@ -104,7 +104,7 @@ namespace NuciXNA.DataAccess.Repositories
             }
             catch
             {
-                throw new DuplicateEntityException(id.ToString(), nameof(TDataObject));
+                throw new DuplicateEntityException(entity.Id.ToString(), nameof(TDataObject));
             }
         }
 
