@@ -45,7 +45,7 @@ namespace NuciXNA.DataAccess.Repositories
         {
             try
             {
-                XmlFile.SaveEntities(Entities);
+                XmlFile.SaveEntities(Entities.Values);
             }
             catch
             {
@@ -100,7 +100,7 @@ namespace NuciXNA.DataAccess.Repositories
 
             try
             {
-                XmlFile.SaveEntities(Entities);
+                XmlFile.SaveEntities(Entities.Values);
             }
             catch
             {
@@ -118,7 +118,7 @@ namespace NuciXNA.DataAccess.Repositories
                 return;
             }
 
-            Entities = XmlFile.LoadEntities().ToList();
+            Entities = XmlFile.LoadEntities().ToDictionary(x => x.Id, x => x);
             loadedEntities = true;
         }
     }

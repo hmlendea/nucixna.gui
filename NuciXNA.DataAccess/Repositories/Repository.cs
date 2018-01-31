@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using NuciXNA.DataAccess.DataObjects;
 using NuciXNA.DataAccess.Exceptions;
@@ -26,7 +25,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// <summary>
         /// The stored entities.
         /// </summary>
-        protected List<TDataObject> Entities;
+        protected Dictionary<TKey, TDataObject> Entities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Repository"/> class.
@@ -34,7 +33,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="fileName">File name.</param>
         public Repository(string fileName)
         {
-            Entities = new List<TDataObject>();
+            Entities = new Dictionary<TKey, TDataObject>();
         }
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="entity">Entity.</param>
         public virtual void Add(TDataObject entity)
         {
-            Entities.Add(entity);
+            Entities.Add(entity.Id, entity);
         }
 
         /// <summary>
@@ -53,14 +52,12 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="id">Identifier.</param>
         public virtual TDataObject Get(TKey id)
         {
-            TDataObject entity = Entities.FirstOrDefault(x => x.Id.Equals(id));
-
-            if (entity == null)
+            if (!Entities.ContainsKey(id))
             {
                 throw new EntityNotFoundException(id.ToString(), nameof(TDataObject));
             }
 
-            return entity;
+            return Entities[id];
         }
 
         /// <summary>
@@ -69,7 +66,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// <returns>The entities</returns>
         public virtual IEnumerable<TDataObject> GetAll()
         {
-            return Entities;
+            return Entities.Values;
         }
 
         /// <summary>
@@ -84,7 +81,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="entity">Entity.</param>
         public virtual void Remove(TDataObject entity)
         {
-            Entities.Remove(entity);
+            Entities.Remove(entity.Id);
         }
 
         /// <summary>
