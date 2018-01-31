@@ -54,10 +54,17 @@
     <Compile Include="Cursor.cs" />
     <Compile Include="GuiElements\GuiElement.cs" />
     <Compile Include="GuiElements\GuiImage.cs" />
+    <Compile Include="GuiElements\GuiMenuAction.cs" />
+    <Compile Include="GuiElements\GuiMenuItem.cs" />
+    <Compile Include="GuiElements\GuiMenuLink.cs" />
+    <Compile Include="GuiElements\GuiMenuListSelector.cs" />
+    <Compile Include="GuiElements\GuiMenuToggle.cs" />
     <Compile Include="GuiElements\GuiText.cs" />
     <Compile Include="GuiElements\GuiTooltip.cs" />
     <Compile Include="GuiManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\MenuScreen.cs" />
+    <Compile Include="Screens\MenuScreenAxis.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
   </ItemGroup>
