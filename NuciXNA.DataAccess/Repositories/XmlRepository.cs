@@ -36,7 +36,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// Initializes a new instance of the <see cref="T:XmlRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
-        public XmlRepository(string fileName) : base(fileName)
+        public XmlRepository(string fileName) : base()
         {
             XmlFile = new XmlFileCollection<TDataObject>(fileName);
         }
