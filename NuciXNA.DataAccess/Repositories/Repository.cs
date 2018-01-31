@@ -8,14 +8,7 @@ namespace NuciXNA.DataAccess.Repositories
     /// <summary>
     /// In-memory repository.
     /// </summary>
-    public abstract class Repository<TDataObject> : Repository<string, TDataObject> where TDataObject : EntityBase
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Repository"/> class.
-        /// </summary>
-        /// <param name="fileName">File name.</param>
-        public Repository(string fileName) : base(fileName) { }
-    }
+    public abstract class Repository<TDataObject> : Repository<string, TDataObject> where TDataObject : EntityBase { }
 
     /// <summary>
     /// In-memory repository.
@@ -30,8 +23,7 @@ namespace NuciXNA.DataAccess.Repositories
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Repository"/> class.
         /// </summary>
-        /// <param name="fileName">File name.</param>
-        public Repository(string fileName)
+        public Repository()
         {
             Entities = new Dictionary<TKey, TDataObject>();
         }
