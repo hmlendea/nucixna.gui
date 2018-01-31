@@ -7,11 +7,19 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// </summary>
     public class RotationEffect : CustomSpriteEffect
     {
+        bool isIncreasing;
+
         /// <summary>
         /// Gets or sets the speed.
         /// </summary>
         /// <value>The speed.</value>
         public float Speed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum rotation.
+        /// </summary>
+        /// <value>The minimum rotation.</value>
+        public float MinimumRotation { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum rotation.
@@ -26,19 +34,14 @@ namespace NuciXNA.Graphics.SpriteEffects
         public float CurrentRotation { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RotationEffect"/> is increasing.
-        /// </summary>
-        /// <value><c>true</c> if increasing; otherwise, <c>false</c>.</value>
-        public bool Increasing { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="RotationEffect"/> class.
         /// </summary>
         public RotationEffect()
         {
-            Speed = 0.5f;
-            MaximumRotation = 1.0f;
-            Increasing = false;
+            Speed = 1.0f;
+            MinimumRotation = 0.5f;
+            MaximumRotation = 1.5f;
+            isIncreasing = false;
         }
 
         /// <summary>
@@ -49,31 +52,37 @@ namespace NuciXNA.Graphics.SpriteEffects
         {
             base.Update(gameTime);
 
-            if (Sprite.Active)
-            {
-                if (Increasing == false)
-                {
-                    CurrentRotation -= Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
-                }
-                else
-                {
-                    CurrentRotation += Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
-                }
-
-                if (CurrentRotation < -MaximumRotation)
-                {
-                    Increasing = true;
-                    CurrentRotation = -MaximumRotation;
-                }
-                else if (Sprite.Rotation + CurrentRotation > MaximumRotation)
-                {
-                    Increasing = false;
-                    CurrentRotation = MaximumRotation;
-                }
-            }
-            else
+            if (!Active)
             {
                 CurrentRotation = MaximumRotation;
+                return;
+            }
+
+            float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            switch (isIncreasing)
+            {
+                case true:
+                    CurrentRotation += delta;
+
+                    if (CurrentRotation >= MaximumRotation)
+                    {
+                        CurrentRotation = MaximumRotation;
+                        isIncreasing = false;
+                    }
+
+                    break;
+
+                case false:
+                    CurrentRotation -= delta;
+
+                    if (CurrentRotation <= MinimumRotation)
+                    {
+                        CurrentRotation = MinimumRotation;
+                        isIncreasing = true;
+                    }
+
+                    break;
             }
         }
     }

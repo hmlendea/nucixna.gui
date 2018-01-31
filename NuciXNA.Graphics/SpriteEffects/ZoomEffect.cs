@@ -7,6 +7,8 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// </summary>
     public class ZoomEffect : CustomSpriteEffect
     {
+        bool isIncreasing;
+
         /// <summary>
         /// Gets or sets the speed.
         /// </summary>
@@ -32,20 +34,14 @@ namespace NuciXNA.Graphics.SpriteEffects
         public float CurrentZoom { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="ZoomEffect"/> is increasing.
-        /// </summary>
-        /// <value><c>true</c> if increasing; otherwise, <c>false</c>.</value>
-        public bool Increasing { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ZoomEffect"/> class.
         /// </summary>
         public ZoomEffect()
         {
-            Speed = 0.5f;
+            Speed = 0.1f;
             MinimumZoom = 0.75f;
             MaximumZoom = 1.25f;
-            Increasing = false;
+            isIncreasing = true;
         }
 
         /// <summary>
@@ -55,32 +51,38 @@ namespace NuciXNA.Graphics.SpriteEffects
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            if (Sprite.Active)
-            {
-                if (Increasing == false)
-                {
-                    CurrentZoom -= Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
-                }
-                else
-                {
-                    CurrentZoom += Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
-                }
-
-                if (Sprite.Zoom + CurrentZoom < MinimumZoom)
-                {
-                    Increasing = true;
-                    CurrentZoom = MinimumZoom;
-                }
-                else if (Sprite.Zoom + CurrentZoom > MaximumZoom)
-                {
-                    Increasing = false;
-                    CurrentZoom = MaximumZoom;
-                }
-            }
-            else
+            
+            if (!Active)
             {
                 CurrentZoom = MaximumZoom;
+                return;
+            }
+
+            float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            switch (isIncreasing)
+            {
+                case true:
+                    CurrentZoom += delta;
+
+                    if (CurrentZoom >= MaximumZoom)
+                    {
+                        CurrentZoom = MaximumZoom;
+                        isIncreasing = false;
+                    }
+
+                    break;
+
+                case false:
+                    CurrentZoom -= delta;
+
+                    if (CurrentZoom <= MinimumZoom)
+                    {
+                        CurrentZoom = MinimumZoom;
+                        isIncreasing = true;
+                    }
+
+                    break;
             }
         }
     }

@@ -39,7 +39,6 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// </summary>
         public CustomSpriteEffect()
         {
-            Active = false;
             Type = GetType();
         }
 
@@ -48,7 +47,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// </summary>
         public virtual void LoadContent()
         {
-
+            isContentLoaded = true;
         }
 
         /// <summary>
@@ -57,6 +56,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         public virtual void UnloadContent()
         {
             Active = false;
+            isContentLoaded = false;
         }
 
         /// <summary>
