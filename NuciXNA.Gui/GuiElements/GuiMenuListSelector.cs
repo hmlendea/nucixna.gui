@@ -148,7 +148,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             base.OnMouseButtonPressed(sender, e);
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()))
             {
                 return;
             }

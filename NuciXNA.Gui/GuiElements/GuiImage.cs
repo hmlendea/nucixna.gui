@@ -156,7 +156,7 @@ namespace NuciXNA.Gui.GuiElements
             sprite.Active = EffectsActive;
             sprite.AlphaMaskFile = MaskFile;
             sprite.ContentFile = ContentFile;
-            sprite.Location = Location;
+            sprite.Location = ScreenLocation;
             sprite.SourceRectangle = SourceRectangle;
             sprite.Rotation = Rotation;
             sprite.TextureLayout = TextureLayout;
@@ -170,8 +170,9 @@ namespace NuciXNA.Gui.GuiElements
 
             if (!sprite.SourceRectangle.IsEmpty)
             {
-                sprite.Scale = new Scale2D((float)Size.Width / sprite.SourceRectangle.Width,
-                                           (float)Size.Height / sprite.SourceRectangle.Height);
+                sprite.Scale = new Scale2D(
+                    (float)Size.Width / sprite.SourceRectangle.Width,
+                    (float)Size.Height / sprite.SourceRectangle.Height);
             }
         }
     }

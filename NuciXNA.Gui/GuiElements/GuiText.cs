@@ -80,7 +80,7 @@ namespace NuciXNA.Gui.GuiElements
 
             textSprite = new Sprite();
 
-            Children.Add(backgroundImage);
+            AddChild(backgroundImage);
 
             SetChildrenProperties();
 
@@ -126,7 +126,7 @@ namespace NuciXNA.Gui.GuiElements
             base.SetChildrenProperties();
 
             backgroundImage.TintColour = BackgroundColour;
-            backgroundImage.Location = Location;
+            backgroundImage.Location = ScreenLocation;
             backgroundImage.Size = new Size2D(Size.Width + Margins * 2,
                                               Size.Height + Margins * 2);
 
@@ -136,8 +136,8 @@ namespace NuciXNA.Gui.GuiElements
             textSprite.Tint = ForegroundColour;
             textSprite.TextVerticalAlignment = VerticalAlignment;
             textSprite.TextHorizontalAlignment = HorizontalAlignment;
-            textSprite.Location = new Point2D(Location.X + Margins,
-                                              Location.Y + Margins);
+            textSprite.Location = new Point2D(ScreenLocation.X + Margins,
+                                              ScreenLocation.Y + Margins);
             textSprite.SpriteSize = new Size2D(Size.Width - Margins * 2,
                                                Size.Height - Margins * 2);
             textSprite.FadeEffect = FadeEffect;

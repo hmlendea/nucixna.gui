@@ -58,7 +58,7 @@ namespace NuciXNA.Gui.GuiElements
                 MinimumOpacity = 0.25f
             };
 
-            Children.Add(text);
+            AddChild(text);
 
             base.LoadContent();
 
@@ -70,7 +70,6 @@ namespace NuciXNA.Gui.GuiElements
             base.SetChildrenProperties();
 
             text.Text = Text;
-            text.Location = Location;
             text.Size = Size;
 
             if (InputFocus)

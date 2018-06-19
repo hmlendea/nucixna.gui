@@ -143,25 +143,32 @@ namespace NuciXNA.Gui.Screens
         {
             Size2D dimensions = Size2D.Empty;
 
-            Items.ForEach(item => dimensions += new Size2D(item.Size.Width + Spacing / 2,
-                                                           item.Size.Height + Spacing / 2));
+            Items.ForEach(item => dimensions += new Size2D(
+                item.Size.Width + Spacing / 2,
+                item.Size.Height + Spacing / 2));
 
-            dimensions = new Size2D((ScreenManager.Instance.Size.Width - dimensions.Width) / 2,
-                                    (ScreenManager.Instance.Size.Height - dimensions.Height) / 2);
+            dimensions = new Size2D(
+                (ScreenManager.Instance.Size.Width - dimensions.Width) / 2,
+                (ScreenManager.Instance.Size.Height - dimensions.Height) / 2);
 
             foreach (GuiMenuItem item in Items)
             {
                 if (Axis == MenuScreenAxis.Vertical)
                 {
-                    item.Location = new Point2D((ScreenManager.Instance.Size.Width - item.Size.Width) / 2, dimensions.Height);
+                    item.Location = new Point2D(
+                        (ScreenManager.Instance.Size.Width - item.Size.Width) / 2,
+                        dimensions.Height);
                 }
                 else if (Axis == MenuScreenAxis.Horizontal)
                 {
-                    item.Location = new Point2D(dimensions.Width, (ScreenManager.Instance.Size.Height - item.Size.Height) / 2);
+                    item.Location = new Point2D(
+                        dimensions.Width,
+                        (ScreenManager.Instance.Size.Height - item.Size.Height) / 2);
                 }
 
-                dimensions += new Size2D(item.Size.Width + Spacing / 2,
-                                         item.Size.Height + Spacing / 2);
+                dimensions += new Size2D(
+                    item.Size.Width + Spacing / 2,
+                    item.Size.Height + Spacing / 2);
             }
         }
 
@@ -172,7 +179,7 @@ namespace NuciXNA.Gui.Screens
             // TODO: Optimise this
             for (int i = 0; i < Items.Count; i++)
             {
-                if (Items[i].ClientRectangle.Contains(e.Location.ToPoint2D()))
+                if (Items[i].DisplayRectangle.Contains(e.Location.ToPoint2D()))
                 {
                     ItemNumber = i;
                 }

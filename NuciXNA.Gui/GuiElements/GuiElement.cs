@@ -27,6 +27,21 @@ namespace NuciXNA.Gui.GuiElements
         /// <value>The location.</value>
         public Point2D Location { get; set; }
 
+        public Point2D ScreenLocation
+        {
+            get
+            {
+                if (Parent != null)
+                {
+                    return new Point2D(
+                        Location.X + Parent.ScreenLocation.X,
+                        Location.Y + Parent.ScreenLocation.Y);
+                }
+
+                return Location;
+            }
+        }
+
         /// <summary>
         /// Gets the size of this <see cref="GuiElement"/>.
         /// </summary>
@@ -34,10 +49,16 @@ namespace NuciXNA.Gui.GuiElements
         public Size2D Size { get; set; }
 
         /// <summary>
-        /// Gets the screen area covered by this <see cref="GuiElement"/>.
+        /// Gets the screen area covered by this <see cref="GuiElement"/> inside of its parent.
         /// </summary>
-        /// <value>The screen area.</value>
+        /// <value>The covered area.</value>
         public Rectangle2D ClientRectangle => new Rectangle2D(Location, Size);
+
+        /// <summary>
+        /// Gets the screen area covered by this <see cref="GuiElement"/> on the screen.
+        /// </summary>
+        /// <value>The covered screen area.</value>
+        public Rectangle2D DisplayRectangle => new Rectangle2D(ScreenLocation, Size);
 
         /// <summary>
         /// Gets or sets the opacity.
@@ -115,7 +136,10 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         /// <value>The children.</value>
         [XmlIgnore]
-        public List<GuiElement> Children { get; protected set; }
+        protected List<GuiElement> Children { get; }
+
+        [XmlIgnore]
+        protected GuiElement Parent { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is destroyed.
@@ -270,6 +294,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public virtual void UnloadContent()
         {
+            Parent = null;
             UnregisterEvents();
 
             Children.ForEach(x => x.UnloadContent());
@@ -282,6 +307,16 @@ namespace NuciXNA.Gui.GuiElements
         public virtual void Update(GameTime gameTime)
         {
             Children.RemoveAll(w => w.IsDisposed);
+
+            foreach (GuiElement child in Children)
+            {
+                child.Parent = this;
+
+                if (child.IsDisposed)
+                {
+                    Children.Remove(child);
+                }
+            }
 
             RaiseEvents();
             SetChildrenProperties();
@@ -435,18 +470,25 @@ namespace NuciXNA.Gui.GuiElements
             return $"{Site.Name} [{GetType().FullName}]";
         }
 
+        protected void AddChild(GuiElement element)
+        {
+            Children.Add(element);
+            element.Parent = this;
+        }
+
         /// <summary>
         /// Handles the input.
         /// </summary>
         public void HandleInput()
         {
-            if (Enabled && Visible && ClientRectangle.Contains(InputManager.Instance.MouseLocation.ToPoint2D()) &&
+            if (Enabled && Visible && DisplayRectangle.Contains(InputManager.Instance.MouseLocation.ToPoint2D()) &&
                 !InputManager.Instance.MouseButtonInputHandled &&
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
-                MouseButtonEventArgs e = new MouseButtonEventArgs(MouseButton.LeftButton,
-                                                                  MouseButtonState.Pressed,
-                                                                  InputManager.Instance.MouseLocation);
+                MouseButtonEventArgs e = new MouseButtonEventArgs(
+                    MouseButton.LeftButton,
+                    MouseButtonState.Pressed,
+                    InputManager.Instance.MouseLocation);
 
                 GuiManager.Instance.FocusElement(this);
                 OnClicked(this, e);
@@ -637,7 +679,7 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()))
             {
                 return;
             }
@@ -662,22 +704,22 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()) &&
-                !ClientRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()) &&
+                !DisplayRectangle.Contains(e.PreviousLocation.ToPoint2D()))
             {
                 return;
             }
 
             OnMouseMoved(sender, e);
 
-            if (ClientRectangle.Contains(e.Location.ToPoint2D()) &&
-                !ClientRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (DisplayRectangle.Contains(e.Location.ToPoint2D()) &&
+                !DisplayRectangle.Contains(e.PreviousLocation.ToPoint2D()))
             {
                 OnMouseEntered(sender, e);
             }
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()) &&
-                ClientRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()) &&
+                DisplayRectangle.Contains(e.PreviousLocation.ToPoint2D()))
             {
                 OnMouseLeft(sender, e);
             }

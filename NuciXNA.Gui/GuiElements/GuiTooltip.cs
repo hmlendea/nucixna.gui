@@ -32,7 +32,7 @@
                 Margins = 2
             };
 
-            Children.Add(text);
+            AddChild(text);
 
             base.LoadContent();
         }
