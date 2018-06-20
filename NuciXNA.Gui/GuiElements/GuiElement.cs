@@ -21,11 +21,40 @@ namespace NuciXNA.Gui.GuiElements
     {
         public string Id { get; set; }
 
+        Colour _backgroundColour;
+        Colour _foregroundColour;
+        Point2D? _location;
+        Size2D? _size;
+        float? _opacity;
+        bool? _isEnabled;
+        bool? _isVisible;
+        string _fontName;
+
         /// <summary>
         /// Gets the location of this <see cref="GuiElement"/>.
         /// </summary>
         /// <value>The location.</value>
-        public Point2D Location { get; set; }
+        public Point2D Location
+        {
+            get
+            {
+                if (_location != null)
+                {
+                    return (Point2D)_location;
+                }
+
+                return Point2D.Empty;
+            }
+            set
+            {
+                if (_location == null || _location != value)
+                {
+                    OnLocationChanged(this, null);
+                }
+
+                _location = value;
+            }
+        }
 
         public Point2D ScreenLocation
         {
@@ -46,7 +75,32 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets the size of this <see cref="GuiElement"/>.
         /// </summary>
         /// <value>The size.</value>
-        public Size2D Size { get; set; }
+        public Size2D Size
+        {
+            get
+            {
+                if (_size != null)
+                {
+                    return (Size2D)_size;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.Size;
+                }
+
+                return Size2D.Empty;
+            }
+            set
+            {
+                if (_size == null || _size != value)
+                {
+                    OnSizeChanged(this, null);
+                }
+
+                _size = value;
+            }
+        }
 
         /// <summary>
         /// Gets the screen area covered by this <see cref="GuiElement"/> inside of its parent.
@@ -68,7 +122,17 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                return _opacity;
+                if (_opacity != null)
+                {
+                    return (float)_opacity;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.Opacity;
+                }
+                
+                return 1.0f;
             }
             set
             {
@@ -91,25 +155,115 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets the background colour.
         /// </summary>
         /// <value>The background colour.</value>
-        public Colour BackgroundColour { get; set; }
+        public Colour BackgroundColour
+        {
+            get
+            {
+                if (_backgroundColour != null)
+                {
+                    return _backgroundColour;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.BackgroundColour;
+                }
+
+                return Colour.Transparent;
+            }
+            set
+            {
+                if (_backgroundColour == null || _backgroundColour != value)
+                {
+                    OnBackgroundColourChanged(this, null);
+                }
+
+                _backgroundColour = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the foreground colour.
         /// </summary>
         /// <value>The foreground colour.</value>
-        public Colour ForegroundColour { get; set; }
+        public Colour ForegroundColour
+        {
+            get
+            {
+                if (_foregroundColour != null)
+                {
+                    return _foregroundColour;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.ForegroundColour;
+                }
+
+                return Colour.Black;
+            }
+            set
+            {
+                if (_foregroundColour == null || _foregroundColour != value)
+                {
+                    OnForegroundColourChanged(this, null);
+                }
+
+                _foregroundColour = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is enabled.
         /// </summary>
         /// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get
+            {
+                if (_isEnabled != null)
+                {
+                    return (bool)_isEnabled;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.Enabled;
+                }
+
+                return true;
+            }
+            set
+            {
+                _isEnabled = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is visible.
         /// </summary>
         /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
-        public bool Visible { get; set; }
+        public bool Visible
+        {
+            get
+            {
+                if (_isVisible != null)
+                {
+                    return (bool)_isVisible;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.Visible;
+                }
+
+                return true;
+            }
+            set
+            {
+                _isVisible = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is hovered.
@@ -129,7 +283,27 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets the name of the font.
         /// </summary>
         /// <value>The name of the font.</value>
-        public string FontName { get; set; }
+        public string FontName
+        {
+            get
+            {
+                if (_fontName != null)
+                {
+                    return _fontName;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.FontName;
+                }
+
+                return string.Empty;
+            }
+            set
+            {
+                _fontName = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the children GUI elements.
@@ -183,11 +357,6 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Occurs when the BackgroundColour property was changed.
-        /// </summary>
-        public event EventHandler BackgroundColourChanged;
-
-        /// <summary>
         /// Occurs when clicked.
         /// </summary>
         public event MouseButtonEventHandler Clicked;
@@ -196,6 +365,11 @@ namespace NuciXNA.Gui.GuiElements
         /// Occurs when this <see cref="GuiElement"/> was disposed.
         /// </summary>
         public event EventHandler Disposed;
+
+        /// <summary>
+        /// Occurs when the BackgroundColour property was changed.
+        /// </summary>
+        public event EventHandler BackgroundColourChanged;
 
         /// <summary>
         /// Occurs when the ForegroundColour property was changed.
@@ -246,27 +420,13 @@ namespace NuciXNA.Gui.GuiElements
         /// Occurs when the Size property value changes.
         /// </summary>
         public event EventHandler SizeChanged;
-
-        Colour _oldBackgroundColour;
-        Colour _oldForegroundColour;
-        Point2D _oldLocation;
-        Size2D _oldSize;
-        float _opacity;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiElement"/> class.
         /// </summary>
         public GuiElement()
         {
-            Enabled = true;
-            Visible = true;
-            Opacity = 1.0f;
-
-            BackgroundColour = Colour.DarkRed;
-            ForegroundColour = Colour.Gold;
-
             Id = Guid.NewGuid().ToString();
-
             Children = new List<GuiElement>();
         }
 
@@ -419,35 +579,11 @@ namespace NuciXNA.Gui.GuiElements
             {
                 return;
             }
-
-            if (_oldBackgroundColour != BackgroundColour)
-            {
-                OnBackgroundColourChanged(this, null);
-            }
-
-            if (_oldForegroundColour != ForegroundColour)
-            {
-                OnForegroundColourChanged(this, null);
-            }
-
-            if (_oldLocation != Location)
-            {
-                OnLocationChanged(this, null);
-            }
-
-            if (_oldSize != Size)
-            {
-                OnSizeChanged(this, null);
-            }
         }
 
         protected virtual void SetChildrenProperties()
         {
-            _oldBackgroundColour = BackgroundColour;
-            _oldForegroundColour = ForegroundColour;
 
-            _oldLocation = Location;
-            _oldSize = Size;
         }
 
         protected virtual object GetService(Type service)

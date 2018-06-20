@@ -60,8 +60,6 @@ namespace NuciXNA.Gui.GuiElements
         public GuiText()
         {
             FontName = "ButtonFont";
-            ForegroundColour = Colour.Gold;
-            BackgroundColour = Colour.Transparent;
 
             VerticalAlignment = VerticalAlignment.Centre;
             HorizontalAlignment = HorizontalAlignment.Centre;

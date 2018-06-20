@@ -89,7 +89,6 @@ namespace NuciXNA.Gui.GuiElements
         public GuiImage()
         {
             TintColour = Colour.White;
-            Size = Size2D.Empty;
             TextureLayout = TextureLayout.Stretch;
         }
 
