@@ -310,7 +310,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         /// <value>The children.</value>
         [XmlIgnore]
-        protected List<GuiElement> Children { get; }
+        List<GuiElement> Children { get; }
 
         [XmlIgnore]
         protected GuiElement Parent { get; set; }
@@ -440,6 +440,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public virtual void LoadContent()
         {
+            RegisterChildren();
             SetChildrenProperties();
 
             Children.ForEach(x => x.LoadContent());
@@ -458,6 +459,8 @@ namespace NuciXNA.Gui.GuiElements
             UnregisterEvents();
 
             Children.ForEach(x => x.UnloadContent());
+
+            UnregisterChildren();
         }
 
         /// <summary>
@@ -553,6 +556,16 @@ namespace NuciXNA.Gui.GuiElements
             Visible = false;
         }
 
+        protected virtual void RegisterChildren()
+        {
+
+        }
+
+        protected void UnregisterChildren()
+        {
+            Children.Clear();
+        }
+
         protected virtual void RegisterEvents()
         {
             InputManager.Instance.KeyboardKeyDown += OnInputManagerKeyboardKeyDown;
@@ -585,7 +598,7 @@ namespace NuciXNA.Gui.GuiElements
         {
 
         }
-
+        
         protected virtual object GetService(Type service)
         {
             if (Site == null)
