@@ -144,9 +144,10 @@ namespace NuciXNA.Gui.GuiElements
                 {
                     _opacity = 0.0f;
                 }
-                else
+                else if (value != _opacity)
                 {
                     _opacity = value;
+                    OpacityChanged?.Invoke(this, null);
                 }
             }
         }
@@ -214,6 +215,36 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
+        /// Gets or sets the name of the font.
+        /// </summary>
+        /// <value>The name of the font.</value>
+        public string FontName
+        {
+            get
+            {
+                if (_fontName != null)
+                {
+                    return _fontName;
+                }
+
+                if (Parent != null)
+                {
+                    return Parent.FontName;
+                }
+
+                return string.Empty;
+            }
+            set
+            {
+                if (_fontName != value)
+                {
+                    _fontName = value;
+                    OnFontNameChanged(this, null);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is enabled.
         /// </summary>
         /// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
@@ -235,7 +266,11 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                _isEnabled = value;
+                if (_isEnabled != value)
+                {
+                    _isEnabled = value;
+                    OnEnabledChanged(this, null);
+                }
             }
         }
 
@@ -261,7 +296,11 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                _isVisible = value;
+                if (_isVisible != value)
+                {
+                    _isVisible = value;
+                    OnVisibledChanged(this, null);
+                }
             }
         }
 
@@ -278,32 +317,6 @@ namespace NuciXNA.Gui.GuiElements
         /// <value><c>true</c> if it has input focus; otherwise, <c>false</c>.</value>
         [XmlIgnore]
         public bool InputFocus { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the font.
-        /// </summary>
-        /// <value>The name of the font.</value>
-        public string FontName
-        {
-            get
-            {
-                if (_fontName != null)
-                {
-                    return _fontName;
-                }
-
-                if (Parent != null)
-                {
-                    return Parent.FontName;
-                }
-
-                return string.Empty;
-            }
-            set
-            {
-                _fontName = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the children GUI elements.
@@ -375,6 +388,14 @@ namespace NuciXNA.Gui.GuiElements
         /// Occurs when the ForegroundColour property was changed.
         /// </summary>
         public event EventHandler ForegroundColourChanged;
+
+        public event EventHandler OpacityChanged;
+
+        public event EventHandler FontNameChanged;
+
+        public event EventHandler EnabledChanged;
+
+        public event EventHandler VisibleChanged;
 
         /// <summary>
         /// Occurs when a key is down while this <see cref="GuiElement"/> has input focus.
@@ -566,6 +587,11 @@ namespace NuciXNA.Gui.GuiElements
             Children.Clear();
         }
 
+        protected void AddChild(GuiElement element)
+        {
+            Children.Add(element);
+            element.Parent = this;
+        }
         protected virtual void RegisterEvents()
         {
             InputManager.Instance.KeyboardKeyDown += OnInputManagerKeyboardKeyDown;
@@ -619,11 +645,6 @@ namespace NuciXNA.Gui.GuiElements
             return $"{Site.Name} [{GetType().FullName}]";
         }
 
-        protected void AddChild(GuiElement element)
-        {
-            Children.Add(element);
-            element.Parent = this;
-        }
 
         /// <summary>
         /// Handles the input.
@@ -654,6 +675,11 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
+        protected virtual void OnOpacityChanged(object sender, EventArgs e)
+        {
+            OpacityChanged?.Invoke(this, null);
+        }
+
         /// <summary>
         /// Raised by the BackgroundColourChanged event.
         /// </summary>
@@ -662,6 +688,31 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void OnBackgroundColourChanged(object sender, EventArgs e)
         {
             BackgroundColourChanged?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// Raised by the ForegroundColourChanged event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        protected virtual void OnForegroundColourChanged(object sender, EventArgs e)
+        {
+            ForegroundColourChanged?.Invoke(sender, e);
+        }
+
+        protected virtual void OnFontNameChanged(object sender, EventArgs e)
+        {
+            FontNameChanged?.Invoke(sender, e);
+        }
+
+        protected virtual void OnEnabledChanged(object sender, EventArgs e)
+        {
+            EnabledChanged?.Invoke(sender, e);
+        }
+
+        protected virtual void OnVisibledChanged(object sender, EventArgs e)
+        {
+            VisibleChanged?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -683,16 +734,6 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void OnDisposed(object sender, EventArgs e)
         {
             Disposed?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Raised by the ForegroundColourChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnForegroundColourChanged(object sender, EventArgs e)
-        {
-            ForegroundColourChanged?.Invoke(sender, e);
         }
 
         /// <summary>
