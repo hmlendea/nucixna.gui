@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Primitives;
 
@@ -13,11 +15,35 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiText : GuiElement
     {
+        GuiImage backgroundImage;
+        Sprite textSprite;
+
+        string _text;
+        
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
         /// <value>The text.</value>
-        public string Text { get; set; }
+        public string Text
+        {
+            get
+            {
+                if (_text != null)
+                {
+                    return _text;
+                }
+                
+                return string.Empty;
+            }
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnTextChanged(this, null);
+                }
+            }
+        }
 
         public FontOutline FontOutline { get; set; }
 
@@ -51,8 +77,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <value><c>true</c> if the effects are active; otherwise, <c>false</c>.</value>
         public bool EffectsActive { get; set; }
 
-        GuiImage backgroundImage;
-        Sprite textSprite;
+        public event EventHandler TextChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiText"/> class.
@@ -147,6 +172,11 @@ namespace NuciXNA.Gui.GuiElements
                 Size.Height - Margins * 2);
             textSprite.FadeEffect = FadeEffect;
             textSprite.Active = EffectsActive;
+        }
+
+        protected virtual void OnTextChanged(object sender, EventArgs e)
+        {
+            TextChanged?.Invoke(sender, e);
         }
     }
 }

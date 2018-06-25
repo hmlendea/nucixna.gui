@@ -112,8 +112,8 @@ namespace NuciXNA.Gui
         /// <param name="id">Element identifier.</param>
         public void FocusElement(string id)
         {
-            GuiElements.ForEach(e => e.InputFocus = false);
-            GuiElements.FirstOrDefault(e => e.Id == id).InputFocus = true;
+            GuiElements.ForEach(e => e.Focused = false);
+            GuiElements.FirstOrDefault(e => e.Id == id).Focused = true;
         }
 
         /// <summary>

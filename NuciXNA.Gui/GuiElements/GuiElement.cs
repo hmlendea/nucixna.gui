@@ -27,6 +27,7 @@ namespace NuciXNA.Gui.GuiElements
         Size2D? _size;
         float? _opacity;
         bool? _isEnabled;
+        bool? _isFocused;
         bool? _isVisible;
         string _fontName;
 
@@ -315,33 +316,45 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> has input focus.
         /// </summary>
         /// <value><c>true</c> if it has input focus; otherwise, <c>false</c>.</value>
-        [XmlIgnore]
-        public bool InputFocus { get; set; }
+        public bool Focused
+        {
+            get
+            {
+                if (_isFocused != null)
+                {
+                    return (bool)_isFocused;
+                }
+                
+                return false;
+            }
+            set
+            {
+                if (_isFocused != value)
+                {
+                    _isFocused = value;
+                    OnFocusedChanged(this, null);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the children GUI elements.
         /// </summary>
         /// <value>The children.</value>
-        [XmlIgnore]
         List<GuiElement> Children { get; }
 
-        [XmlIgnore]
         protected GuiElement Parent { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is destroyed.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
-        [XmlIgnore]
         public bool IsDisposed { get; private set; }
 
-        [XmlIgnore]
         public ISite Site { get; set; }
 
-        [XmlIgnore]
         protected virtual bool CanRaiseEvents => true;
 
-        [XmlIgnore]
         public IContainer Container
         {
             get
@@ -355,7 +368,6 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
-        [XmlIgnore]
         protected bool DesignMode
         {
             get
@@ -394,6 +406,10 @@ namespace NuciXNA.Gui.GuiElements
         public event EventHandler FontNameChanged;
 
         public event EventHandler EnabledChanged;
+
+        public event EventHandler FocusedChanged;
+
+        public event EventHandler CreatedChanged;
 
         public event EventHandler VisibleChanged;
 
@@ -710,6 +726,11 @@ namespace NuciXNA.Gui.GuiElements
             EnabledChanged?.Invoke(sender, e);
         }
 
+        protected virtual void OnFocusedChanged(object sender, EventArgs e)
+        {
+            FocusedChanged?.Invoke(sender, e);
+        }
+
         protected virtual void OnVisibledChanged(object sender, EventArgs e)
         {
             VisibleChanged?.Invoke(sender, e);
@@ -832,7 +853,7 @@ namespace NuciXNA.Gui.GuiElements
         void OnInputManagerKeyboardKeyDown(object sender, KeyboardKeyEventArgs e)
         {
             if (!Enabled || !Visible ||
-                !CanRaiseEvents || !InputFocus)
+                !CanRaiseEvents || !Focused)
             {
                 return;
             }
@@ -843,7 +864,7 @@ namespace NuciXNA.Gui.GuiElements
         void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (!Enabled || !Visible ||
-                !CanRaiseEvents || !InputFocus)
+                !CanRaiseEvents || !Focused)
             {
                 return;
             }
@@ -854,7 +875,7 @@ namespace NuciXNA.Gui.GuiElements
         void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
         {
             if (!Enabled || !Visible ||
-                !CanRaiseEvents || !InputFocus)
+                !CanRaiseEvents || !Focused)
             {
                 return;
             }
