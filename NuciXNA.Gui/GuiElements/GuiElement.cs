@@ -592,6 +592,7 @@ namespace NuciXNA.Gui.GuiElements
             Children.Add(element);
             element.Parent = this;
         }
+
         protected virtual void RegisterEvents()
         {
             InputManager.Instance.KeyboardKeyDown += OnInputManagerKeyboardKeyDown;
@@ -644,8 +645,7 @@ namespace NuciXNA.Gui.GuiElements
 
             return $"{Site.Name} [{GetType().FullName}]";
         }
-
-
+        
         /// <summary>
         /// Handles the input.
         /// </summary>

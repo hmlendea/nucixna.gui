@@ -75,16 +75,14 @@ namespace NuciXNA.Gui.GuiElements
                 ContentFile = "ScreenManager/FillImage",
                 TextureLayout = TextureLayout.Tile
             };
+            backgroundImage.Size = new Size2D(
+                Size.Width + Margins * 2,
+                Size.Height + Margins * 2);
 
             textSprite = new Sprite();
-
-            AddChild(backgroundImage);
-
-            SetChildrenProperties();
-
-            textSprite.LoadContent();
-
+            
             base.LoadContent();
+            textSprite.LoadContent();
         }
 
         /// <summary>
@@ -119,14 +117,21 @@ namespace NuciXNA.Gui.GuiElements
             textSprite.Draw(spriteBatch);
         }
 
+        protected override void RegisterChildren()
+        {
+            base.RegisterChildren();
+            
+            AddChild(backgroundImage);
+        }
+
         protected override void SetChildrenProperties()
         {
             base.SetChildrenProperties();
 
             backgroundImage.TintColour = BackgroundColour;
-            backgroundImage.Location = ScreenLocation;
-            backgroundImage.Size = new Size2D(Size.Width + Margins * 2,
-                                              Size.Height + Margins * 2);
+            backgroundImage.Size = new Size2D(
+                Size.Width + Margins * 2,
+                Size.Height + Margins * 2);
 
             textSprite.Text = Text;
             textSprite.FontName = FontName;
@@ -134,10 +139,12 @@ namespace NuciXNA.Gui.GuiElements
             textSprite.Tint = ForegroundColour;
             textSprite.TextVerticalAlignment = VerticalAlignment;
             textSprite.TextHorizontalAlignment = HorizontalAlignment;
-            textSprite.Location = new Point2D(ScreenLocation.X + Margins,
-                                              ScreenLocation.Y + Margins);
-            textSprite.SpriteSize = new Size2D(Size.Width - Margins * 2,
-                                               Size.Height - Margins * 2);
+            textSprite.Location = new Point2D(
+                ScreenLocation.X + Margins,
+                ScreenLocation.Y + Margins);
+            textSprite.SpriteSize = new Size2D(
+                Size.Width - Margins * 2,
+                Size.Height - Margins * 2);
             textSprite.FadeEffect = FadeEffect;
             textSprite.Active = EffectsActive;
         }

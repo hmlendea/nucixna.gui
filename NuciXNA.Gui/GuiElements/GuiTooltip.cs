@@ -32,21 +32,14 @@
                 Margins = 2
             };
 
-            AddChild(text);
-
             base.LoadContent();
         }
 
-        protected override void SetChildrenProperties()
+        protected override void RegisterChildren()
         {
-            base.SetChildrenProperties();
+            base.RegisterChildren();
 
-            text.Text = Text;
-            text.FontName = FontName;
-            text.ForegroundColour = ForegroundColour;
-            text.BackgroundColour = BackgroundColour;
-            text.Location = Location;
-            text.Size = Size;
+            AddChild(text);
         }
     }
 }

@@ -58,11 +58,16 @@ namespace NuciXNA.Gui.GuiElements
                 MinimumOpacity = 0.25f
             };
 
-            AddChild(text);
-
             base.LoadContent();
 
             // LEFTOVER: text.ActivateEffect("FadeEffect");
+        }
+
+        protected override void RegisterChildren()
+        {
+            base.RegisterChildren();
+
+            AddChild(text);
         }
 
         protected override void SetChildrenProperties()
