@@ -84,8 +84,6 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public GuiText()
         {
-            FontName = "ButtonFont";
-
             VerticalAlignment = VerticalAlignment.Centre;
             HorizontalAlignment = HorizontalAlignment.Centre;
         }
