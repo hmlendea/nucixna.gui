@@ -2,8 +2,8 @@
 {
     public enum VerticalAlignment : byte
     {
-        Left,
         Centre,
-        Right
+        Top,
+        Bottom
     }
 }

@@ -197,8 +197,8 @@ namespace NuciXNA.Graphics
             Active = true;
 
             ContentFile = string.Empty;
+            AlphaMaskFile = string.Empty;
             Text = string.Empty;
-            FontName = "MenuFont";
 
             Location = Point2D.Empty;
             SourceRectangle = Rectangle2D.Empty;
@@ -336,53 +336,74 @@ namespace NuciXNA.Graphics
 
             if (TextureLayout == TextureLayout.Stretch)
             {
-                float rotation = Rotation;
-                float zoom = Zoom;
-
-                if (RotationEffect != null && RotationEffect.Active)
-                {
-                    rotation += RotationEffect.CurrentRotation;
-                }
-
-                if (ZoomEffect != null && ZoomEffect.Active)
-                {
-                    zoom += ZoomEffect.CurrentZoom;
-                }
-
-                spriteBatch.Draw(textureToDraw, new Vector2(Location.X + ClientRectangle.Width / 2, Location.Y + ClientRectangle.Height / 2), SourceRectangle.ToXnaRectangle(),
-                    colour, rotation,
-                    origin, Scale.ToXnaVector2() * zoom,
-                    Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 0.0f);
+                DrawTextureStretched(spriteBatch, textureToDraw, colour, origin);
             }
             else if (TextureLayout == TextureLayout.Tile)
             {
-                GraphicsDevice gd = GraphicsManager.Instance.Graphics.GraphicsDevice;
-
-                Rectangle rec = new Rectangle(0, 0, ClientRectangle.Width, ClientRectangle.Height);
-
-                // TODO: Is it ok to End and Begin again? Does it affect performance? It most probably does.
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null);
-
-                spriteBatch.Draw(textureToDraw, new Vector2(Location.X, Location.Y), rec, colour);
-
-                spriteBatch.End();
-                spriteBatch.Begin();
+                DrawTextureTiled(spriteBatch, textureToDraw, colour);
             }
         }
 
-        void DrawString(SpriteBatch spriteBatch, SpriteFont spriteFont, string text, Rectangle bounds, HorizontalAlignment hAlign, VerticalAlignment vAlign, Color colour)
+        void DrawTextureStretched(SpriteBatch spriteBatch, Texture2D texture, Color tint, Vector2 origin)
+        {
+            float rotation = Rotation;
+            float zoom = Zoom;
+
+            if (RotationEffect != null && RotationEffect.Active)
+            {
+                rotation += RotationEffect.CurrentRotation;
+            }
+
+            if (ZoomEffect != null && ZoomEffect.Active)
+            {
+                zoom += ZoomEffect.CurrentZoom;
+            }
+
+            spriteBatch.Draw(
+                texture,
+                new Vector2(Location.X + ClientRectangle.Width / 2, Location.Y + ClientRectangle.Height / 2), SourceRectangle.ToXnaRectangle(),
+                tint,
+                rotation,
+                origin,
+                Scale.ToXnaVector2() * zoom,
+                Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 0.0f);
+        }
+
+        void DrawTextureTiled(SpriteBatch spriteBatch, Texture2D texture, Color tint)
+        {
+            GraphicsDevice gd = GraphicsManager.Instance.Graphics.GraphicsDevice;
+
+            Rectangle rec = new Rectangle(0, 0, ClientRectangle.Width, ClientRectangle.Height);
+
+            // TODO: Is it ok to End and Begin again? Does it affect performance? It most probably does.
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null);
+
+            spriteBatch.Draw(texture, new Vector2(Location.X, Location.Y), rec, tint);
+
+            spriteBatch.End();
+            spriteBatch.Begin();
+        }
+
+        void DrawString(
+            SpriteBatch spriteBatch,
+            SpriteFont spriteFont,
+            string text,
+            Rectangle bounds,
+            HorizontalAlignment hAlign,
+            VerticalAlignment vAlign,
+            Color colour)
         {
             Vector2 textOrigin = Vector2.Zero;
             Vector2 totalSize = font.MeasureString(text);
 
             string[] lines = text.Split('\n');
 
-            if (hAlign == HorizontalAlignment.Centre)
+            if (vAlign == VerticalAlignment.Centre)
             {
                 textOrigin.Y = bounds.Height / 2 - totalSize.Y / 2;
             }
-            else if (hAlign == HorizontalAlignment.Bottom)
+            else if (vAlign == VerticalAlignment.Bottom)
             {
                 textOrigin.Y = bounds.Height - totalSize.Y;
             }
@@ -391,11 +412,11 @@ namespace NuciXNA.Graphics
             {
                 Vector2 lineSize = font.MeasureString(line);
 
-                if (vAlign == VerticalAlignment.Centre)
+                if (hAlign == HorizontalAlignment.Centre)
                 {
                     textOrigin.X = bounds.Width / 2 - lineSize.X / 2;
                 }
-                else if (vAlign == VerticalAlignment.Right)
+                else if (hAlign == HorizontalAlignment.Right)
                 {
                     textOrigin.X = bounds.Width - lineSize.X;
                 }
