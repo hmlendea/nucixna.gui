@@ -140,7 +140,7 @@ namespace NuciXNA.Gui.GuiElements
                     return (TextureLayout)_textureLayout;
                 }
 
-                return TextureLayout.Stretch;
+                return GuiManager.Instance.DefaultTextureLayout;
             }
             set
             {

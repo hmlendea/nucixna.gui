@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Graphics.Enumerations;
 using NuciXNA.Gui.GuiElements;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
@@ -29,6 +30,10 @@ namespace NuciXNA.Gui
         public Colour DefaultForegroundColour { get; set; }
 
         public string DefaultFontName { get; set; }
+
+        public TextureLayout DefaultTextureLayout { get; set; }
+
+        public int DefaultMargins { get; set; }
 
         /// <summary>
         /// Gets the instance.
@@ -60,6 +65,8 @@ namespace NuciXNA.Gui
             DefaultBackgroundColour = Colour.Transparent;
             DefaultForegroundColour = Colour.Black;
             DefaultFontName = "DefaultFont";
+            DefaultTextureLayout = TextureLayout.Stretch;
+            DefaultMargins = 8;
         }
 
         /// <summary>
