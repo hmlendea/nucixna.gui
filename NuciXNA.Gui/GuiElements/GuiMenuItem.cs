@@ -51,11 +51,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public override void LoadContent()
         {
-            text = new GuiText
-            {
-                FontName = "MenuFont",
-                VerticalAlignment = Graphics.Enumerations.VerticalAlignment.Right
-            };
+            text = new GuiText { FontName = "MenuFont" };
             text.FadeEffect = new FadeEffect
             {
                 Speed = 2,

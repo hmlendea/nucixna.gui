@@ -402,7 +402,7 @@ namespace NuciXNA.Graphics
 
             string[] lines = text.Split('\n');
 
-            if (vAlign == VerticalAlignment.Top)
+            if (vAlign == VerticalAlignment.Centre)
             {
                 textOrigin.Y = bounds.Height / 2 - totalSize.Y / 2;
             }
@@ -415,7 +415,7 @@ namespace NuciXNA.Graphics
             {
                 Vector2 lineSize = font.MeasureString(line);
 
-                if (hAlign == HorizontalAlignment.Left)
+                if (hAlign == HorizontalAlignment.Centre)
                 {
                     textOrigin.X = bounds.Width / 2 - lineSize.X / 2;
                 }
