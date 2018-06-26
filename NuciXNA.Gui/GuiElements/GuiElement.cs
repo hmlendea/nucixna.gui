@@ -171,7 +171,7 @@ namespace NuciXNA.Gui.GuiElements
                     return Parent.BackgroundColour;
                 }
 
-                return Colour.Transparent;
+                return GuiManager.Instance.DefaultBackgroundColour;
             }
             set
             {
@@ -202,7 +202,7 @@ namespace NuciXNA.Gui.GuiElements
                     return Parent.ForegroundColour;
                 }
 
-                return Colour.Black;
+                return GuiManager.Instance.DefaultForegroundColour;
             }
             set
             {
@@ -233,7 +233,7 @@ namespace NuciXNA.Gui.GuiElements
                     return Parent.FontName;
                 }
 
-                return string.Empty;
+                return GuiManager.Instance.DefaultFontName;
             }
             set
             {

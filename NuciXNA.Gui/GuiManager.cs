@@ -3,9 +3,10 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NuciXNA.Input;
 
 using NuciXNA.Gui.GuiElements;
+using NuciXNA.Input;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui
 {
@@ -22,6 +23,12 @@ namespace NuciXNA.Gui
         /// </summary>
         /// <value>The GUI elements.</value>
         public List<GuiElement> GuiElements { get; set; }
+
+        public Colour DefaultBackgroundColour { get; set; }
+
+        public Colour DefaultForegroundColour { get; set; }
+
+        public string DefaultFontName { get; set; }
 
         /// <summary>
         /// Gets the instance.
@@ -49,6 +56,10 @@ namespace NuciXNA.Gui
         public GuiManager()
         {
             GuiElements = new List<GuiElement>();
+
+            DefaultBackgroundColour = Colour.Transparent;
+            DefaultForegroundColour = Colour.Black;
+            DefaultFontName = "DefaultFont";
         }
 
         /// <summary>

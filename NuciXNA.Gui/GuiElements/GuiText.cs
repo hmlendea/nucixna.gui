@@ -48,16 +48,16 @@ namespace NuciXNA.Gui.GuiElements
         public FontOutline FontOutline { get; set; }
 
         /// <summary>
-        /// Gets or sets the vertical alignment of the text.
-        /// </summary>
-        /// <value>The vertical alignment.</value>
-        public VerticalAlignment VerticalAlignment { get; set; }
-
-        /// <summary>
         /// Gets or sets the horizontal alignment of the text.
         /// </summary>
         /// <value>The horizontal alignment.</value>
         public HorizontalAlignment HorizontalAlignment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vertical alignment of the text.
+        /// </summary>
+        /// <value>The vertical alignment.</value>
+        public VerticalAlignment VerticalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets the margins.
@@ -84,8 +84,8 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public GuiText()
         {
-            VerticalAlignment = VerticalAlignment.Centre;
             HorizontalAlignment = HorizontalAlignment.Centre;
+            VerticalAlignment = VerticalAlignment.Centre;
         }
 
         /// <summary>

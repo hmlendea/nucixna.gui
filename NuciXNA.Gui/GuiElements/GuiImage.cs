@@ -206,7 +206,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public override void LoadContent()
         {
-            sprite = new Sprite();
+            this.sprite = new Sprite();
 
             SetChildrenProperties();
 

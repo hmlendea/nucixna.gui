@@ -230,7 +230,10 @@ namespace NuciXNA.Graphics
             LoadContentFile();
             LoadAlphaMaskFile();
 
-            font = ResourceManager.Instance.LoadSpriteFont("Fonts/" + FontName);
+            if (!string.IsNullOrEmpty(FontName))
+            {
+                font = ResourceManager.Instance.LoadSpriteFont("Fonts/" + FontName);
+            }
 
             if (SpriteSize == Size2D.Empty)
             {
@@ -241,7 +244,7 @@ namespace NuciXNA.Graphics
                     size.Width = Texture.Width;
                     size.Height = Texture.Height;
                 }
-                else if (Text != string.Empty)
+                else if (!string.IsNullOrEmpty(Text))
                 {
                     size.Width = (int)font.MeasureString(Text).X;
                     size.Height = (int)font.MeasureString(Text).Y;
@@ -399,7 +402,7 @@ namespace NuciXNA.Graphics
 
             string[] lines = text.Split('\n');
 
-            if (vAlign == VerticalAlignment.Centre)
+            if (vAlign == VerticalAlignment.Top)
             {
                 textOrigin.Y = bounds.Height / 2 - totalSize.Y / 2;
             }
@@ -412,7 +415,7 @@ namespace NuciXNA.Graphics
             {
                 Vector2 lineSize = font.MeasureString(line);
 
-                if (hAlign == HorizontalAlignment.Centre)
+                if (hAlign == HorizontalAlignment.Left)
                 {
                     textOrigin.X = bounds.Width / 2 - lineSize.X / 2;
                 }
