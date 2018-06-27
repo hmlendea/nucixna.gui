@@ -1,16 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NuciXNA.DataAccess.Resources;
-using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
 
+using NuciXNA.DataAccess.Resources;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.Enumerations;
 using NuciXNA.Graphics.Helpers;
 using NuciXNA.Graphics.SpriteEffects;
+using NuciXNA.Primitives;
+using NuciXNA.Primitives.Mapping;
 
 namespace NuciXNA.Graphics
 {
@@ -316,16 +316,23 @@ namespace NuciXNA.Graphics
         /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 origin = new Vector2(SourceRectangle.Width / 2,
+            Point2D origin = new Point2D(SourceRectangle.Width / 2,
                                          SourceRectangle.Height / 2);
 
-            Color colour = Tint.ToXnaColor();
+            Colour colour = Tint;
             colour.A = (byte)(colour.A * Opacity);
 
             if (!string.IsNullOrEmpty(Text))
             {
-                DrawString(spriteBatch, font, StringUtils.WrapText(font, Text, SpriteSize.Width), ClientRectangle.ToXnaRectangle(),
-                           TextHorizontalAlignment, TextVerticalAlignment, colour);
+                StringDrawer.Draw(
+                    spriteBatch,
+                    font,
+                    Text,
+                    ClientRectangle,
+                    colour,
+                    TextHorizontalAlignment,
+                    TextVerticalAlignment,
+                    FontOutline);
             }
 
             // TODO: Do not do this for every Draw call
@@ -343,11 +350,22 @@ namespace NuciXNA.Graphics
             }
             else if (TextureLayout == TextureLayout.Tile)
             {
-                DrawTextureTiled(spriteBatch, textureToDraw, colour);
+                TextureDrawer.Draw(
+                    spriteBatch,
+                    textureToDraw,
+                    Location,
+                    new Rectangle(0, 0, ClientRectangle.Width, ClientRectangle.Height),
+                    colour,
+                    SpriteSortMode.Deferred,
+                    SamplerState.LinearWrap);
             }
         }
 
-        void DrawTextureStretched(SpriteBatch spriteBatch, Texture2D texture, Color tint, Vector2 origin)
+        void DrawTextureStretched(
+            SpriteBatch spriteBatch,
+            Texture2D texture,
+            Colour tint,
+            Point2D origin)
         {
             float rotation = Rotation;
             float zoom = Zoom;
@@ -362,100 +380,21 @@ namespace NuciXNA.Graphics
                 zoom += ZoomEffect.CurrentZoom;
             }
 
-            spriteBatch.Draw(
+            TextureDrawer.Draw(
+                spriteBatch,
                 texture,
-                new Vector2(Location.X + ClientRectangle.Width / 2, Location.Y + ClientRectangle.Height / 2), SourceRectangle.ToXnaRectangle(),
+                new Point2D(
+                    Location.X + ClientRectangle.Width / 2,
+                    Location.Y + ClientRectangle.Height / 2),
+                SourceRectangle,
                 tint,
                 rotation,
                 origin,
-                Scale.ToXnaVector2() * zoom,
-                Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 0.0f);
+                new Scale2D(
+                    Scale.Horizontal * zoom,
+                    Scale.Vertical * zoom));
         }
-
-        void DrawTextureTiled(SpriteBatch spriteBatch, Texture2D texture, Color tint)
-        {
-            GraphicsDevice gd = GraphicsManager.Instance.Graphics.GraphicsDevice;
-
-            Rectangle rec = new Rectangle(0, 0, ClientRectangle.Width, ClientRectangle.Height);
-
-            // TODO: Is it ok to End and Begin again? Does it affect performance? It most probably does.
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null);
-
-            spriteBatch.Draw(texture, new Vector2(Location.X, Location.Y), rec, tint);
-
-            spriteBatch.End();
-            spriteBatch.Begin();
-        }
-
-        void DrawString(
-            SpriteBatch spriteBatch,
-            SpriteFont spriteFont,
-            string text,
-            Rectangle bounds,
-            HorizontalAlignment hAlign,
-            VerticalAlignment vAlign,
-            Color colour)
-        {
-            Vector2 textOrigin = Vector2.Zero;
-            Vector2 totalSize = font.MeasureString(text);
-
-            string[] lines = text.Split('\n');
-
-            if (vAlign == VerticalAlignment.Centre)
-            {
-                textOrigin.Y = bounds.Height / 2 - totalSize.Y / 2;
-            }
-            else if (vAlign == VerticalAlignment.Bottom)
-            {
-                textOrigin.Y = bounds.Height - totalSize.Y;
-            }
-
-            foreach (string line in lines)
-            {
-                Vector2 lineSize = font.MeasureString(line);
-
-                if (hAlign == HorizontalAlignment.Centre)
-                {
-                    textOrigin.X = bounds.Width / 2 - lineSize.X / 2;
-                }
-                else if (hAlign == HorizontalAlignment.Right)
-                {
-                    textOrigin.X = bounds.Width - lineSize.X;
-                }
-
-                textOrigin = new Vector2((int)Math.Round(textOrigin.X),
-                                         (int)Math.Round(textOrigin.Y));
-
-                if (FontOutline == FontOutline.Around)
-                {
-                    for (int dx = -1; dx <= 1; dx++)
-                    {
-                        for (int dy = -1; dy <= 1; dy++)
-                        {
-                            Vector2 pos = new Vector2(Location.X + dx + textOrigin.X,
-                                                      Location.Y + dy + textOrigin.Y);
-
-                            // TODO: Do not hardcode the outline colour
-                            spriteBatch.DrawString(spriteFont, line, pos, Color.Black);
-                        }
-                    }
-                }
-                else if (FontOutline == FontOutline.BottomRight)
-                {
-                    Vector2 pos = new Vector2(Location.X + 1 + textOrigin.X,
-                                              Location.Y + 1 + textOrigin.Y);
-
-                    // TODO: Do not hardcode the outline colour
-                    spriteBatch.DrawString(spriteFont, line, pos, Color.Black);
-                }
-
-                spriteBatch.DrawString(spriteFont, line, new Vector2(Location.X, Location.Y) + textOrigin, colour);
-
-                textOrigin.Y += lineSize.Y;
-            }
-        }
-
+        
         Texture2D TextureBlend(Texture2D source, Texture2D mask)
         {
             Color[] textureBits = new Color[source.Width * source.Height];

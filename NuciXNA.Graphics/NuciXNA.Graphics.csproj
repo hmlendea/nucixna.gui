@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\StringDrawer.cs" />
+    <Compile Include="Drawing\TextureDrawer.cs" />
     <Compile Include="Enumerations\FontOutline.cs" />
     <Compile Include="Enumerations\HorizontalAlignment.cs" />
     <Compile Include="Enumerations\TextureLayout.cs" />

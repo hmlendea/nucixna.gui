@@ -10,7 +10,7 @@ namespace NuciXNA.Graphics
     {
         static volatile GraphicsManager instance;
         static object syncRoot = new object();
-
+        
         /// <summary>
         /// Gets the instance.
         /// </summary>
@@ -33,7 +33,7 @@ namespace NuciXNA.Graphics
                 return instance;
             }
         }
-
+        
         /// <summary>
         /// Gets or sets the graphics device manager.
         /// </summary>
@@ -45,5 +45,6 @@ namespace NuciXNA.Graphics
         /// </summary>
         /// <value>The sprite batch.</value>
         public SpriteBatch SpriteBatch { get; set; }
+
     }
 }
