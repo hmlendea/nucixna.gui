@@ -8,90 +8,61 @@ namespace NuciXNA.Graphics.Drawing
 {
     public class TextureDrawer
     {
-        private static SpriteSortMode currentSpriteSortMode = SpriteSortMode.Deferred;
-        private static SamplerState currentSamplerState = SamplerState.LinearClamp;
+        private static readonly SpriteSortMode DefaultSpriteSortMode = SpriteSortMode.Deferred;
+        private static readonly SamplerState DefaultSamplerState = SamplerState.LinearClamp;
+
+        private static SpriteSortMode currentSpriteSortMode = DefaultSpriteSortMode;
+        private static SamplerState currentSamplerState = DefaultSamplerState;
+
+        public static void Draw(
+            SpriteBatch spriteBatch,
+            Texture2D texture,
+            Point2D location,
+            Rectangle2D sourceRectangle)
+        {
+            Draw(spriteBatch, texture, location, sourceRectangle, Colour.White);
+        }
+
+        public static void Draw(
+            SpriteBatch spriteBatch,
+            Texture2D texture,
+            Point2D location,
+            Rectangle2D sourceRectangle,
+            Colour tint)
+        {
+            Draw(spriteBatch, texture, location, sourceRectangle, tint, DefaultSpriteSortMode, DefaultSamplerState);
+        }
         
         public static void Draw(
             SpriteBatch spriteBatch,
             Texture2D texture,
             Point2D location,
-            Rectangle2D rectangle)
-        {
-            Draw(
-                spriteBatch,
-                texture,
-                location,
-                rectangle,
-                Colour.White);
-        }
-
-        public static void Draw(
-            SpriteBatch spriteBatch,
-            Texture2D texture,
-            Point2D location,
-            Rectangle2D rectangle,
-            Colour tint)
-        {
-            Draw(
-                spriteBatch,
-                texture,
-                location,
-                rectangle,
-                tint,
-                currentSpriteSortMode,
-                currentSamplerState);
-        }
-
-        public static void Draw(
-            SpriteBatch spriteBatch,
-            Texture2D texture,
-            Point2D location,
-            Rectangle2D rectangle,
+            Rectangle2D sourceRectangle,
             Colour tint,
             SpriteSortMode spriteSortMode,
             SamplerState samplerState)
         {
-            Draw(
-                spriteBatch,
-                texture,
-                location,
-                rectangle,
-                tint,
-                0.0f,
-                Point2D.Empty,
-                Scale2D.One,
-                spriteSortMode,
-                samplerState);
+            Draw(spriteBatch, texture, location, sourceRectangle, tint, 0.0f, Point2D.Empty, Scale2D.Empty, spriteSortMode, samplerState);
         }
 
         public static void Draw(
             SpriteBatch spriteBatch,
             Texture2D texture,
             Point2D location,
-            Rectangle2D rectangle,
+            Rectangle2D sourceRectangle,
             Colour tint,
             float rotation,
             Point2D origin,
             Scale2D scale)
         {
-            Draw(
-                spriteBatch,
-                texture,
-                location,
-                rectangle,
-                tint,
-                rotation,
-                origin,
-                scale,
-                SpriteSortMode.Deferred,
-                SamplerState.LinearClamp);
+            Draw(spriteBatch, texture, location, sourceRectangle, tint, rotation, origin, scale, DefaultSpriteSortMode, DefaultSamplerState);
         }
 
         public static void Draw(
             SpriteBatch spriteBatch,
             Texture2D texture,
             Point2D location,
-            Rectangle2D rectangle,
+            Rectangle2D sourceRectangle,
             Colour tint,
             float rotation,
             Point2D origin,
@@ -123,7 +94,7 @@ namespace NuciXNA.Graphics.Drawing
             spriteBatch.Draw(
                 texture,
                 new Vector2(location.X, location.Y),
-                rectangle.ToXnaRectangle(),
+                sourceRectangle.ToXnaRectangle(),
                 tint.ToXnaColor(),
                 rotation,
                 new Vector2(origin.X, origin.Y),

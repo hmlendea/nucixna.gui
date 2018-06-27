@@ -61,10 +61,10 @@ namespace NuciXNA.Graphics.Drawing
             Vector2 textOrigin = Vector2.Zero;
             Vector2 totalSize = font.MeasureString(text);
             
-            if (font.MeasureString(text).X > bounds.Width)
-            {
-                text = WrapText(font, text, bounds.Width);
-            }
+            //if (font.MeasureString(text).X > bounds.Width)
+            //{
+            //    text = WrapText(font, text, bounds.Width);
+            //}
 
             string[] lines = text.Split('\n');
 

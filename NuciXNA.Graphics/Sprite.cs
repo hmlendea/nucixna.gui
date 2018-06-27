@@ -327,7 +327,7 @@ namespace NuciXNA.Graphics
                 StringDrawer.Draw(
                     spriteBatch,
                     font,
-                    Text,
+                    StringUtils.WrapText(font, Text, SpriteSize.Width),
                     ClientRectangle,
                     colour,
                     TextHorizontalAlignment,
