@@ -120,12 +120,11 @@ namespace NuciXNA.Primitives
         /// Adds the values of a <see cref="Scale2D"/> to those of another <see cref="Scale2D"/>,
         /// yielding a new <see cref="Scale2D"/>.
         /// </summary>
-        /// <param name="source">The first <see cref="Scale2D"/> to add.</param>
-        /// <param name="other">The second <see cref="Scale2D"/> to add.</param>
+        /// <param name="source">The first <see cref="Scale2D"/>.</param>
+        /// <param name="other">The second <see cref="Scale2D"/>.</param>
         /// <returns>The <see cref="Scale2D"/> that is the sum of the values of <c>source</c> and <c>other</c>.</returns>
         public static Scale2D operator +(Scale2D source, Scale2D other)
-        => new Scale2D(source.Horizontal + other.Horizontal,
-                       source.Vertical + other.Vertical);
+        => new Scale2D(source.Horizontal + other.Horizontal, source.Vertical + other.Vertical);
 
         /// <summary>
         /// Subtracts the values of a <see cref="Scale2D"/> from those of another <see cref="Scale2D"/>,
@@ -135,8 +134,47 @@ namespace NuciXNA.Primitives
         /// <param name="other">The second <see cref="Scale2D"/> to subtract.</param>
         /// <returns>The <see cref="Scale2D"/> that is the subtraction of the values of <c>other</c> from <c>source</c>.</returns>
         public static Scale2D operator -(Scale2D source, Scale2D other)
-        => new Scale2D(source.Horizontal - other.Horizontal,
-                       source.Vertical - other.Vertical);
+        => new Scale2D(source.Horizontal - other.Horizontal, source.Vertical - other.Vertical);
+
+        /// <summary>
+        /// Multiplies the values of a <see cref="Scale2D"/> to those of another <see cref="Scale2D"/>,
+        /// yielding a new <see cref="Scale2D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Scale2D"/>.</param>
+        /// <param name="other">The second <see cref="Scale2D"/>.</param>
+        /// <returns>The <see cref="Scale2D"/> that is the produce of the values of <c>source</c> and <c>other</c>.</returns>
+        public static Scale2D operator *(Scale2D source, Scale2D other)
+        => new Scale2D(source.Horizontal * other.Horizontal, source.Vertical * other.Vertical);
+
+        /// <summary>
+        /// Divides the values of a <see cref="Scale2D"/> to those of another <see cref="Scale2D"/>,
+        /// yielding a new <see cref="Scale2D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Scale2D"/>.</param>
+        /// <param name="other">The second <see cref="Scale2D"/>.</param>
+        /// <returns>The <see cref="Scale2D"/> that is the division of the values of <c>source</c> and <c>other</c>.</returns>
+        public static Scale2D operator /(Scale2D source, Scale2D other)
+        => new Scale2D(source.Horizontal / other.Horizontal, source.Vertical / other.Vertical);
+
+        /// <summary>
+        /// Multiplies the values of a <see cref="Scale2D"/> to those of an <see cref="int"/>,
+        /// yielding a new <see cref="Scale2D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Scale2D"/>.</param>
+        /// <param name="value">The <see cref="int"/> to multiply with.</param>
+        /// <returns>The <see cref="Scale2D"/> that is the produce of the values of <c>source</c> and <c>value</c>.</returns>
+        public static Scale2D operator *(Scale2D source, int value)
+        => new Scale2D(source.Horizontal * value, source.Vertical * value);
+
+        /// <summary>
+        /// Divides the values of a <see cref="Scale2D"/> to those of an <see cref="int"/>,
+        /// yielding a new <see cref="Scale2D"/>.
+        /// </summary>
+        /// <param name="source">The first <see cref="Scale2D"/>.</param>
+        /// <param name="value">The <see cref="int"/> to divide with.</param>
+        /// <returns>The <see cref="Scale2D"/> that is the division of the values of <c>source</c> and <c>value</c>.</returns>
+        public static Scale2D operator /(Scale2D source, int value)
+        => new Scale2D(source.Horizontal / value, source.Vertical / value);
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="Scale2D"/> is equal to
