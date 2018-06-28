@@ -51,14 +51,19 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public override void LoadContent()
         {
-            text = new GuiText { FontName = "MenuFont" };
-            text.FadeEffect = new FadeEffect
+            text = new GuiText
             {
-                Speed = 2,
-                MinimumValue = 0.25f
+                FontName = "MenuFont",
+                EffectsActive = true,
+                FadeEffect = new FadeEffect
+                {
+                    Speed = 2,
+                    MinimumValue = 0.25f
+                }
             };
 
             base.LoadContent();
+            text.FadeEffect.Activate();
 
             // LEFTOVER: text.ActivateEffect("FadeEffect");
         }

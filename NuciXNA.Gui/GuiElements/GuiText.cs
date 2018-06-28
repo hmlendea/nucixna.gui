@@ -98,10 +98,14 @@ namespace NuciXNA.Gui.GuiElements
                 TextureLayout = TextureLayout.Tile,
                 Size = new Size2D(
                     Size.Width + Margins * 2,
-                    Size.Height + Margins * 2)
+                    Size.Height + Margins * 2),
+                FadeEffect = FadeEffect
             };
 
-            textSprite = new TextSprite();
+            textSprite = new TextSprite
+            {
+                FadeEffect = FadeEffect
+            };
             
             base.LoadContent();
             textSprite.LoadContent();
@@ -154,20 +158,17 @@ namespace NuciXNA.Gui.GuiElements
             backgroundImage.Size = new Size2D(
                 Size.Width + Margins * 2,
                 Size.Height + Margins * 2);
+            backgroundImage.EffectsActive = EffectsActive;
 
             textSprite.Text = Text;
             textSprite.FontName = FontName;
             textSprite.FontOutline = FontOutline;
             textSprite.Tint = ForegroundColour;
+            textSprite.Opacity = Opacity;
             textSprite.TextVerticalAlignment = VerticalAlignment;
             textSprite.TextHorizontalAlignment = HorizontalAlignment;
-            textSprite.Location = new Point2D(
-                ScreenLocation.X + Margins,
-                ScreenLocation.Y + Margins);
-            textSprite.SpriteSize = new Size2D(
-                Size.Width - Margins * 2,
-                Size.Height - Margins * 2);
-            textSprite.FadeEffect = FadeEffect;
+            textSprite.Location = new Point2D(ScreenLocation.X + Margins, ScreenLocation.Y + Margins);
+            textSprite.SpriteSize = new Size2D(Size.Width - Margins * 2, Size.Height - Margins * 2);
             textSprite.Active = EffectsActive;
         }
 
