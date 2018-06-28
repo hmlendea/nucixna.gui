@@ -45,6 +45,5 @@ namespace NuciXNA.Graphics
         /// </summary>
         /// <value>The sprite batch.</value>
         public SpriteBatch SpriteBatch { get; set; }
-
     }
 }

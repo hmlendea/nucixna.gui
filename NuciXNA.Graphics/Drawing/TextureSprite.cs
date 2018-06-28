@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.DataAccess.Resources;
-using NuciXNA.Graphics.Enumerations;
 using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Primitives;
 
@@ -188,11 +187,7 @@ namespace NuciXNA.Graphics.Drawing
         /// <param name="spriteBatch">Sprite batch.</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Colour colour = Tint;
-            float rotation = Rotation;
-            float zoom = Zoom;
             Point2D origin = new Point2D(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
-            Scale2D scale;
 
             // TODO: Do not do this for every Draw call
             Texture2D textureToDraw = Texture;
@@ -202,29 +197,17 @@ namespace NuciXNA.Graphics.Drawing
             {
                 textureToDraw = TextureBlend(Texture, alphaMask);
             }
-
-            if (RotationEffect != null && RotationEffect.Active)
-            {
-                rotation += RotationEffect.CurrentRotation;
-            }
-
-            if (ZoomEffect != null && ZoomEffect.Active)
-            {
-                zoom += ZoomEffect.CurrentZoom;
-            }
-
-            colour.A = (byte)(colour.A * Opacity);
-            scale = new Scale2D(Scale.Horizontal * zoom, Scale.Vertical * zoom);
-
+            
             TextureDrawer.Draw(
                 spriteBatch,
                 textureToDraw,
                 Location,
                 SourceRectangle,
-                colour,
-                rotation,
+                Tint,
+                Opacity,
+                FinalRotation,
                 origin,
-                scale,
+                FinalScale,
                 TextureLayout);
         }
 

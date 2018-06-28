@@ -3,8 +3,6 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using NuciXNA.Graphics.Enumerations;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
@@ -16,39 +14,9 @@ namespace NuciXNA.Graphics.Drawing
             SpriteBatch spriteBatch,
             SpriteFont font,
             string text,
-            Rectangle2D bounds)
-        {
-            Draw(spriteBatch, font, text, bounds, Colour.Black);
-        }
-
-        public static void Draw(
-            SpriteBatch spriteBatch,
-            SpriteFont font,
-            string text,
-            Rectangle2D bounds,
-            Colour colour)
-        {
-            Draw(spriteBatch, font, text, bounds, colour, HorizontalAlignment.Centre, VerticalAlignment.Centre);
-        }
-
-        public static void Draw(
-            SpriteBatch spriteBatch,
-            SpriteFont font,
-            string text,
             Rectangle2D bounds,
             Colour colour,
-            HorizontalAlignment hAlign,
-            VerticalAlignment vAlign)
-        {
-            Draw(spriteBatch, font, text, bounds, colour, hAlign, vAlign, FontOutline.None);
-        }
-
-        public static void Draw(
-            SpriteBatch spriteBatch,
-            SpriteFont font,
-            string text,
-            Rectangle2D bounds,
-            Colour colour,
+            float opacity,
             HorizontalAlignment hAlign,
             VerticalAlignment vAlign,
             FontOutline outline)
@@ -61,11 +29,6 @@ namespace NuciXNA.Graphics.Drawing
             Vector2 textOrigin = Vector2.Zero;
             Vector2 totalSize = font.MeasureString(text);
             
-            //if (font.MeasureString(text).X > bounds.Width)
-            //{
-            //    text = WrapText(font, text, bounds.Width);
-            //}
-
             string[] lines = text.Split('\n');
 
             if (vAlign == VerticalAlignment.Centre)

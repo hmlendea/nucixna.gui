@@ -1,4 +1,4 @@
-﻿namespace NuciXNA.Graphics.Enumerations
+﻿namespace NuciXNA.Graphics.Drawing
 {
     /// <summary>
     /// Specifies how the <see cref="Microsoft.Xna.Framework.Graphics.Texture2D"/> is sized within the <see cref="Sprite"/>

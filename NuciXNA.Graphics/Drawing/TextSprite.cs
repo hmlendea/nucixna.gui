@@ -1,13 +1,9 @@
-﻿using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.DataAccess.Resources;
-using NuciXNA.Graphics.Enumerations;
-using NuciXNA.Graphics.Helpers;
-using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Primitives;
 
 
@@ -117,19 +113,76 @@ namespace NuciXNA.Graphics.Drawing
             {
                 return;
             }
-
-            Colour colour = Tint;
-            colour.A = (byte)(colour.A * Opacity);
-
+            
             StringDrawer.Draw(
                 spriteBatch,
                 font,
-                StringUtils.WrapText(font, Text, SpriteSize.Width),
+                WrapText(font, Text, SpriteSize.Width),
                 ClientRectangle,
-                colour,
+                Tint,
+                Opacity,
                 TextHorizontalAlignment,
                 TextVerticalAlignment,
                 FontOutline);
+        }
+
+        /// <summary>
+        /// Wraps the text on multiple lines.
+        /// </summary>
+        /// <returns>The text.</returns>
+        /// <param name="font">Font.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="maxLineWidth">Maximum line width.</param>
+        string WrapText(SpriteFont font, string text, float maxLineWidth)
+        {
+            if (font.MeasureString(text).X <= maxLineWidth)
+            {
+                return text;
+            }
+
+            string[] words = text.Split(' ');
+            StringBuilder sb = new StringBuilder();
+            float lineWidth = 0f;
+            float spaceWidth = font.MeasureString(" ").X;
+
+            foreach (string word in words)
+            {
+                Vector2 size = font.MeasureString(word);
+
+                if (word.Contains("\r"))
+                {
+                    lineWidth = 0f;
+                    sb.Append("\r \r");
+                }
+
+                if (lineWidth + size.X < maxLineWidth)
+                {
+                    sb.Append(word + " ");
+                    lineWidth += size.X + spaceWidth;
+                }
+
+                else
+                {
+                    if (size.X > maxLineWidth)
+                    {
+                        if (sb.ToString() == " ")
+                        {
+                            sb.Append(WrapText(font, word.Insert(word.Length / 2, " ") + " ", maxLineWidth));
+                        }
+                        else
+                        {
+                            sb.Append("\n" + WrapText(font, word.Insert(word.Length / 2, " ") + " ", maxLineWidth));
+                        }
+                    }
+                    else
+                    {
+                        sb.Append("\n" + word + " ");
+                        lineWidth = size.X + spaceWidth;
+                    }
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }

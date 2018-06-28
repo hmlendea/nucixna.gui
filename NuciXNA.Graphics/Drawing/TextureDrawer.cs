@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using NuciXNA.Graphics.Enumerations;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
@@ -21,6 +19,7 @@ namespace NuciXNA.Graphics.Drawing
             Point2D location,
             Rectangle2D sourceRectangle,
             Colour tint,
+            float opacity,
             float rotation,
             Point2D origin,
             Scale2D scale,
@@ -32,6 +31,8 @@ namespace NuciXNA.Graphics.Drawing
             Vector2 org = new Vector2(origin.X, origin.Y);
             Vector2 scl = new Vector2(scale.Horizontal, scale.Vertical);
             float layerDepth = 0.0f;
+
+            colour.A = (byte)(colour.A * opacity);
 
             if (textureLayout == TextureLayout.Tile)
             {

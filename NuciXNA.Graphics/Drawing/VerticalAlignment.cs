@@ -1,4 +1,4 @@
-﻿namespace NuciXNA.Graphics.Enumerations
+﻿namespace NuciXNA.Graphics.Drawing
 {
     public enum VerticalAlignment : byte
     {

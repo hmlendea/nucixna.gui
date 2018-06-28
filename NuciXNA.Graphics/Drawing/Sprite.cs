@@ -83,6 +83,38 @@ namespace NuciXNA.Graphics.Drawing
         /// <value>The zoom effect.</value>
         public ZoomEffect ZoomEffect { get; set; }
 
+        protected float FinalRotation
+        {
+            get
+            {
+                float value = Rotation;
+
+                if (RotationEffect != null && RotationEffect.Active)
+                {
+                    value += RotationEffect.CurrentRotation;
+                }
+
+                return value;
+            }
+        }
+
+        protected float FinalZoom
+        {
+            get
+            {
+                float value = Zoom;
+
+                if (ZoomEffect != null && ZoomEffect.Active)
+                {
+                    value += ZoomEffect.CurrentZoom;
+                }
+
+                return value;
+            }
+        }
+
+        protected Scale2D FinalScale => new Scale2D(Scale.Horizontal * FinalZoom, Scale.Vertical * FinalZoom);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Sprite"/> class.
         /// </summary>
