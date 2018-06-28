@@ -4,9 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Primitives;
 
-using NuciXNA.Graphics;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
-using NuciXNA.Graphics.Enumerations;
 
 namespace NuciXNA.Gui.GuiElements
 {
@@ -16,7 +15,7 @@ namespace NuciXNA.Gui.GuiElements
     public class GuiText : GuiElement
     {
         GuiImage backgroundImage;
-        Sprite textSprite;
+        TextSprite textSprite;
 
         string _text;
         
@@ -96,13 +95,13 @@ namespace NuciXNA.Gui.GuiElements
             backgroundImage = new GuiImage
             {
                 ContentFile = "ScreenManager/FillImage",
-                TextureLayout = TextureLayout.Tile
+                TextureLayout = TextureLayout.Tile,
+                Size = new Size2D(
+                    Size.Width + Margins * 2,
+                    Size.Height + Margins * 2)
             };
-            backgroundImage.Size = new Size2D(
-                Size.Width + Margins * 2,
-                Size.Height + Margins * 2);
 
-            textSprite = new Sprite();
+            textSprite = new TextSprite();
             
             base.LoadContent();
             textSprite.LoadContent();

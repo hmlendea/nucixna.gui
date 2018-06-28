@@ -3,11 +3,11 @@ using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NuciXNA.Primitives;
 
 using NuciXNA.Graphics;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
-using NuciXNA.Graphics.Enumerations;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui.Screens
 {
@@ -20,7 +20,7 @@ namespace NuciXNA.Gui.Screens
         static object syncRoot = new object();
 
         Screen currentScreen, newScreen;
-        Sprite transitionSprite;
+        TextureSprite transitionSprite;
 
         /// <summary>
         /// Gets the instance.
@@ -85,15 +85,13 @@ namespace NuciXNA.Gui.Screens
         {
             currentScreen = (Screen)Activator.CreateInstance(StartingScreenType);
 
-            transitionSprite = new Sprite
+            transitionSprite = new TextureSprite
             {
                 ContentFile = "ScreenManager/FillImage",
                 Tint = Colour.Black,
                 FadeEffect = new FadeEffect { Speed = 3 },
                 TextureLayout = TextureLayout.Tile
             };
-
-            transitionSprite.FadeEffect.AssociateSprite(transitionSprite);
 
             currentScreen.LoadContent();
             transitionSprite.LoadContent();
@@ -185,13 +183,13 @@ namespace NuciXNA.Gui.Screens
         {
             transitionSprite.Update(gameTime);
 
-            if (transitionSprite.Opacity >= 1.0f)
+            if (transitionSprite.ClientOpacity >= 1.0f)
             {
                 currentScreen.UnloadContent();
                 currentScreen = newScreen;
                 currentScreen.LoadContent();
             }
-            else if (transitionSprite.Opacity <= 0.0f)
+            else if (transitionSprite.ClientOpacity <= 0.0f)
             {
                 transitionSprite.Active = false;
                 Transitioning = false;

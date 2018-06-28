@@ -4,9 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Primitives;
 
-using NuciXNA.Graphics;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
-using NuciXNA.Graphics.Enumerations;
 
 namespace NuciXNA.Gui.GuiElements
 {
@@ -15,7 +14,7 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiImage : GuiElement
     {
-        Sprite sprite;
+        TextureSprite sprite;
 
         string _contentFile;
         string _maskFile;
@@ -206,7 +205,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public override void LoadContent()
         {
-            this.sprite = new Sprite();
+            this.sprite = new TextureSprite();
 
             SetChildrenProperties();
 

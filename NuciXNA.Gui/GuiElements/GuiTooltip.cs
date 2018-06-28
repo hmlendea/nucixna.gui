@@ -1,4 +1,4 @@
-﻿using NuciXNA.Graphics.Enumerations;
+﻿using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
 

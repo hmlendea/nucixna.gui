@@ -55,7 +55,7 @@ namespace NuciXNA.Gui.GuiElements
             text.FadeEffect = new FadeEffect
             {
                 Speed = 2,
-                MinimumOpacity = 0.25f
+                MinimumValue = 0.25f
             };
 
             base.LoadContent();

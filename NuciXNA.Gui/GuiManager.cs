@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Graphics.Enumerations;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.GuiElements;
 using NuciXNA.Input;
 using NuciXNA.Primitives;

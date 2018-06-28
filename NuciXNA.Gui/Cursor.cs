@@ -6,7 +6,7 @@ using NuciXNA.Input.Events;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
-using NuciXNA.Graphics;
+using NuciXNA.Graphics.Drawing;
 
 namespace NuciXNA.Gui
 {
@@ -22,8 +22,8 @@ namespace NuciXNA.Gui
 
         public int Frames { get; set; }
 
-        Sprite idleSprite;
-        Sprite clickSprite;
+        TextureSprite idleSprite;
+        TextureSprite clickSprite;
 
         public Cursor()
         {
@@ -35,8 +35,8 @@ namespace NuciXNA.Gui
         /// </summary>
         public void LoadContent()
         {
-            idleSprite = new Sprite { ContentFile = "Cursors/idle" };
-            clickSprite = new Sprite { ContentFile = "Cursors/click" };
+            idleSprite = new TextureSprite { ContentFile = "Cursors/idle" };
+            clickSprite = new TextureSprite { ContentFile = "Cursors/click" };
 
             SetChildrenProperites();
 
