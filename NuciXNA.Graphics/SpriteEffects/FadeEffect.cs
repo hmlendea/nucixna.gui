@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Graphics.Drawing;
+
 namespace NuciXNA.Graphics.SpriteEffects
 {
     /// <summary>
     /// Fade sprite effect.
     /// </summary>
-    public class FadeEffect : CustomSpriteEffect
+    public class FadeEffect : CustomSpriteEffect<Sprite>
     {
         /// <summary>
         /// Gets or sets the speed.

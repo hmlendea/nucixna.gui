@@ -3,22 +3,24 @@ using System.Xml.Serialization;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
+using NuciXNA.Graphics.Drawing;
 
 namespace NuciXNA.Graphics.SpriteEffects
 {
     /// <summary>
     /// Effect.
     /// </summary>
-    public class CustomSpriteEffect
+    public class CustomSpriteEffect<TSprite> where TSprite : Sprite
     {
         bool isContentLoaded;
-        protected Sprite Sprite;
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="CustomSpriteEffect"/> is active.
         /// </summary>
         /// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
         public bool Active { get; private set; }
+
+        protected TSprite Sprite { get; private set; }
 
         /// <summary>
         /// Gets the type.
@@ -45,8 +47,9 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public virtual void LoadContent()
+        public virtual void LoadContent(TSprite sprite)
         {
+            Sprite = sprite;
             isContentLoaded = true;
         }
 
@@ -68,19 +71,9 @@ namespace NuciXNA.Graphics.SpriteEffects
 
         }
 
-        public void AssociateSprite(Sprite sprite)
-        {
-            Sprite = sprite;
-        }
-
         public void Activate()
         {
             Active = true;
-
-            if (!isContentLoaded)
-            {
-                LoadContent();
-            }
         }
 
         public void Deactivate()

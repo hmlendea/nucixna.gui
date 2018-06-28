@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Graphics.Drawing;
+
 namespace NuciXNA.Graphics.SpriteEffects
 {
     /// <summary>
     /// Rotation sprite effect.
     /// </summary>
-    public class RotationEffect : CustomSpriteEffect
+    public class RotationEffect : CustomSpriteEffect<Sprite>
     {
         bool isIncreasing;
 

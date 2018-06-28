@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Graphics.Drawing;
+
 namespace NuciXNA.Graphics.SpriteEffects
 {
     /// <summary>
     /// Zoom sprite effect.
     /// </summary>
-    public class ZoomEffect : CustomSpriteEffect
+    public class ZoomEffect : CustomSpriteEffect<Sprite>
     {
         bool isIncreasing;
 

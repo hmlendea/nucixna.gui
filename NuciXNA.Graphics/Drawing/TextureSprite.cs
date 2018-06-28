@@ -5,86 +5,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.DataAccess.Resources;
-using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.Enumerations;
-using NuciXNA.Graphics.Helpers;
 using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
 
-namespace NuciXNA.Graphics
+
+namespace NuciXNA.Graphics.Drawing
 {
-    /// <summary>
-    /// Sprite.
-    /// </summary>
-    public class Sprite
+    public class TextureSprite : Sprite
     {
-        SpriteFont font;
         Texture2D alphaMask;
 
         string loadedContentFile;
         string loadedAlphaMaskFile;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Sprite"/> is active.
-        /// </summary>
-        /// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
-        public bool Active { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tint.
-        /// </summary>
-        /// <value>The tint.</value>
-        public Colour Tint { get; set; }
-
-        /// <summary>
-        /// Gets or sets the opacity.
-        /// </summary>
-        /// <value>The opacity.</value>
-        public float Opacity { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation.
-        /// </summary>
-        /// <value>The rotation.</value>
-        public float Rotation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the zoom.
-        /// </summary>
-        /// <value>The zoom.</value>
-        public float Zoom { get; set; }
-
-        /// <summary>
-        /// Gets or sets the text.
-        /// </summary>
-        /// <value>The text.</value>
-        public string Text { get; set; }
-
-        // TODO: Make this a number (Outline size)
-        /// <summary>
-        /// Gets or sets a value indicating whether the text of the <see cref="Sprite"/> will be outlined.
-        /// </summary>
-        /// <value><c>true</c> if the text is outlined; otherwise, <c>false</c>.</value>
-        public FontOutline FontOutline { get; set; }
-
-        /// <summary>
-        /// Gets or sets the text horizontal alignment.
-        /// </summary>
-        /// <value>The text horizontal alignment.</value>
-        public HorizontalAlignment TextHorizontalAlignment { get; set; }
-
-        /// <summary>
-        /// Gets or sets the text vertical alignment.
-        /// </summary>
-        /// <value>The text vertical alignment.</value>
-        public VerticalAlignment TextVerticalAlignment { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the font.
-        /// </summary>
-        /// <value>The name of the font.</value>
-        public string FontName { get; set; }
 
         /// <summary>
         /// Gets or sets the content file.
@@ -97,47 +30,6 @@ namespace NuciXNA.Graphics
         /// </summary>
         /// <value>The alpha mask path.</value>
         public string AlphaMaskFile { get; set; }
-
-        /// <summary>
-        /// Gets or sets the location.
-        /// </summary>
-        /// <value>The location.</value>
-        public Point2D Location { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size.
-        /// </summary>
-        /// <value>The size.</value>
-        public Size2D SpriteSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the scale.
-        /// </summary>
-        /// <value>The scale.</value>
-        public Scale2D Scale { get; set; }
-
-        /// <summary>
-        /// Gets or sets the source rectangle.
-        /// </summary>
-        /// <value>The source rectangle.</value>
-        [XmlIgnore]
-        public Rectangle2D SourceRectangle { get; set; }
-
-        /// <summary>
-        /// Gets the covered screen area.
-        /// </summary>
-        /// <value>The covered screen area.</value>
-        public Rectangle2D ClientRectangle
-        {
-            get
-            {
-                return new Rectangle2D(
-                    Location.X,
-                    Location.Y,
-                    (int)(SourceRectangle.Width * Scale.Horizontal),
-                    (int)(SourceRectangle.Height * Scale.Vertical));
-            }
-        }
 
         /// <summary>
         /// Gets the texture.
@@ -154,6 +46,29 @@ namespace NuciXNA.Graphics
         public Size2D TextureSize => new Size2D(Texture.Width, Texture.Height);
 
         /// <summary>
+        /// Gets or sets the source rectangle.
+        /// </summary>
+        /// <value>The source rectangle.</value>
+        [XmlIgnore]
+        public Rectangle2D SourceRectangle { get; set; }
+
+        /// <summary>
+        /// Gets the covered screen area.
+        /// </summary>
+        /// <value>The covered screen area.</value>
+        public override Rectangle2D ClientRectangle
+        {
+            get
+            {
+                return new Rectangle2D(
+                    Location.X,
+                    Location.Y,
+                    (int)(SourceRectangle.Width * Scale.Horizontal),
+                    (int)(SourceRectangle.Height * Scale.Vertical));
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the fill mode.
         /// </summary>
         /// <value>The fill mode.</value>
@@ -166,74 +81,35 @@ namespace NuciXNA.Graphics
         public AnimationEffect AnimationEffect { get; set; }
 
         /// <summary>
-        /// Gets or sets the fade effect.
-        /// </summary>
-        /// <value>The fade effect.</value>
-        public FadeEffect FadeEffect { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation effect.
-        /// </summary>
-        /// <value>The rotation effect.</value>
-        public RotationEffect RotationEffect { get; set; }
-
-        /// <summary>
         /// Gets or sets the sprite sheet effect.
         /// </summary>
         /// <value>The sprite sheet effect.</value>
         public SpriteSheetEffect SpriteSheetEffect { get; set; }
 
         /// <summary>
-        /// Gets or sets the zoom effect.
-        /// </summary>
-        /// <value>The zoom effect.</value>
-        public ZoomEffect ZoomEffect { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Sprite"/> class.
         /// </summary>
-        public Sprite()
+        public TextureSprite() : base()
         {
-            Active = true;
-
             ContentFile = string.Empty;
             AlphaMaskFile = string.Empty;
-            Text = string.Empty;
 
-            Location = Point2D.Empty;
             SourceRectangle = Rectangle2D.Empty;
-
-            Opacity = 1.0f;
-            Zoom = 1.0f;
-            Scale = Scale2D.One;
             TextureLayout = TextureLayout.Stretch;
-
-            Tint = Colour.White;
         }
 
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public void LoadContent()
+        public override void LoadContent()
         {
-            AnimationEffect?.AssociateSprite(this);
-            FadeEffect?.AssociateSprite(this);
-            RotationEffect?.AssociateSprite(this);
-            SpriteSheetEffect?.AssociateSprite(this);
-            ZoomEffect?.AssociateSprite(this);
+            base.LoadContent();
 
-            if (string.IsNullOrWhiteSpace(Text))
-            {
-                Text = string.Empty;
-            }
+            AnimationEffect?.LoadContent(this);
+            SpriteSheetEffect?.LoadContent(this);
 
             LoadContentFile();
             LoadAlphaMaskFile();
-
-            if (!string.IsNullOrEmpty(FontName))
-            {
-                font = ResourceManager.Instance.LoadSpriteFont("Fonts/" + FontName);
-            }
 
             if (SpriteSize == Size2D.Empty)
             {
@@ -243,11 +119,6 @@ namespace NuciXNA.Graphics
                 {
                     size.Width = Texture.Width;
                     size.Height = Texture.Height;
-                }
-                else if (!string.IsNullOrEmpty(Text))
-                {
-                    size.Width = (int)font.MeasureString(Text).X;
-                    size.Height = (int)font.MeasureString(Text).Y;
                 }
                 else
                 {
@@ -285,55 +156,43 @@ namespace NuciXNA.Graphics
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public void UnloadContent()
+        public override void UnloadContent()
         {
+            base.UnloadContent();
+
             AnimationEffect?.UnloadContent();
-            FadeEffect?.UnloadContent();
-            RotationEffect?.UnloadContent();
             SpriteSheetEffect?.UnloadContent();
-            ZoomEffect?.UnloadContent();
+
+            Texture = null;
+            alphaMask = null;
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            LoadContentFile();
-            LoadAlphaMaskFile();
+            base.Update(gameTime);
 
             AnimationEffect?.Update(gameTime);
-            FadeEffect?.Update(gameTime);
-            RotationEffect?.Update(gameTime);
             SpriteSheetEffect?.Update(gameTime);
-            ZoomEffect?.Update(gameTime);
+
+            LoadContentFile();
+            LoadAlphaMaskFile();
         }
 
         /// <summary>
         /// Draws the content.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            Point2D origin = new Point2D(SourceRectangle.Width / 2,
-                                         SourceRectangle.Height / 2);
-
             Colour colour = Tint;
-            colour.A = (byte)(colour.A * Opacity);
-
-            if (!string.IsNullOrEmpty(Text))
-            {
-                StringDrawer.Draw(
-                    spriteBatch,
-                    font,
-                    StringUtils.WrapText(font, Text, SpriteSize.Width),
-                    ClientRectangle,
-                    colour,
-                    TextHorizontalAlignment,
-                    TextVerticalAlignment,
-                    FontOutline);
-            }
+            float rotation = Rotation;
+            float zoom = Zoom;
+            Point2D origin = new Point2D(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
+            Scale2D scale;
 
             // TODO: Do not do this for every Draw call
             Texture2D textureToDraw = Texture;
@@ -343,32 +202,6 @@ namespace NuciXNA.Graphics
             {
                 textureToDraw = TextureBlend(Texture, alphaMask);
             }
-
-            if (TextureLayout == TextureLayout.Stretch)
-            {
-                DrawTextureStretched(spriteBatch, textureToDraw, colour, origin);
-            }
-            else if (TextureLayout == TextureLayout.Tile)
-            {
-                TextureDrawer.Draw(
-                    spriteBatch,
-                    textureToDraw,
-                    Location,
-                    new Rectangle(0, 0, ClientRectangle.Width, ClientRectangle.Height),
-                    colour,
-                    SpriteSortMode.Deferred,
-                    SamplerState.LinearWrap);
-            }
-        }
-
-        void DrawTextureStretched(
-            SpriteBatch spriteBatch,
-            Texture2D texture,
-            Colour tint,
-            Point2D origin)
-        {
-            float rotation = Rotation;
-            float zoom = Zoom;
 
             if (RotationEffect != null && RotationEffect.Active)
             {
@@ -380,21 +213,21 @@ namespace NuciXNA.Graphics
                 zoom += ZoomEffect.CurrentZoom;
             }
 
+            colour.A = (byte)(colour.A * Opacity);
+            scale = new Scale2D(Scale.Horizontal * zoom, Scale.Vertical * zoom);
+
             TextureDrawer.Draw(
                 spriteBatch,
-                texture,
-                new Point2D(
-                    Location.X + ClientRectangle.Width / 2,
-                    Location.Y + ClientRectangle.Height / 2),
+                textureToDraw,
+                Location,
                 SourceRectangle,
-                tint,
+                colour,
                 rotation,
                 origin,
-                new Scale2D(
-                    Scale.Horizontal * zoom,
-                    Scale.Vertical * zoom));
+                scale,
+                TextureLayout);
         }
-        
+
         Texture2D TextureBlend(Texture2D source, Texture2D mask)
         {
             Color[] textureBits = new Color[source.Width * source.Height];
@@ -432,10 +265,11 @@ namespace NuciXNA.Graphics
                 int indexTexture = x - startX + (y - startY) * source.Width;
                 int indexMask = x - startX + (y - startY) * mask.Width;
 
-                textureBits[indexTexture] = Color.FromNonPremultiplied(textureBits[indexTexture].R,
-                                                                       textureBits[indexTexture].G,
-                                                                       textureBits[indexTexture].B,
-                                                                       textureBits[indexTexture].A - 255 + maskBits[indexMask].R);
+                textureBits[indexTexture] = Color.FromNonPremultiplied(
+                    textureBits[indexTexture].R,
+                    textureBits[indexTexture].G,
+                    textureBits[indexTexture].B,
+                    textureBits[indexTexture].A - 255 + maskBits[indexMask].R);
             }));
 
             Texture2D blendedTexture = new Texture2D(source.GraphicsDevice, source.Width, source.Height);

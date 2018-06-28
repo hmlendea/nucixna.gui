@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Primitives;
 
 namespace NuciXNA.Graphics.SpriteEffects
@@ -8,7 +9,7 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// <summary>
     /// Animation sprite effect.
     /// </summary>
-    public class AnimationEffect : CustomSpriteEffect
+    public class AnimationEffect : CustomSpriteEffect<TextureSprite>
     {
         /// <summary>
         /// Gets or sets the frame counter.

@@ -1,11 +1,12 @@
 ﻿using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Primitives;
 
 namespace NuciXNA.Graphics.SpriteEffects
 {
-    public abstract class SpriteSheetEffect : CustomSpriteEffect
+    public abstract class SpriteSheetEffect : CustomSpriteEffect<TextureSprite>
     {
         public int FrameCounter { get; set; }
 
@@ -27,9 +28,9 @@ namespace NuciXNA.Graphics.SpriteEffects
             FrameSize = Size2D.Empty;
         }
 
-        public override void LoadContent()
+        public override void LoadContent(TextureSprite sprite)
         {
-            base.LoadContent();
+            base.LoadContent(sprite);
 
             FrameSize = new Size2D(
                 Sprite.TextureSize.Width / FrameAmount.Width,
