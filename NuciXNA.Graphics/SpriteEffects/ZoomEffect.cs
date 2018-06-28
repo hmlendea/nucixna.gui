@@ -18,22 +18,22 @@ namespace NuciXNA.Graphics.SpriteEffects
         public float Speed { get; set; }
 
         /// <summary>
+        /// Gets or sets the current zoom.
+        /// </summary>
+        /// <value>The current zoom.</value>
+        public float Value { get; private set; }
+
+        /// <summary>
         /// Gets or sets the minimum zoom.
         /// </summary>
         /// <value>The minimum zoom.</value>
-        public float MinimumZoom { get; set; }
+        public float MinimumValue { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum zoom.
         /// </summary>
         /// <value>The maximum zoom.</value>
-        public float MaximumZoom { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current zoom.
-        /// </summary>
-        /// <value>The current zoom.</value>
-        public float CurrentZoom { get; private set; }
+        public float MaximumValue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZoomEffect"/> class.
@@ -41,8 +41,8 @@ namespace NuciXNA.Graphics.SpriteEffects
         public ZoomEffect()
         {
             Speed = 0.1f;
-            MinimumZoom = 0.75f;
-            MaximumZoom = 1.25f;
+            MinimumValue = 0.75f;
+            MaximumValue = 1.25f;
             isIncreasing = true;
         }
 
@@ -56,35 +56,31 @@ namespace NuciXNA.Graphics.SpriteEffects
             
             if (!Active)
             {
-                CurrentZoom = MaximumZoom;
+                Value = MaximumValue;
                 return;
             }
 
             float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            switch (isIncreasing)
+            if (isIncreasing)
             {
-                case true:
-                    CurrentZoom += delta;
+                Value += delta;
 
-                    if (CurrentZoom >= MaximumZoom)
-                    {
-                        CurrentZoom = MaximumZoom;
-                        isIncreasing = false;
-                    }
+                if (Value >= MaximumValue)
+                {
+                    Value = MaximumValue;
+                    isIncreasing = false;
+                }
+            }
+            else
+            {
+                Value -= delta;
 
-                    break;
-
-                case false:
-                    CurrentZoom -= delta;
-
-                    if (CurrentZoom <= MinimumZoom)
-                    {
-                        CurrentZoom = MinimumZoom;
-                        isIncreasing = true;
-                    }
-
-                    break;
+                if (Value <= MinimumValue)
+                {
+                    Value = MinimumValue;
+                    isIncreasing = true;
+                }
             }
         }
     }

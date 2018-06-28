@@ -83,7 +83,31 @@ namespace NuciXNA.Graphics.Drawing
         /// <value>The zoom effect.</value>
         public ZoomEffect ZoomEffect { get; set; }
 
-        protected float FinalRotation
+        public float ClientOpacity
+        {
+            get
+            {
+                float value = Opacity;
+
+                if (FadeEffect != null && FadeEffect.Active)
+                {
+                    value += FadeEffect.Value;
+                }
+
+                if (value < 0.0f)
+                {
+                    return 0.0f;
+                }
+                else if (value > 1.0f)
+                {
+                    return 1.0f;
+                }
+
+                return value;
+            }
+        }
+
+        public float ClientRotation
         {
             get
             {
@@ -91,14 +115,14 @@ namespace NuciXNA.Graphics.Drawing
 
                 if (RotationEffect != null && RotationEffect.Active)
                 {
-                    value += RotationEffect.CurrentRotation;
+                    value += RotationEffect.Value;
                 }
 
                 return value;
             }
         }
 
-        protected float FinalZoom
+        public float ClientZoom
         {
             get
             {
@@ -106,14 +130,14 @@ namespace NuciXNA.Graphics.Drawing
 
                 if (ZoomEffect != null && ZoomEffect.Active)
                 {
-                    value += ZoomEffect.CurrentZoom;
+                    value += ZoomEffect.Value;
                 }
 
                 return value;
             }
         }
 
-        protected Scale2D FinalScale => new Scale2D(Scale.Horizontal * FinalZoom, Scale.Vertical * FinalZoom);
+        public Scale2D ClientScale => new Scale2D(Scale.Horizontal * ClientZoom, Scale.Vertical * ClientZoom);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Sprite"/> class.

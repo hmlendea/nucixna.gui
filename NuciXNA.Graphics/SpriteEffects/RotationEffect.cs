@@ -21,19 +21,19 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Gets or sets the minimum rotation.
         /// </summary>
         /// <value>The minimum rotation.</value>
-        public float MinimumRotation { get; set; }
+        public float MinimumValue { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum rotation.
         /// </summary>
         /// <value>The maximum rotation.</value>
-        public float MaximumRotation { get; set; }
+        public float MaximumValue { get; set; }
 
         /// <summary>
         /// Gets or sets the current rotation.
         /// </summary>
         /// <value>The current rotation.</value>
-        public float CurrentRotation { get; set; }
+        public float Value { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RotationEffect"/> class.
@@ -41,8 +41,8 @@ namespace NuciXNA.Graphics.SpriteEffects
         public RotationEffect()
         {
             Speed = 1.0f;
-            MinimumRotation = 0.5f;
-            MaximumRotation = 1.5f;
+            MinimumValue = 0.5f;
+            MaximumValue = 1.5f;
             isIncreasing = false;
         }
 
@@ -56,35 +56,31 @@ namespace NuciXNA.Graphics.SpriteEffects
 
             if (!Active)
             {
-                CurrentRotation = MaximumRotation;
+                Value = MaximumValue;
                 return;
             }
 
             float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            switch (isIncreasing)
+            if (isIncreasing)
             {
-                case true:
-                    CurrentRotation += delta;
+                Value += delta;
 
-                    if (CurrentRotation >= MaximumRotation)
-                    {
-                        CurrentRotation = MaximumRotation;
-                        isIncreasing = false;
-                    }
+                if (Value >= MaximumValue)
+                {
+                    Value = MaximumValue;
+                    isIncreasing = false;
+                }
+            }
+            else
+            {
+                Value -= delta;
 
-                    break;
-
-                case false:
-                    CurrentRotation -= delta;
-
-                    if (CurrentRotation <= MinimumRotation)
-                    {
-                        CurrentRotation = MinimumRotation;
-                        isIncreasing = true;
-                    }
-
-                    break;
+                if (Value <= MinimumValue)
+                {
+                    Value = MinimumValue;
+                    isIncreasing = true;
+                }
             }
         }
     }

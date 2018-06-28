@@ -15,17 +15,19 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// <value>The speed.</value>
         public float Speed { get; set; }
 
+        public float Value { get; private set; }
+
         /// <summary>
         /// Gets or sets the minimum opacity.
         /// </summary>
         /// <value>The minimum opacity.</value>
-        public float MinimumOpacity { get; set; }
+        public float MinimumValue { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum opacity.
         /// </summary>
         /// <value>The maximum opacity.</value>
-        public float MaximumOpacity { get; set; }
+        public float MaximumValue { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="FadeEffect"/> is increasing.
@@ -39,8 +41,8 @@ namespace NuciXNA.Graphics.SpriteEffects
         public FadeEffect()
         {
             Speed = 1;
-            MinimumOpacity = 0.0f;
-            MaximumOpacity = 1.0f;
+            MinimumValue = 0.0f;
+            MaximumValue = 1.0f;
             Increasing = false;
         }
 
@@ -56,27 +58,27 @@ namespace NuciXNA.Graphics.SpriteEffects
             {
                 if (Increasing == false)
                 {
-                    Sprite.Opacity -= Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    Value -= Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                 }
                 else
                 {
-                    Sprite.Opacity += Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    Value += Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                 }
 
-                if (Sprite.Opacity < MinimumOpacity)
+                if (Value < MinimumValue)
                 {
                     Increasing = true;
-                    Sprite.Opacity = MinimumOpacity;
+                    Value = MinimumValue;
                 }
-                else if (Sprite.Opacity > MaximumOpacity)
+                else if (Value > MaximumValue)
                 {
                     Increasing = false;
-                    Sprite.Opacity = MaximumOpacity;
+                    Value = MaximumValue;
                 }
             }
             else
             {
-                Sprite.Opacity = MaximumOpacity;
+                Value = MaximumValue;
             }
         }
     }

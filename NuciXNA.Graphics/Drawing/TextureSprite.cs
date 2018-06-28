@@ -204,10 +204,10 @@ namespace NuciXNA.Graphics.Drawing
                 Location,
                 SourceRectangle,
                 Tint,
-                Opacity,
-                FinalRotation,
+                ClientOpacity,
+                ClientRotation,
                 origin,
-                FinalScale,
+                ClientScale,
                 TextureLayout);
         }
 
