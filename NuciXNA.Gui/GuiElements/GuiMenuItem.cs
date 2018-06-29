@@ -10,7 +10,7 @@ namespace NuciXNA.Gui.GuiElements
     /// <summary>
     /// Menu item GUI element.
     /// </summary>
-    public class GuiMenuItem : GuiElement
+    public abstract class GuiMenuItem : GuiElement
     {
         /// <summary>
         /// Gets or sets the text.

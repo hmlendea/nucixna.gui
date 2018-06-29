@@ -28,45 +28,13 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         /// <value>The spacing.</value>
         public int Spacing { get; set; }
-
-        /// <summary>
-        /// Gets or sets the links.
-        /// </summary>
-        /// <value>The links.</value>
-        [XmlElement("Link")]
-        public List<GuiMenuLink> Links { get; set; }
-
-        /// <summary>
-        /// Gets or sets the toggles.
-        /// </summary>
-        /// <value>The toggles.</value>
-        [XmlElement("Toggle")]
-        public List<GuiMenuToggle> Toggles { get; set; }
-
-        /// <summary>
-        /// Gets or sets the actions.
-        /// </summary>
-        /// <value>The actions.</value>
-        [XmlElement("Action")]
-        public List<GuiMenuAction> Actions { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list selectors.
-        /// </summary>
-        /// <value>The list selectors.</value>
-        [XmlElement("ListSelector")]
-        public List<GuiMenuListSelector> ListSelectors { get; set; }
-
+        
         /// <summary>
         /// Gets all the items.
         /// </summary>
         /// <value>The items.</value>
         [XmlIgnore]
-        public List<GuiMenuItem> Items =>
-            Toggles.Select(x => (GuiMenuItem)x).Concat(
-            Links.Select(x => (GuiMenuItem)x)).Concat(
-            Actions.Select(x => (GuiMenuItem)x)).Concat(
-            ListSelectors.Select(x => (GuiMenuItem)x)).ToList();
+        public List<GuiMenuItem> Items { get; set; }
 
         /// <summary>
         /// Gets the item number.
@@ -85,10 +53,7 @@ namespace NuciXNA.Gui.Screens
             Axis = MenuScreenAxis.Vertical;
             Spacing = 32;
 
-            Links = new List<GuiMenuLink>();
-            Toggles = new List<GuiMenuToggle>();
-            Actions = new List<GuiMenuAction>();
-            ListSelectors = new List<GuiMenuListSelector>();
+            Items = new List<GuiMenuItem>();
         }
 
         /// <summary>
@@ -96,10 +61,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public override void LoadContent()
         {
-            GuiManager.Instance.GuiElements.AddRange(Toggles);
-            GuiManager.Instance.GuiElements.AddRange(Links);
-            GuiManager.Instance.GuiElements.AddRange(Actions);
-            GuiManager.Instance.GuiElements.AddRange(ListSelectors);
+            GuiManager.Instance.GuiElements.AddRange(Items);
 
             base.LoadContent();
 
