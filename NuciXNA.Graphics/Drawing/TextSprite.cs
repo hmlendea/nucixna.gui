@@ -58,6 +58,7 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         public TextSprite() : base()
         {
+            OutlineColour = Colour.Black;
             Text = string.Empty;
         }
 
