@@ -98,24 +98,56 @@ namespace NuciXNA.Primitives
             A = (byte)a;
         }
 
-        public static Colour Transparent => new Colour(0, 0, 0, 0);
+        public static Colour Transparent => new Colour(255, 255, 255, 0);
+        public static Colour TransparentBlack => new Colour(0, 0, 0, 0);
 
-        public static Colour Bisque => new Colour(255, 228, 196, 25);
+        // XNA colours
+        public static Colour AliceBlue => new Colour(240, 248, 255, 255);
+        public static Colour Bisque => new Colour(255, 228, 196, 255);
         public static Colour Black => new Colour(0, 0, 0, 255);
         public static Colour Blue => new Colour(0, 0, 255, 255);
-        public static Colour ChromeYellow => new Colour(252, 209, 22, 255);
-        public static Colour CobaltBlue => new Colour(0, 43, 127, 255);
         public static Colour CornflowerBlue => new Colour(100, 149, 237, 255);
+        public static Colour Cornsilk => new Colour(255, 248, 220, 255);
+        public static Colour Crimson => new Colour(220, 20, 60, 255);
         public static Colour DarkRed => new Colour(139, 0, 0, 255);
         public static Colour DodgerBlue => new Colour(30, 144, 255, 255);
         public static Colour Gold => new Colour(255, 215, 0, 255);
         public static Colour Green => new Colour(0, 255, 0, 255);
+        public static Colour Olive => new Colour(128, 128, 0, 255);
         public static Colour OliveDrab => new Colour(107, 142, 45, 255);
-        public static Colour PersianRed => new Colour(200, 29, 17, 255);
         public static Colour Red => new Colour(255, 0, 0, 255);
-        public static Colour Vermilion => new Colour(206, 17, 38, 255);
+        public static Colour SeaGreen => new Colour(46, 139, 87, 255);
+        public static Colour Teal => new Colour(0, 128, 128, 255);
         public static Colour White => new Colour(255, 255, 255, 255);
         public static Colour Yellow => new Colour(255, 255, 0, 255);
+
+        // NuciXNA colours
+        public static Colour CobaltBlue => new Colour(0, 43, 127, 255);
+        public static Colour ChromeYellow => new Colour(252, 209, 22, 255);
+        public static Colour Greenery => new Colour(136, 176, 75, 255);
+        public static Colour PersianRed => new Colour(200, 29, 17, 255);
+        public static Colour Vermilion => new Colour(227, 66, 52, 255);
+        public static Colour VermilionRed => new Colour(206, 17, 38, 255);
+
+        // Material colours
+        public static Colour MaterialRed => new Colour(244, 67, 54, 255);
+        public static Colour MaterialPink => new Colour(233, 30, 99, 255);
+        public static Colour MaterialPurple => new Colour(103, 58, 183, 255);
+        public static Colour MaterialIndigo => new Colour(63, 81, 181, 255);
+        public static Colour MaterialBlue => new Colour(33, 150, 243, 255);
+        public static Colour MaterialLightBlue => new Colour(3, 169, 244, 255);
+        public static Colour MaterialCyan => new Colour(0, 188, 212, 255);
+        public static Colour MaterialTeal => new Colour(0, 150, 136, 255);
+        public static Colour MaterialGreen => new Colour(76, 175, 80, 255);
+        public static Colour MaterialLightGreen => new Colour(139, 195, 74, 255);
+        public static Colour MaterialLime => new Colour(205, 220, 57, 255);
+        public static Colour MaterialYellow => new Colour(255, 235, 59, 255);
+        public static Colour MaterialAmber => new Colour(255, 193, 7, 255);
+        public static Colour MaterialOrange => new Colour(255, 152, 0, 255);
+        public static Colour MaterialDeepOrange => new Colour(255, 87, 34, 255);
+        public static Colour MaterialBrown => new Colour(121, 85, 72, 255);
+        public static Colour MaterialGrey => new Colour(158, 158, 158, 255);
+        public static Colour MaterialBlueGrey => new Colour(96, 125, 139, 255);
 
         /// <summary>
         /// Creates a colour from an ARGB integer.
