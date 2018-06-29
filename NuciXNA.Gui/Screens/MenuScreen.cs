@@ -131,14 +131,13 @@ namespace NuciXNA.Gui.Screens
         {
             base.OnMouseMoved(sender, e);
 
-            // TODO: Optimise this
-            for (int i = 0; i < Items.Count; i++)
+            int index = Items.FindIndex(x =>
+                x.Selectable &&
+                x.DisplayRectangle.Contains(e.Location.ToPoint2D()));
+
+            if (index >= 0)
             {
-                if (Items[i].Selectable &&
-                    Items[i].DisplayRectangle.Contains(e.Location.ToPoint2D()))
-                {
-                    ItemNumber = i;
-                }
+                ItemNumber = index;
             }
         }
 

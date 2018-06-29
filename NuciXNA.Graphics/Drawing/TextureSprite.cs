@@ -107,8 +107,7 @@ namespace NuciXNA.Graphics.Drawing
             AnimationEffect?.LoadContent(this);
             SpriteSheetEffect?.LoadContent(this);
 
-            LoadContentFile();
-            LoadAlphaMaskFile();
+            Texture = LoadTexture();
 
             if (SpriteSize == Size2D.Empty)
             {
@@ -163,7 +162,6 @@ namespace NuciXNA.Graphics.Drawing
             SpriteSheetEffect?.UnloadContent();
 
             Texture = null;
-            alphaMask = null;
         }
 
         /// <summary>
@@ -177,8 +175,10 @@ namespace NuciXNA.Graphics.Drawing
             AnimationEffect?.Update(gameTime);
             SpriteSheetEffect?.Update(gameTime);
 
-            LoadContentFile();
-            LoadAlphaMaskFile();
+            if (loadedContentFile != ContentFile || loadedAlphaMaskFile != AlphaMaskFile)
+            {
+                Texture = LoadTexture();
+            }
         }
 
         /// <summary>
@@ -188,19 +188,10 @@ namespace NuciXNA.Graphics.Drawing
         public override void Draw(SpriteBatch spriteBatch)
         {
             Point2D origin = new Point2D(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
-
-            // TODO: Do not do this for every Draw call
-            Texture2D textureToDraw = Texture;
-
-            // TODO: Find a better way to do this, because this one doesn't keep the mipmaps
-            if (alphaMask != null)
-            {
-                textureToDraw = TextureBlend(Texture, alphaMask);
-            }
             
             TextureDrawer.Draw(
                 spriteBatch,
-                textureToDraw,
+                Texture,
                 Location,
                 SourceRectangle,
                 Tint,
@@ -209,6 +200,29 @@ namespace NuciXNA.Graphics.Drawing
                 origin,
                 ClientScale,
                 TextureLayout);
+        }
+
+        Texture2D LoadTexture()
+        {
+            Texture2D texture = null;
+
+            if (string.IsNullOrWhiteSpace(ContentFile))
+            {
+                return texture;
+            }
+
+            texture = ResourceManager.Instance.LoadTexture2D(ContentFile);
+            loadedContentFile = ContentFile;
+
+            if (!string.IsNullOrWhiteSpace(AlphaMaskFile))
+            {
+                Texture2D alphaMask = ResourceManager.Instance.LoadTexture2D(AlphaMaskFile);
+                loadedAlphaMaskFile = AlphaMaskFile;
+
+                texture = TextureBlend(texture, alphaMask);
+            }
+
+            return texture;
         }
 
         Texture2D TextureBlend(Texture2D source, Texture2D mask)
@@ -259,30 +273,6 @@ namespace NuciXNA.Graphics.Drawing
             blendedTexture.SetData(textureBits);
 
             return blendedTexture;
-        }
-
-        void LoadContentFile()
-        {
-            if (loadedContentFile == ContentFile || string.IsNullOrEmpty(ContentFile))
-            {
-                return;
-            }
-
-            Texture = ResourceManager.Instance.LoadTexture2D(ContentFile);
-
-            loadedContentFile = ContentFile;
-        }
-
-        void LoadAlphaMaskFile()
-        {
-            if (loadedAlphaMaskFile == AlphaMaskFile || string.IsNullOrEmpty(AlphaMaskFile))
-            {
-                return;
-            }
-
-            alphaMask = ResourceManager.Instance.LoadTexture2D(AlphaMaskFile);
-
-            loadedAlphaMaskFile = AlphaMaskFile;
         }
     }
 }
