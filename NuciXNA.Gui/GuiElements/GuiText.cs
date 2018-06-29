@@ -44,6 +44,8 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
+        public Colour OutlineColour { get; set; }
+
         public FontOutline FontOutline { get; set; }
 
         /// <summary>
@@ -85,6 +87,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             HorizontalAlignment = HorizontalAlignment.Centre;
             VerticalAlignment = VerticalAlignment.Centre;
+            OutlineColour = Colour.Black;
         }
 
         /// <summary>
@@ -162,6 +165,7 @@ namespace NuciXNA.Gui.GuiElements
 
             textSprite.Text = Text;
             textSprite.FontName = FontName;
+            textSprite.OutlineColour = OutlineColour;
             textSprite.FontOutline = FontOutline;
             textSprite.Tint = ForegroundColour;
             textSprite.Opacity = Opacity;

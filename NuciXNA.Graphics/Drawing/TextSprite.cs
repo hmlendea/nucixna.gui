@@ -25,6 +25,8 @@ namespace NuciXNA.Graphics.Drawing
         /// <value>The name of the font.</value>
         public string FontName { get; set; }
 
+        public Colour OutlineColour { get; set; }
+
         // TODO: Make this a number (Outline size)
         /// <summary>
         /// Gets or sets a value indicating whether the text of the <see cref="Sprite"/> will be outlined.
@@ -120,6 +122,7 @@ namespace NuciXNA.Graphics.Drawing
                 WrapText(font, Text, SpriteSize.Width),
                 ClientRectangle,
                 Tint,
+                OutlineColour,
                 Opacity,
                 TextHorizontalAlignment,
                 TextVerticalAlignment,

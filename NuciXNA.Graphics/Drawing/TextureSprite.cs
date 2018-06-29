@@ -13,8 +13,6 @@ namespace NuciXNA.Graphics.Drawing
 {
     public class TextureSprite : Sprite
     {
-        Texture2D alphaMask;
-
         string loadedContentFile;
         string loadedAlphaMaskFile;
 

@@ -15,7 +15,8 @@ namespace NuciXNA.Graphics.Drawing
             SpriteFont font,
             string text,
             Rectangle2D bounds,
-            Colour colour,
+            Colour fontColour,
+            Colour outlineColour,
             float opacity,
             HorizontalAlignment hAlign,
             VerticalAlignment vAlign,
@@ -28,6 +29,7 @@ namespace NuciXNA.Graphics.Drawing
 
             Vector2 textOrigin = Vector2.Zero;
             Vector2 totalSize = font.MeasureString(text);
+            Color clrOutline = outlineColour.ToXnaColor();
             
             string[] lines = text.Split('\n');
 
@@ -66,9 +68,8 @@ namespace NuciXNA.Graphics.Drawing
                             Vector2 pos = new Vector2(
                                 bounds.X + dx + textOrigin.X,
                                 bounds.Y + dy + textOrigin.Y);
-
-                            // TODO: Do not hardcode the outline colour
-                            spriteBatch.DrawString(font, line, pos, Color.Black);
+                            
+                            spriteBatch.DrawString(font, line, pos, clrOutline);
                         }
                     }
                 }
@@ -77,12 +78,11 @@ namespace NuciXNA.Graphics.Drawing
                     Vector2 pos = new Vector2(
                         bounds.X + 1 + textOrigin.X,
                         bounds.Y + 1 + textOrigin.Y);
-
-                    // TODO: Do not hardcode the outline colour
-                    spriteBatch.DrawString(font, line, pos, Color.Black);
+                    
+                    spriteBatch.DrawString(font, line, pos, clrOutline);
                 }
 
-                spriteBatch.DrawString(font, line, new Vector2(bounds.X, bounds.Y) + textOrigin, colour.ToXnaColor());
+                spriteBatch.DrawString(font, line, new Vector2(bounds.X, bounds.Y) + textOrigin, fontColour.ToXnaColor());
 
                 textOrigin.Y += lineSize.Y;
             }
