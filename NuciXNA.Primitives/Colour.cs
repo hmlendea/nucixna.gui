@@ -97,29 +97,40 @@ namespace NuciXNA.Primitives
         {
             A = (byte)a;
         }
-
-        public static Colour Transparent => new Colour(255, 255, 255, 0);
-        public static Colour TransparentBlack => new Colour(0, 0, 0, 0);
+        
+        public static Colour Transparent => new Colour(0, 0, 0, 0);
 
         // XNA colours
         public static Colour AliceBlue => new Colour(240, 248, 255, 255);
+        public static Colour Aqua => new Colour(0, 255, 255, 255);
+        public static Colour Aquamarine => new Colour(127, 255, 212, 255);
         public static Colour Bisque => new Colour(255, 228, 196, 255);
         public static Colour Black => new Colour(0, 0, 0, 255);
         public static Colour Blue => new Colour(0, 0, 255, 255);
+        public static Colour Chocolate => new Colour(210, 105, 30, 255);
         public static Colour CornflowerBlue => new Colour(100, 149, 237, 255);
         public static Colour Cornsilk => new Colour(255, 248, 220, 255);
         public static Colour Crimson => new Colour(220, 20, 60, 255);
+        public static Colour DarkGreen => new Colour(0, 100, 0, 255);
         public static Colour DarkRed => new Colour(139, 0, 0, 255);
+        public static Colour DimGray => new Colour(105, 105, 105, 255);
         public static Colour DodgerBlue => new Colour(30, 144, 255, 255);
         public static Colour Gold => new Colour(255, 215, 0, 255);
         public static Colour Green => new Colour(0, 255, 0, 255);
         public static Colour Olive => new Colour(128, 128, 0, 255);
         public static Colour OliveDrab => new Colour(107, 142, 45, 255);
+        public static Colour Orange => new Colour(255, 165, 0, 255);
         public static Colour Red => new Colour(255, 0, 0, 255);
+        public static Colour RoyalBlue => new Colour(65, 105, 255, 255);
+        public static Colour Salmon => new Colour(250, 128, 114, 255);
         public static Colour SeaGreen => new Colour(46, 139, 87, 255);
         public static Colour Teal => new Colour(0, 128, 128, 255);
+        public static Colour Thistle => new Colour(216, 191, 216, 255);
+        public static Colour Wheat => new Colour(245, 222, 179, 255);
         public static Colour White => new Colour(255, 255, 255, 255);
+        public static Colour WhiteSmoke => new Colour(245, 245, 245, 255);
         public static Colour Yellow => new Colour(255, 255, 0, 255);
+        public static Colour YellowGreen => new Colour(154, 205, 50, 255);
 
         // NuciXNA colours
         public static Colour CobaltBlue => new Colour(0, 43, 127, 255);
