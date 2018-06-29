@@ -58,6 +58,7 @@
     <Compile Include="GuiElements\GuiMenuItem.cs" />
     <Compile Include="GuiElements\GuiMenuLink.cs" />
     <Compile Include="GuiElements\GuiMenuListSelector.cs" />
+    <Compile Include="GuiElements\GuiMenuText.cs" />
     <Compile Include="GuiElements\GuiMenuToggle.cs" />
     <Compile Include="GuiElements\GuiText.cs" />
     <Compile Include="GuiElements\GuiTooltip.cs" />

@@ -17,6 +17,8 @@ namespace NuciXNA.Gui.Screens
     /// </summary>
     public class MenuScreen : Screen
     {
+        bool lastDirectionUp;
+
         /// <summary>
         /// Gets or sets the axis.
         /// </summary>
@@ -74,16 +76,7 @@ namespace NuciXNA.Gui.Screens
         /// <param name="gameTime">Game time.</param>
         public override void Update(GameTime gameTime)
         {
-            int newSelectedItemIndex = ItemNumber;
-
-            if (newSelectedItemIndex < 0)
-            {
-                newSelectedItemIndex = 0;
-            }
-            else if (newSelectedItemIndex > Items.Count - 1 && Items.Count > 0)
-            {
-                newSelectedItemIndex = Items.Count - 1;
-            }
+            int newSelectedItemIndex = GetNormalisedItemNumber(ItemNumber);
 
             GuiManager.Instance.FocusElement(Items[newSelectedItemIndex]);
 
@@ -141,7 +134,8 @@ namespace NuciXNA.Gui.Screens
             // TODO: Optimise this
             for (int i = 0; i < Items.Count; i++)
             {
-                if (Items[i].DisplayRectangle.Contains(e.Location.ToPoint2D()))
+                if (Items[i].Selectable &&
+                    Items[i].DisplayRectangle.Contains(e.Location.ToPoint2D()))
                 {
                     ItemNumber = i;
                 }
@@ -157,10 +151,12 @@ namespace NuciXNA.Gui.Screens
                 if (e.Key == Keys.W || e.Key == Keys.Up)
                 {
                     ItemNumber -= 1;
+                    lastDirectionUp = true;
                 }
                 else if (e.Key == Keys.S || e.Key == Keys.Down)
                 {
                     ItemNumber += 1;
+                    lastDirectionUp = false;
                 }
             }
             else if (Axis == MenuScreenAxis.Horizontal)
@@ -168,12 +164,51 @@ namespace NuciXNA.Gui.Screens
                 if (e.Key == Keys.D || e.Key == Keys.Right)
                 {
                     ItemNumber -= 1;
+                    lastDirectionUp = true;
                 }
                 else if (e.Key == Keys.A || e.Key == Keys.Left)
                 {
                     ItemNumber += 1;
+                    lastDirectionUp = false;
                 }
             }
+
+            ItemNumber = GetNormalisedItemNumber(ItemNumber);
+        }
+
+        int GetNormalisedItemNumber(int itemNumber)
+        {
+            int normalisedItemNumber = GetSafeItemNumber(itemNumber);
+
+            if (!Items[normalisedItemNumber].Selectable && Items.Any(x => x.Selectable))
+            {
+                if (lastDirectionUp)
+                {
+                    normalisedItemNumber -= 1;
+                }
+                else
+                {
+                    normalisedItemNumber += 1;
+                }
+            }
+
+            return GetSafeItemNumber(normalisedItemNumber);
+        }
+
+        int GetSafeItemNumber(int itemNumber)
+        {
+            int normalisedItemNumber = itemNumber;
+
+            if (normalisedItemNumber < 0)
+            {
+                normalisedItemNumber = Items.Count - 1;
+            }
+            else if (normalisedItemNumber >= Items.Count)
+            {
+                normalisedItemNumber = 0;
+            }
+
+            return normalisedItemNumber;
         }
     }
 }

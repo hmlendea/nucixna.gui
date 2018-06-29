@@ -24,6 +24,8 @@ namespace NuciXNA.Gui.GuiElements
         /// <value>The selected text colour.</value>
         public Colour SelectedTextColour { get; set; }
 
+        public virtual bool Selectable { get; }
+
         // TODO: Maybe implement my own handler and args
         /// <summary>
         /// Occurs when activated.
@@ -43,6 +45,7 @@ namespace NuciXNA.Gui.GuiElements
             ForegroundColour = Colour.White;
             SelectedTextColour = Colour.Gold;
 
+            Selectable = true;
             Size = new Size2D(512, 48);
         }
 
