@@ -102,6 +102,7 @@ namespace NuciXNA.Primitives
 
         // XNA colours
         public static Colour AliceBlue => new Colour(240, 248, 255, 255);
+        public static Colour AntiqueWhite => new Colour(250, 235, 215, 255);
         public static Colour Aqua => new Colour(0, 255, 255, 255);
         public static Colour Aquamarine => new Colour(127, 255, 212, 255);
         public static Colour Bisque => new Colour(255, 228, 196, 255);
@@ -124,8 +125,14 @@ namespace NuciXNA.Primitives
         public static Colour RoyalBlue => new Colour(65, 105, 255, 255);
         public static Colour Salmon => new Colour(250, 128, 114, 255);
         public static Colour SeaGreen => new Colour(46, 139, 87, 255);
+        public static Colour SkyBlue => new Colour(135, 206, 235, 255);
+        public static Colour Snow => new Colour(255, 250, 250, 255);
+        public static Colour Tan => new Colour(210, 180, 140, 255);
         public static Colour Teal => new Colour(0, 128, 128, 255);
         public static Colour Thistle => new Colour(216, 191, 216, 255);
+        public static Colour Tomato => new Colour(255, 99, 71, 255);
+        public static Colour Turqoise => new Colour(64, 224, 208, 255);
+        public static Colour Violet => new Colour(238, 130, 238, 255);
         public static Colour Wheat => new Colour(245, 222, 179, 255);
         public static Colour White => new Colour(255, 255, 255, 255);
         public static Colour WhiteSmoke => new Colour(245, 245, 245, 255);
