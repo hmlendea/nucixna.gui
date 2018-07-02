@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 using NuciXNA.Primitives;
 
-namespace Narivia.DataAccess.IO
+namespace NuciXNA.DataAccess.IO
 {
     /// <summary>
     /// Fast bitmap manipulator.
