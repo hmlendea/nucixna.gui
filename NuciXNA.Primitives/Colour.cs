@@ -100,7 +100,9 @@ namespace NuciXNA.Primitives
         
         public static Colour Transparent => new Colour(0, 0, 0, 0);
 
-        // XNA colours
+        #region Predefined colours
+        #region XNA colours
+
         public static Colour AliceBlue => new Colour(240, 248, 255, 255);
         public static Colour AntiqueWhite => new Colour(250, 235, 215, 255);
         public static Colour Aqua => new Colour(0, 255, 255, 255);
@@ -139,15 +141,59 @@ namespace NuciXNA.Primitives
         public static Colour Yellow => new Colour(255, 255, 0, 255);
         public static Colour YellowGreen => new Colour(154, 205, 50, 255);
 
-        // NuciXNA colours
+        #endregion
+        #region NuciXNA colours
+
+        /// <summary>
+        /// Cobal blue, as defined on the romanian flag.
+        /// </summary>
         public static Colour CobaltBlue => new Colour(0, 43, 127, 255);
+
+        /// <summary>
+        /// Chrome yellow, as defined on the romanian flag.
+        /// </summary>
         public static Colour ChromeYellow => new Colour(252, 209, 22, 255);
-        public static Colour Greenery => new Colour(136, 176, 75, 255);
+
         public static Colour PersianRed => new Colour(200, 29, 17, 255);
+
         public static Colour Vermilion => new Colour(227, 66, 52, 255);
+
+        /// <summary>
+        /// Vermilion red, as defined on the romanian flag.
+        /// </summary>
         public static Colour VermilionRed => new Colour(206, 17, 38, 255);
 
-        // Material colours
+        #endregion
+        #region Pantone colours
+
+        /// <summary>
+        /// PANTONE PQ-15-0343TCX Greenery.
+        /// </summary>
+        public static Colour Greenery => new Colour(136, 176, 75, 255);
+
+        /// <summary>
+        /// PANTONE PQ-18-2120TCX Honeysuckle.
+        /// </summary>
+        public static Colour Honeysuckle => new Colour(217, 79, 112, 255);
+
+        /// <summary>
+        /// PANTONE PQ-15-1247TCX Tangerine.
+        /// </summary>
+        public static Colour Tangerine => new Colour(248, 143, 88, 255);
+
+        /// <summary>
+        /// PANTONE PQ-17-1463TCX Tangerine Tango.
+        /// </summary>
+        public static Colour TangerineTango => new Colour(221, 65, 36, 255);
+
+        /// <summary>
+        /// PANTONE PQ-18-3838TCX Ultra Violet.
+        /// </summary>
+        public static Colour UltraViolet => new Colour(95, 75, 139, 255);
+
+        #endregion
+        #region Material colours
+
         public static Colour MaterialRed => new Colour(244, 67, 54, 255);
         public static Colour MaterialPink => new Colour(233, 30, 99, 255);
         public static Colour MaterialPurple => new Colour(103, 58, 183, 255);
@@ -166,6 +212,9 @@ namespace NuciXNA.Primitives
         public static Colour MaterialBrown => new Colour(121, 85, 72, 255);
         public static Colour MaterialGrey => new Colour(158, 158, 158, 255);
         public static Colour MaterialBlueGrey => new Colour(96, 125, 139, 255);
+
+        #endregion
+        #endregion
 
         /// <summary>
         /// Creates a colour from an ARGB integer.
