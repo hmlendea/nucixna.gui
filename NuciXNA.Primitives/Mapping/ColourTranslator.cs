@@ -11,7 +11,16 @@ namespace NuciXNA.Primitives.Mapping
         /// <returns>The hexadecimal code.</returns>
         public static string ToHexadecimal(Colour colour)
         {
-            string hexa = string.Format("#{0:X2}{1:X2}{2:X2}", colour.R, colour.G, colour.B);
+            string hexa;
+
+            if (colour.A == 255)
+            {
+                hexa = string.Format("#{0:X2}{1:X2}{2:X2}", colour.R, colour.G, colour.B);
+            }
+            else
+            {
+                hexa = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", colour.A, colour.R, colour.G, colour.B);
+            }
 
             return hexa;
         }
@@ -32,15 +41,31 @@ namespace NuciXNA.Primitives.Mapping
 
             if (hexa.Length == 3)
             {
-                colour.R = Convert.ToByte(hexa[0] + "" + hexa[0], 16);
-                colour.G = Convert.ToByte(hexa[1] + "" + hexa[1], 16);
-                colour.B = Convert.ToByte(hexa[2] + "" + hexa[2], 16);
+                colour.A = 255;
+                colour.R = Convert.ToByte($"{hexa[0]}{hexa[0]}", 16);
+                colour.G = Convert.ToByte($"{hexa[1]}{hexa[1]}", 16);
+                colour.B = Convert.ToByte($"{hexa[2]}{hexa[2]}", 16);
+            }
+            else if (hexa.Length == 4)
+            {
+                colour.A = Convert.ToByte($"{hexa[0]}{hexa[0]}", 16);
+                colour.R = Convert.ToByte($"{hexa[1]}{hexa[1]}", 16);
+                colour.G = Convert.ToByte($"{hexa[2]}{hexa[2]}", 16);
+                colour.B = Convert.ToByte($"{hexa[3]}{hexa[3]}", 16);
             }
             else if (hexa.Length == 6)
             {
-                colour.R = Convert.ToByte(hexa[0] + "" + hexa[1], 16);
-                colour.G = Convert.ToByte(hexa[2] + "" + hexa[3], 16);
-                colour.B = Convert.ToByte(hexa[4] + "" + hexa[5], 16);
+                colour.A = 255;
+                colour.R = Convert.ToByte($"{hexa[0]}{hexa[1]}", 16);
+                colour.G = Convert.ToByte($"{hexa[2]}{hexa[3]}", 16);
+                colour.B = Convert.ToByte($"{hexa[4]}{hexa[5]}", 16);
+            }
+            else if (hexa.Length == 8)
+            {
+                colour.A = Convert.ToByte($"{hexa[0]}{hexa[1]}", 16);
+                colour.R = Convert.ToByte($"{hexa[2]}{hexa[3]}", 16);
+                colour.G = Convert.ToByte($"{hexa[4]}{hexa[5]}", 16);
+                colour.B = Convert.ToByte($"{hexa[6]}{hexa[7]}", 16);
             }
             else
             {
