@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 
 using NuciXNA.DataAccess.DataObjects;
-using NuciXNA.DataAccess.Exceptions;
 using NuciXNA.DataAccess.IO;
 
 namespace NuciXNA.DataAccess.Repositories

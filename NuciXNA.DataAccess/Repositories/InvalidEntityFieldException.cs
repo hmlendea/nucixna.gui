@@ -1,6 +1,6 @@
 using System;
 
-namespace NuciXNA.DataAccess.Exceptions
+namespace NuciXNA.DataAccess.Repositories
 {
     /// <summary>
     /// Duplicate entity exception.

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using NuciXNA.DataAccess.DataObjects;
-using NuciXNA.DataAccess.Exceptions;
 
 namespace NuciXNA.DataAccess.Repositories
 {

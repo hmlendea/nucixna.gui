@@ -43,9 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\EntityBase.cs" />
-    <Compile Include="Exceptions\DuplicateEntityException.cs" />
-    <Compile Include="Exceptions\EntityNotFoundException.cs" />
-    <Compile Include="Exceptions\InvalidEntityFieldException.cs" />
+    <Compile Include="Repositories\DuplicateEntityException.cs" />
+    <Compile Include="Repositories\EntityNotFoundException.cs" />
+    <Compile Include="Repositories\InvalidEntityFieldException.cs" />
     <Compile Include="IO\BitmapFile.cs" />
     <Compile Include="IO\XmlFileCollection.cs" />
     <Compile Include="IO\XmlFileObject.cs" />
