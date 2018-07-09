@@ -7,10 +7,7 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Input;
-using NuciXNA.Input.Enumerations;
-using NuciXNA.Input.Events;
 using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
 
 namespace NuciXNA.Gui.GuiElements
 {
@@ -667,7 +664,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public void HandleInput()
         {
-            if (Enabled && Visible && DisplayRectangle.Contains(InputManager.Instance.MouseLocation.ToPoint2D()) &&
+            if (Enabled && Visible && DisplayRectangle.Contains(InputManager.Instance.MouseLocation) &&
                 !InputManager.Instance.MouseButtonInputHandled &&
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
@@ -890,7 +887,7 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location))
             {
                 return;
             }
@@ -915,22 +912,22 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()) &&
-                !DisplayRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location) &&
+                !DisplayRectangle.Contains(e.PreviousLocation))
             {
                 return;
             }
 
             OnMouseMoved(sender, e);
 
-            if (DisplayRectangle.Contains(e.Location.ToPoint2D()) &&
-                !DisplayRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (DisplayRectangle.Contains(e.Location) &&
+                !DisplayRectangle.Contains(e.PreviousLocation))
             {
                 OnMouseEntered(sender, e);
             }
 
-            if (!DisplayRectangle.Contains(e.Location.ToPoint2D()) &&
-                DisplayRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (!DisplayRectangle.Contains(e.Location) &&
+                DisplayRectangle.Contains(e.PreviousLocation))
             {
                 OnMouseLeft(sender, e);
             }

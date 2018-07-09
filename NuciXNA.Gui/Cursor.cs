@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Input;
-using NuciXNA.Input.Enumerations;
-using NuciXNA.Input.Events;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
@@ -113,7 +111,7 @@ namespace NuciXNA.Gui
 
         void InputManager_OnMouseMoved(object sender, MouseEventArgs e)
         {
-            Location = e.Location.ToPoint2D();
+            Location = e.Location;
         }
     }
 }

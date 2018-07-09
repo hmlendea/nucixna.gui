@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NuciXNA.Gui.GuiElements;
-using NuciXNA.Input.Events;
+using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
@@ -133,7 +133,7 @@ namespace NuciXNA.Gui.Screens
 
             int index = Items.FindIndex(x =>
                 x.Selectable &&
-                x.DisplayRectangle.Contains(e.Location.ToPoint2D()));
+                x.DisplayRectangle.Contains(e.Location));
 
             if (index >= 0)
             {
