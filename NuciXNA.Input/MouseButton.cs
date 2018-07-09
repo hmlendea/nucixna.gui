@@ -1,4 +1,4 @@
-﻿namespace NuciXNA.Input.Enumerations
+﻿namespace NuciXNA.Input
 {
     /// <summary>
     /// Mouse button.

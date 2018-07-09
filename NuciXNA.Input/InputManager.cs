@@ -3,8 +3,6 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Input;
 
-using NuciXNA.Input.Enumerations;
-using NuciXNA.Input.Events;
 using NuciXNA.Primitives;
 
 namespace NuciXNA.Input

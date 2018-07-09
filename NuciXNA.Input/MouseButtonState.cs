@@ -1,27 +1,27 @@
-﻿namespace NuciXNA.Input.Enumerations
+﻿namespace NuciXNA.Input
 {
     /// <summary>
-    /// Keyboard key state.
+    /// Mouse button state.
     /// </summary>
-    public enum KeyboardKeyState
+    public enum MouseButtonState
     {
         /// <summary>
-        /// The key was just pressed.
+        /// The mouse button was just pressed.
         /// </summary>
         Pressed,
 
         /// <summary>
-        /// They key was just released.
+        /// They mouse button was just released.
         /// </summary>
         Released,
 
         /// <summary>
-        /// The key is down.
+        /// The mouse button is down.
         /// </summary>
         Down,
 
         /// <summary>
-        /// The key is up.
+        /// The mouse button is up.
         /// </summary>
         Up
     }

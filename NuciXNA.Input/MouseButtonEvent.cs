@@ -1,7 +1,6 @@
-﻿using NuciXNA.Input.Enumerations;
-using NuciXNA.Primitives;
+﻿using NuciXNA.Primitives;
 
-namespace NuciXNA.Input.Events
+namespace NuciXNA.Input
 {
     /// <summary>
     /// Mouse button event handler.

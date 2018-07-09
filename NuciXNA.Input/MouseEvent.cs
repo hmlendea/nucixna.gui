@@ -1,6 +1,6 @@
 ﻿using NuciXNA.Primitives;
 
-namespace NuciXNA.Input.Events
+namespace NuciXNA.Input
 {
     /// <summary>
     /// Mouse event handler.

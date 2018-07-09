@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-using NuciXNA.Input.Enumerations;
-
-namespace NuciXNA.Input.Events
+namespace NuciXNA.Input
 {
     /// <summary>
     /// Keyboard key event handler.
