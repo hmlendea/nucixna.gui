@@ -82,7 +82,7 @@ namespace NuciXNA.Graphics.Drawing
                     spriteBatch.DrawString(font, line, pos, clrOutline);
                 }
 
-                spriteBatch.DrawString(font, line, new Vector2(bounds.X, bounds.Y) + textOrigin, fontColour.ToXnaColor());
+                spriteBatch.DrawString(font, line, bounds.Location.ToXnaVector2() + textOrigin, fontColour.ToXnaColor());
 
                 textOrigin.Y += lineSize.Y;
             }

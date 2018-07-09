@@ -25,11 +25,8 @@ namespace NuciXNA.Graphics.Drawing
             Scale2D scale,
             TextureLayout textureLayout)
         {
-            Vector2 loc = new Vector2(location.X, location.Y);
-            Rectangle srcRec = new Rectangle(sourceRectangle.X, sourceRectangle.Y, sourceRectangle.Width, sourceRectangle.Height);
+            Vector2 loc = location.ToXnaVector2();
             Color colour = tint.ToXnaColor();
-            Vector2 org = new Vector2(origin.X, origin.Y);
-            Vector2 scl = new Vector2(scale.Horizontal, scale.Vertical);
             float layerDepth = 0.0f;
 
             colour.A = (byte)(colour.A * opacity);
@@ -47,7 +44,16 @@ namespace NuciXNA.Graphics.Drawing
                     location.Y + (int)(sourceRectangle.Height * scale.Vertical) / 2);
             }
 
-            spriteBatch.Draw(texture, loc, srcRec, colour, rotation, org, scl, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(
+                texture,
+                loc,
+                sourceRectangle.ToXnaRectangle(),
+                colour,
+                rotation,
+                origin.ToXnaVector2(),
+                scale.ToXnaVector2(),
+                Microsoft.Xna.Framework.Graphics.SpriteEffects.None,
+                layerDepth);
         }
 
         static void SetSpriteBatchProperties(
