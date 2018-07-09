@@ -194,6 +194,26 @@ namespace NuciXNA.Primitives
                    Equals(Height, other.Height);
         }
 
+        public bool Equals(int x, int y, int width, int height)
+        {
+            return X == x && Y == y && Width == width && Height == height;
+        }
+
+        public bool Equals(Point2D location, Size2D size)
+        {
+            return X == location.X && Y == location.Y && Width == size.Width && Height == size.Height;
+        }
+
+        public bool Equals(Point2D location, int width, int height)
+        {
+            return X == location.X && Y == location.Y && Width == width && Height == height;
+        }
+
+        public bool Equals(int x, int y, Size2D size)
+        {
+            return X == x && Y == y && Width == size.Width && Height == size.Height;
+        }
+
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Rectangle2D"/>.
         /// </summary>

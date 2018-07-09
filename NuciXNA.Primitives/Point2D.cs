@@ -101,6 +101,11 @@ namespace NuciXNA.Primitives
             return Equals((Point2D)obj);
         }
 
+        public bool Equals(int x, int y)
+        {
+            return X == x && Y == y;
+        }
+
         /// <summary>
         /// Adds the coordinates of a <see cref="Point2D"/> to those of another <see cref="Point2D"/>,
         /// yielding a new <see cref="Point2D"/>.

@@ -81,6 +81,11 @@ namespace NuciXNA.Primitives
                    Equals(Height, other.Height);
         }
 
+        public bool Equals(float width, float height)
+        {
+            return Width == width && Height == height;
+        }
+
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="SizeF2D"/>.
         /// </summary>

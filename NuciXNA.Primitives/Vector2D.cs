@@ -73,6 +73,11 @@ namespace NuciXNA.Primitives
                    Equals(Y, other.Y);
         }
 
+        public bool Equals(float x, float y)
+        {
+            return X == x && Y == y;
+        }
+
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Vector2D"/>.
         /// </summary>

@@ -73,6 +73,11 @@ namespace NuciXNA.Primitives
                    Equals(Z, other.Z);
         }
 
+        public bool Equals(float x, float y, float z)
+        {
+            return X == x && Y == y && Z == z;
+        }
+
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="PointF3D"/>.
         /// </summary>

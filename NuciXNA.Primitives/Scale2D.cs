@@ -90,6 +90,11 @@ namespace NuciXNA.Primitives
                    Equals(Vertical, other.Vertical);
         }
 
+        public bool Equals(float horizontal, float vertical)
+        {
+            return Horizontal == horizontal && Vertical == vertical;
+        }
+
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Scale2D"/>.
         /// </summary>
