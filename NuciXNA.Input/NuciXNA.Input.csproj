@@ -28,6 +28,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NuciXNA.Primitives, Version=1.1.6754.26060, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NuciXNA.Primitives.1.1.6754.26060\lib\net45\NuciXNA.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
@@ -44,6 +47,8 @@
     <Compile Include="Events\MouseButtonEvent.cs" />
     <Compile Include="Events\MouseEvent.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

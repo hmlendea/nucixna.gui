@@ -190,9 +190,9 @@ namespace NuciXNA.DataAccess.IO
         /// <param name="x">X coordinate of the pixel.</param>
         /// <param name="y">Y coordinate of the pixel.</param>
         /// <returns>Pixel colou.r</returns>
-        public Color GetPixel(int x, int y)
+        public Colour GetPixel(int x, int y)
         {
-            Color colour = new Color();
+            Colour colour = new Colour();
             byte a, r, g, b;
             int colorComponentsCount = Depth / 8;
             int index = ((y * Size.Width) + x) * colorComponentsCount;
@@ -209,19 +209,19 @@ namespace NuciXNA.DataAccess.IO
                     g = Pixels[index + 1];
                     r = Pixels[index + 2];
                     a = Pixels[index + 3];
-                    colour = Color.FromArgb(a, r, g, b);
+                    colour = Colour.FromArgb(a, r, g, b);
                     break;
 
                 case 24:
                     b = Pixels[index];
                     g = Pixels[index + 1];
                     r = Pixels[index + 2];
-                    colour = Color.FromArgb(r, g, b);
+                    colour = Colour.FromArgb(r, g, b);
                     break;
 
                 case 8:
                     b = Pixels[index];
-                    colour = Color.FromArgb(b, b, b);
+                    colour = Colour.FromArgb(b, b, b);
                     break;
             }
 
@@ -233,7 +233,7 @@ namespace NuciXNA.DataAccess.IO
         /// </summary>
         /// <param name="location">The location of the pixel.</param>
         /// <returns>Pixel colour.</returns>
-        public Color GetPixel(Point2D location)
+        public Colour GetPixel(Point2D location)
         {
             return GetPixel(location.X, location.Y);
         }
@@ -244,7 +244,7 @@ namespace NuciXNA.DataAccess.IO
         /// <param name="x">The X coordinate of the pixel.</param>
         /// <param name="y">The Y coordinate of the pixel.</param>
         /// <param name="colour">Pixel colour.</param>
-        public void SetPixel(int x, int y, Color colour)
+        public void SetPixel(int x, int y, Colour colour)
         {
             int colorComponentsCount = Depth / 8;
             int index = ((y * Size.Width) + x) * colorComponentsCount;
@@ -275,7 +275,7 @@ namespace NuciXNA.DataAccess.IO
         /// </summary>
         /// <param name="location">The location of the pixel.</param>
         /// <param name="colour">Pixel colour.</param>
-        public void SetPixel(Point2D location, Color colour)
+        public void SetPixel(Point2D location, Colour colour)
         {
             SetPixel(location.X, location.Y, colour);
         }

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 
 using Microsoft.Xna.Framework.Input;
 
 using NuciXNA.Input.Enumerations;
 using NuciXNA.Input.Events;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Input
 {
@@ -185,8 +185,8 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonPressed(this, new MouseButtonEventArgs(MouseButton.LeftButton,
                                                                          MouseButtonState.Pressed,
-                                                                         new Point(currentMouseState.Position.X,
-                                                                                   currentMouseState.Position.Y)));
+                                                                         new Point2D(currentMouseState.Position.X,
+                                                                                     currentMouseState.Position.Y)));
             }
 
             if (currentMouseState.RightButton == ButtonState.Pressed &&
@@ -194,8 +194,8 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonPressed(this, new MouseButtonEventArgs(MouseButton.RightButton,
                                                                          MouseButtonState.Pressed,
-                                                                         new Point(currentMouseState.Position.X,
-                                                                                   currentMouseState.Position.Y)));
+                                                                         new Point2D(currentMouseState.Position.X,
+                                                                                     currentMouseState.Position.Y)));
             }
 
             if (currentMouseState.MiddleButton == ButtonState.Pressed &&
@@ -203,8 +203,8 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonPressed(this, new MouseButtonEventArgs(MouseButton.MiddleButton,
                                                                          MouseButtonState.Pressed,
-                                                                         new Point(currentMouseState.Position.X,
-                                                                                   currentMouseState.Position.Y)));
+                                                                         new Point2D(currentMouseState.Position.X,
+                                                                                     currentMouseState.Position.Y)));
             }
         }
 
@@ -215,8 +215,8 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonReleased(this, new MouseButtonEventArgs(MouseButton.LeftButton,
                                                                           MouseButtonState.Released,
-                                                                          new Point(currentMouseState.Position.X,
-                                                                                    currentMouseState.Position.Y)));
+                                                                          new Point2D(currentMouseState.Position.X,
+                                                                                      currentMouseState.Position.Y)));
             }
 
             if (currentMouseState.RightButton == ButtonState.Released &&
@@ -224,8 +224,8 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonReleased(this, new MouseButtonEventArgs(MouseButton.RightButton,
                                                                           MouseButtonState.Released,
-                                                                          new Point(currentMouseState.Position.X,
-                                                                                    currentMouseState.Position.Y)));
+                                                                          new Point2D(currentMouseState.Position.X,
+                                                                                      currentMouseState.Position.Y)));
             }
 
             if (currentMouseState.MiddleButton == ButtonState.Released &&
@@ -233,8 +233,8 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonReleased(this, new MouseButtonEventArgs(MouseButton.MiddleButton,
                                                                           MouseButtonState.Released,
-                                                                          new Point(currentMouseState.Position.X,
-                                                                                    currentMouseState.Position.Y)));
+                                                                          new Point2D(currentMouseState.Position.X,
+                                                                                      currentMouseState.Position.Y)));
             }
         }
 
@@ -244,24 +244,24 @@ namespace NuciXNA.Input
             {
                 this_OnMouseButtonDown(this, new MouseButtonEventArgs(MouseButton.LeftButton,
                                                                       MouseButtonState.Down,
-                                                                      new Point(currentMouseState.Position.X,
-                                                                                currentMouseState.Position.Y)));
+                                                                      new Point2D(currentMouseState.Position.X,
+                                                                                  currentMouseState.Position.Y)));
             }
 
             if (currentMouseState.RightButton == ButtonState.Pressed)
             {
                 this_OnMouseButtonDown(this, new MouseButtonEventArgs(MouseButton.RightButton,
                                                                       MouseButtonState.Down,
-                                                                      new Point(currentMouseState.Position.X,
-                                                                                currentMouseState.Position.Y)));
+                                                                      new Point2D(currentMouseState.Position.X,
+                                                                                  currentMouseState.Position.Y)));
             }
 
             if (currentMouseState.MiddleButton == ButtonState.Pressed)
             {
                 this_OnMouseButtonDown(this, new MouseButtonEventArgs(MouseButton.MiddleButton,
                                                                       MouseButtonState.Down,
-                                                                      new Point(currentMouseState.Position.X,
-                                                                                currentMouseState.Position.Y)));
+                                                                      new Point2D(currentMouseState.Position.X,
+                                                                                  currentMouseState.Position.Y)));
             }
         }
 
@@ -269,8 +269,8 @@ namespace NuciXNA.Input
         {
             if (currentMouseState.Position != previousMouseState.Position)
             {
-                this_OnMouseMoved(this, new MouseEventArgs(new Point(currentMouseState.Position.X, currentMouseState.Position.Y),
-                                                           new Point(previousMouseState.Position.X, previousMouseState.Position.Y)));
+                this_OnMouseMoved(this, new MouseEventArgs(new Point2D(currentMouseState.Position.X, currentMouseState.Position.Y),
+                                                           new Point2D(previousMouseState.Position.X, previousMouseState.Position.Y)));
             }
         }
 
@@ -388,7 +388,7 @@ namespace NuciXNA.Input
 
         // TODO: Everything below this is required by a workaround to a problem and should be removed as soon as it is properly fixed
 
-        public Point MouseLocation => new Point(currentMouseState.Position.X, currentMouseState.Position.Y);
+        public Point2D MouseLocation => new Point2D(currentMouseState.Position.X, currentMouseState.Position.Y);
         public bool MouseButtonInputHandled { get; set; }
 
         public bool IsLeftMouseButtonClicked()

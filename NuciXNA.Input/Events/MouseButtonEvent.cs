@@ -1,6 +1,5 @@
-﻿using System.Drawing;
-
-using NuciXNA.Input.Enumerations;
+﻿using NuciXNA.Input.Enumerations;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Input.Events
 {
@@ -30,7 +29,7 @@ namespace NuciXNA.Input.Events
         /// Gets location of the mouse.
         /// </summary>
         /// <value>The mouse location.</value>
-        public Point Location { get; private set; }
+        public Point2D Location { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MouseButtonEventArgs"/> class.
@@ -38,7 +37,7 @@ namespace NuciXNA.Input.Events
         /// <param name="button">Button.</param>
         /// <param name="buttonState">Button state.</param>
         /// <param name="location">Mouse location.</param>
-        public MouseButtonEventArgs(MouseButton button, MouseButtonState buttonState, Point location)
+        public MouseButtonEventArgs(MouseButton button, MouseButtonState buttonState, Point2D location)
         {
             Button = button;
             ButtonState = buttonState;
