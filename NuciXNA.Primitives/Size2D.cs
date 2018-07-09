@@ -54,9 +54,8 @@ namespace NuciXNA.Primitives
         /// </summary>
         /// <param name="point">Point.</param>
         public Size2D(Point2D point)
+            : this(point.X, point.Y)
         {
-            Width = point.X;
-            Height = point.Y;
         }
 
         /// <summary>
@@ -133,6 +132,22 @@ namespace NuciXNA.Primitives
         public static Size2D operator -(Size2D source, Size2D other)
         => new Size2D(source.Width - other.Width,
                       source.Height - other.Height);
+
+        public static Size2D operator *(Size2D source, Size2D other)
+        => new Size2D(source.Width * other.Width,
+                      source.Height * other.Height);
+
+        public static Size2D operator /(Size2D source, Size2D other)
+        => new Size2D(source.Width / other.Width,
+                      source.Height / other.Height);
+
+        public static Size2D operator *(Size2D source, int other)
+        => new Size2D(source.Width * other,
+                      source.Height * other);
+
+        public static Size2D operator /(Size2D source, int other)
+        => new Size2D(source.Width / other,
+                      source.Height / other);
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="Size2D"/> is equal to

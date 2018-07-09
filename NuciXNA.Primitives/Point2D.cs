@@ -145,6 +145,12 @@ namespace NuciXNA.Primitives
         /// <returns>The <see cref="Point2D"/> whose values are the division of the values of <c>source</c> and <c>other</c>.</returns>
         public static Point2D operator /(Point2D source, Point2D other)
         => new Point2D(source.X / other.X, source.Y / other.Y);
+        
+        public static Point2D operator *(Point2D source, int other)
+        => new Point2D(source.X * other, source.Y * other);
+
+        public static Point2D operator /(Point2D source, int other)
+        => new Point2D(source.X / other, source.Y / other);
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="Point2D"/> is equal to another specified <see cref="Point2D"/>.

@@ -99,6 +99,9 @@ namespace NuciXNA.Primitives
         /// <value>The top Y-axis coordinate.</value>
         public int Top => Y;
 
+        public Point2D Centre
+            => new Point2D(X + Width / 2, Y + Height / 2);
+
         /// <summary>
         /// Gets an empty rectangle, whose location and size are equal to zero.
         /// </summary>
@@ -119,19 +122,11 @@ namespace NuciXNA.Primitives
             Width = width;
             Height = height;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle2D"/> structure.
-        /// </summary>
-        /// <param name="point">Point.</param>
-        /// <param name="size">Size.</param>
-        public Rectangle2D(Point2D point, Size2D size)
-        {
-            X = point.X;
-            Y = point.Y;
-            Width = size.Width;
-            Height = size.Height;
-        }
+        
+        public Rectangle2D(Point2D point, Size2D size) : this(point.X, point.Y, size.Width, size.Height) { }
+        public Rectangle2D(Point2D point, int width, int height) : this (point.X, point.Y, width, height) { }
+        public Rectangle2D(int x, int y, Size2D size) : this (x, y, size.Width, size.Height) { }
+        public Rectangle2D(Point2D start, Point2D end) : this(start.X, start.Y, end.X - start.X, end.Y - start.Y) { }
 
         /// <summary>
         /// Checks whether the specified <see cref="Rectangle2D"/> contains a set of coordinates.

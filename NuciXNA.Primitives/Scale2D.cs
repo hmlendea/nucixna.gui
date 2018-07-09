@@ -32,6 +32,12 @@ namespace NuciXNA.Primitives
         public static Scale2D Empty => new Scale2D(0, 0);
 
         /// <summary>
+        /// Gets a scale of zero.
+        /// </summary>
+        /// <value>The scale of zero.</value>
+        public static Scale2D Zero => new Scale2D(0, 0);
+
+        /// <summary>
         /// Gets a scale of one.
         /// </summary>
         /// <value>The scale of one.</value>
@@ -67,6 +73,8 @@ namespace NuciXNA.Primitives
             Horizontal = size.Width;
             Vertical = size.Height;
         }
+
+        public Scale2D(float scale) : this(scale, scale) { }
 
         /// <summary>
         /// Determines whether the specified <see cref="Scale2D"/> is equal to the current <see cref="Scale2D"/>.

@@ -43,15 +43,9 @@ namespace NuciXNA.Primitives
             Y = y;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PointF2D"/> structure.
-        /// </summary>
-        /// <param name="size">Size.</param>
-        public PointF2D(SizeF2D size)
-        {
-            X = size.Width;
-            Y = size.Height;
-        }
+        public PointF2D(Point2D point) : this(point.X, point.Y) { }
+        public PointF2D(SizeF2D size) : this(size.Width, size.Height) { }
+        public PointF2D(Size2D size) : this(size.Width, size.Height) { }
 
         /// <summary>
         /// Determines whether the specified <see cref="PointF2D"/> is equal to the current <see cref="PointF2D"/>.
@@ -149,6 +143,12 @@ namespace NuciXNA.Primitives
         public static PointF2D operator /(PointF2D source, PointF2D other)
         => new PointF2D(source.X / other.X,
                         source.Y / other.Y);
+
+        public static PointF2D operator *(PointF2D source, float other)
+        => new PointF2D(source.X * other, source.Y * other);
+
+        public static PointF2D operator /(PointF2D source, float other)
+        => new PointF2D(source.X / other, source.Y / other);
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="PointF2D"/> is equal to another specified <see cref="PointF2D"/>.

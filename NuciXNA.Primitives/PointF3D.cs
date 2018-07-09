@@ -50,6 +50,12 @@ namespace NuciXNA.Primitives
             Z = z;
         }
 
+        public PointF3D(Point3D point3d) : this(point3d.X, point3d.Y, point3d.Z) { }
+        public PointF3D(PointF2D point2d, int z) : this(point2d.X, point2d.Y, z) { }
+        public PointF3D(PointF2D point2d, float z) : this(point2d.X, point2d.Y, z) { }
+        public PointF3D(Point2D point2d, int z) : this(point2d.X, point2d.Y, z) { }
+        public PointF3D(Point2D point2d, float z)  : this(point2d.X, point2d.Y, z) { }
+
         /// <summary>
         /// Determines whether the specified <see cref="PointF3D"/> is equal to the current <see cref="PointF3D"/>.
         /// </summary>
@@ -151,6 +157,12 @@ namespace NuciXNA.Primitives
         => new PointF3D(source.X / other.X,
                         source.Y / other.Y,
                         source.Z / other.Z);
+
+        public static PointF3D operator *(PointF3D source, float other)
+        => new PointF3D(source.X * other, source.Y * other, source.Y * other);
+
+        public static PointF3D operator /(PointF3D source, float other)
+        => new PointF3D(source.X / other, source.Y / other, source.Y * other);
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="PointF3D"/> is equal to another specified <see cref="PointF3D"/>.

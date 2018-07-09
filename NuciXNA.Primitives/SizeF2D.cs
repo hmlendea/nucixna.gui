@@ -134,6 +134,22 @@ namespace NuciXNA.Primitives
         => new SizeF2D(source.Width - other.Width,
                       source.Height - other.Height);
 
+        public static SizeF2D operator *(SizeF2D source, SizeF2D other)
+        => new SizeF2D(source.Width * other.Width,
+                      source.Height * other.Height);
+
+        public static SizeF2D operator /(SizeF2D source, SizeF2D other)
+        => new SizeF2D(source.Width / other.Width,
+                      source.Height / other.Height);
+
+        public static SizeF2D operator *(SizeF2D source, float other)
+        => new SizeF2D(source.Width * other,
+                      source.Height * other);
+
+        public static SizeF2D operator /(SizeF2D source, float other)
+        => new SizeF2D(source.Width / other,
+                      source.Height / other);
+
         /// <summary>
         /// Determines whether a specified instance of <see cref="SizeF2D"/> is equal to
         /// another specified <see cref="SizeF2D"/>.
