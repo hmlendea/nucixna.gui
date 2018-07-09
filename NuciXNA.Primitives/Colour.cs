@@ -7,7 +7,7 @@ namespace NuciXNA.Primitives
     /// <summary>
     /// Colour.
     /// </summary>
-    public class Colour
+    public sealed class Colour : IEquatable<Colour>
     {
         /// <summary>
         /// Gets the alpha value.
@@ -32,6 +32,8 @@ namespace NuciXNA.Primitives
         /// </summary>
         /// <value>The blue value.</value>
         public byte B { get; set; }
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Colour"/> class.
@@ -97,10 +99,12 @@ namespace NuciXNA.Primitives
         {
             A = (byte)a;
         }
-        
-        public static Colour Transparent => new Colour(0, 0, 0, 0);
+
+        #endregion
 
         #region Predefined colours
+        public static Colour Transparent => new Colour(0, 0, 0, 0);
+
         #region XNA colours
 
         public static Colour AliceBlue => new Colour(240, 248, 255, 255);
@@ -216,6 +220,8 @@ namespace NuciXNA.Primitives
         #endregion
         #endregion
 
+        #region To and From for Argb and Hexadecimal formats
+
         /// <summary>
         /// Creates a colour from an ARGB integer.
         /// </summary>
@@ -280,6 +286,8 @@ namespace NuciXNA.Primitives
         /// <returns>A string representing the hexadecimal code of the colour.</returns>
         public string ToHexadecimal() => ColourTranslator.ToHexadecimal(this);
 
+        #endregion
+
         /// <summary>
         /// Checks wether the current colour is similar to another.
         /// </summary>
@@ -319,5 +327,92 @@ namespace NuciXNA.Primitives
         {
             return Multiply(colour, factor);
         }
+
+        #region IEquatable and Equals
+        
+        /// <summary>
+        /// Determines whether the specified <see cref="Colour"/> is equal to the current <see cref="Colour"/>.
+        /// </summary>
+        /// <param name="other">The <see cref="Colour"/> to compare with the current <see cref="Colour"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="Colour"/> is equal to the current
+        /// <see cref="Colour"/>; otherwise, <c>false</c>.</returns>
+        public bool Equals(Colour other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return
+                A == other.A &&
+                R == other.R &&
+                G == other.G &&
+                B == other.B;
+        }
+
+        public bool Equals(int a, int r, int g, int b)
+        {
+            return A == a && R == r && G == g && B == b;
+        }
+
+        public bool Equals(int r, int g, int b)
+        {
+            return Equals(255, r, g, b);
+        }
+
+        public bool Equals(string hexa)
+        {
+            return Equals(FromHexadecimal(hexa));
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="Colour"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="Colour"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current
+        /// <see cref="Colour"/>; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((Colour)obj);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a <see cref="Colour"/> object.
+        /// </summary>
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
+        /// hash table.</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return
+                    A.GetHashCode() ^
+                    R.GetHashCode() ^
+                    G.GetHashCode() ^
+                    B.GetHashCode();
+            }
+        }
+
+        #endregion
     }
 }
