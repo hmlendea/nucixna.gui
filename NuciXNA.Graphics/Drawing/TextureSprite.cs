@@ -95,6 +95,23 @@ namespace NuciXNA.Graphics.Drawing
             TextureLayout = TextureLayout.Stretch;
         }
 
+        public Rectangle2D ClientSourceRectangle
+        {
+            get
+            {
+                if (SpriteSheetEffect == null || !SpriteSheetEffect.Active)
+                {
+                    return SourceRectangle;
+                }
+
+                return new Rectangle2D(
+                    SpriteSheetEffect.CurrentFrame.X * SourceRectangle.Width,
+                    SpriteSheetEffect.CurrentFrame.Y * SourceRectangle.Height,
+                    SourceRectangle.Width,
+                    SourceRectangle.Height);
+            }
+        }
+
         /// <summary>
         /// Loads the content.
         /// </summary>
@@ -186,12 +203,12 @@ namespace NuciXNA.Graphics.Drawing
         public override void Draw(SpriteBatch spriteBatch)
         {
             Point2D origin = new Point2D(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
-            
+
             TextureDrawer.Draw(
                 spriteBatch,
                 Texture,
                 Location,
-                SourceRectangle,
+                ClientSourceRectangle,
                 Tint,
                 ClientOpacity,
                 ClientRotation,
