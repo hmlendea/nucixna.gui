@@ -102,9 +102,6 @@ namespace NuciXNA.Graphics.Drawing
         {
             base.LoadContent();
 
-            AnimationEffect?.LoadContent(this);
-            SpriteSheetEffect?.LoadContent(this);
-
             Texture = LoadTexture();
 
             if (SpriteSize == Size2D.Empty)
@@ -147,6 +144,9 @@ namespace NuciXNA.Graphics.Drawing
             Texture = renderTarget;
 
             GraphicsManager.Instance.Graphics.GraphicsDevice.SetRenderTarget(null);
+
+            AnimationEffect?.LoadContent(this);
+            SpriteSheetEffect?.LoadContent(this);
         }
 
         /// <summary>
