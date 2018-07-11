@@ -151,18 +151,12 @@ namespace NuciXNA.Gui.GuiElements
                 _textureLayout = value;
             }
         }
-
+        
         /// <summary>
-        /// Gets or sets the animation effect.
+        /// Gets or sets the opacity effect.
         /// </summary>
-        /// <value>The animation effect.</value>
-        public AnimationEffect AnimationEffect { get; set; }
-
-        /// <summary>
-        /// Gets or sets the fade effect.
-        /// </summary>
-        /// <value>The fade effect.</value>
-        public FadeEffect FadeEffect { get; set; }
+        /// <value>The opacity effect.</value>
+        public OpacityEffect OpacityEffect { get; set; }
 
         /// <summary>
         /// Gets or sets the rotation effect.
@@ -177,10 +171,10 @@ namespace NuciXNA.Gui.GuiElements
         public SpriteSheetEffect SpriteSheetEffect { get; set; }
 
         /// <summary>
-        /// Gets or sets the zoom effect.
+        /// Gets or sets the scale effect.
         /// </summary>
-        /// <value>The zoom effect.</value>
-        public ZoomEffect ZoomEffect { get; set; }
+        /// <value>The scale effect.</value>
+        public ScaleEffect ScaleEffect { get; set; }
 
         public float Rotation { get; set; }
 
@@ -268,12 +262,11 @@ namespace NuciXNA.Gui.GuiElements
             sprite.Rotation = Rotation;
             sprite.TextureLayout = TextureLayout;
             sprite.Tint = TintColour;
-
-            sprite.AnimationEffect = AnimationEffect;
-            sprite.FadeEffect = FadeEffect;
+            
+            sprite.OpacityEffect = OpacityEffect;
             sprite.RotationEffect = RotationEffect;
             sprite.SpriteSheetEffect = SpriteSheetEffect;
-            sprite.ZoomEffect = ZoomEffect;
+            sprite.ScaleEffect = ScaleEffect;
 
             if (!sprite.SourceRectangle.IsEmpty)
             {

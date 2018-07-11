@@ -102,12 +102,12 @@ namespace NuciXNA.Gui.GuiElements
                 Size = new Size2D(
                     Size.Width + Margins * 2,
                     Size.Height + Margins * 2),
-                FadeEffect = FadeEffect
+                OpacityEffect = FadeEffect
             };
 
             textSprite = new TextSprite
             {
-                FadeEffect = FadeEffect
+                OpacityEffect = FadeEffect
             };
             
             base.LoadContent();

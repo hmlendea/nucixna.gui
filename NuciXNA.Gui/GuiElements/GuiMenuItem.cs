@@ -61,7 +61,7 @@ namespace NuciXNA.Gui.GuiElements
                 FadeEffect = new FadeEffect
                 {
                     Speed = 2,
-                    MinimumValue = 0.25f
+                    MinimumMultiplier = 0.25f
                 }
             };
 

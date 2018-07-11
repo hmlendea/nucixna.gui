@@ -73,9 +73,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public ScreenManager()
         {
-            Size = new Size2D(
-                GraphicsManager.Instance.Graphics.PreferredBackBufferWidth,
-                GraphicsManager.Instance.Graphics.PreferredBackBufferHeight);
+            Size = GraphicsManager.Instance.BackBufferSize;
         }
 
         /// <summary>
@@ -89,7 +87,13 @@ namespace NuciXNA.Gui.Screens
             {
                 ContentFile = "ScreenManager/FillImage",
                 Tint = Colour.Black,
-                FadeEffect = new FadeEffect { Speed = 3 },
+                OpacityEffect = new FadeEffect
+                {
+                    Speed = 3,
+                    CurrentMultiplier = 0.0f,
+                    MinimumMultiplier = 0.0f,
+                    MaximumMultiplier = 2.0f
+                },
                 TextureLayout = TextureLayout.Tile
             };
 
@@ -157,6 +161,11 @@ namespace NuciXNA.Gui.Screens
         /// <param name="screenArgs">Screen arguments.</param>
         public void ChangeScreens(Type screenType, string[] screenArgs)
         {
+            if (Transitioning)
+            {
+                return;
+            }
+            
             newScreen = (Screen)Activator.CreateInstance(screenType);
             newScreen.ScreenArgs = screenArgs;
 
@@ -166,11 +175,10 @@ namespace NuciXNA.Gui.Screens
                 return;
             }
 
-            transitionSprite.FadeEffect.Activate();
-
+            transitionSprite.OpacityEffect.CurrentMultiplier = 0.0f;
+            transitionSprite.OpacityEffect.IsIncreasing = true;
+            transitionSprite.OpacityEffect.Activate();
             transitionSprite.Active = true;
-            transitionSprite.FadeEffect.Increasing = true;
-            transitionSprite.Opacity = 0.0f;
 
             Transitioning = true;
         }
@@ -188,9 +196,7 @@ namespace NuciXNA.Gui.Screens
                 currentScreen.UnloadContent();
                 currentScreen = newScreen;
                 currentScreen.LoadContent();
-            }
-            else if (transitionSprite.ClientOpacity <= 0.0f)
-            {
+
                 transitionSprite.Active = false;
                 Transitioning = false;
             }
