@@ -58,8 +58,7 @@ namespace NuciXNA.Graphics.Drawing
             get
             {
                 return new Rectangle2D(
-                    Location.X,
-                    Location.Y,
+                    Location,
                     (int)(SourceRectangle.Width * Scale.Horizontal),
                     (int)(SourceRectangle.Height * Scale.Vertical));
             }
@@ -107,8 +106,7 @@ namespace NuciXNA.Graphics.Drawing
                 return new Rectangle2D(
                     SpriteSheetEffect.CurrentFrame.X * SourceRectangle.Width,
                     SpriteSheetEffect.CurrentFrame.Y * SourceRectangle.Height,
-                    SourceRectangle.Width,
-                    SourceRectangle.Height);
+                    SourceRectangle.Size);
             }
         }
 
@@ -123,17 +121,15 @@ namespace NuciXNA.Graphics.Drawing
 
             if (SpriteSize == Size2D.Empty)
             {
-                Size2D size = Size2D.Empty;
+                Size2D size;
 
                 if (Texture != null)
                 {
-                    size.Width = Texture.Width;
-                    size.Height = Texture.Height;
+                    size = TextureSize;
                 }
                 else
                 {
-                    size.Width = 1;
-                    size.Height = 1;
+                    size = new Size2D(1, 1);
                 }
 
                 SpriteSize = size;

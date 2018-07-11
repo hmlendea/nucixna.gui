@@ -27,29 +27,28 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Gets or sets the current frame.
         /// </summary>
         /// <value>The current frame.</value>
-        public Point CurrentFrame { get; set; }
+        public Point2D CurrentFrame { get; set; }
 
         /// <summary>
         /// Gets or sets the frame amount.
         /// </summary>
         /// <value>The frame amount.</value>
-        public Point FrameAmount { get; set; }
+        public Size2D FrameAmount { get; set; }
 
         /// <summary>
         /// Gets the width of the frame.
         /// </summary>
         /// <value>The width of the frame.</value>
         [XmlIgnore]
-        public Size2D FrameSize => new Size2D(Sprite.TextureSize.Width / FrameAmount.X,
-                                              Sprite.TextureSize.Height / FrameAmount.Y);
+        public Size2D FrameSize => Sprite.TextureSize / FrameAmount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationEffect"/> class.
         /// </summary>
         public AnimationEffect()
         {
-            FrameAmount = Point.Zero;
-            CurrentFrame = Point.Zero;
+            FrameAmount = Size2D.Empty;
+            CurrentFrame = Point2D.Empty;
             SwitchFrame = 100;
             FrameCounter = 0;
         }
@@ -62,7 +61,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         {
             base.Update(gameTime);
 
-            Point newFrame = CurrentFrame;
+            Point2D newFrame = CurrentFrame;
 
             if (Sprite.Active)
             {
@@ -89,8 +88,7 @@ namespace NuciXNA.Graphics.SpriteEffects
             Sprite.SourceRectangle = new Rectangle2D(
                 CurrentFrame.X * FrameSize.Width,
                 CurrentFrame.Y * FrameSize.Height,
-                FrameSize.Width,
-                FrameSize.Height);
+                FrameSize);
         }
     }
 }

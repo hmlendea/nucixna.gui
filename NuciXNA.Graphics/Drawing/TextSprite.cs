@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.DataAccess.Resources;
 using NuciXNA.Primitives;
 
-
 namespace NuciXNA.Graphics.Drawing
 {
     public class TextSprite : Sprite
@@ -81,17 +80,17 @@ namespace NuciXNA.Graphics.Drawing
 
             if (SpriteSize == Size2D.Empty)
             {
-                Size2D size = Size2D.Empty;
+                Size2D size;
                 
                 if (!string.IsNullOrEmpty(Text))
                 {
-                    size.Width = (int)font.MeasureString(Text).X;
-                    size.Height = (int)font.MeasureString(Text).Y;
+                    size = new Size2D(
+                        (int)font.MeasureString(Text).X,
+                        (int)font.MeasureString(Text).Y);
                 }
                 else
                 {
-                    size.Width = 1;
-                    size.Height = 1;
+                    size = new Size2D(1, 1);
                 }
 
                 SpriteSize = size;
