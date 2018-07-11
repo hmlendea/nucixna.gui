@@ -15,9 +15,9 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// <value>The speed.</value>
         public float Speed { get; set; }
 
-        public float CurrentHorizontalMultiplier { get; protected set; }
+        public float CurrentHorizontalMultiplier { get; set; }
 
-        public float CurrentVerticalMultiplier { get; protected set; }
+        public float CurrentVerticalMultiplier { get; set; }
 
         public float MinimumMultiplier { get; set; }
         

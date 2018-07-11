@@ -30,6 +30,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         {
             Speed = 1.0f;
             CurrentMultiplier = 1.0f;
+            IsIncreasing = true;
         }
 
         /// <summary>

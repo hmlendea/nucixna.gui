@@ -15,7 +15,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// <value>The speed.</value>
         public float Speed { get; set; }
 
-        public float CurrentMultiplier { get; protected set; }
+        public float CurrentMultiplier { get; set; }
         
         public float MinimumMultiplier { get; set; }
         
@@ -35,7 +35,7 @@ namespace NuciXNA.Graphics.SpriteEffects
             Speed = 1;
             MinimumMultiplier = 0.0f;
             MaximumMultiplier = 1.0f;
-            IsIncreasing = false;
+            IsIncreasing = true;
         }
 
         /// <summary>
