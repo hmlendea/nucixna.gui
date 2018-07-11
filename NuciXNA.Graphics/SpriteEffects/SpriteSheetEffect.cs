@@ -34,19 +34,12 @@ namespace NuciXNA.Graphics.SpriteEffects
 
         public override void Update(GameTime gameTime)
         {
-            if (!Active)
-            {
-                return;
-            }
-
             base.Update(gameTime);
 
-            UpdateFrame(gameTime);
-
-            Sprite.SourceRectangle = new Rectangle2D(
-                CurrentFrame.X * FrameSize.Width,
-                CurrentFrame.Y * FrameSize.Height,
-                FrameSize);
+            if (Active)
+            {
+                UpdateFrame(gameTime);
+            }
         }
 
         public abstract void UpdateFrame(GameTime gameTime);

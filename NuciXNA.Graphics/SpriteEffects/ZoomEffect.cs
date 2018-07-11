@@ -1,87 +1,38 @@
 ﻿using Microsoft.Xna.Framework;
 
-using NuciXNA.Graphics.Drawing;
-
 namespace NuciXNA.Graphics.SpriteEffects
 {
     /// <summary>
     /// Zoom sprite effect.
     /// </summary>
-    public class ZoomEffect : CustomSpriteEffect<Sprite>
+    public class ZoomEffect : ScaleEffect
     {
-        bool isIncreasing;
-
-        /// <summary>
-        /// Gets or sets the speed.
-        /// </summary>
-        /// <value>The speed.</value>
-        public float Speed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current zoom.
-        /// </summary>
-        /// <value>The current zoom.</value>
-        public float Value { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the minimum zoom.
-        /// </summary>
-        /// <value>The minimum zoom.</value>
-        public float MinimumValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum zoom.
-        /// </summary>
-        /// <value>The maximum zoom.</value>
-        public float MaximumValue { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ZoomEffect"/> class.
-        /// </summary>
-        public ZoomEffect()
+        protected override void UpdateMultiplier(GameTime gameTime)
         {
-            Speed = 0.1f;
-            MinimumValue = 0.75f;
-            MaximumValue = 1.25f;
-            isIncreasing = true;
-        }
-
-        /// <summary>
-        /// Updates the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            
-            if (!Active)
-            {
-                Value = MaximumValue;
-                return;
-            }
-
             float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            if (isIncreasing)
+            if (IsIncreasing)
             {
-                Value += delta;
+                CurrentHorizontalMultiplier += delta;
 
-                if (Value >= MaximumValue)
+                if (CurrentHorizontalMultiplier >= MaximumMultiplier)
                 {
-                    Value = MaximumValue;
-                    isIncreasing = false;
+                    CurrentHorizontalMultiplier = MaximumMultiplier;
+                    IsIncreasing = false;
                 }
             }
             else
             {
-                Value -= delta;
+                CurrentHorizontalMultiplier -= delta;
 
-                if (Value <= MinimumValue)
+                if (CurrentHorizontalMultiplier <= MinimumMultiplier)
                 {
-                    Value = MinimumValue;
-                    isIncreasing = true;
+                    CurrentHorizontalMultiplier = MinimumMultiplier;
+                    IsIncreasing = true;
                 }
             }
+
+            CurrentVerticalMultiplier = CurrentHorizontalMultiplier;
         }
     }
 }

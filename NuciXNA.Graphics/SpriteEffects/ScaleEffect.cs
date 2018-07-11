@@ -5,9 +5,9 @@ using NuciXNA.Graphics.Drawing;
 namespace NuciXNA.Graphics.SpriteEffects
 {
     /// <summary>
-    /// Rotation sprite effect.
+    /// Zoom sprite effect.
     /// </summary>
-    public abstract class RotationEffect : CustomSpriteEffect<Sprite>
+    public abstract class ScaleEffect : CustomSpriteEffect<Sprite>
     {
         /// <summary>
         /// Gets or sets the speed.
@@ -15,21 +15,31 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// <value>The speed.</value>
         public float Speed { get; set; }
 
-        public float CurrentMultiplier { get; set; }
+        public float CurrentHorizontalMultiplier { get; protected set; }
+
+        public float CurrentVerticalMultiplier { get; protected set; }
+
+        public float MinimumMultiplier { get; set; }
+        
+        public float MaximumMultiplier { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RotationEffect"/> is increasing.
+        /// Gets or sets a value indicating whether this <see cref="ScaleEffect"/> is increasing.
         /// </summary>
         /// <value><c>true</c> if increasing; otherwise, <c>false</c>.</value>
         public bool IsIncreasing { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RotationEffect"/> class.
+        /// Initializes a new instance of the <see cref="ScaleEffect"/> class.
         /// </summary>
-        public RotationEffect()
+        public ScaleEffect()
         {
-            Speed = 1.0f;
-            CurrentMultiplier = 1.0f;
+            Speed = 0.1f;
+            MinimumMultiplier = 0.0f;
+            MaximumMultiplier = 2.0f;
+            CurrentHorizontalMultiplier = 1.0f;
+            CurrentVerticalMultiplier = 1.0f;
+            IsIncreasing = true;
         }
 
         /// <summary>

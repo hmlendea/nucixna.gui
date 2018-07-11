@@ -1,7 +1,4 @@
-﻿using System.Xml.Serialization;
-
-using Microsoft.Xna.Framework;
-using NuciXNA.Graphics.Drawing;
+﻿using Microsoft.Xna.Framework;
 using NuciXNA.Primitives;
 
 namespace NuciXNA.Graphics.SpriteEffects
@@ -9,58 +6,10 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// <summary>
     /// Animation sprite effect.
     /// </summary>
-    public class AnimationEffect : CustomSpriteEffect<TextureSprite>
+    public class AnimationEffect : SpriteSheetEffect
     {
-        /// <summary>
-        /// Gets or sets the frame counter.
-        /// </summary>
-        /// <value>The frame counter.</value>
-        public int FrameCounter { get; set; }
-
-        /// <summary>
-        /// Gets or sets the switch frame.
-        /// </summary>
-        /// <value>The switch frame.</value>
-        public int SwitchFrame { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current frame.
-        /// </summary>
-        /// <value>The current frame.</value>
-        public Point2D CurrentFrame { get; set; }
-
-        /// <summary>
-        /// Gets or sets the frame amount.
-        /// </summary>
-        /// <value>The frame amount.</value>
-        public Size2D FrameAmount { get; set; }
-
-        /// <summary>
-        /// Gets the width of the frame.
-        /// </summary>
-        /// <value>The width of the frame.</value>
-        [XmlIgnore]
-        public Size2D FrameSize => Sprite.TextureSize / FrameAmount;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AnimationEffect"/> class.
-        /// </summary>
-        public AnimationEffect()
+        public override void UpdateFrame(GameTime gameTime)
         {
-            FrameAmount = Size2D.Empty;
-            CurrentFrame = Point2D.Empty;
-            SwitchFrame = 100;
-            FrameCounter = 0;
-        }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
             Point2D newFrame = CurrentFrame;
 
             if (Sprite.Active)
@@ -84,11 +33,6 @@ namespace NuciXNA.Graphics.SpriteEffects
             }
 
             CurrentFrame = newFrame;
-
-            Sprite.SourceRectangle = new Rectangle2D(
-                CurrentFrame.X * FrameSize.Width,
-                CurrentFrame.Y * FrameSize.Height,
-                FrameSize);
         }
     }
 }

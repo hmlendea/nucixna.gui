@@ -8,7 +8,6 @@ using NuciXNA.DataAccess.Resources;
 using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Primitives;
 
-
 namespace NuciXNA.Graphics.Drawing
 {
     public class TextureSprite : Sprite
@@ -69,12 +68,6 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         /// <value>The fill mode.</value>
         public TextureLayout TextureLayout { get; set; }
-
-        /// <summary>
-        /// Gets or sets the animation effect.
-        /// </summary>
-        /// <value>The animation effect.</value>
-        public AnimationEffect AnimationEffect { get; set; }
 
         /// <summary>
         /// Gets or sets the sprite sheet effect.
@@ -157,8 +150,7 @@ namespace NuciXNA.Graphics.Drawing
             Texture = renderTarget;
 
             GraphicsManager.Instance.Graphics.GraphicsDevice.SetRenderTarget(null);
-
-            AnimationEffect?.LoadContent(this);
+            
             SpriteSheetEffect?.LoadContent(this);
         }
 
@@ -168,8 +160,7 @@ namespace NuciXNA.Graphics.Drawing
         public override void UnloadContent()
         {
             base.UnloadContent();
-
-            AnimationEffect?.UnloadContent();
+            
             SpriteSheetEffect?.UnloadContent();
 
             Texture = null;
@@ -182,8 +173,7 @@ namespace NuciXNA.Graphics.Drawing
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            AnimationEffect?.Update(gameTime);
+            
             SpriteSheetEffect?.Update(gameTime);
 
             if (loadedContentFile != ContentFile || loadedAlphaMaskFile != AlphaMaskFile)
@@ -198,7 +188,7 @@ namespace NuciXNA.Graphics.Drawing
         /// <param name="spriteBatch">Sprite batch.</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Point2D origin = new Point2D(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
+            Point2D origin = new Point2D(SourceRectangle.Size / 2);
 
             TextureDrawer.Draw(
                 spriteBatch,

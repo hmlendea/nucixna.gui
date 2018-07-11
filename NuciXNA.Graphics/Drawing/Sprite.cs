@@ -34,13 +34,7 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         /// <value>The rotation.</value>
         public float Rotation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the zoom.
-        /// </summary>
-        /// <value>The zoom.</value>
-        public float Zoom { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
@@ -66,10 +60,10 @@ namespace NuciXNA.Graphics.Drawing
         public abstract Rectangle2D ClientRectangle { get; }
 
         /// <summary>
-        /// Gets or sets the fade effect.
+        /// Gets or sets the opacity effect.
         /// </summary>
-        /// <value>The fade effect.</value>
-        public FadeEffect FadeEffect { get; set; }
+        /// <value>The opacity effect.</value>
+        public OpacityEffect OpacityEffect { get; set; }
 
         /// <summary>
         /// Gets or sets the rotation effect.
@@ -78,10 +72,10 @@ namespace NuciXNA.Graphics.Drawing
         public RotationEffect RotationEffect { get; set; }
 
         /// <summary>
-        /// Gets or sets the zoom effect.
+        /// Gets or sets the scale effect.
         /// </summary>
-        /// <value>The zoom effect.</value>
-        public ZoomEffect ZoomEffect { get; set; }
+        /// <value>The scale effect.</value>
+        public ScaleEffect ScaleEffect { get; set; }
 
         public float ClientOpacity
         {
@@ -89,9 +83,9 @@ namespace NuciXNA.Graphics.Drawing
             {
                 float value = Opacity;
 
-                if (FadeEffect != null && FadeEffect.Active)
+                if (OpacityEffect != null && OpacityEffect.Active)
                 {
-                    value += FadeEffect.Value;
+                    value *= OpacityEffect.CurrentMultiplier;
                 }
 
                 if (value < 0.0f)
@@ -115,29 +109,29 @@ namespace NuciXNA.Graphics.Drawing
 
                 if (RotationEffect != null && RotationEffect.Active)
                 {
-                    value += RotationEffect.Value;
+                    value += RotationEffect.CurrentMultiplier;
                 }
 
                 return value;
             }
         }
 
-        public float ClientZoom
+        public Scale2D ClientScale
         {
             get
             {
-                float value = Zoom;
+                Scale2D value = Scale;
 
-                if (ZoomEffect != null && ZoomEffect.Active)
+                if (ScaleEffect != null && ScaleEffect.Active)
                 {
-                    value += ZoomEffect.Value;
+                    value = new Scale2D(
+                        Scale.Horizontal * ScaleEffect.CurrentHorizontalMultiplier,
+                        Scale.Vertical * ScaleEffect.CurrentVerticalMultiplier);
                 }
-
+                
                 return value;
             }
         }
-
-        public Scale2D ClientScale => new Scale2D(Scale.Horizontal * ClientZoom, Scale.Vertical * ClientZoom);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Sprite"/> class.
@@ -149,7 +143,6 @@ namespace NuciXNA.Graphics.Drawing
             Location = Point2D.Empty;
 
             Opacity = 1.0f;
-            Zoom = 1.0f;
             Scale = Scale2D.One;
 
             Tint = Colour.White;
@@ -160,9 +153,9 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         public virtual void LoadContent()
         {
-            FadeEffect?.LoadContent(this);
+            OpacityEffect?.LoadContent(this);
             RotationEffect?.LoadContent(this);
-            ZoomEffect?.LoadContent(this);
+            ScaleEffect?.LoadContent(this);
         }
 
         /// <summary>
@@ -170,9 +163,9 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         public virtual void UnloadContent()
         {
-            FadeEffect?.UnloadContent();
+            OpacityEffect?.UnloadContent();
             RotationEffect?.UnloadContent();
-            ZoomEffect?.UnloadContent();
+            ScaleEffect?.UnloadContent();
         }
 
         /// <summary>
@@ -181,9 +174,9 @@ namespace NuciXNA.Graphics.Drawing
         /// <param name="gameTime">Game time.</param>
         public virtual void Update(GameTime gameTime)
         {
-            FadeEffect?.Update(gameTime);
+            OpacityEffect?.Update(gameTime);
             RotationEffect?.Update(gameTime);
-            ZoomEffect?.Update(gameTime);
+            ScaleEffect?.Update(gameTime);
         }
 
         /// <summary>

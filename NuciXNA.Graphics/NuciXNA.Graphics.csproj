@@ -59,7 +59,10 @@
     <Compile Include="SpriteEffects\AnimationEffect.cs" />
     <Compile Include="SpriteEffects\CustomSpriteEffect.cs" />
     <Compile Include="SpriteEffects\FadeEffect.cs" />
+    <Compile Include="SpriteEffects\OpacityEffect.cs" />
+    <Compile Include="SpriteEffects\OscilationEffect.cs" />
     <Compile Include="SpriteEffects\RotationEffect.cs" />
+    <Compile Include="SpriteEffects\ScaleEffect.cs" />
     <Compile Include="SpriteEffects\SpriteSheetEffect.cs" />
     <Compile Include="SpriteEffects\ZoomEffect.cs" />
   </ItemGroup>
