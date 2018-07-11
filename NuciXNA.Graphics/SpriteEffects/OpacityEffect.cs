@@ -25,7 +25,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Gets or sets a value indicating whether this <see cref="FadeEffect"/> is increasing.
         /// </summary>
         /// <value><c>true</c> if increasing; otherwise, <c>false</c>.</value>
-        public bool IsIncreasing { get; protected set; }
+        public bool IsIncreasing { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpacityEffect"/> class.
@@ -33,6 +33,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         public OpacityEffect()
         {
             Speed = 1;
+            CurrentMultiplier = 0.0f;
             MinimumMultiplier = 0.0f;
             MaximumMultiplier = 1.0f;
             IsIncreasing = true;
@@ -46,12 +47,12 @@ namespace NuciXNA.Graphics.SpriteEffects
         {
             base.Update(gameTime);
 
-            if (Sprite.Active)
+            if (Active)
             {
-                UpdateValue(gameTime);
+                UpdateMultiplier(gameTime);
             }
         }
 
-        protected abstract void UpdateValue(GameTime gameTime);
+        protected abstract void UpdateMultiplier(GameTime gameTime);
     }
 }

@@ -87,16 +87,7 @@ namespace NuciXNA.Graphics.Drawing
                 {
                     value *= OpacityEffect.CurrentMultiplier;
                 }
-
-                if (value < 0.0f)
-                {
-                    return 0.0f;
-                }
-                else if (value > 1.0f)
-                {
-                    return 1.0f;
-                }
-
+                
                 return value;
             }
         }

@@ -21,7 +21,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Gets or sets a value indicating whether this <see cref="RotationEffect"/> is increasing.
         /// </summary>
         /// <value><c>true</c> if increasing; otherwise, <c>false</c>.</value>
-        public bool IsIncreasing { get; protected set; }
+        public bool IsIncreasing { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RotationEffect"/> class.

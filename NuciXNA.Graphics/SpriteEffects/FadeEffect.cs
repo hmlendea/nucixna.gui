@@ -11,26 +11,29 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Updates the value.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void UpdateValue(GameTime gameTime)
+        protected override void UpdateMultiplier(GameTime gameTime)
         {
-            if (IsIncreasing == false)
+            float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if (IsIncreasing)
             {
-                CurrentMultiplier -= Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
+                CurrentMultiplier += delta;
+
+                if (CurrentMultiplier >= MaximumMultiplier)
+                {
+                    CurrentMultiplier = MaximumMultiplier;
+                    IsIncreasing = false;
+                }
             }
             else
             {
-                CurrentMultiplier += Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
-            }
+                CurrentMultiplier -= delta;
 
-            if (CurrentMultiplier < MinimumMultiplier)
-            {
-                IsIncreasing = true;
-                CurrentMultiplier = MinimumMultiplier;
-            }
-            else if (CurrentMultiplier > MaximumMultiplier)
-            {
-                IsIncreasing = false;
-                CurrentMultiplier = MaximumMultiplier;
+                if (CurrentMultiplier <= MinimumMultiplier)
+                {
+                    CurrentMultiplier = MinimumMultiplier;
+                    IsIncreasing = true;
+                }
             }
         }
     }

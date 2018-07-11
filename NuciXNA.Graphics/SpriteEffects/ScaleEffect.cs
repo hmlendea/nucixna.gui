@@ -27,7 +27,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Gets or sets a value indicating whether this <see cref="ScaleEffect"/> is increasing.
         /// </summary>
         /// <value><c>true</c> if increasing; otherwise, <c>false</c>.</value>
-        public bool IsIncreasing { get; protected set; }
+        public bool IsIncreasing { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScaleEffect"/> class.
@@ -35,10 +35,10 @@ namespace NuciXNA.Graphics.SpriteEffects
         public ScaleEffect()
         {
             Speed = 0.1f;
-            MinimumMultiplier = 0.0f;
-            MaximumMultiplier = 2.0f;
             CurrentHorizontalMultiplier = 1.0f;
             CurrentVerticalMultiplier = 1.0f;
+            MinimumMultiplier = 0.0f;
+            MaximumMultiplier = 2.0f;
             IsIncreasing = true;
         }
 
