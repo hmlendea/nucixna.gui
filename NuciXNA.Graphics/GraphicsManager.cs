@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+
 namespace NuciXNA.Graphics
 {
     /// <summary>
@@ -45,5 +47,7 @@ namespace NuciXNA.Graphics
         /// </summary>
         /// <value>The sprite batch.</value>
         public SpriteBatch SpriteBatch { get; set; }
+
+        public Size2D BackBufferSize => new Size2D(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
     }
 }
