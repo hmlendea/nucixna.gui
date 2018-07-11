@@ -102,9 +102,7 @@ namespace NuciXNA.Gui.Screens
                 item.Size.Width + Spacing / 2,
                 item.Size.Height + Spacing / 2));
 
-            dimensions = new Size2D(
-                (ScreenManager.Instance.Size.Width - dimensions.Width) / 2,
-                (ScreenManager.Instance.Size.Height - dimensions.Height) / 2);
+            dimensions = (ScreenManager.Instance.Size - dimensions) / 2;
 
             foreach (GuiMenuItem item in Items)
             {

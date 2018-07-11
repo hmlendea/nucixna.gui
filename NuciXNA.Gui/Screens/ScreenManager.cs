@@ -124,9 +124,7 @@ namespace NuciXNA.Gui.Screens
                 return;
             }
 
-            Size = new Size2D(
-                GraphicsManager.Instance.Graphics.PreferredBackBufferWidth,
-                GraphicsManager.Instance.Graphics.PreferredBackBufferHeight);
+            Size = GraphicsManager.Instance.BackBufferSize;
 
             transitionSprite.Scale = new Scale2D(Size);
         }

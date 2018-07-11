@@ -36,9 +36,9 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_location != null)
+                if (_location.HasValue)
                 {
-                    return (Point2D)_location;
+                    return _location.Value;
                 }
 
                 return Point2D.Empty;
@@ -60,9 +60,7 @@ namespace NuciXNA.Gui.GuiElements
             {
                 if (Parent != null)
                 {
-                    return new Point2D(
-                        Location.X + Parent.ScreenLocation.X,
-                        Location.Y + Parent.ScreenLocation.Y);
+                    return Location + Parent.ScreenLocation;
                 }
 
                 return Location;
@@ -77,9 +75,9 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_size != null)
+                if (_size.HasValue)
                 {
-                    return (Size2D)_size;
+                    return _size.Value;
                 }
 
                 if (Parent != null)
@@ -120,9 +118,9 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_opacity != null)
+                if (_opacity.HasValue)
                 {
-                    return (float)_opacity;
+                    return _opacity.Value;
                 }
 
                 if (Parent != null)
@@ -250,9 +248,9 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_isEnabled != null)
+                if (_isEnabled.HasValue)
                 {
-                    return (bool)_isEnabled;
+                    return _isEnabled.Value;
                 }
 
                 if (Parent != null)
@@ -280,9 +278,9 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_isVisible != null)
+                if (_isVisible.HasValue)
                 {
-                    return (bool)_isVisible;
+                    return _isVisible.Value;
                 }
 
                 if (Parent != null)
@@ -317,9 +315,9 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_isFocused != null)
+                if (_isFocused.HasValue)
                 {
-                    return (bool)_isFocused;
+                    return _isFocused.Value;
                 }
                 
                 return false;
