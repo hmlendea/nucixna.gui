@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using NuciXNA.Primitives.Mapping;
 
@@ -220,7 +221,7 @@ namespace NuciXNA.Primitives
         #endregion
         #endregion
 
-        #region To and From for Argb and Hexadecimal formats
+        #region Mappings
 
         /// <summary>
         /// Creates a colour from an ARGB integer.
@@ -286,6 +287,27 @@ namespace NuciXNA.Primitives
         /// <returns>A string representing the hexadecimal code of the colour.</returns>
         public string ToHexadecimal() => ColourTranslator.ToHexadecimal(this);
 
+        public Colour ToMonochromeAverage()
+        {
+            int average = (R + G + B) / 3;
+
+            return new Colour(average, average, average, A);
+        }
+
+        public Colour ToMonochromeLight()
+        {
+            int lightest = new int[] { R, G, B }.Max();
+
+            return new Colour(lightest, lightest, lightest, A);
+        }
+
+        public Colour ToMonochromeDark()
+        {
+            int darkest = new int[] { R, G, B }.Min();
+
+            return new Colour(darkest, darkest, darkest, A);
+        }
+
         #endregion
 
         /// <summary>
@@ -327,7 +349,7 @@ namespace NuciXNA.Primitives
         {
             return Multiply(colour, factor);
         }
-
+        
         #region IEquatable and Equals
         
         /// <summary>

@@ -99,14 +99,21 @@ namespace NuciXNA.Primitives
         /// <value>The top Y-axis coordinate.</value>
         public int Top => Y;
 
-        public Point2D Centre
-            => new Point2D(X + Width / 2, Y + Height / 2);
+        public Point2D Centre => new Point2D(X + Width / 2, Y + Height / 2);
+
+        public Point2D TopLeft => Location;
+
+        public Point2D TopRight => new Point2D(Right, Top);
+
+        public Point2D BottomLeft => new Point2D(Left, Bottom);
+
+        public Point2D BottomRight => new Point2D(Right, Bottom);
 
         /// <summary>
         /// Gets an empty rectangle, whose location and size are equal to zero.
         /// </summary>
         /// <value>The empty rectangle.</value>
-        public static Rectangle2D Empty => new Rectangle2D(0, 0, 0, 0);
+        public static Rectangle2D Empty => new Rectangle2D(Point2D.Empty, Size2D.Empty);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Rectangle2D"/> structure.
@@ -127,6 +134,7 @@ namespace NuciXNA.Primitives
         public Rectangle2D(Point2D point, int width, int height) : this (point.X, point.Y, width, height) { }
         public Rectangle2D(int x, int y, Size2D size) : this (x, y, size.Width, size.Height) { }
         public Rectangle2D(Point2D start, Point2D end) : this(start.X, start.Y, end.X - start.X, end.Y - start.Y) { }
+        public Rectangle2D(Size2D size) : this(Point2D.Empty, size) { }
 
         /// <summary>
         /// Checks whether the specified <see cref="Rectangle2D"/> contains a set of coordinates.
@@ -153,8 +161,7 @@ namespace NuciXNA.Primitives
         /// otherwise, <c>false</c>.</returns>
         public bool Contains(Point2D point)
         => Contains(point.X, point.Y);
-
-
+        
         /// <summary>
         /// Checks whether the specified <see cref="Rectangle2D"/> fully contains another <see cref="Rectangle2D"/>.
         /// </summary>
@@ -162,8 +169,8 @@ namespace NuciXNA.Primitives
         /// <returns><c>true</c> if the specified rectangle is inside the rectangle area;
         /// otherwise, <c>false</c>.</returns>
         public bool Contains(Rectangle2D rectangle)
-        => Contains(rectangle.Location) &&
-           Contains(rectangle.Right, rectangle.Bottom);
+        => Contains(rectangle.TopLeft) &&
+           Contains(rectangle.BottomRight);
 
         /// <summary>
         /// Determines whether the specified <see cref="Rectangle2D"/> is equal to the current <see cref="Rectangle2D"/>.

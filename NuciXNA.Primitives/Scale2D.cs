@@ -53,7 +53,7 @@ namespace NuciXNA.Primitives
             Horizontal = horizontal;
             Vertical = vertical;
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Scale2D"/> structure.
         /// </summary>
@@ -188,6 +188,12 @@ namespace NuciXNA.Primitives
         /// <returns>The <see cref="Scale2D"/> that is the division of the values of <c>source</c> and <c>value</c>.</returns>
         public static Scale2D operator /(Scale2D source, int value)
         => new Scale2D(source.Horizontal / value, source.Vertical / value);
+
+        public static Scale2D operator *(Scale2D source, float value)
+        => new Scale2D(source.Horizontal * value, source.Vertical * value);
+
+        public static Scale2D operator /(Scale2D source, float value)
+        => new Scale2D(source.Horizontal / value, source.Vertical * value);
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="Scale2D"/> is equal to

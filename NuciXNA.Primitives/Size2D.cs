@@ -26,6 +26,8 @@ namespace NuciXNA.Primitives
         /// <value>The area.</value>
         public double Area => Width * Height;
 
+        public double Perimeter => Width * 2 + Height * 2;
+
         /// <summary>
         /// Gets a value indicating whether this <see cref="Size2D"/> is zero.
         /// </summary>
@@ -57,6 +59,8 @@ namespace NuciXNA.Primitives
             : this(point.X, point.Y)
         {
         }
+
+        public Size2D(int size) : this(size, size) { }
 
         /// <summary>
         /// Determines whether the specified <see cref="Size2D"/> is equal to the current <see cref="Size2D"/>.
