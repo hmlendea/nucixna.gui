@@ -117,7 +117,10 @@ namespace NuciXNA.DataAccess.Repositories
                 return;
             }
 
-            Entities = XmlFile.LoadEntities().ToDictionary(x => x.Id, x => x);
+            // TODO: Throw exception if key already exists, for easier debugging
+            IEnumerable<TDataObject> xmlEntities = XmlFile.LoadEntities();
+            Entities = xmlEntities.ToDictionary(x => x.Id, x => x);
+
             loadedEntities = true;
         }
     }
