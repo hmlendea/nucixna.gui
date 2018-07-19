@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using NuciXNA.DataAccess.DataObjects;
 using NuciXNA.DataAccess.IO;
@@ -59,8 +58,11 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="entity">Entity.</param>
         public override void Add(TDataObject entity)
         {
-            LoadEntitiesIfNeeded();
-
+            if (!loadedEntities)
+            {
+                LoadEntitiesIfNeeded();
+            }
+            
             base.Add(entity);
         }
 
@@ -71,7 +73,10 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="id">Identifier.</param>
         public override TDataObject Get(TKey id)
         {
-            LoadEntitiesIfNeeded();
+            if (!loadedEntities)
+            {
+                LoadEntitiesIfNeeded();
+            }
 
             return base.Get(id);
         }
@@ -82,7 +87,10 @@ namespace NuciXNA.DataAccess.Repositories
         /// <returns>The entities</returns>
         public override IEnumerable<TDataObject> GetAll()
         {
-            LoadEntitiesIfNeeded();
+            if (!loadedEntities)
+            {
+                LoadEntitiesIfNeeded();
+            }
 
             return base.GetAll();
         }
@@ -93,7 +101,10 @@ namespace NuciXNA.DataAccess.Repositories
         /// <param name="entity">Entity.</param>
         public override void Remove(TDataObject entity)
         {
-            LoadEntitiesIfNeeded();
+            if (!loadedEntities)
+            {
+                LoadEntitiesIfNeeded();
+            }
 
             base.Remove(entity);
 
@@ -112,14 +123,17 @@ namespace NuciXNA.DataAccess.Repositories
         /// </summary>
         protected void LoadEntitiesIfNeeded()
         {
-            if (loadedEntities)
-            {
-                return;
-            }
-
-            // TODO: Throw exception if key already exists, for easier debugging
             IEnumerable<TDataObject> xmlEntities = XmlFile.LoadEntities();
-            Entities = xmlEntities.ToDictionary(x => x.Id, x => x);
+
+            foreach(TDataObject entity in xmlEntities)
+            {
+                if (Entities.ContainsKey(entity.Id))
+                {
+                    throw new DuplicateEntityException(entity.Id.ToString(), nameof(TDataObject));
+                }
+
+                Entities.Add(entity.Id, entity);
+            }
 
             loadedEntities = true;
         }
