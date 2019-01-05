@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
 
 using NuciXNA.Graphics.Drawing;
 
@@ -15,6 +14,8 @@ namespace NuciXNA.Gui
         /// </summary>
         /// <value>The location.</value>
         public Point2D Location { get; set; }
+
+        public Point2D LocationOffset { get; set; }
 
         public MouseButtonState State { get; private set; }
 
@@ -89,8 +90,8 @@ namespace NuciXNA.Gui
 
         void SetChildrenProperites()
         {
-            idleSprite.Location = Location;
-            clickSprite.Location = Location;
+            idleSprite.Location = Location + LocationOffset;
+            clickSprite.Location = Location + LocationOffset;
         }
 
         void InputManager_OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
