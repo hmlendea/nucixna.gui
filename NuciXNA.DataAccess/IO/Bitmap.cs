@@ -65,6 +65,11 @@ namespace NuciXNA.DataAccess.IO
             return new Bitmap(fileName);
         }
 
+        public void Save(string fileName)
+        {
+            sourceImage.Save(fileName);
+        }
+
         /// <summary>
         /// Gets the colour of the specified pixel.
         /// </summary>
