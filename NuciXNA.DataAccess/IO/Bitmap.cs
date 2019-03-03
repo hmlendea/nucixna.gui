@@ -60,14 +60,16 @@ namespace NuciXNA.DataAccess.IO
             Size = new Size2D(sourceImage.Width, sourceImage.Height);
         }
 
-        public static Bitmap Load(string fileName)
+        public Colour this[int x, int y]
         {
-            return new Bitmap(fileName);
+            get => GetPixel(x, y);
+            set => SetPixel(x, y, value);
         }
 
-        public void Save(string fileName)
+        public Colour this[Point2D point]
         {
-            sourceImage.Save(fileName);
+            get => GetPixel(point);
+            set => SetPixel(point, value);
         }
 
         /// <summary>
@@ -114,6 +116,16 @@ namespace NuciXNA.DataAccess.IO
         public void SetPixel(Point2D location, Colour colour)
         {
             SetPixel(location.X, location.Y, colour);
+        }
+
+        public static Bitmap Load(string fileName)
+        {
+            return new Bitmap(fileName);
+        }
+
+        public void Save(string fileName)
+        {
+            sourceImage.Save(fileName);
         }
 
         /// <summary>
