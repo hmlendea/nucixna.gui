@@ -331,10 +331,10 @@ namespace NuciXNA.Primitives
         /// <param name="factor">Factor.</param>
         public static Colour Multiply(Colour colour, float factor)
         {
-            byte newA = (byte)(colour.A * factor);
-            byte newR = (byte)(colour.R * factor);
-            byte newG = (byte)(colour.G * factor);
-            byte newB = (byte)(colour.B * factor);
+            byte newA = (byte)(Math.Max(0, Math.Min(255, colour.A * factor)));
+            byte newR = (byte)(Math.Max(0, Math.Min(255, colour.R * factor)));
+            byte newG = (byte)(Math.Max(0, Math.Min(255, colour.G * factor)));
+            byte newB = (byte)(Math.Max(0, Math.Min(255, colour.B * factor)));
 
             return new Colour(newR, newG, newB, newA);
         }
@@ -350,6 +350,9 @@ namespace NuciXNA.Primitives
             return Multiply(colour, factor);
         }
         
+        public override string ToString()
+            => ToHexadecimal();
+
         #region IEquatable and Equals
         
         /// <summary>

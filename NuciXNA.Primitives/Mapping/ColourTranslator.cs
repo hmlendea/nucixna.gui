@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 
 namespace NuciXNA.Primitives.Mapping
 {
@@ -39,6 +40,8 @@ namespace NuciXNA.Primitives.Mapping
                 hexa = hexa.Remove(0, 1);
             }
 
+            // TODO: Proper exception when digits are outside hex range
+
             if (hexa.Length == 3)
             {
                 colour.A = 255;
@@ -69,7 +72,7 @@ namespace NuciXNA.Primitives.Mapping
             }
             else
             {
-                throw new ArgumentException("Hexadecimal colour '" + hexa + "' is invalid.");
+                throw new ArgumentException("Hexadecimal colour '" + hexa + "' is invalid");
             }
 
             return colour;
