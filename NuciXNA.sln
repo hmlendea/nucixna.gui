@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA", "NuciXNA\NuciXNA.csproj", "{F41D98E2-8423-4AD4-8E68-58C6A1BA2043}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Primitives", "NuciXNA.Primitives\NuciXNA.Primitives.csproj", "{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Input", "NuciXNA.Input\NuciXNA.Input.csproj", "{135F1B72-5CF1-4275-BF1C-B282533F67C9}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F41D98E2-8423-4AD4-8E68-58C6A1BA2043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F41D98E2-8423-4AD4-8E68-58C6A1BA2043}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F41D98E2-8423-4AD4-8E68-58C6A1BA2043}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F41D98E2-8423-4AD4-8E68-58C6A1BA2043}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
