@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using NuciXNA.Primitives;
 
-namespace NuciXNA.Primitives.Testss
+namespace NuciXNA.UnitTests.Primitives
 {
     public class ColourTests
     {

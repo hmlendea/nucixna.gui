@@ -5,7 +5,7 @@ using NUnit.Framework;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
-namespace NuciXNA.Primitives.Testss
+namespace NuciXNA.UnitTests.Primitives
 {
     public class ColourTranslatorTests
     {
