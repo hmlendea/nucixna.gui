@@ -17,7 +17,7 @@ namespace NuciXNA.Gui
 
         public Point2D LocationOffset { get; set; }
 
-        public MouseButtonState State { get; private set; }
+        public ButtonState State { get; private set; }
 
         public int Frames { get; set; }
 
@@ -78,7 +78,7 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (State == MouseButtonState.Pressed)
+            if (State == ButtonState.Pressed)
             {
                 clickSprite.Draw(spriteBatch);
             }
@@ -96,17 +96,17 @@ namespace NuciXNA.Gui
 
         void InputManager_OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
-                State = MouseButtonState.Pressed;
+                State = ButtonState.Pressed;
             }
         }
 
         void InputManager_OnMouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
-                State = MouseButtonState.Released;
+                State = ButtonState.Released;
             }
         }
 

@@ -152,11 +152,11 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
                 SelectedIndex += 1;
             }
-            else if (e.Button == MouseButton.RightButton)
+            else if (e.Button == MouseButton.Right)
             {
                 SelectedIndex -= 1;
             }

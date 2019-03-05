@@ -172,6 +172,7 @@ namespace NuciXNA.Gui.GuiElements
             {
                 if (_backgroundColour == null || _backgroundColour != value)
                 {
+                    // TODO: Pass event args
                     OnBackgroundColourChanged(this, null);
                 }
 
@@ -667,8 +668,8 @@ namespace NuciXNA.Gui.GuiElements
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
                 MouseButtonEventArgs e = new MouseButtonEventArgs(
-                    MouseButton.LeftButton,
-                    MouseButtonState.Pressed,
+                    MouseButton.Left,
+                    ButtonState.Pressed,
                     InputManager.Instance.MouseLocation);
 
                 GuiManager.Instance.FocusElement(this);
@@ -892,7 +893,7 @@ namespace NuciXNA.Gui.GuiElements
 
             OnMouseButtonPressed(sender, e);
 
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
                 OnClicked(sender, e);
             }
