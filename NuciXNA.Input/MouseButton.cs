@@ -12,25 +12,37 @@ namespace NuciXNA.Input
         static IDictionary<int, MouseButton> entries =
             new Dictionary<int, MouseButton>
             {
-                { LeftButton.Id, LeftButton },
-                { RightButton.Id, RightButton },
-                { MiddleButton.Id, MiddleButton }
+                { Left.Id, Left },
+                { Right.Id, Right },
+                { Middle.Id, Middle },
+                { Back.Id, Back },
+                { Forward.Id, Forward }
             };
 
         /// <summary>
         /// The left mouse button.
         /// </summary>
-        public static MouseButton LeftButton => new MouseButton(1, nameof(LeftButton), true);
+        public static MouseButton Left => new MouseButton(1, nameof(Left), true);
 
         /// <summary>
         /// The right mouse button.
         /// </summary>
-        public static MouseButton RightButton => new MouseButton(1, nameof(RightButton), false);
+        public static MouseButton Right => new MouseButton(1, nameof(Right), false);
 
         /// <summary>
         /// The middle mouse button.
         /// </summary>
-        public static MouseButton MiddleButton => new MouseButton(3, nameof(MiddleButton), true);
+        public static MouseButton Middle => new MouseButton(3, nameof(Middle), true);
+
+        /// <summary>
+        /// The back mouse button.
+        /// </summary>
+        public static MouseButton Back => new MouseButton(4, nameof(Back), true);
+
+        /// <summary>
+        /// The forward mouse button.
+        /// </summary>
+        public static MouseButton Forward => new MouseButton(5, nameof(Forward), true);
 
         public int Id { get; }
 
