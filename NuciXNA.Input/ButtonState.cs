@@ -51,10 +51,10 @@ namespace NuciXNA.Input
             IsDown = isDown;
         }
 
-        public ButtonState FromId(int id)
+        public static ButtonState FromId(int id)
             => entries[id];
 
-        public ButtonState FromName(string name)
+        public static ButtonState FromName(string name)
             => entries.Values.First(x => x.Name == name);
 
         public bool Equals(ButtonState other)
