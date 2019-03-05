@@ -52,10 +52,26 @@ namespace NuciXNA.Input
         }
 
         public static ButtonState FromId(int id)
-            => entries[id];
+        {
+            if (!entries.ContainsKey(id))
+            {
+                throw new ArgumentException($"A {nameof(ButtonState)} with the identifier \"{id}\" does not exist");
+            }
+
+            return entries[id];
+        }
 
         public static ButtonState FromName(string name)
-            => entries.Values.First(x => x.Name.Equals(name));
+        {
+            ButtonState button = entries.Values.FirstOrDefault(x => x.Name == name);
+
+            if (button == null)
+            {
+                throw new ArgumentException($"A {nameof(ButtonState)} with the name \"{name}\" does not exist");
+            }
+
+            return button;
+        }
 
         public override string ToString()
             => Name;
@@ -109,5 +125,11 @@ namespace NuciXNA.Input
 
         public static implicit operator string(ButtonState me)
             => me.ToString();
+        
+        public static implicit operator ButtonState(int id)
+            => ButtonState.FromId(id);
+
+        public static implicit operator ButtonState(string name)
+            => ButtonState.FromName(name);
     }
 }

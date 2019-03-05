@@ -18,7 +18,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void FromId_CorrectButtonStateReturned()
+        public void FromId_CalledWithExistingId_CorrectButtonStateReturned()
         {
             foreach (ButtonState state in ButtonState.GetValues())
             {
@@ -27,12 +27,24 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void FromName_CorrectButtonStateReturned()
+        public void FromId_CalledWithInexistentId_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => ButtonState.FromId(873));
+        }
+
+        [Test]
+        public void FromName_CalledWithExistingName_CorrectButtonStateReturned()
         {
             foreach (ButtonState state in ButtonState.GetValues())
             {
                 Assert.AreEqual(state, ButtonState.FromName(state.Name));
             }
+        }
+
+        [Test]
+        public void FromName_CalledWithInexistentName_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => ButtonState.FromName("Hori"));
         }
 
         [Test]
@@ -139,6 +151,44 @@ namespace NuciXNA.UnitTests.Input
             ButtonState state = ButtonState.Idle;
 
             Assert.AreEqual(state.Name, (string)state);
+        }
+
+        [Test]
+        public void AssignInteger_AssignedExistingId_ReturnsCorrectButtonState()
+        {
+            foreach (ButtonState state in ButtonState.GetValues())
+            {
+                ButtonState state2 = state.Id;
+            
+                Assert.AreEqual(state, state2);
+            }
+        }
+
+        [Test]
+        public void AssignInteger_AssignedInexistentId_ThrowsArgumentException()
+        {
+            ButtonState state;
+            
+            Assert.Throws<ArgumentException>(() => state = 873);
+        }
+
+        [Test]
+        public void AssignString_AssignedExistingName_ReturnsCorrectButtonState()
+        {
+            foreach (ButtonState state in ButtonState.GetValues())
+            {
+                ButtonState state2 = state.Name;
+            
+                Assert.AreEqual(state, state2);
+            }
+        }
+
+        [Test]
+        public void AssignString_AssignedInexistentName_ThrowsArgumentException()
+        {
+            ButtonState state;
+
+            Assert.Throws<ArgumentException>(() => state = "Hori");
         }
     }
 }

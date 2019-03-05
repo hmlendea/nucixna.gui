@@ -18,12 +18,24 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
+        public void FromId_CalledWithInexistentId_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => MouseButton.FromId(873));
+        }
+
+        [Test]
         public void FromName_CorrectMouseButtonReturned()
         {
             foreach (MouseButton state in MouseButton.GetValues())
             {
                 Assert.AreEqual(state, MouseButton.FromName(state.Name));
             }
+        }
+
+        [Test]
+        public void FromName_CalledWithInexistentName_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => MouseButton.FromName("Hori"));
         }
 
         [Test]
@@ -130,6 +142,44 @@ namespace NuciXNA.UnitTests.Input
             MouseButton state = MouseButton.Left;
 
             Assert.AreEqual(state.Name, (string)state);
+        }
+
+        [Test]
+        public void AssignInteger_AssignedExistingId_ReturnsCorrectMouseButton()
+        {
+            foreach (MouseButton state in MouseButton.GetValues())
+            {
+                MouseButton state2 = state.Id;
+            
+                Assert.AreEqual(state, state2);
+            }
+        }
+
+        [Test]
+        public void AssignInteger_AssignedInexistentId_ThrowsArgumentException()
+        {
+            MouseButton state;
+            
+            Assert.Throws<ArgumentException>(() => state = 873);
+        }
+
+        [Test]
+        public void AssignString_AssignedExistingName_ReturnsCorrectMouseButton()
+        {
+            foreach (MouseButton state in MouseButton.GetValues())
+            {
+                MouseButton state2 = state.Name;
+            
+                Assert.AreEqual(state, state2);
+            }
+        }
+
+        [Test]
+        public void AssignString_AssignedInexistentName_ThrowsArgumentException()
+        {
+            MouseButton state;
+
+            Assert.Throws<ArgumentException>(() => state = "Hori");
         }
     }
 }
