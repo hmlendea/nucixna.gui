@@ -9,7 +9,7 @@ namespace NuciXNA.UnitTests.Input
     public class MouseButtonTests
     {
         [Test]
-        public void FromId_CorrectMouseButtonReturned()
+        public void FromId_ReturnsCorrectMouseButton()
         {
             foreach (MouseButton state in MouseButton.GetValues())
             {
@@ -24,7 +24,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void FromName_CorrectMouseButtonReturned()
+        public void FromName_ReturnsCorrectMouseButton()
         {
             foreach (MouseButton state in MouseButton.GetValues())
             {
@@ -39,7 +39,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void ToString_CorrectStringReturned()
+        public void ToString_ReturnsCorrectValue()
         {
             foreach (MouseButton state in MouseButton.GetValues())
             {
@@ -48,7 +48,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void GetHashCode_CorrectHashCodeReturned()
+        public void GetHashCode_ReturnsCorrectValue()
         {
             foreach (MouseButton state in MouseButton.GetValues())
             {
@@ -129,7 +129,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void CastAsInt_CorrectValuesReturned()
+        public void CastAsInt_ReturnsCorrectValue()
         {
             MouseButton state = MouseButton.Left;
 
@@ -137,7 +137,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void CastAsString_CorrectValuesReturned()
+        public void CastAsString_ReturnsCorrectValue()
         {
             MouseButton state = MouseButton.Left;
 

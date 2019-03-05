@@ -18,7 +18,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void FromId_CalledWithExistingId_CorrectButtonStateReturned()
+        public void FromId_CalledWithExistingId_ReturnsCorrectButtonState()
         {
             foreach (ButtonState state in ButtonState.GetValues())
             {
@@ -33,7 +33,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void FromName_CalledWithExistingName_CorrectButtonStateReturned()
+        public void FromName_CalledWithExistingName_ReturnsCorrectButtonState()
         {
             foreach (ButtonState state in ButtonState.GetValues())
             {
@@ -48,7 +48,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void ToString_CorrectStringReturned()
+        public void ToString_ReturnsCorrectValue()
         {
             foreach (ButtonState state in ButtonState.GetValues())
             {
@@ -57,7 +57,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void GetHashCode_CorrectHashCodeReturned()
+        public void GetHashCode_ReturnsCorrectValue()
         {
             foreach (ButtonState state in ButtonState.GetValues())
             {
@@ -138,7 +138,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void CastAsInt_CorrectValuesReturned()
+        public void CastAsInt_ReturnsCorrectValue()
         {
             ButtonState state = ButtonState.Idle;
 
@@ -146,7 +146,7 @@ namespace NuciXNA.UnitTests.Input
         }
 
         [Test]
-        public void CastAsString_CorrectValuesReturned()
+        public void CastAsString_ReturnsCorrectValue()
         {
             ButtonState state = ButtonState.Idle;
 
