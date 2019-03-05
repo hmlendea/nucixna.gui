@@ -338,17 +338,6 @@ namespace NuciXNA.Primitives
 
             return new Colour(newR, newG, newB, newA);
         }
-
-        /// <summary>
-        /// Multiplies a specified colour by a factor.
-        /// </summary>
-        /// <returns>The multiply.</returns>
-        /// <param name="colour">Colour.</param>
-        /// <param name="factor">Factor.</param>
-        public static Colour operator *(Colour colour, float factor)
-        {
-            return Multiply(colour, factor);
-        }
         
         public override string ToString()
             => ToHexadecimal();
@@ -437,6 +426,46 @@ namespace NuciXNA.Primitives
                     B.GetHashCode();
             }
         }
+
+        #endregion
+
+        #region Operators
+
+        /// <summary>
+        /// Multiplies a specified colour by a factor.
+        /// </summary>
+        /// <returns>The multiply.</returns>
+        /// <param name="colour">Colour.</param>
+        /// <param name="factor">Factor.</param>
+        public static Colour operator *(Colour colour, float factor)
+        {
+            return Multiply(colour, factor);
+        }
+
+        public static bool operator ==(Colour me, Colour other)
+        {
+            if (me is null)
+            {
+                return other is null;
+            }
+
+            return me.Equals(other);
+        }
+
+        public static bool operator !=(Colour me, Colour other)
+            => !(me == other);
+
+        public static explicit operator int(Colour me)
+            => me.ToArgb();
+
+        public static explicit operator string(Colour me)
+            => me.ToString();
+        
+        public static explicit operator Colour(int argb)
+            => Colour.FromArgb(argb);
+
+        public static explicit operator Colour(string hexadecimal)
+            => Colour.FromHexadecimal(hexadecimal);
 
         #endregion
     }

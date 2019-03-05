@@ -31,7 +31,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void ToMonochromeAverage_CorrectColourReturned()
+        public void ToMonochromeAverage_ReturnsCorrectColour()
         {
             Colour colour = new Colour(8, 16, 24);
             Colour expected = new Colour(16, 16, 16);
@@ -41,7 +41,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void ToMonochromeDark_CorrectColourReturned()
+        public void ToMonochromeDark_ReturnsCorrectColour()
         {
             Colour colour = new Colour(8, 16, 24);
             Colour expected = new Colour(8, 8, 8);
@@ -51,7 +51,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void ToMonochromeLight_CorrectColourReturned()
+        public void ToMonochromeLight_ReturnsCorrectColour()
         {
             Colour colour = new Colour(8, 16, 24);
             Colour expected = new Colour(24, 24, 24);
@@ -61,7 +61,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void IsSimilarTo_CorrectValueReturned()
+        public void IsSimilarTo_ReturnsCorrectValue()
         {
             Colour colour1 = new Colour(8, 16, 24);
             Colour colour2 = new Colour(10, 18, 26);
@@ -71,7 +71,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void Multiply_CalledWithValidFactor_CorrectColourReturned()
+        public void Multiply_CalledWithValidFactor_ReturnsCorrectColour()
         {
             Colour colour = new Colour(8, 8, 8, 8);
             Colour expected = new Colour(16, 16, 16, 16);
@@ -81,7 +81,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void Multiply_CalledWithHugeFactor_MaxColourReturned()
+        public void Multiply_CalledWithHugeFactor_ReturnsWhiteColour()
         {
             Colour colour = new Colour(8, 8, 8, 8);
             Colour expected = new Colour(255, 255, 255, 255);
@@ -91,7 +91,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void Multiply_CalledWithNegativeFactor_MinColourReturned()
+        public void Multiply_CalledWithNegativeFactor_ReturnsBlackColour()
         {
             Colour colour = new Colour(8, 8, 8, 8);
             Colour expected = new Colour(0, 0, 0, 0);
@@ -101,37 +101,7 @@ namespace NuciXNA.UnitTests.Primitives
         }
 
         [Test]
-        public void ProduceOperator_CorrectColourReturned()
-        {
-            Colour colour = new Colour(8, 8, 8, 8);
-            Colour expected = new Colour(16, 16, 16, 16);
-            Colour actual = colour * 2;
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void ProduceOperator_MultiplyWithHugeFactor_MaxColourReturned()
-        {
-            Colour colour = new Colour(8, 8, 8, 8);
-            Colour expected = new Colour(255, 255, 255, 255);
-            Colour actual = colour * 100;
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void ProduceOperator_MultiplyWithNegativeFactor_MinColourReturned()
-        {
-            Colour colour = new Colour(8, 8, 8, 8);
-            Colour expected = new Colour(0, 0, 0, 0);
-            Colour actual = colour * -1;
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void ToString_HexStringReturned()
+        public void ToString_ReturnsCorrectValue()
         {
             Colour colour = new Colour(255, 0, 0);
             string expected = "#FF0000";
@@ -226,6 +196,70 @@ namespace NuciXNA.UnitTests.Primitives
             Colour colour = new Colour(255, 0, 255);
 
             Assert.IsFalse(colour.Equals(DateTime.Now));
+        }
+
+        [Test]
+        public void MultiplyOperator_ReturnsCorrectColour()
+        {
+            Colour colour = new Colour(8, 8, 8, 8);
+            Colour expected = new Colour(16, 16, 16, 16);
+            Colour actual = colour * 2;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void MultiplyOperator_MultiplyWithHugeFactor_ReturnsWhiteColour()
+        {
+            Colour colour = new Colour(8, 8, 8, 8);
+            Colour expected = new Colour(255, 255, 255, 255);
+            Colour actual = colour * 100;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void MultiplyOperator_MultiplyWithNegativeFactor_ReturnsBlackColour()
+        {
+            Colour colour = new Colour(8, 8, 8, 8);
+            Colour expected = new Colour(0, 0, 0, 0);
+            Colour actual = colour * -1;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void EqualsOperator_CalledWithSameColour_ReturnsTrue()
+        {
+            Colour me = Colour.Black;
+            Colour other = Colour.Black;
+
+            Assert.IsTrue(me == other);
+        }
+
+        [Test]
+        public void EqualsOperator_CalledWithDifferentColour_ReturnsFalse()
+        {
+            Colour me = Colour.Black;
+            Colour other = Colour.White;
+
+            Assert.IsFalse(me == other);
+        }
+
+        [Test]
+        public void EqualsOperator_CalledWithNull_ReturnsFalse()
+        {
+            Colour me = Colour.Black;
+
+            Assert.IsFalse(me == null);
+        }
+
+        [Test]
+        public void EqualsOperator_CurrentIsNull_ReturnsFalse()
+        {
+            Colour other = Colour.White;
+
+            Assert.IsFalse(null == other);
         }
     }
 }
