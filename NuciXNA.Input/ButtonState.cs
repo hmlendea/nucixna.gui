@@ -5,12 +5,12 @@ using System.Linq;
 namespace NuciXNA.Input
 {
     /// <summary>
-    /// Mouse button state.
+    /// Button state.
     /// </summary>
-    public sealed class MouseButtonState : IEquatable<MouseButtonState>
+    public sealed class ButtonState : IEquatable<ButtonState>
     {
-        static IDictionary<int, MouseButtonState> entries =
-            new Dictionary<int, MouseButtonState>
+        static IDictionary<int, ButtonState> entries =
+            new Dictionary<int, ButtonState>
             {
                 { Pressed.Id, Pressed },
                 { Released.Id, Released },
@@ -21,22 +21,22 @@ namespace NuciXNA.Input
         /// <summary>
         /// The mouse button was just pressed.
         /// </summary>
-        public static MouseButtonState Pressed => new MouseButtonState(1, nameof(Pressed), true);
+        public static ButtonState Pressed => new ButtonState(1, nameof(Pressed), true);
 
         /// <summary>
         /// They mouse button was just released.
         /// </summary>
-        public static MouseButtonState Released => new MouseButtonState(1, nameof(Pressed), false);
+        public static ButtonState Released => new ButtonState(1, nameof(Pressed), false);
 
         /// <summary>
         /// The mouse button is down.
         /// </summary>
-        public static MouseButtonState Down => new MouseButtonState(3, nameof(Up), true);
+        public static ButtonState Down => new ButtonState(3, nameof(Up), true);
 
         /// <summary>
         /// The mouse button is up.
         /// </summary>
-        public static MouseButtonState Up => new MouseButtonState(3, nameof(Up), false);
+        public static ButtonState Up => new ButtonState(3, nameof(Up), false);
 
         public int Id { get; }
 
@@ -44,20 +44,20 @@ namespace NuciXNA.Input
 
         public bool IsDown { get; }
 
-        private MouseButtonState(int id, string name, bool isDown)
+        private ButtonState(int id, string name, bool isDown)
         {
             Id = id;
             Name = name;
             IsDown = isDown;
         }
 
-        public MouseButtonState FromId(int id)
+        public ButtonState FromId(int id)
             => entries[id];
 
-        public MouseButtonState FromName(string name)
+        public ButtonState FromName(string name)
             => entries.Values.First(x => x.Name == name);
 
-        public bool Equals(MouseButtonState other)
+        public bool Equals(ButtonState other)
         {
             if (other is null)
             {
@@ -79,7 +79,7 @@ namespace NuciXNA.Input
                 return false;
             }
             
-            return Equals(obj as MouseButtonState);
+            return Equals(obj as ButtonState);
         }
 
         public override string ToString()
@@ -88,16 +88,16 @@ namespace NuciXNA.Input
         public override int GetHashCode()
             => Id.GetHashCode();
 
-        public static IEnumerable<MouseButtonState> GetValues()
+        public static IEnumerable<ButtonState> GetValues()
             => entries.Values.ToList();
 
-        public static implicit operator int(MouseButtonState me)
+        public static implicit operator int(ButtonState me)
             => me.Id;
 
-        public static implicit operator string(MouseButtonState me)
+        public static implicit operator string(ButtonState me)
             => me.ToString();
 
-        public static bool operator ==(MouseButtonState me, MouseButtonState other)
+        public static bool operator ==(ButtonState me, ButtonState other)
         {
             if (me is null)
             {
@@ -107,7 +107,7 @@ namespace NuciXNA.Input
             return me.Equals(other);
         }
 
-        public static bool operator !=(MouseButtonState me, MouseButtonState other)
+        public static bool operator !=(ButtonState me, ButtonState other)
             => !(me == other);
     }
 }

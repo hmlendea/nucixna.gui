@@ -22,14 +22,14 @@ namespace NuciXNA.Input
         /// Gets the state of the key.
         /// </summary>
         /// <value>The state of the key.</value>
-        public KeyboardKeyState KeyState { get; private set; }
+        public ButtonState KeyState { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyboardKeyEventArgs"/> class.
         /// </summary>
         /// <param name="key">Key.</param>
         /// <param name="keyState">Key state.</param>
-        public KeyboardKeyEventArgs(Keys key, KeyboardKeyState keyState)
+        public KeyboardKeyEventArgs(Keys key, ButtonState keyState)
         {
             Key = key;
             KeyState = keyState;

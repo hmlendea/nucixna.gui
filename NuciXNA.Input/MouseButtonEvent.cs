@@ -22,7 +22,7 @@ namespace NuciXNA.Input
         /// Gets the state of the button.
         /// </summary>
         /// <value>The state of the button.</value>
-        public MouseButtonState ButtonState { get; private set; }
+        public ButtonState ButtonState { get; private set; }
 
         /// <summary>
         /// Gets location of the mouse.
@@ -36,7 +36,7 @@ namespace NuciXNA.Input
         /// <param name="button">Button.</param>
         /// <param name="buttonState">Button state.</param>
         /// <param name="location">Mouse location.</param>
-        public MouseButtonEventArgs(MouseButton button, MouseButtonState buttonState, Point2D location)
+        public MouseButtonEventArgs(MouseButton button, ButtonState buttonState, Point2D location)
         {
             Button = button;
             ButtonState = buttonState;

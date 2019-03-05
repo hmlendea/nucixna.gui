@@ -150,7 +150,7 @@ namespace NuciXNA.Input
             {
                 if (currentKeyState.IsKeyDown(key) && previousKeyState.IsKeyUp(key))
                 {
-                    OnKeyboardKeyPressed(this, new KeyboardKeyEventArgs(key, KeyboardKeyState.Pressed));
+                    OnKeyboardKeyPressed(this, new KeyboardKeyEventArgs(key, ButtonState.Pressed));
                 }
             }
         }
@@ -161,7 +161,7 @@ namespace NuciXNA.Input
             {
                 if (currentKeyState.IsKeyUp(key) && previousKeyState.IsKeyDown(key))
                 {
-                    OnKeyboardKeyReleased(this, new KeyboardKeyEventArgs(key, KeyboardKeyState.Released));
+                    OnKeyboardKeyReleased(this, new KeyboardKeyEventArgs(key, ButtonState.Released));
                 }
             }
         }
@@ -172,41 +172,41 @@ namespace NuciXNA.Input
             {
                 if (currentKeyState.IsKeyDown(key))
                 {
-                    OnKeyboardKeyDown(this, new KeyboardKeyEventArgs(key, KeyboardKeyState.Down));
+                    OnKeyboardKeyDown(this, new KeyboardKeyEventArgs(key, ButtonState.Down));
                 }
             }
         }
 
         void CheckMouseButtonPressed()
         {
-            if (currentMouseState.LeftButton == ButtonState.Pressed &&
-                previousMouseState.LeftButton != ButtonState.Pressed)
+            if (currentMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                previousMouseState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.LeftButton,
-                    MouseButtonState.Pressed,
+                    ButtonState.Pressed,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonPressed(this, eventArgs);
             }
 
-            if (currentMouseState.RightButton == ButtonState.Pressed &&
-                previousMouseState.RightButton != ButtonState.Pressed)
+            if (currentMouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                previousMouseState.RightButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.RightButton,
-                    MouseButtonState.Pressed,
+                    ButtonState.Pressed,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonPressed(this, eventArgs);
             }
 
-            if (currentMouseState.MiddleButton == ButtonState.Pressed &&
-                previousMouseState.MiddleButton != ButtonState.Pressed)
+            if (currentMouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                previousMouseState.MiddleButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.MiddleButton,
-                    MouseButtonState.Pressed,
+                    ButtonState.Pressed,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonPressed(this, eventArgs);
@@ -215,34 +215,34 @@ namespace NuciXNA.Input
 
         void CheckMouseButtonReleased()
         {
-            if (currentMouseState.LeftButton == ButtonState.Released &&
-                previousMouseState.LeftButton != ButtonState.Released)
+            if (currentMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released &&
+                previousMouseState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.LeftButton,
-                    MouseButtonState.Released,
+                    ButtonState.Released,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonReleased(this, eventArgs);
             }
 
-            if (currentMouseState.RightButton == ButtonState.Released &&
-                previousMouseState.RightButton != ButtonState.Released)
+            if (currentMouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Released &&
+                previousMouseState.RightButton != Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.RightButton,
-                    MouseButtonState.Released,
+                    ButtonState.Released,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonReleased(this, eventArgs);
             }
 
-            if (currentMouseState.MiddleButton == ButtonState.Released &&
-                previousMouseState.MiddleButton != ButtonState.Released)
+            if (currentMouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Released &&
+                previousMouseState.MiddleButton != Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.MiddleButton,
-                    MouseButtonState.Released,
+                    ButtonState.Released,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonReleased(this, eventArgs);
@@ -251,31 +251,31 @@ namespace NuciXNA.Input
 
         void CheckMouseButtonDown()
         {
-            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            if (currentMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.LeftButton,
-                    MouseButtonState.Down,
+                    ButtonState.Down,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonDown(this, eventArgs);
             }
 
-            if (currentMouseState.RightButton == ButtonState.Pressed)
+            if (currentMouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.RightButton,
-                    MouseButtonState.Down,
+                    ButtonState.Down,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonDown(this, eventArgs);
             }
 
-            if (currentMouseState.MiddleButton == ButtonState.Pressed)
+            if (currentMouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     MouseButton.MiddleButton,
-                    MouseButtonState.Down,
+                    ButtonState.Down,
                     currentMouseState.Position.ToPoint2D());
 
                 OnMouseButtonDown(this, eventArgs);
@@ -299,16 +299,16 @@ namespace NuciXNA.Input
             switch (button)
             {
                 case MouseButton.LeftButton:
-                    return currentMouseState.LeftButton == ButtonState.Pressed &&
-                           previousMouseState.LeftButton == ButtonState.Released;
+                    return currentMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                           previousMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released;
 
                 case MouseButton.RightButton:
-                    return currentMouseState.RightButton == ButtonState.Pressed &&
-                           previousMouseState.LeftButton == ButtonState.Released;
+                    return currentMouseState.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                           previousMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released;
 
                 case MouseButton.MiddleButton:
-                    return currentMouseState.MiddleButton == ButtonState.Pressed &&
-                           previousMouseState.LeftButton == ButtonState.Released;
+                    return currentMouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                           previousMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released;
 
                 default:
                     return false;
@@ -392,8 +392,8 @@ namespace NuciXNA.Input
 
         public bool IsLeftMouseButtonClicked()
         {
-            if (currentMouseState.LeftButton == ButtonState.Pressed &&
-                previousMouseState.LeftButton == ButtonState.Released)
+            if (currentMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
+                previousMouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 return true;
             }
