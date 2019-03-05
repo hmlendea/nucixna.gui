@@ -31,12 +31,12 @@ namespace NuciXNA.Input
         /// <summary>
         /// They mouse button was just released.
         /// </summary>
-        public static ButtonState Released => new ButtonState(1, nameof(Pressed), false);
+        public static ButtonState Released => new ButtonState(2, nameof(Released), false);
 
         /// <summary>
         /// The mouse button is down.
         /// </summary>
-        public static ButtonState HeldDown => new ButtonState(3, nameof(Idle), true);
+        public static ButtonState HeldDown => new ButtonState(3, nameof(HeldDown), true);
 
         public int Id { get; }
 
@@ -55,7 +55,16 @@ namespace NuciXNA.Input
             => entries[id];
 
         public static ButtonState FromName(string name)
-            => entries.Values.First(x => x.Name == name);
+            => entries.Values.First(x => x.Name.Equals(name));
+
+        public override string ToString()
+            => Name;
+
+        public override int GetHashCode()
+            => Id.GetHashCode();
+
+        public static IEnumerable<ButtonState> GetValues()
+            => entries.Values.ToList();
 
         public bool Equals(ButtonState other)
         {
@@ -82,21 +91,6 @@ namespace NuciXNA.Input
             return Equals(obj as ButtonState);
         }
 
-        public override string ToString()
-            => Name;
-
-        public override int GetHashCode()
-            => Id.GetHashCode();
-
-        public static IEnumerable<ButtonState> GetValues()
-            => entries.Values.ToList();
-
-        public static implicit operator int(ButtonState me)
-            => me.Id;
-
-        public static implicit operator string(ButtonState me)
-            => me.ToString();
-
         public static bool operator ==(ButtonState me, ButtonState other)
         {
             if (me is null)
@@ -109,5 +103,11 @@ namespace NuciXNA.Input
 
         public static bool operator !=(ButtonState me, ButtonState other)
             => !(me == other);
+
+        public static implicit operator int(ButtonState me)
+            => me.Id;
+
+        public static implicit operator string(ButtonState me)
+            => me.ToString();
     }
 }

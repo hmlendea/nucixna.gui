@@ -27,7 +27,7 @@ namespace NuciXNA.Input
         /// <summary>
         /// The right mouse button.
         /// </summary>
-        public static MouseButton Right => new MouseButton(1, nameof(Right));
+        public static MouseButton Right => new MouseButton(2, nameof(Right));
 
         /// <summary>
         /// The middle mouse button.
@@ -60,6 +60,12 @@ namespace NuciXNA.Input
         public static MouseButton FromName(string name)
             => entries.Values.First(x => x.Name == name);
 
+        public override string ToString()
+            => Name;
+
+        public override int GetHashCode()
+            => Id.GetHashCode();
+
         public bool Equals(MouseButton other)
         {
             if (other is null)
@@ -85,21 +91,6 @@ namespace NuciXNA.Input
             return Equals(obj as MouseButton);
         }
 
-        public override string ToString()
-            => Name;
-
-        public override int GetHashCode()
-            => Id.GetHashCode();
-
-        public static IEnumerable<MouseButton> GetValues()
-            => entries.Values.ToList();
-
-        public static implicit operator int(MouseButton me)
-            => me.Id;
-
-        public static implicit operator string(MouseButton me)
-            => me.ToString();
-
         public static bool operator ==(MouseButton me, MouseButton other)
         {
             if (me is null)
@@ -112,5 +103,14 @@ namespace NuciXNA.Input
 
         public static bool operator !=(MouseButton me, MouseButton other)
             => !(me == other);
+
+        public static IEnumerable<MouseButton> GetValues()
+            => entries.Values.ToList();
+
+        public static implicit operator int(MouseButton me)
+            => me.Id;
+
+        public static implicit operator string(MouseButton me)
+            => me.ToString();
     }
 }
