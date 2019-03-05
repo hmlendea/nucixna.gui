@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Gui", "NuciXNA.Gui\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Graphics", "NuciXNA.Graphics\NuciXNA.Graphics.csproj", "{6FCEA66F-4122-450B-BCC5-8217DC33B50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA.UnitTests", "NuciXNA.UnitTests\NuciXNA.UnitTests.csproj", "{0DAC6518-F1D0-4634-81FF-D8FAD42A3B07}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuciXNA.UnitTests", "NuciXNA.UnitTests", "{B5AEC406-9D17-4228-AEF1-824821BCA35D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA.UnitTests.Primitives", "NuciXNA.UnitTests\NuciXNA.UnitTests.Primitives\NuciXNA.UnitTests.Primitives.csproj", "{70519137-C6F3-4E4A-900A-2861CB47D3EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA.UnitTests.Input", "NuciXNA.UnitTests\NuciXNA.UnitTests.Input\NuciXNA.UnitTests.Input.csproj", "{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,15 +45,23 @@ Global
 		{6FCEA66F-4122-450B-BCC5-8217DC33B50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FCEA66F-4122-450B-BCC5-8217DC33B50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FCEA66F-4122-450B-BCC5-8217DC33B50E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0DAC6518-F1D0-4634-81FF-D8FAD42A3B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0DAC6518-F1D0-4634-81FF-D8FAD42A3B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0DAC6518-F1D0-4634-81FF-D8FAD42A3B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0DAC6518-F1D0-4634-81FF-D8FAD42A3B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6EFD60D-56EE-4771-9657-4DA9282EC22F}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{70519137-C6F3-4E4A-900A-2861CB47D3EB} = {B5AEC406-9D17-4228-AEF1-824821BCA35D}
+		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB} = {B5AEC406-9D17-4228-AEF1-824821BCA35D}
 	EndGlobalSection
 EndGlobal
