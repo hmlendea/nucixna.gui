@@ -22,39 +22,36 @@ namespace NuciXNA.Input
         /// <summary>
         /// The left mouse button.
         /// </summary>
-        public static MouseButton Left => new MouseButton(1, nameof(Left), true);
+        public static MouseButton Left => new MouseButton(1, nameof(Left));
 
         /// <summary>
         /// The right mouse button.
         /// </summary>
-        public static MouseButton Right => new MouseButton(1, nameof(Right), false);
+        public static MouseButton Right => new MouseButton(1, nameof(Right));
 
         /// <summary>
         /// The middle mouse button.
         /// </summary>
-        public static MouseButton Middle => new MouseButton(3, nameof(Middle), true);
+        public static MouseButton Middle => new MouseButton(3, nameof(Middle));
 
         /// <summary>
         /// The back mouse button.
         /// </summary>
-        public static MouseButton Back => new MouseButton(4, nameof(Back), true);
+        public static MouseButton Back => new MouseButton(4, nameof(Back));
 
         /// <summary>
         /// The forward mouse button.
         /// </summary>
-        public static MouseButton Forward => new MouseButton(5, nameof(Forward), true);
+        public static MouseButton Forward => new MouseButton(5, nameof(Forward));
 
         public int Id { get; }
 
         public string Name { get; }
 
-        public bool IsDown { get; }
-
-        private MouseButton(int id, string name, bool isDown)
+        private MouseButton(int id, string name)
         {
             Id = id;
             Name = name;
-            IsDown = isDown;
         }
 
         public static MouseButton FromId(int id)

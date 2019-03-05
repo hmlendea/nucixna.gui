@@ -12,11 +12,16 @@ namespace NuciXNA.Input
         static IDictionary<int, ButtonState> entries =
             new Dictionary<int, ButtonState>
             {
+                { Idle.Id, Idle },
                 { Pressed.Id, Pressed },
                 { Released.Id, Released },
-                { Down.Id, Down },
-                { Up.Id, Up }
+                { HeldDown.Id, HeldDown }
             };
+
+        /// <summary>
+        /// The mouse button is up.
+        /// </summary>
+        public static ButtonState Idle => new ButtonState(0, nameof(Idle), false);
 
         /// <summary>
         /// The mouse button was just pressed.
@@ -31,12 +36,7 @@ namespace NuciXNA.Input
         /// <summary>
         /// The mouse button is down.
         /// </summary>
-        public static ButtonState Down => new ButtonState(3, nameof(Up), true);
-
-        /// <summary>
-        /// The mouse button is up.
-        /// </summary>
-        public static ButtonState Up => new ButtonState(3, nameof(Up), false);
+        public static ButtonState HeldDown => new ButtonState(3, nameof(Idle), true);
 
         public int Id { get; }
 
