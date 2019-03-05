@@ -45,12 +45,6 @@ namespace NuciXNA.Gui.Screens
         public Colour ForegroundColour { get; set; }
 
         /// <summary>
-        /// Gets or sets the screen arguments.
-        /// </summary>
-        /// <value>The screen arguments.</value>
-        public string[] ScreenArgs { get; set; }
-
-        /// <summary>
         /// Occurs when a key is pressed while this <see cref="Screen"/> has input focus.
         /// </summary>
         public event KeyboardKeyEventHandler KeyPressed;

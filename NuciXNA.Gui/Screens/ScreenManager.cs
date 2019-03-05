@@ -157,15 +157,14 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         /// <param name="screenType">Screen type.</param>
         /// <param name="screenArgs">Screen arguments.</param>
-        public void ChangeScreens(Type screenType, string[] screenArgs)
+        public void ChangeScreens(Type screenType, params object[] screenArgs)
         {
             if (Transitioning)
             {
                 return;
             }
             
-            newScreen = (Screen)Activator.CreateInstance(screenType);
-            newScreen.ScreenArgs = screenArgs;
+            newScreen = (Screen)Activator.CreateInstance(screenType, screenArgs);
 
             if (currentScreen == null)
             {
