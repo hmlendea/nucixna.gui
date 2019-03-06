@@ -227,9 +227,9 @@ namespace NuciXNA.Input
             else if (button == MouseButton.Back)
             {
                 currentState = currentMouseState.XButton1;
-                previousState = previousMouseState.XButton2;
+                previousState = previousMouseState.XButton1;
             }
-            else if (button == MouseButton.Right)
+            else if (button == MouseButton.Forward)
             {
                 currentState = currentMouseState.XButton2;
                 previousState = previousMouseState.XButton2;
