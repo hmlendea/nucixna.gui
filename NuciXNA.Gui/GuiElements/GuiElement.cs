@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -305,7 +304,6 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is hovered.
         /// </summary>
         /// <value><c>true</c> if hovered; otherwise, <c>false</c>.</value>
-        [XmlIgnore]
         public bool Hovered { get; set; }
 
         /// <summary>

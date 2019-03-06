@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,21 +30,18 @@ namespace NuciXNA.Graphics.Drawing
         /// Gets the texture.
         /// </summary>
         /// <value>The texture.</value>
-        [XmlIgnore]
         public Texture2D Texture { get; private set; }
 
         /// <summary>
         /// Gets the texture size.
         /// </summary>
         /// <value>The texture size.</value>
-        [XmlIgnore]
         public Size2D TextureSize => new Size2D(Texture.Width, Texture.Height);
 
         /// <summary>
         /// Gets or sets the source rectangle.
         /// </summary>
         /// <value>The source rectangle.</value>
-        [XmlIgnore]
         public Rectangle2D SourceRectangle { get; set; }
 
         /// <summary>

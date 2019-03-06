@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 
@@ -20,7 +19,6 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets the toggle state.
         /// </summary>
         /// <value>The type of the toggle state.</value>
-        [XmlIgnore]
         public bool ToggleState { get; set; }
 
         string originalText;

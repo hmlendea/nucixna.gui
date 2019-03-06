@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,14 +34,12 @@ namespace NuciXNA.Gui.Screens
         /// Gets all the items.
         /// </summary>
         /// <value>The items.</value>
-        [XmlIgnore]
         public List<GuiMenuItem> Items { get; set; }
 
         /// <summary>
         /// Gets the item number.
         /// </summary>
         /// <value>The item number.</value>
-        [XmlIgnore]
         public int ItemNumber { get; private set; }
 
         /// <summary>

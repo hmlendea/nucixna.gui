@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -26,14 +25,12 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Gets the type.
         /// </summary>
         /// <value>The type.</value>
-        [XmlIgnore]
         public Type Type { get; private set; }
 
         /// <summary>
         /// Gets the key.
         /// </summary>
         /// <value>The key.</value>
-        [XmlIgnore]
         public string Key { get { return Type.ToString().Split('.').Last(); } }
 
         /// <summary>

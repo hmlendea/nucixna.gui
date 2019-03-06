@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,21 +50,18 @@ namespace NuciXNA.Gui.Screens
         /// Gets the size.
         /// </summary>
         /// <value>The size.</value>
-        [XmlIgnore]
         public Size2D Size { get; private set; }
 
         /// <summary>
         /// Gets or sets the sprite batch.
         /// </summary>
         /// <value>The sprite batch.</value>
-        [XmlIgnore]
         public SpriteBatch SpriteBatch { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the current screen is transitioning.
         /// </summary>
         /// <value><c>true</c> if transitioning; otherwise, <c>false</c>.</value>
-        [XmlIgnore]
         public bool Transitioning { get; private set; }
 
         /// <summary>

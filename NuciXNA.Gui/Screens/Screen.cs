@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,7 +28,6 @@ namespace NuciXNA.Gui.Screens
         /// Gets or sets the type.
         /// </summary>
         /// <value>The type.</value>
-        [XmlIgnore]
         public Type Type { get; set; }
 
         /// <summary>

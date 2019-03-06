@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -24,14 +23,12 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets the selected index.
         /// </summary>
         /// <value>The selected index.</value>
-        [XmlIgnore]
         public int SelectedIndex { get; set; }
 
         /// <summary>
         /// Gets the selected value.
         /// </summary>
         /// <value>The selected value.</value>
-        [XmlIgnore]
         public string SelectedValue
         {
             get
