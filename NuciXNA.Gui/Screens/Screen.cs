@@ -14,7 +14,7 @@ namespace NuciXNA.Gui.Screens
     /// <summary>
     /// Screen.
     /// </summary>
-    public class Screen
+    public class Screen : IDisposable
     {
         public string Id { get; set; }
 
@@ -43,6 +43,12 @@ namespace NuciXNA.Gui.Screens
         public Colour ForegroundColour { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Screen"/> is destroyed.
+        /// </summary>
+        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
         /// Occurs when a key is pressed while this <see cref="Screen"/> has input focus.
         /// </summary>
         public event KeyboardKeyEventHandler KeyPressed;
@@ -58,6 +64,11 @@ namespace NuciXNA.Gui.Screens
         public event MouseEventHandler MouseMoved;
 
         /// <summary>
+        /// Occurs when this <see cref="Screen"/> was disposed.
+        /// </summary>
+        public event EventHandler Disposed;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Screen"/> class.
         /// </summary>
         public Screen()
@@ -68,6 +79,11 @@ namespace NuciXNA.Gui.Screens
             XmlPath = Path.Combine("Screens", $"{Type.Name}.xml");
 
             BackgroundColour = Colour.Black;
+        }
+
+        ~Screen()
+        {
+            Dispose();
         }
 
         /// <summary>
@@ -115,6 +131,35 @@ namespace NuciXNA.Gui.Screens
             GuiManager.Instance.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Disposes of this <see cref="GuiElement"/>.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of this <see cref="GuiElement"/>.
+        /// </summary>
+        protected void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            IsDisposed = true;
+
+            lock (this)
+            {
+                UnloadContent();
+
+                OnDisposed(this, EventArgs.Empty);
+            }
+        }
+
         protected virtual void SetChildrenProperties()
         {
 
@@ -149,6 +194,16 @@ namespace NuciXNA.Gui.Screens
         protected virtual void OnMouseMoved(object sender, MouseEventArgs e)
         {
             MouseMoved?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="Disposed"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        protected virtual void OnDisposed(object sender, EventArgs e)
+        {
+            Disposed?.Invoke(sender, e);
         }
     }
 }

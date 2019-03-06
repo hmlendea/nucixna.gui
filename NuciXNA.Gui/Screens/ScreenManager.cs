@@ -102,7 +102,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public void UnloadContent()
         {
-            currentScreen.UnloadContent();
+            currentScreen.Dispose();
             transitionSprite.UnloadContent();
         }
 
@@ -186,7 +186,7 @@ namespace NuciXNA.Gui.Screens
 
             if (transitionSprite.ClientOpacity >= 1.0f)
             {
-                currentScreen.UnloadContent();
+                currentScreen.Dispose();
                 currentScreen = newScreen;
                 currentScreen.LoadContent();
 
