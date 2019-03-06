@@ -29,7 +29,7 @@ namespace NuciXNA.Input
         /// <summary>
         /// Occurs when a mouse button is down.
         /// </summary>
-        public event MouseButtonEventHandler MouseButtonDown;
+        public event MouseButtonEventHandler MouseButtonHeldDown;
 
         /// <summary>
         /// Occurs when the mouse moves.
@@ -168,6 +168,8 @@ namespace NuciXNA.Input
 
         void CheckMouseButtonStates()
         {
+            Point2D cursorLocation = currentMouseState.Position.ToPoint2D();
+            
             foreach (MouseButton button in MouseButton.GetValues())
             {
                 ButtonState state = GetMouseButtonState(button);
@@ -175,7 +177,7 @@ namespace NuciXNA.Input
                 MouseButtonEventArgs eventArgs = new MouseButtonEventArgs(
                     button,
                     state,
-                    currentMouseState.Position.ToPoint2D());
+                    cursorLocation);
                 
                 if (state == ButtonState.Pressed)
                 {
@@ -235,24 +237,24 @@ namespace NuciXNA.Input
                 previousState = previousMouseState.XButton2;
             }
 
-            if (currentState == XNAButtonState.Pressed && previousState != XNAButtonState.Pressed)
+            if (currentState == XNAButtonState.Pressed)
             {
+                if (previousState == XNAButtonState.Pressed)
+                {
+                    return ButtonState.HeldDown;
+                }
+
                 return ButtonState.Pressed;
             }
 
-            if (currentState == XNAButtonState.Released && previousState != XNAButtonState.Released)
+            if (currentState == XNAButtonState.Released)
             {
+                if (previousState == XNAButtonState.Released)
+                {
+                    return ButtonState.Idle;
+                }
+
                 return ButtonState.Released;
-            }
-
-            if (currentState == XNAButtonState.Pressed && previousState == XNAButtonState.Pressed)
-            {
-                return ButtonState.HeldDown;
-            }
-
-            if (currentState == XNAButtonState.Released && previousState == XNAButtonState.Released)
-            {
-                return ButtonState.Idle;
             }
 
             return null;
@@ -309,13 +311,13 @@ namespace NuciXNA.Input
         }
 
         /// <summary>
-        /// Fires when a mouse button is down.
+        /// Fires when a mouse button is held down.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        void OnMouseButtonHeldDown(object sender, MouseButtonEventArgs e)
         {
-            MouseButtonDown?.Invoke(sender, e);
+            MouseButtonHeldDown?.Invoke(sender, e);
         }
 
         /// <summary>
