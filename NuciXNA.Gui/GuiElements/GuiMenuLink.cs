@@ -19,7 +19,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets the link arguments.
         /// </summary>
         /// <value>The link arguments.</value>
-        public string LinkArgs { get; set; }
+        public object[] Parameters { get; set; }
 
         /// <summary>
         /// Fired by the Activated event.
@@ -30,14 +30,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             base.OnActivated(sender, e);
 
-            string[] args = new string[0];
-
-            if (!string.IsNullOrWhiteSpace(LinkArgs))
-            {
-                args = LinkArgs.Split(' ');
-            }
-
-            ScreenManager.Instance.ChangeScreens(TargetScreen, args);
+            ScreenManager.Instance.ChangeScreens(TargetScreen, Parameters);
         }
     }
 }
