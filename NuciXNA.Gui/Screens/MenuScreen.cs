@@ -16,8 +16,6 @@ namespace NuciXNA.Gui.Screens
     /// </summary>
     public class MenuScreen : Screen
     {
-        bool lastDirectionUp;
-
         /// <summary>
         /// Gets or sets the axis.
         /// </summary>
@@ -42,8 +40,10 @@ namespace NuciXNA.Gui.Screens
         /// <value>The item number.</value>
         public int ItemNumber { get; private set; }
 
+        bool lastDirectionBack;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screen"/> class.
+        /// Initializes a new instance of the <see cref="MenuScreen"/> class.
         /// </summary>
         public MenuScreen()
         {
@@ -75,9 +75,12 @@ namespace NuciXNA.Gui.Screens
         {
             int newSelectedItemIndex = GetNormalisedItemNumber(ItemNumber);
 
-            GuiManager.Instance.FocusElement(Items[newSelectedItemIndex]);
+            if (newSelectedItemIndex != ItemNumber)
+            {
+                GuiManager.Instance.FocusElement(Items[newSelectedItemIndex]);
 
-            ItemNumber = newSelectedItemIndex;
+                ItemNumber = newSelectedItemIndex;
+            }
 
             base.Update(gameTime);
         }
@@ -93,11 +96,13 @@ namespace NuciXNA.Gui.Screens
 
         void AlignMenuItems()
         {
+            Size2D halfSpacingSize = new Size2D(Spacing);
             Size2D dimensions = Size2D.Empty;
 
-            Items.ForEach(item => dimensions += new Size2D(
-                item.Size.Width + Spacing / 2,
-                item.Size.Height + Spacing / 2));
+            foreach (GuiMenuItem menuItem in Items)
+            {
+                dimensions += menuItem.Size + halfSpacingSize;
+            }
 
             dimensions = (ScreenManager.Instance.Size - dimensions) / 2;
 
@@ -140,31 +145,29 @@ namespace NuciXNA.Gui.Screens
         {
             base.OnKeyPressed(sender, e);
 
+            List<Keys> backKeys;
+            List<Keys> forwardKeys;
+
             if (Axis == MenuScreenAxis.Vertical)
             {
-                if (e.Key == Keys.W || e.Key == Keys.Up)
-                {
-                    ItemNumber -= 1;
-                    lastDirectionUp = true;
-                }
-                else if (e.Key == Keys.S || e.Key == Keys.Down)
-                {
-                    ItemNumber += 1;
-                    lastDirectionUp = false;
-                }
+                backKeys = new List<Keys> { Keys.W, Keys.Up };
+                forwardKeys = new List<Keys> { Keys.S, Keys.Down };
             }
-            else if (Axis == MenuScreenAxis.Horizontal)
+            else
             {
-                if (e.Key == Keys.D || e.Key == Keys.Right)
-                {
-                    ItemNumber -= 1;
-                    lastDirectionUp = true;
-                }
-                else if (e.Key == Keys.A || e.Key == Keys.Left)
-                {
-                    ItemNumber += 1;
-                    lastDirectionUp = false;
-                }
+                backKeys = new List<Keys> { Keys.A, Keys.Left};
+                forwardKeys = new List<Keys> { Keys.D, Keys.Right };
+            }
+
+            if (backKeys.Contains(e.Key))
+            {
+                ItemNumber -= 1;
+                lastDirectionBack = true;
+            }
+            else if (forwardKeys.Contains(e.Key))
+            {
+                ItemNumber += 1;
+                lastDirectionBack = false;
             }
 
             ItemNumber = GetNormalisedItemNumber(ItemNumber);
@@ -176,7 +179,7 @@ namespace NuciXNA.Gui.Screens
 
             if (!Items[normalisedItemNumber].Selectable && Items.Any(x => x.Selectable))
             {
-                if (lastDirectionUp)
+                if (lastDirectionBack)
                 {
                     normalisedItemNumber -= 1;
                 }
