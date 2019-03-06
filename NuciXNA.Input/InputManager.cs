@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -132,14 +133,12 @@ namespace NuciXNA.Input
         }
 
         public bool IsAnyMouseButtonDown()
-        {
-            return MouseButton
-                .GetValues()
-                .Select(GetMouseButtonState)
-                .Any(x => x.IsDown);
-        }
+            => IsAnyMouseButtonDown(MouseButton.GetValues());
 
         public bool IsAnyMouseButtonDown(params MouseButton[] buttons)
+            => IsAnyMouseButtonDown(buttons as IEnumerable<MouseButton>);
+
+        public bool IsAnyMouseButtonDown(IEnumerable<MouseButton> buttons)
         {
             return buttons
                 .Select(GetMouseButtonState)
