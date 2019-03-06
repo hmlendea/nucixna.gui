@@ -607,7 +607,7 @@ namespace NuciXNA.Gui.GuiElements
 
         protected virtual void RegisterEvents()
         {
-            InputManager.Instance.KeyboardKeyDown += OnInputManagerKeyboardKeyDown;
+            InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
 
@@ -617,7 +617,7 @@ namespace NuciXNA.Gui.GuiElements
 
         protected virtual void UnregisterEvents()
         {
-            InputManager.Instance.KeyboardKeyDown -= OnInputManagerKeyboardKeyDown;
+            InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
 
@@ -846,7 +846,7 @@ namespace NuciXNA.Gui.GuiElements
             SizeChanged?.Invoke(this, e);
         }
 
-        void OnInputManagerKeyboardKeyDown(object sender, KeyboardKeyEventArgs e)
+        void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
             if (!Enabled || !Visible ||
                 !CanRaiseEvents || !Focused)
