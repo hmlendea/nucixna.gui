@@ -49,7 +49,7 @@ namespace NuciXNA.Input
         /// <summary>
         /// Occurs when a keyboard key is down.
         /// </summary>
-        public event KeyboardKeyEventHandler KeyboardKeyDown;
+        public event KeyboardKeyEventHandler KeyboardKeyHeldDown;
 
         KeyboardState currentKeyState, previousKeyState;
         MouseState currentMouseState, previousMouseState;
@@ -116,7 +116,7 @@ namespace NuciXNA.Input
         public bool IsAnyKeyDown()
         {
             IEnumerable<Keys> keys = Enum.GetValues(typeof(Keys)).Cast<Keys>();
-            
+
             return IsAnyKeyDown();
         }
 
@@ -154,17 +154,23 @@ namespace NuciXNA.Input
 
             foreach (Keys key in keys)
             {
-                if (currentKeyState.IsKeyDown(key) && previousKeyState.IsKeyUp(key))
+                bool isCurrentlyDown = currentKeyState.IsKeyDown(key);
+                bool wasPreviouslyDown = previousKeyState.IsKeyDown(key);
+
+                if (isCurrentlyDown)
                 {
-                    OnKeyboardKeyPressed(this, new KeyboardKeyEventArgs(key, ButtonState.Pressed));
+                    if (wasPreviouslyDown)
+                    {
+                        OnKeyboardKeyHeldDown(this, new KeyboardKeyEventArgs(key, ButtonState.HeldDown));
+                    }
+                    else
+                    {
+                        OnKeyboardKeyPressed(this, new KeyboardKeyEventArgs(key, ButtonState.Pressed));
+                    }
                 }
-                else if (currentKeyState.IsKeyUp(key) && previousKeyState.IsKeyDown(key))
+                else if (!isCurrentlyDown && wasPreviouslyDown)
                 {
                     OnKeyboardKeyReleased(this, new KeyboardKeyEventArgs(key, ButtonState.Released));
-                }
-                else if (currentKeyState.IsKeyDown(key))
-                {
-                    OnKeyboardKeyDown(this, new KeyboardKeyEventArgs(key, ButtonState.HeldDown));
                 }
             }
         }
@@ -289,9 +295,9 @@ namespace NuciXNA.Input
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnKeyboardKeyDown(object sender, KeyboardKeyEventArgs e)
+        void OnKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
-            KeyboardKeyDown?.Invoke(sender, e);
+            KeyboardKeyHeldDown?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -341,13 +347,9 @@ namespace NuciXNA.Input
 
         public bool IsLeftMouseButtonClicked()
         {
-            if (currentMouseState.LeftButton == XNAButtonState.Pressed &&
-                previousMouseState.LeftButton == XNAButtonState.Released)
-            {
-                return true;
-            }
+            ButtonState state = GetMouseButtonState(MouseButton.Left);
 
-            return false;
+            return state == ButtonState.Pressed;
         }
     }
 }
