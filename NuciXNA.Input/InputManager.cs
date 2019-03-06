@@ -169,7 +169,7 @@ namespace NuciXNA.Input
         void CheckMouseButtonStates()
         {
             Point2D cursorLocation = currentMouseState.Position.ToPoint2D();
-            
+
             foreach (MouseButton button in MouseButton.GetValues())
             {
                 ButtonState state = GetMouseButtonState(button);
@@ -181,7 +181,7 @@ namespace NuciXNA.Input
                 
                 if (state == ButtonState.Pressed)
                 {
-                    OnMouseButtonReleased(this, eventArgs);
+                    OnMouseButtonPressed(this, eventArgs);
                 }
                 else if (state == ButtonState.Released)
                 {
@@ -189,7 +189,7 @@ namespace NuciXNA.Input
                 }
                 else if (state == ButtonState.HeldDown)
                 {
-                    OnMouseButtonReleased(this, eventArgs);
+                    OnMouseButtonHeldDown(this, eventArgs);
                 }
             }
         }
@@ -198,9 +198,10 @@ namespace NuciXNA.Input
         {
             if (currentMouseState.Position != previousMouseState.Position)
             {
-                MouseEventArgs eventArgs = new MouseEventArgs(
-                    currentMouseState.Position.ToPoint2D(),
-                    previousMouseState.Position.ToPoint2D());
+                Point2D currentLocation = currentMouseState.Position.ToPoint2D();
+                Point2D previousLocation = previousMouseState.Position.ToPoint2D();
+
+                MouseEventArgs eventArgs = new MouseEventArgs(currentLocation, previousLocation);
 
                 OnMouseMoved(this, eventArgs);
             }
