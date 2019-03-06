@@ -115,12 +115,15 @@ namespace NuciXNA.Input
 
         public bool IsAnyKeyDown()
         {
-            Keys[] allKeys = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToArray();
-
-            return IsAnyKeyDown(allKeys);
+            IEnumerable<Keys> keys = Enum.GetValues(typeof(Keys)).Cast<Keys>();
+            
+            return IsAnyKeyDown();
         }
 
         public bool IsAnyKeyDown(params Keys[] keys)
+            => IsAnyKeyDown(keys as IEnumerable<Keys>);
+
+        public bool IsAnyKeyDown(IEnumerable<Keys> keys)
         {
             return keys.Any(currentKeyState.IsKeyDown);
         }
