@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
+using NuciXNA.DataAccess.Extensions;
 
 namespace NuciXNA.DataAccess.Resources
 {
@@ -62,18 +65,14 @@ namespace NuciXNA.DataAccess.Resources
         /// Loads a sound effect either from the Content Pipeline or from disk (WAVs only).
         /// </summary>
         /// <returns>The sound effect.</returns>
-        /// <param name="filePath">The path to the file (without extension).</param>
-        public SoundEffect LoadSoundEffect(string filePath)
+        /// <param name="contentPath">The path to the file (without extension).</param>
+        public SoundEffect LoadSoundEffect(string contentPath)
         {
-            SoundEffect soundEffect;
+            SoundEffect soundEffect = content.TryLoad<SoundEffect>(contentPath);
 
-            try
+            if (soundEffect is null)
             {
-                soundEffect = content.Load<SoundEffect>(filePath);
-            }
-            catch
-            {
-                soundEffect = SoundEffect.FromStream(File.OpenRead(Path.Combine(content.RootDirectory, $"{filePath}.wav")));
+                soundEffect = LoadSoundEffectFromFile(contentPath);
             }
 
             return soundEffect;
@@ -83,9 +82,9 @@ namespace NuciXNA.DataAccess.Resources
         /// Loads a sprite font from the Content Pipeline.
         /// </summary>
         /// <returns>The sprite font.</returns>
-        /// <param name="filePath">The path to the file (without extension).</param>
-        public SpriteFont LoadSpriteFont(string filePath)
-        => content.Load<SpriteFont>(filePath);
+        /// <param name="contentPath">The path to the file (without extension).</param>
+        public SpriteFont LoadSpriteFont(string contentPath)
+            => content.Load<SpriteFont>(contentPath);
 
         /// <summary>
         /// Loads a 2D texture either from the Content Pipeline or from disk (PNGs only).
@@ -94,38 +93,53 @@ namespace NuciXNA.DataAccess.Resources
         /// <param name="contentPath">The path to the file (without extension).</param>
         public Texture2D LoadTexture2D(string contentPath)
         {
-            Texture2D texture2D = null;
+            Texture2D texture2D = content.TryLoad<Texture2D>(contentPath);
+
+            if (!(texture2D is null))
+            {
+                return texture2D;
+            }
 
             try
             {
-                texture2D = content.Load<Texture2D>(contentPath);
+                texture2D = LoadTexture2DFromFile(contentPath);
             }
             catch
             {
-                string diskFilePath = Path.Combine(content.RootDirectory, $"{contentPath}.png");
-
-                if (File.Exists(diskFilePath))
+                if (string.IsNullOrWhiteSpace(MissingTexturePlaceholder))
                 {
-                    texture2D = Texture2D.FromStream(graphicsDevice, File.OpenRead(diskFilePath));
+                    throw;
                 }
+
+                texture2D = content.Load<Texture2D>(MissingTexturePlaceholder);
             }
+            
+            return texture2D;
+        }
 
-            if (texture2D == null)
-            {
-                if (!string.IsNullOrWhiteSpace(MissingTexturePlaceholder))
-                {
-                    texture2D = content.Load<Texture2D>(MissingTexturePlaceholder);
+        private SoundEffect LoadSoundEffectFromFile(string filePath)
+        {
+            FileStream fileStream = GetContentFileStream($"{filePath}.wav");
+            SoundEffect soundEffect = SoundEffect.FromStream(fileStream);
 
-                    //string logMessage = "The repository cannot be accessed";
-                    // TODO: Log the an error
-                }
-                else
-                {
-                    throw new ContentLoadException($"Could not find the desired content file: {contentPath}");
-                }
-            }
+            return soundEffect;
+        }
+
+        private Texture2D LoadTexture2DFromFile(string filePath)
+        {
+            FileStream fileStream = GetContentFileStream($"{filePath}.png");
+            Texture2D texture2D = Texture2D.FromStream(graphicsDevice, fileStream);
 
             return texture2D;
+        }
+
+        private FileStream GetContentFileStream(string filePath)
+        {
+            string fullFilePath = Path.Combine(content.RootDirectory, filePath);
+
+            FileStream fileStream = File.OpenRead(fullFilePath);
+
+            return fileStream;
         }
     }
 }
