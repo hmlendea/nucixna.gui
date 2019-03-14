@@ -1,5 +1,7 @@
 using System;
 
+using NuciXNA.DataAccess.DataObjects;
+
 namespace NuciXNA.DataAccess.Repositories
 {
     /// <summary>
@@ -7,6 +9,27 @@ namespace NuciXNA.DataAccess.Repositories
     /// </summary>
     public class InvalidEntityFieldException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvalidEntityFieldException"/> class.
+        /// </summary>
+        /// <param name="fieldName">Field name.</param>
+        /// <param name="entity">The entity.</param>
+        public InvalidEntityFieldException(string fieldName, EntityBase entity)
+            : base($"The {fieldName} field of {entity.Id} {entity.GetType().Name} entity is invalid.")
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvalidEntityFieldException"/> class.
+        /// </summary>
+        /// <param name="fieldName">Field name.</param>
+        /// <param name="entityId">Entity identifier.</param>
+        /// <param name="entityType">Entity type.</param>
+        public InvalidEntityFieldException(string fieldName, string entityId, Type entityType)
+            : base($"The {fieldName} field of {entityId} {entityType.Name} entity is invalid.")
+        {
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidEntityFieldException"/> class.
         /// </summary>
@@ -19,7 +42,18 @@ namespace NuciXNA.DataAccess.Repositories
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DuplicateEntityException"/> class.
+        /// Initializes a new instance of the <see cref="InvalidEntityFieldException"/> class.
+        /// </summary>
+        /// <param name="fieldName">Field name.</param>
+        /// <param name="entity">The entity.</param>
+        /// <param name="innerException">Inner exception.</param>
+        public InvalidEntityFieldException(string fieldName, EntityBase entity, Exception innerException)
+            : base($"The {fieldName} field of {entity.Id} {entity.GetType().Name} entity is invalid.", innerException)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvalidEntityFieldException"/> class.
         /// </summary>
         /// <param name="fieldName">Field name.</param>
         /// <param name="entityId">Entity identifier.</param>
