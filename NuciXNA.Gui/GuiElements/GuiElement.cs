@@ -340,6 +340,12 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="GuiElement"/>'s content is loaded.
+        /// </summary>
+        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
+        public bool IsContentLoaded { get; private set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is destroyed.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
@@ -438,6 +444,11 @@ namespace NuciXNA.Gui.GuiElements
         public event EventHandler Created;
 
         /// <summary>
+        /// Occurs when this <see cref="GuiElement"/>'s content finished loading.
+        /// </summary>
+        public event EventHandler ContentLoaded;
+
+        /// <summary>
         /// Occurs when this <see cref="GuiElement"/> was disposed.
         /// </summary>
         public event EventHandler Disposed;
@@ -489,6 +500,8 @@ namespace NuciXNA.Gui.GuiElements
         {
             Id = Guid.NewGuid().ToString();
             Children = new List<GuiElement>();
+
+            Created?.Invoke(this, EventArgs.Empty);
         }
 
         ~GuiElement()
@@ -501,6 +514,11 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public virtual void LoadContent()
         {
+            if (IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content already loaded");
+            }
+
             RegisterChildren();
             SetChildrenProperties();
 
@@ -508,7 +526,10 @@ namespace NuciXNA.Gui.GuiElements
 
             RegisterEvents();
 
+            IsContentLoaded = true;
             IsDisposed = false;
+
+            ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -516,12 +537,18 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public virtual void UnloadContent()
         {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
             Parent = null;
             UnregisterEvents();
 
             Children.ForEach(x => x.UnloadContent());
 
             UnregisterChildren();
+            IsContentLoaded = false;
         }
 
         /// <summary>
@@ -584,8 +611,6 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            IsDisposed = true;
-
             lock (this)
             {
                 if (Site != null && Site.Container != null)
@@ -595,7 +620,7 @@ namespace NuciXNA.Gui.GuiElements
 
                 UnloadContent();
 
-                OnDisposed(this, EventArgs.Empty);
+                Disposed.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -635,6 +660,9 @@ namespace NuciXNA.Gui.GuiElements
 
         protected virtual void RegisterEvents()
         {
+            ContentLoaded += OnContentLoaded;
+            Disposed += OnContentLoaded;
+
             InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
@@ -645,6 +673,9 @@ namespace NuciXNA.Gui.GuiElements
 
         protected virtual void UnregisterEvents()
         {
+            ContentLoaded -= OnContentLoaded;
+            Disposed -= OnContentLoaded;
+
             InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
@@ -772,16 +803,6 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Fired by the Disposed event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnDisposed(object sender, EventArgs e)
-        {
-            Disposed?.Invoke(sender, e);
-        }
-
-        /// <summary>
         /// Raised by the KeyDown event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
@@ -872,6 +893,27 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void OnSizeChanged(object sender, EventArgs e)
         {
             SizeChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="ContentLoaded"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        void OnContentLoaded(object sender, EventArgs e)
+        {
+            IsContentLoaded = true;
+            IsDisposed = false;
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="Disposed"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        void OnDisposed(object sender, EventArgs e)
+        {
+            IsDisposed = true;
         }
 
         void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)

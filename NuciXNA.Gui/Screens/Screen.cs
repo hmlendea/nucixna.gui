@@ -76,6 +76,12 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="GuiElement"/>'s content is loaded.
+        /// </summary>
+        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
+        public bool IsContentLoaded { get; private set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Screen"/> is destroyed.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
@@ -107,6 +113,16 @@ namespace NuciXNA.Gui.Screens
         public event MouseEventHandler MouseMoved;
 
         /// <summary>
+        /// Occurs when this <see cref="Screen"/> was created.
+        /// </summary>
+        public event EventHandler Created;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/>'s content finished loading.
+        /// </summary>
+        public event EventHandler ContentLoaded;
+
+        /// <summary>
         /// Occurs when this <see cref="Screen"/> was disposed.
         /// </summary>
         public event EventHandler Disposed;
@@ -121,6 +137,8 @@ namespace NuciXNA.Gui.Screens
         {
             Id = Guid.NewGuid().ToString();
             BackgroundColour = Colour.Black;
+
+            Created?.Invoke(this, EventArgs.Empty);
         }
 
         ~Screen()
@@ -133,6 +151,11 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public virtual void LoadContent()
         {
+            if (IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content already loaded");
+            }
+
             SetChildrenProperties();
 
             GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(BackgroundColour.ToXnaColor());
@@ -140,6 +163,8 @@ namespace NuciXNA.Gui.Screens
             GuiManager.Instance.LoadContent();
 
             RegisterEvents();
+
+            ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -147,6 +172,11 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public virtual void UnloadContent()
         {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
             GuiManager.Instance.UnloadContent();
 
             UnregisterEvents();
