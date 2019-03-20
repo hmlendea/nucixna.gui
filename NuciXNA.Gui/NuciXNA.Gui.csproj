@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>NuciXNA.Gui</RootNamespace>
-    <Version>1.9.3</Version>
+    <Version>1.10</Version>
     <Description>GUI management and basic widgets for NuciXNA</Description>
     <Authors>Horațiu Mlendea</Authors>
     <Copyright>Copyright 2019 © Horațiu Mlendea</Copyright>
