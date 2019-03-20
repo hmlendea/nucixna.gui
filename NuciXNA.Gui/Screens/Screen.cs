@@ -228,7 +228,7 @@ namespace NuciXNA.Gui.Screens
             {
                 UnloadContent();
 
-                OnDisposed(this, EventArgs.Empty);
+                Disposed?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -245,8 +245,10 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         protected virtual void RegisterEvents()
         {
-            InputManager.Instance.KeyboardKeyPressed += OnKeyPressed;
+            ContentLoaded += OnContentLoaded;
+            Disposed += OnDisposed;
 
+            InputManager.Instance.KeyboardKeyPressed += OnKeyPressed;
             InputManager.Instance.MouseButtonPressed += OnMouseButtonPressed;
             InputManager.Instance.MouseMoved += OnMouseMoved;
         }
@@ -256,8 +258,10 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         protected virtual void UnregisterEvents()
         {
-            InputManager.Instance.KeyboardKeyPressed -= OnKeyPressed;
+            ContentLoaded -= OnContentLoaded;
+            Disposed -= OnDisposed;
 
+            InputManager.Instance.KeyboardKeyPressed -= OnKeyPressed;
             InputManager.Instance.MouseButtonPressed -= OnMouseButtonPressed;
             InputManager.Instance.MouseMoved -= OnMouseMoved;
         }
@@ -304,7 +308,18 @@ namespace NuciXNA.Gui.Screens
         /// <param name="e">Event arguments.</param>
         protected virtual void OnDisposed(object sender, EventArgs e)
         {
-            Disposed?.Invoke(sender, e);
+            IsDisposed = true;
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="ContentLoaded"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        void OnContentLoaded(object sender, EventArgs e)
+        {
+            IsContentLoaded = true;
+            IsDisposed = false;
         }
     }
 }
