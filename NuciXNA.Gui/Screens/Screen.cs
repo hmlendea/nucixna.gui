@@ -226,7 +226,10 @@ namespace NuciXNA.Gui.Screens
 
             lock (this)
             {
-                UnloadContent();
+                if (IsContentLoaded)
+                {
+                    UnloadContent();
+                }
 
                 Disposed?.Invoke(this, EventArgs.Empty);
             }

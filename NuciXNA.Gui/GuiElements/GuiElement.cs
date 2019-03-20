@@ -618,8 +618,11 @@ namespace NuciXNA.Gui.GuiElements
                     Site.Container.Remove(this);
                 }
 
-                UnloadContent();
-
+                if (IsContentLoaded)
+                {
+                    UnloadContent();
+                }
+                
                 Disposed.Invoke(this, EventArgs.Empty);
             }
         }
