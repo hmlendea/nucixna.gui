@@ -94,7 +94,7 @@ namespace NuciXNA.Gui
         {
             GuiElements.RemoveAll(e => e.IsDisposed);
 
-            foreach (GuiElement guiElement in GuiElements.Where(e => e.Enabled).Reverse())
+            foreach (GuiElement guiElement in GuiElements.Where(e => e.IsEnabled).Reverse())
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {
@@ -106,7 +106,7 @@ namespace NuciXNA.Gui
 
             InputManager.Instance.MouseButtonInputHandled = false;
 
-            foreach (GuiElement guiElement in GuiElements.Where(e => e.Enabled))
+            foreach (GuiElement guiElement in GuiElements.Where(e => e.IsEnabled))
             {
                 guiElement.Update(gameTime);
             }
@@ -118,7 +118,7 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            foreach (GuiElement guiElement in GuiElements.Where(w => w.Visible))
+            foreach (GuiElement guiElement in GuiElements.Where(w => w.IsVisible))
             {
                 guiElement.Draw(spriteBatch);
             }
@@ -130,8 +130,8 @@ namespace NuciXNA.Gui
         /// <param name="id">Element identifier.</param>
         public void FocusElement(string id)
         {
-            GuiElements.ForEach(e => e.Focused = false);
-            GuiElements.FirstOrDefault(e => e.Id == id).Focused = true;
+            GuiElements.ForEach(e => e.IsFocused = false);
+            GuiElements.FirstOrDefault(e => e.Id == id).IsFocused = true;
         }
 
         /// <summary>

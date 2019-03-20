@@ -38,7 +38,7 @@ namespace NuciXNA.Gui.Screens
         /// Gets the item number.
         /// </summary>
         /// <value>The item number.</value>
-        public int ItemNumber { get; private set; }
+        public int SelectedItemIndex { get; private set; }
 
         bool lastDirectionBack;
 
@@ -48,7 +48,7 @@ namespace NuciXNA.Gui.Screens
         public MenuScreen()
         {
             Id = string.Empty;
-            ItemNumber = 0;
+            SelectedItemIndex = 0;
             Axis = MenuScreenAxis.Vertical;
             Spacing = 32;
 
@@ -73,13 +73,13 @@ namespace NuciXNA.Gui.Screens
         /// <param name="gameTime">Game time.</param>
         public override void Update(GameTime gameTime)
         {
-            int newSelectedItemIndex = GetNormalisedItemNumber(ItemNumber);
+            int newSelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
 
-            if (newSelectedItemIndex != ItemNumber)
+            if (newSelectedItemIndex != SelectedItemIndex)
             {
                 GuiManager.Instance.FocusElement(Items[newSelectedItemIndex]);
 
-                ItemNumber = newSelectedItemIndex;
+                SelectedItemIndex = newSelectedItemIndex;
             }
 
             base.Update(gameTime);
@@ -137,7 +137,7 @@ namespace NuciXNA.Gui.Screens
 
             if (index >= 0)
             {
-                ItemNumber = index;
+                SelectedItemIndex = index;
             }
         }
 
@@ -161,16 +161,16 @@ namespace NuciXNA.Gui.Screens
 
             if (backKeys.Contains(e.Key))
             {
-                ItemNumber -= 1;
+                SelectedItemIndex -= 1;
                 lastDirectionBack = true;
             }
             else if (forwardKeys.Contains(e.Key))
             {
-                ItemNumber += 1;
+                SelectedItemIndex += 1;
                 lastDirectionBack = false;
             }
 
-            ItemNumber = GetNormalisedItemNumber(ItemNumber);
+            SelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
         }
 
         int GetNormalisedItemNumber(int itemNumber)

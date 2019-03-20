@@ -85,7 +85,7 @@ namespace NuciXNA.Gui.GuiElements
             text.Text = Text;
             text.Size = Size;
 
-            if (Focused)
+            if (IsFocused)
             {
                 text.EffectsActive = true;
                 text.ForegroundColour = SelectedTextColour;

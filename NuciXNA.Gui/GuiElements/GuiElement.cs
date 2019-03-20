@@ -244,7 +244,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is enabled.
         /// </summary>
         /// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-        public bool Enabled
+        public bool IsEnabled
         {
             get
             {
@@ -255,7 +255,7 @@ namespace NuciXNA.Gui.GuiElements
 
                 if (Parent != null)
                 {
-                    return Parent.Enabled;
+                    return Parent.IsEnabled;
                 }
 
                 return true;
@@ -265,7 +265,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
-                    OnEnabledChanged(this, null);
+                    OnEnabled(this, null);
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is visible.
         /// </summary>
         /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
-        public bool Visible
+        public bool IsVisible
         {
             get
             {
@@ -285,7 +285,7 @@ namespace NuciXNA.Gui.GuiElements
 
                 if (Parent != null)
                 {
-                    return Parent.Visible;
+                    return Parent.IsVisible;
                 }
 
                 return true;
@@ -295,7 +295,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isVisible != value)
                 {
                     _isVisible = value;
-                    OnVisibledChanged(this, null);
+                    OnVisibilityChanged(this, null);
                 }
             }
         }
@@ -304,13 +304,13 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is hovered.
         /// </summary>
         /// <value><c>true</c> if hovered; otherwise, <c>false</c>.</value>
-        public bool Hovered { get; set; }
+        public bool IsHovered { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> has input focus.
         /// </summary>
         /// <value><c>true</c> if it has input focus; otherwise, <c>false</c>.</value>
-        public bool Focused
+        public bool IsFocused
         {
             get
             {
@@ -326,10 +326,16 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isFocused != value)
                 {
                     _isFocused = value;
-                    OnFocusedChanged(this, null);
+                    OnFocused(this, null);
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is destroyed.
+        /// </summary>
+        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
+        public bool IsDisposed { get; private set; }
 
         /// <summary>
         /// Gets or sets the children GUI elements.
@@ -338,12 +344,6 @@ namespace NuciXNA.Gui.GuiElements
         List<GuiElement> Children { get; }
 
         protected GuiElement Parent { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is destroyed.
-        /// </summary>
-        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
-        public bool IsDisposed { get; private set; }
 
         public ISite Site { get; set; }
 
@@ -380,10 +380,6 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public event MouseButtonEventHandler Clicked;
 
-        /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was disposed.
-        /// </summary>
-        public event EventHandler Disposed;
 
         /// <summary>
         /// Occurs when the BackgroundColour property was changed.
@@ -399,18 +395,23 @@ namespace NuciXNA.Gui.GuiElements
 
         public event EventHandler FontNameChanged;
 
-        public event EventHandler EnabledChanged;
+        public event EventHandler VisibilityChanged;
 
-        public event EventHandler FocusedChanged;
+        public event EventHandler Enabled;
 
-        public event EventHandler CreatedChanged;
+        public event EventHandler Focused;
 
-        public event EventHandler VisibleChanged;
+        public event EventHandler Created;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was disposed.
+        /// </summary>
+        public event EventHandler Disposed;
 
         /// <summary>
         /// Occurs when a key is down while this <see cref="GuiElement"/> has input focus.
         /// </summary>
-        public event KeyboardKeyEventHandler KeyDown;
+        public event KeyboardKeyEventHandler KeyHeldDown;
 
         /// <summary>
         /// Occurs when a key is pressed while this <see cref="GuiElement"/> has input focus.
@@ -515,7 +516,7 @@ namespace NuciXNA.Gui.GuiElements
             RaiseEvents();
             SetChildrenProperties();
 
-            foreach (GuiElement guiElement in Children.Where(w => w.Enabled))
+            foreach (GuiElement guiElement in Children.Where(w => w.IsEnabled))
             {
                 guiElement.Update(gameTime);
             }
@@ -527,7 +528,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            foreach (GuiElement guiElement in Children.Where(w => w.Visible))
+            foreach (GuiElement guiElement in Children.Where(w => w.IsVisible))
             {
                 guiElement.Draw(spriteBatch);
             }
@@ -574,8 +575,8 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public virtual void Show()
         {
-            Enabled = true;
-            Visible = true;
+            IsEnabled = true;
+            IsVisible = true;
         }
 
         /// <summary>
@@ -583,8 +584,8 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public virtual void Hide()
         {
-            Enabled = false;
-            Visible = false;
+            IsEnabled = false;
+            IsVisible = false;
         }
 
         protected virtual void RegisterChildren()
@@ -661,7 +662,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public void HandleInput()
         {
-            if (Enabled && Visible && DisplayRectangle.Contains(InputManager.Instance.MouseLocation) &&
+            if (IsEnabled && IsVisible && DisplayRectangle.Contains(InputManager.Instance.MouseLocation) &&
                 !InputManager.Instance.MouseButtonInputHandled &&
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
@@ -715,19 +716,19 @@ namespace NuciXNA.Gui.GuiElements
             FontNameChanged?.Invoke(sender, e);
         }
 
-        protected virtual void OnEnabledChanged(object sender, EventArgs e)
+        protected virtual void OnVisibilityChanged(object sender, EventArgs e)
         {
-            EnabledChanged?.Invoke(sender, e);
+            VisibilityChanged?.Invoke(sender, e);
         }
 
-        protected virtual void OnFocusedChanged(object sender, EventArgs e)
+        protected virtual void OnEnabled(object sender, EventArgs e)
         {
-            FocusedChanged?.Invoke(sender, e);
+            Enabled?.Invoke(sender, e);
         }
 
-        protected virtual void OnVisibledChanged(object sender, EventArgs e)
+        protected virtual void OnFocused(object sender, EventArgs e)
         {
-            VisibleChanged?.Invoke(sender, e);
+            Focused?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -756,9 +757,9 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        protected virtual void OnKeyDown(object sender, KeyboardKeyEventArgs e)
+        protected virtual void OnKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
-            KeyDown?.Invoke(sender, e);
+            KeyHeldDown?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -799,7 +800,7 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void OnMouseEntered(object sender, MouseEventArgs e)
         {
             MouseEntered?.Invoke(this, e);
-            Hovered = true;
+            IsHovered = true;
         }
 
         /// <summary>
@@ -810,7 +811,7 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void OnMouseLeft(object sender, MouseEventArgs e)
         {
             MouseLeft?.Invoke(this, e);
-            Hovered = false;
+            IsHovered = false;
         }
 
         /// <summary>
@@ -821,7 +822,7 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void OnMouseMoved(object sender, MouseEventArgs e)
         {
             MouseMoved?.Invoke(this, e);
-            Hovered = true;
+            IsHovered = true;
         }
 
         /// <summary>
@@ -846,19 +847,19 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
-            if (!Enabled || !Visible ||
-                !CanRaiseEvents || !Focused)
+            if (!IsEnabled || !IsVisible ||
+                !CanRaiseEvents || !IsFocused)
             {
                 return;
             }
 
-            OnKeyDown(sender, e);
+            OnKeyHeldDown(sender, e);
         }
 
         void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
-            if (!Enabled || !Visible ||
-                !CanRaiseEvents || !Focused)
+            if (!IsEnabled || !IsVisible ||
+                !CanRaiseEvents || !IsFocused)
             {
                 return;
             }
@@ -868,8 +869,8 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
         {
-            if (!Enabled || !Visible ||
-                !CanRaiseEvents || !Focused)
+            if (!IsEnabled || !IsVisible ||
+                !CanRaiseEvents || !IsFocused)
             {
                 return;
             }
@@ -879,7 +880,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (!Enabled || !Visible || !CanRaiseEvents)
+            if (!IsEnabled || !IsVisible || !CanRaiseEvents)
             {
                 return;
             }
@@ -899,7 +900,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerMouseMoved(object sender, MouseEventArgs e)
         {
-            if (!Enabled || !Visible || !CanRaiseEvents)
+            if (!IsEnabled || !IsVisible || !CanRaiseEvents)
             {
                 return;
             }

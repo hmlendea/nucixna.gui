@@ -27,7 +27,7 @@ namespace NuciXNA.Gui.GuiElements
         public GuiTooltip()
         {
             FontName = "MenuFont";
-            Visible = false;
+            IsVisible = false;
 
             BorderSize = 1;
         }
