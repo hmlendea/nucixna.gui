@@ -394,14 +394,14 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Occurs when the <see cref="BackgroundColour"> was changed.
-        /// </summary>
-        public event EventHandler BackgroundColourChanged;
-
-        /// <summary>
         /// Occurs when the <see cref="ForegroundColour"> was changed.
         /// </summary>
         public event EventHandler ForegroundColourChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="BackgroundColour"> was changed.
+        /// </summary>
+        public event EventHandler BackgroundColourChanged;
 
         /// <summary>
         /// Occurs when the <see cref="Opacity"> was changed.
@@ -622,7 +622,7 @@ namespace NuciXNA.Gui.GuiElements
                 {
                     UnloadContent();
                 }
-                
+
                 Disposed.Invoke(this, EventArgs.Empty);
             }
         }

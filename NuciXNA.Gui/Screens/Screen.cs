@@ -88,14 +88,14 @@ namespace NuciXNA.Gui.Screens
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Occurs when the <see cref="BackgroundColour"> was changed.
-        /// </summary>
-        public event EventHandler BackgroundColourChanged;
-
-        /// <summary>
         /// Occurs when the <see cref="ForegroundColour"> was changed.
         /// </summary>
         public event EventHandler ForegroundColourChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="BackgroundColour"> was changed.
+        /// </summary>
+        public event EventHandler BackgroundColourChanged;
 
         /// <summary>
         /// Occurs when a key is pressed while this <see cref="Screen"/> has input focus.
@@ -157,8 +157,6 @@ namespace NuciXNA.Gui.Screens
             }
 
             SetChildrenProperties();
-
-            GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(BackgroundColour.ToXnaColor());
 
             GuiManager.Instance.LoadContent();
 
