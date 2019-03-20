@@ -563,7 +563,7 @@ namespace NuciXNA.Gui.GuiElements
             {
                 child.Parent = this;
 
-                if (child.IsDisposed)
+                if (child is null || child.IsDisposed)
                 {
                     Children.Remove(child);
                 }
@@ -623,7 +623,7 @@ namespace NuciXNA.Gui.GuiElements
                     UnloadContent();
                 }
 
-                Disposed.Invoke(this, EventArgs.Empty);
+                Disposed?.Invoke(this, EventArgs.Empty);
             }
         }
 
