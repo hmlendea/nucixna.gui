@@ -19,18 +19,6 @@ namespace NuciXNA.Gui.Screens
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the xml path.
-        /// </summary>
-        /// <value>The xml path.</value>
-        public string XmlPath { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        /// <value>The type.</value>
-        public Type Type { get; set; }
-
-        /// <summary>
         /// Gets or sets the background colour.
         /// </summary>
         /// <value>The background colour.</value>
@@ -73,11 +61,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public Screen()
         {
-            Type = GetType();
             Id = Guid.NewGuid().ToString();
-
-            XmlPath = Path.Combine("Screens", $"{Type.Name}.xml");
-
             BackgroundColour = Colour.Black;
         }
 
