@@ -26,19 +26,70 @@ namespace NuciXNA.Gui.Screens
         /// Gets or sets the background colour.
         /// </summary>
         /// <value>The background colour.</value>
-        public Colour BackgroundColour { get; set; }
+        public Colour BackgroundColour
+        {
+            get
+            {
+                if (_backgroundColour != null)
+                {
+                    return _backgroundColour;
+                }
+
+                return GuiManager.Instance.DefaultBackgroundColour;
+            }
+            set
+            {
+                if (_backgroundColour == null || _backgroundColour != value)
+                {
+                    // TODO: Pass event args
+                    OnBackgroundColourChanged(this, null);
+                }
+
+                _backgroundColour = value;
+            }
+        }
 
         /// <summary>
-        /// Gets or sets the background colour.
+        /// Gets or sets the foreground colour.
         /// </summary>
-        /// <value>The background colour.</value>
-        public Colour ForegroundColour { get; set; }
+        /// <value>The foreground colour.</value>
+        public Colour ForegroundColour
+        {
+            get
+            {
+                if (_foregroundColour != null)
+                {
+                    return _foregroundColour;
+                }
+
+                return GuiManager.Instance.DefaultForegroundColour;
+            }
+            set
+            {
+                if (_foregroundColour == null || _foregroundColour != value)
+                {
+                    OnForegroundColourChanged(this, null);
+                }
+
+                _foregroundColour = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Screen"/> is destroyed.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
         public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Occurs when the <see cref="BackgroundColour"> was changed.
+        /// </summary>
+        public event EventHandler BackgroundColourChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="ForegroundColour"> was changed.
+        /// </summary>
+        public event EventHandler ForegroundColourChanged;
 
         /// <summary>
         /// Occurs when a key is pressed while this <see cref="Screen"/> has input focus.
@@ -59,6 +110,9 @@ namespace NuciXNA.Gui.Screens
         /// Occurs when this <see cref="Screen"/> was disposed.
         /// </summary>
         public event EventHandler Disposed;
+        
+        Colour _backgroundColour;
+        Colour _foregroundColour;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Screen"/> class.
@@ -176,6 +230,26 @@ namespace NuciXNA.Gui.Screens
 
             InputManager.Instance.MouseButtonPressed -= OnMouseButtonPressed;
             InputManager.Instance.MouseMoved -= OnMouseMoved;
+        }
+
+        /// <summary>
+        /// Raised by the BackgroundColourChanged event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        protected virtual void OnBackgroundColourChanged(object sender, EventArgs e)
+        {
+            BackgroundColourChanged?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// Raised by the ForegroundColourChanged event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        protected virtual void OnForegroundColourChanged(object sender, EventArgs e)
+        {
+            ForegroundColourChanged?.Invoke(sender, e);
         }
 
         protected virtual void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
