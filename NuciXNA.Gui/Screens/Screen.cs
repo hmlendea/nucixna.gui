@@ -16,6 +16,10 @@ namespace NuciXNA.Gui.Screens
     /// </summary>
     public class Screen : IDisposable
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
         public string Id { get; set; }
 
         /// <summary>
@@ -144,11 +148,17 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
+        /// <summary>
+        /// Sets the properties of the child elements.
+        /// </summary>
         protected virtual void SetChildrenProperties()
         {
 
         }
 
+        /// <summary>
+        /// Registers the events of the child elements.
+        /// </summary>
         protected virtual void RegisterEvents()
         {
             InputManager.Instance.KeyboardKeyPressed += OnKeyPressed;
@@ -157,6 +167,9 @@ namespace NuciXNA.Gui.Screens
             InputManager.Instance.MouseMoved += OnMouseMoved;
         }
 
+        /// <summary>
+        /// Unregisters the events of the child elements.
+        /// </summary>
         protected virtual void UnregisterEvents()
         {
             InputManager.Instance.KeyboardKeyPressed -= OnKeyPressed;

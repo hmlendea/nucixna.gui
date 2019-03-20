@@ -15,6 +15,10 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiElement : IComponent, IDisposable
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
         public string Id { get; set; }
 
         Colour _backgroundColour;
@@ -53,6 +57,10 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
+        /// <summary>
+        /// Gets the coordinates of this element on the current <see cref="Screen">.
+        /// </summary>
+        /// <value>The screen coordinates.</value>
         public Point2D ScreenLocation
         {
             get
@@ -343,6 +351,10 @@ namespace NuciXNA.Gui.GuiElements
         /// <value>The children.</value>
         List<GuiElement> Children { get; }
 
+        /// <summary>
+        /// Gets or sets the parent of this element.
+        /// </summary>
+        /// <value>The parent.</value>
         protected GuiElement Parent { get; set; }
 
         public ISite Site { get; set; }
@@ -376,31 +388,53 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Occurs when clicked.
-        /// </summary>
-        public event MouseButtonEventHandler Clicked;
-
-
-        /// <summary>
-        /// Occurs when the BackgroundColour property was changed.
+        /// Occurs when the <see cref="BackgroundColour"> was changed.
         /// </summary>
         public event EventHandler BackgroundColourChanged;
 
         /// <summary>
-        /// Occurs when the ForegroundColour property was changed.
+        /// Occurs when the <see cref="ForegroundColour"> was changed.
         /// </summary>
         public event EventHandler ForegroundColourChanged;
 
+        /// <summary>
+        /// Occurs when the <see cref="Opacity"> was changed.
+        /// </summary>
         public event EventHandler OpacityChanged;
 
+        /// <summary>
+        /// Occurs when the <see cref="FontName"> was changed.
+        /// </summary>
         public event EventHandler FontNameChanged;
 
+        /// <summary>
+        /// Occurs when the <see cref="Location"> was changed.
+        /// </summary>
+        public event EventHandler LocationChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Size"> was changed.
+        /// </summary>
+        public event EventHandler SizeChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="IsVisible"> was changed.
+        /// </summary>
         public event EventHandler VisibilityChanged;
 
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was enabled.
+        /// </summary>
         public event EventHandler Enabled;
 
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was focused.
+        /// </summary>
         public event EventHandler Focused;
 
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was created.
+        /// </summary>
         public event EventHandler Created;
 
         /// <summary>
@@ -424,6 +458,11 @@ namespace NuciXNA.Gui.GuiElements
         public event KeyboardKeyEventHandler KeyReleased;
 
         /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was clicked.
+        /// </summary>
+        public event MouseButtonEventHandler Clicked;
+
+        /// <summary>
         /// Occurs when a mouse button was pressed on this <see cref="GuiElement"/>.
         /// </summary>
         public event MouseButtonEventHandler MouseButtonPressed;
@@ -439,19 +478,9 @@ namespace NuciXNA.Gui.GuiElements
         public event MouseEventHandler MouseLeft;
 
         /// <summary>
-        /// Occurs when the mouse moved.
+        /// Occurs when the mouse moved inside of this <see cref="GuiElement"/>.
         /// </summary>
         public event MouseEventHandler MouseMoved;
-
-        /// <summary>
-        /// Occurs when the Location property value changes.
-        /// </summary>
-        public event EventHandler LocationChanged;
-
-        /// <summary>
-        /// Occurs when the Size property value changes.
-        /// </summary>
-        public event EventHandler SizeChanged;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiElement"/> class.
