@@ -18,8 +18,8 @@ namespace NuciXNA.Graphics.Drawing
             Colour fontColour,
             Colour outlineColour,
             float opacity,
-            HorizontalAlignment hAlign,
-            VerticalAlignment vAlign,
+            Alignment horizontalAlignment,
+            Alignment verticalAlignment,
             FontOutline outline)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -33,11 +33,11 @@ namespace NuciXNA.Graphics.Drawing
             
             string[] lines = text.Split('\n');
 
-            if (vAlign == VerticalAlignment.Centre)
+            if (verticalAlignment == Alignment.Middle)
             {
                 textOrigin.Y = bounds.Height / 2 - totalSize.Y / 2;
             }
-            else if (vAlign == VerticalAlignment.Bottom)
+            else if (verticalAlignment == Alignment.End)
             {
                 textOrigin.Y = bounds.Height - totalSize.Y;
             }
@@ -46,11 +46,11 @@ namespace NuciXNA.Graphics.Drawing
             {
                 Vector2 lineSize = font.MeasureString(line);
 
-                if (hAlign == HorizontalAlignment.Centre)
+                if (horizontalAlignment == Alignment.Middle)
                 {
                     textOrigin.X = bounds.Width / 2 - lineSize.X / 2;
                 }
-                else if (hAlign == HorizontalAlignment.Right)
+                else if (horizontalAlignment == Alignment.End)
                 {
                     textOrigin.X = bounds.Width - lineSize.X;
                 }

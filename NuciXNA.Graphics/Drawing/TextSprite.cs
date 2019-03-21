@@ -34,16 +34,16 @@ namespace NuciXNA.Graphics.Drawing
         public FontOutline FontOutline { get; set; }
 
         /// <summary>
-        /// Gets or sets the text horizontal alignment.
+        /// Gets or sets the horizontal alignment of the text.
         /// </summary>
-        /// <value>The text horizontal alignment.</value>
-        public HorizontalAlignment TextHorizontalAlignment { get; set; }
+        /// <value>The horizontal alignment.</value>
+        public Alignment HorizontalAlignment { get; set; }
 
         /// <summary>
-        /// Gets or sets the text vertical alignment.
+        /// Gets or sets the vertical alignment of the text.
         /// </summary>
-        /// <value>The text vertical alignment.</value>
-        public VerticalAlignment TextVerticalAlignment { get; set; }
+        /// <value>The vertical alignment.</value>
+        public Alignment VerticalAlignment { get; set; }
 
         /// <summary>
         /// Gets the covered screen area.
@@ -133,8 +133,8 @@ namespace NuciXNA.Graphics.Drawing
                 Tint,
                 OutlineColour,
                 Opacity,
-                TextHorizontalAlignment,
-                TextVerticalAlignment,
+                HorizontalAlignment,
+                VerticalAlignment,
                 FontOutline);
         }
 
