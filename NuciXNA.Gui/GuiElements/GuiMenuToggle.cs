@@ -52,14 +52,32 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
+        /// Registers the events.
+        /// </summary>
+        protected override void RegisterEvents()
+        {
+            base.RegisterEvents();
+
+            Activated += OnActivated;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        protected override void UnregisterEvents()
+        {
+            base.UnregisterEvents();
+
+            Activated -= OnActivated;
+        }
+
+        /// <summary>
         /// Fired by the Activated event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        protected override void OnActivated(object sender, EventArgs e)
+        void OnActivated(object sender, EventArgs e)
         {
-            base.OnActivated(sender, e);
-
             ToggleState = !ToggleState;
         }
     }

@@ -109,12 +109,12 @@ namespace NuciXNA.Gui.GuiElements
 
             if (SelectedIndex != lastSelectedIndex)
             {
-                OnSelectedIndexChanged(this, null);
+                SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
             }
 
             if (SelectedValue != lastSelectedValue)
             {
-                OnSelectedValueChanged(this, null);
+                SelectedValueChanged?.Invoke(this, EventArgs.Empty);
             }
 
             lastSelectedIndex = SelectedIndex;
@@ -124,11 +124,33 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
+        /// Registers the events.
+        /// </summary>
+        protected override void RegisterEvents()
+        {
+            base.RegisterEvents();
+
+            KeyPressed += OnKeyPressed;
+            MouseButtonPressed += OnMouseButtonPressed;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        protected override void UnregisterEvents()
+        {
+            base.UnregisterEvents();
+
+            KeyPressed -= OnKeyPressed;
+            MouseButtonPressed -= OnMouseButtonPressed;
+        }
+
+        /// <summary>
         /// Fires when a keyboard key was pressed.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        protected override void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (e.Key == Keys.Right || e.Key == Keys.D)
             {
@@ -140,10 +162,8 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
-        protected override void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            base.OnMouseButtonPressed(sender, e);
-
             if (!DisplayRectangle.Contains(e.Location))
             {
                 return;
@@ -157,26 +177,6 @@ namespace NuciXNA.Gui.GuiElements
             {
                 SelectedIndex -= 1;
             }
-        }
-
-        /// <summary>
-        /// Fired by the SelectedIndexChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Fired by the SelectedValueChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnSelectedValueChanged(object sender, EventArgs e)
-        {
-            SelectedValueChanged?.Invoke(sender, e);
         }
     }
 }

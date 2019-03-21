@@ -50,7 +50,7 @@ namespace NuciXNA.Gui.GuiElements
             {
                 if (_location == null || _location != value)
                 {
-                    OnLocationChanged(this, null);
+                    LocationChanged?.Invoke(this, EventArgs.Empty);
                 }
 
                 _location = value;
@@ -98,7 +98,7 @@ namespace NuciXNA.Gui.GuiElements
             {
                 if (_size == null || _size != value)
                 {
-                    OnSizeChanged(this, null);
+                    SizeChanged?.Invoke(this, EventArgs.Empty);
                 }
 
                 _size = value;
@@ -150,7 +150,7 @@ namespace NuciXNA.Gui.GuiElements
                 else if (value != _opacity)
                 {
                     _opacity = value;
-                    OpacityChanged?.Invoke(this, null);
+                    OpacityChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -180,7 +180,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_backgroundColour == null || _backgroundColour != value)
                 {
                     // TODO: Pass event args
-                    OnBackgroundColourChanged(this, null);
+                    BackgroundColourChanged?.Invoke(this, EventArgs.Empty);
                 }
 
                 _backgroundColour = value;
@@ -211,7 +211,7 @@ namespace NuciXNA.Gui.GuiElements
             {
                 if (_foregroundColour == null || _foregroundColour != value)
                 {
-                    OnForegroundColourChanged(this, null);
+                    ForegroundColourChanged?.Invoke(this, EventArgs.Empty);
                 }
 
                 _foregroundColour = value;
@@ -243,7 +243,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_fontName != value)
                 {
                     _fontName = value;
-                    OnFontNameChanged(this, null);
+                    FontNameChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -273,7 +273,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
-                    OnEnabled(this, null);
+                    Enabled?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -303,7 +303,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isVisible != value)
                 {
                     _isVisible = value;
-                    OnVisibilityChanged(this, null);
+                    VisibilityChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -334,7 +334,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isFocused != value)
                 {
                     _isFocused = value;
-                    OnFocused(this, null);
+                    Focused?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -661,11 +661,11 @@ namespace NuciXNA.Gui.GuiElements
             element.Parent = this;
         }
 
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
         protected virtual void RegisterEvents()
         {
-            ContentLoaded += OnContentLoaded;
-            Disposed += OnDisposed;
-
             InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
@@ -674,11 +674,11 @@ namespace NuciXNA.Gui.GuiElements
             InputManager.Instance.MouseMoved += OnInputManagerMouseMoved;
         }
 
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
         protected virtual void UnregisterEvents()
         {
-            ContentLoaded -= OnContentLoaded;
-            Disposed -= OnDisposed;
-
             InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
@@ -735,7 +735,9 @@ namespace NuciXNA.Gui.GuiElements
                     InputManager.Instance.MouseLocation);
 
                 GuiManager.Instance.FocusElement(this);
-                OnClicked(this, e);
+
+                Clicked?.Invoke(this, e);
+                InputManager.Instance.MouseButtonInputHandled = true;
             }
 
             foreach (GuiElement child in Children)
@@ -749,176 +751,6 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
-        protected virtual void OnOpacityChanged(object sender, EventArgs e)
-        {
-            OpacityChanged?.Invoke(this, null);
-        }
-
-        /// <summary>
-        /// Raised by the BackgroundColourChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnBackgroundColourChanged(object sender, EventArgs e)
-        {
-            BackgroundColourChanged?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Raised by the ForegroundColourChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnForegroundColourChanged(object sender, EventArgs e)
-        {
-            ForegroundColourChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnFontNameChanged(object sender, EventArgs e)
-        {
-            FontNameChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnVisibilityChanged(object sender, EventArgs e)
-        {
-            VisibilityChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnEnabled(object sender, EventArgs e)
-        {
-            Enabled?.Invoke(sender, e);
-        }
-
-        protected virtual void OnFocused(object sender, EventArgs e)
-        {
-            Focused?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Fired by the Clicked event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnClicked(object sender, MouseButtonEventArgs e)
-        {
-            Clicked?.Invoke(sender, e);
-            InputManager.Instance.MouseButtonInputHandled = true;
-        }
-
-        /// <summary>
-        /// Raised by the KeyDown event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnKeyHeldDown(object sender, KeyboardKeyEventArgs e)
-        {
-            KeyHeldDown?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Raised by the KeyPressed event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
-        {
-            KeyPressed?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Raised by the KeyReleased event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnKeyReleased(object sender, KeyboardKeyEventArgs e)
-        {
-            KeyReleased?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Fired by the MouseClick event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            MouseButtonPressed?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Fired by the MouseEntered event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnMouseEntered(object sender, MouseEventArgs e)
-        {
-            MouseEntered?.Invoke(this, e);
-            IsHovered = true;
-        }
-
-        /// <summary>
-        /// Fired by the MouseLeft event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnMouseLeft(object sender, MouseEventArgs e)
-        {
-            MouseLeft?.Invoke(this, e);
-            IsHovered = false;
-        }
-
-        /// <summary>
-        /// Fired by the MouseMoved event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnMouseMoved(object sender, MouseEventArgs e)
-        {
-            MouseMoved?.Invoke(this, e);
-            IsHovered = true;
-        }
-
-        /// <summary>
-        /// Raised by the LocationChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnLocationChanged(object sender, EventArgs e)
-        {
-            LocationChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Raised by the SizeChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnSizeChanged(object sender, EventArgs e)
-        {
-            SizeChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="ContentLoaded"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        void OnContentLoaded(object sender, EventArgs e)
-        {
-            IsContentLoaded = true;
-            IsDisposed = false;
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="Disposed"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        void OnDisposed(object sender, EventArgs e)
-        {
-            IsDisposed = true;
-        }
-
         void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
             if (!IsEnabled || !IsVisible ||
@@ -927,7 +759,7 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            OnKeyHeldDown(sender, e);
+            KeyHeldDown?.Invoke(sender, e);
         }
 
         void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
@@ -938,7 +770,7 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            OnKeyPressed(sender, e);
+            KeyPressed?.Invoke(sender, e);
         }
 
         void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
@@ -949,7 +781,7 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            OnKeyReleased(sender, e);
+            KeyReleased?.Invoke(sender, e);
         }
 
         void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
@@ -964,11 +796,12 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            OnMouseButtonPressed(sender, e);
+            MouseButtonPressed?.Invoke(this, e);
 
             if (e.Button == MouseButton.Left)
             {
-                OnClicked(sender, e);
+                Clicked?.Invoke(sender, e);
+                InputManager.Instance.MouseButtonInputHandled = true;
             }
         }
 
@@ -990,18 +823,21 @@ namespace NuciXNA.Gui.GuiElements
                 return;
             }
 
-            OnMouseMoved(sender, e);
+            MouseMoved?.Invoke(this, e);
+            IsHovered = true;
 
             if (DisplayRectangle.Contains(e.Location) &&
                 !DisplayRectangle.Contains(e.PreviousLocation))
             {
-                OnMouseEntered(sender, e);
+                MouseEntered?.Invoke(this, e);
+                IsHovered = true;
             }
 
             if (!DisplayRectangle.Contains(e.Location) &&
                 DisplayRectangle.Contains(e.PreviousLocation))
             {
-                OnMouseLeft(sender, e);
+                MouseLeft?.Invoke(this, e);
+                IsHovered = false;
             }
         }
     }

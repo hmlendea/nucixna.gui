@@ -67,8 +67,6 @@ namespace NuciXNA.Gui.GuiElements
 
             base.LoadContent();
             text.FadeEffect.Activate();
-
-            // LEFTOVER: text.ActivateEffect("FadeEffect");
         }
 
         protected override void RegisterChildren()
@@ -76,6 +74,30 @@ namespace NuciXNA.Gui.GuiElements
             base.RegisterChildren();
 
             AddChild(text);
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        protected override void RegisterEvents()
+        {
+            base.RegisterEvents();
+
+            Clicked += OnClicked;
+            KeyPressed += OnKeyPressed;
+            MouseEntered += OnMouseEntered;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        protected override void UnregisterEvents()
+        {
+            base.UnregisterEvents();
+
+            Clicked -= OnClicked;
+            KeyPressed -= OnKeyPressed;
+            MouseEntered -= OnMouseEntered;
         }
 
         protected override void SetChildrenProperties()
@@ -97,41 +119,23 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
-        protected override void OnClicked(object sender, MouseButtonEventArgs e)
+        void OnClicked(object sender, MouseButtonEventArgs e)
         {
-            base.OnClicked(sender, e);
-
-            OnActivated(this, null);
+            Activated?.Invoke(this, EventArgs.Empty);
         }
 
-        protected override void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
-            base.OnKeyPressed(sender, e);
-
             if (e.Key == Keys.Enter || e.Key == Keys.E)
             {
-                OnActivated(this, null);
+                Activated?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        protected override void OnMouseEntered(object sender, MouseEventArgs e)
+        void OnMouseEntered(object sender, MouseEventArgs e)
         {
-            base.OnMouseEntered(sender, e);
-
             // TODO: Play selection sound
             GuiManager.Instance.FocusElement(this);
-        }
-
-        /// <summary>
-        /// Fired by the Activated event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnActivated(object sender, EventArgs e)
-        {
-            Activated?.Invoke(this, null);
-
-            // TODO: Play click sound
         }
     }
 }
