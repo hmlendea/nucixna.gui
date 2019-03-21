@@ -342,7 +342,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/>'s content is loaded.
         /// </summary>
-        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the content is loaded; otherwise, <c>false</c>.</value>
         public bool IsContentLoaded { get; private set; }
 
         /// <summary>

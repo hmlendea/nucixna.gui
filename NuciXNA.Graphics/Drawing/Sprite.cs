@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Graphics.SpriteEffects;
@@ -9,7 +11,7 @@ namespace NuciXNA.Graphics.Drawing
     /// <summary>
     /// Sprite.
     /// </summary>
-    public abstract class Sprite
+    public abstract class Sprite : IDisposable
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Sprite"/> is active.
@@ -125,6 +127,17 @@ namespace NuciXNA.Graphics.Drawing
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Sprite"/> is destroyed.
+        /// </summary>
+        /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> was disposed.
+        /// </summary>
+        public event EventHandler Disposed;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Sprite"/> class.
         /// </summary>
         public Sprite()
@@ -137,6 +150,11 @@ namespace NuciXNA.Graphics.Drawing
             Scale = Scale2D.One;
 
             Tint = Colour.White;
+        }
+
+        ~Sprite()
+        {
+            Dispose();
         }
 
         /// <summary>
@@ -175,5 +193,33 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         public abstract void Draw(SpriteBatch spriteBatch);
+
+        
+        /// <summary>
+        /// Disposes of this <see cref="GuiElement"/>.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of this <see cref="GuiElement"/>.
+        /// </summary>
+        protected void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            lock (this)
+            {
+                UnloadContent();
+
+                Disposed?.Invoke(this, EventArgs.Empty);
+            }
+        }
     }
 }
