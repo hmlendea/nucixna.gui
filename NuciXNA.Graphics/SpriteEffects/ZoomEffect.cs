@@ -7,7 +7,11 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// </summary>
     public class ZoomEffect : ScaleEffect
     {
-        protected override void UpdateMultiplier(GameTime gameTime)
+        /// <summary>
+        /// Updates the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
             float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
 

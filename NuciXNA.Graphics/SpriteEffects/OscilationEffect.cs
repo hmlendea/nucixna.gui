@@ -25,7 +25,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         /// Updates the rotation multiplier.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void UpdateMultiplier(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
             float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
 

@@ -34,19 +34,19 @@ namespace NuciXNA.Graphics.SpriteEffects
         }
 
         /// <summary>
-        /// Updates the content.
+        /// Loads the content.
         /// </summary>
-        /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoLoadContent()
         {
-            base.Update(gameTime);
-
-            if (Active)
-            {
-                UpdateMultiplier(gameTime);
-            }
+            
         }
 
-        protected abstract void UpdateMultiplier(GameTime gameTime);
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+
+        }
     }
 }

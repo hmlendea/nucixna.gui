@@ -17,7 +17,7 @@ namespace NuciXNA.Graphics.Drawing
         /// Gets or sets a value indicating whether this <see cref="Sprite"/> is active.
         /// </summary>
         /// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
-        public bool Active { get; set; }
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Gets or sets the tint.
@@ -85,7 +85,7 @@ namespace NuciXNA.Graphics.Drawing
             {
                 float value = Opacity;
 
-                if (OpacityEffect != null && OpacityEffect.Active)
+                if (OpacityEffect != null && OpacityEffect.IsActive)
                 {
                     value *= OpacityEffect.CurrentMultiplier;
                 }
@@ -100,7 +100,7 @@ namespace NuciXNA.Graphics.Drawing
             {
                 float value = Rotation;
 
-                if (RotationEffect != null && RotationEffect.Active)
+                if (RotationEffect != null && RotationEffect.IsActive)
                 {
                     value += RotationEffect.CurrentMultiplier;
                 }
@@ -115,7 +115,7 @@ namespace NuciXNA.Graphics.Drawing
             {
                 Scale2D value = Scale;
 
-                if (ScaleEffect != null && ScaleEffect.Active)
+                if (ScaleEffect != null && ScaleEffect.IsActive)
                 {
                     value = new Scale2D(
                         Scale.Horizontal * ScaleEffect.CurrentHorizontalMultiplier,
@@ -193,7 +193,7 @@ namespace NuciXNA.Graphics.Drawing
         /// </summary>
         public Sprite()
         {
-            Active = true;
+            IsActive = true;
 
             Location = Point2D.Empty;
 

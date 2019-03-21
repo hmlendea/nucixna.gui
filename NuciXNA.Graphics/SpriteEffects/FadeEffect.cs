@@ -8,10 +8,10 @@ namespace NuciXNA.Graphics.SpriteEffects
     public class FadeEffect : OpacityEffect
     {
         /// <summary>
-        /// Updates the value.
+        /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void UpdateMultiplier(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
             float delta = Speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
 

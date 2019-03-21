@@ -25,23 +25,20 @@ namespace NuciXNA.Graphics.SpriteEffects
             FrameSize = Size2D.Empty;
         }
 
-        public override void LoadContent(TextureSprite sprite)
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
-            base.LoadContent(sprite);
-
             FrameSize = Sprite.TextureSize / FrameAmount;
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            base.Update(gameTime);
 
-            if (Active)
-            {
-                UpdateFrame(gameTime);
-            }
         }
-
-        public abstract void UpdateFrame(GameTime gameTime);
     }
 }

@@ -87,7 +87,7 @@ namespace NuciXNA.Graphics.Drawing
         {
             get
             {
-                if (SpriteSheetEffect == null || !SpriteSheetEffect.Active)
+                if (SpriteSheetEffect == null || !SpriteSheetEffect.IsActive)
                 {
                     return SourceRectangle;
                 }

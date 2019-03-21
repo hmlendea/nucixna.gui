@@ -8,11 +8,15 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// </summary>
     public class AnimationEffect : SpriteSheetEffect
     {
-        public override void UpdateFrame(GameTime gameTime)
+        /// <summary>
+        /// Updates the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
             Point2D newFrame = CurrentFrame;
 
-            if (Sprite.Active)
+            if (Sprite.IsActive)
             {
                 FrameCounter += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
 
