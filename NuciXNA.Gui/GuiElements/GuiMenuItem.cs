@@ -1,6 +1,9 @@
 ﻿using System;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
@@ -52,7 +55,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             text = new GuiText
             {
@@ -64,46 +67,42 @@ namespace NuciXNA.Gui.GuiElements
                     MinimumMultiplier = 0.25f
                 }
             };
-
-            base.LoadContent();
             text.FadeEffect.Activate();
-        }
-
-        protected override void RegisterChildren()
-        {
-            base.RegisterChildren();
 
             AddChild(text);
+
+            SetChildrenProperties();
+            RegisterEvents();
         }
 
         /// <summary>
-        /// Registers the events.
+        /// Unloads the content.
         /// </summary>
-        protected override void RegisterEvents()
+        protected override void DoUnloadContent()
         {
-            base.RegisterEvents();
-
-            Clicked += OnClicked;
-            KeyPressed += OnKeyPressed;
-            MouseEntered += OnMouseEntered;
+            UnregisterEvents();
         }
 
         /// <summary>
-        /// Unregisters the events.
+        /// Updates the content.
         /// </summary>
-        protected override void UnregisterEvents()
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.UnregisterEvents();
-
-            Clicked -= OnClicked;
-            KeyPressed -= OnKeyPressed;
-            MouseEntered -= OnMouseEntered;
+            SetChildrenProperties();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Draws the content on the specified spriteBatch.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            base.SetChildrenProperties();
 
+        }
+
+        void SetChildrenProperties()
+        {
             text.Text = Text;
             text.Size = Size;
 
@@ -117,6 +116,26 @@ namespace NuciXNA.Gui.GuiElements
                 text.AreEffectsActive = false;
                 text.ForegroundColour = ForegroundColour;
             }
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            Clicked += OnClicked;
+            KeyPressed += OnKeyPressed;
+            MouseEntered += OnMouseEntered;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            Clicked -= OnClicked;
+            KeyPressed -= OnKeyPressed;
+            MouseEntered -= OnMouseEntered;
         }
 
         void OnClicked(object sender, MouseButtonEventArgs e)

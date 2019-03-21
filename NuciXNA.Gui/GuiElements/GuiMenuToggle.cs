@@ -26,19 +26,35 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
-            base.LoadContent();
+            base.DoLoadContent();
 
             originalText = Text;
+
+            RegisterEvents();
+        }
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+            base.DoUnloadContent();
+
+            originalText = Text;
+            
+            UnregisterEvents();
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
+            base.DoUpdate(gameTime);
+
             if (ToggleState)
             {
                 Text = originalText + " : On";
@@ -47,27 +63,21 @@ namespace NuciXNA.Gui.GuiElements
             {
                 Text = originalText + " : Off";
             }
-
-            base.Update(gameTime);
         }
 
         /// <summary>
         /// Registers the events.
         /// </summary>
-        protected override void RegisterEvents()
+        void RegisterEvents()
         {
-            base.RegisterEvents();
-
             Activated += OnActivated;
         }
 
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        protected override void UnregisterEvents()
+        void UnregisterEvents()
         {
-            base.UnregisterEvents();
-
             Activated -= OnActivated;
         }
 

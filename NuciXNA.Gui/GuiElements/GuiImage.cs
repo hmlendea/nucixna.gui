@@ -197,15 +197,13 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             this.sprite = new TextureSprite();
 
             SetChildrenProperties();
 
             sprite.LoadContent();
-
-            base.LoadContent();
 
             if (SourceRectangle == Rectangle2D.Empty)
             {
@@ -216,39 +214,31 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public override void UnloadContent()
+        protected override void DoUnloadContent()
         {
             sprite.UnloadContent();
-
-            base.UnloadContent();
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
             sprite.Update(gameTime);
-
-            base.Update(gameTime);
         }
 
         /// <summary>
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
-
-            base.Draw(spriteBatch);
         }
 
-        protected override void SetChildrenProperties()
+        void SetChildrenProperties()
         {
-            base.SetChildrenProperties();
-
             if (Size == Size2D.Empty)
             {
                 Size = sprite.SourceRectangle.Size;
@@ -275,7 +265,6 @@ namespace NuciXNA.Gui.GuiElements
                     (float)Size.Height / sprite.SourceRectangle.Height);
             }
         }
-
 
         protected virtual void OnContentFileChanged(object sender, EventArgs e)
         {

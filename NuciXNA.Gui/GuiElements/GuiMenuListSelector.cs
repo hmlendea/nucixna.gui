@@ -68,9 +68,9 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
-            base.LoadContent();
+            base.DoLoadContent();
 
             if (Values.Count > 0)
             {
@@ -81,14 +81,28 @@ namespace NuciXNA.Gui.GuiElements
             lastSelectedValue = SelectedValue;
 
             originalText = Text;
+
+            RegisterEvents();
+        }
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+            base.DoUnloadContent();
+
+            UnregisterEvents();
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
+            base.DoUpdate(gameTime);
+            
             Text = originalText;
 
             if (Values.Count == 0)
@@ -119,17 +133,13 @@ namespace NuciXNA.Gui.GuiElements
 
             lastSelectedIndex = SelectedIndex;
             lastSelectedValue = SelectedValue;
-
-            base.Update(gameTime);
         }
 
         /// <summary>
         /// Registers the events.
         /// </summary>
-        protected override void RegisterEvents()
+        void RegisterEvents()
         {
-            base.RegisterEvents();
-
             KeyPressed += OnKeyPressed;
             MouseButtonPressed += OnMouseButtonPressed;
         }
@@ -137,10 +147,8 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        protected override void UnregisterEvents()
+        void UnregisterEvents()
         {
-            base.UnregisterEvents();
-
             KeyPressed -= OnKeyPressed;
             MouseButtonPressed -= OnMouseButtonPressed;
         }

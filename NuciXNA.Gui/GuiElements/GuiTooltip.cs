@@ -1,4 +1,7 @@
-﻿using NuciXNA.Graphics.Drawing;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
 
@@ -35,7 +38,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             border = new GuiImage
             {
@@ -53,22 +56,41 @@ namespace NuciXNA.Gui.GuiElements
                 BackgroundColour = Colour.Transparent
             };
 
-            base.LoadContent();
-        }
-
-        protected override void RegisterChildren()
-        {
-            base.RegisterChildren();
-
             AddChild(border);
             AddChild(background);
             AddChild(text);
+
+            SetChildrenProperties();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            base.SetChildrenProperties();
+            
+        }
 
+        /// <summary>
+        /// Updates the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Draws the content on the specified spriteBatch.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+            
+        }
+
+        void SetChildrenProperties()
+        {
             if (ScreenLocation.X + Size.Width > ScreenManager.Instance.Size.Width)
             {
                 Location = new Point2D(Location.X - (ScreenLocation.X + Size.Width - ScreenManager.Instance.Size.Width), Location.Y);

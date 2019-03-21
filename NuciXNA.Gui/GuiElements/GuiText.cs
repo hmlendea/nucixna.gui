@@ -39,7 +39,7 @@ namespace NuciXNA.Gui.GuiElements
                 if (_text != value)
                 {
                     _text = value;
-                    OnTextChanged(this, null);
+                    TextChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -93,8 +93,12 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
+            SetChildrenProperties();
+            
+            AddChild(backgroundImage);
+
             backgroundImage = new GuiImage
             {
                 ContentFile = "ScreenManager/FillImage",
@@ -110,17 +114,14 @@ namespace NuciXNA.Gui.GuiElements
                 OpacityEffect = FadeEffect
             };
             
-            base.LoadContent();
             textSprite.LoadContent();
         }
 
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public override void UnloadContent()
+        protected override void DoUnloadContent()
         {
-            base.UnloadContent();
-
             textSprite.UnloadContent();
         }
 
@@ -128,10 +129,9 @@ namespace NuciXNA.Gui.GuiElements
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.Update(gameTime);
-
+            SetChildrenProperties();
             textSprite.Update(gameTime);
         }
 
@@ -139,24 +139,13 @@ namespace NuciXNA.Gui.GuiElements
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
-
             textSprite.Draw(spriteBatch);
         }
 
-        protected override void RegisterChildren()
+        void SetChildrenProperties()
         {
-            base.RegisterChildren();
-            
-            AddChild(backgroundImage);
-        }
-
-        protected override void SetChildrenProperties()
-        {
-            base.SetChildrenProperties();
-
             backgroundImage.TintColour = BackgroundColour;
             backgroundImage.Size = new Size2D(
                 Size.Width + Margins * 2,
@@ -174,11 +163,6 @@ namespace NuciXNA.Gui.GuiElements
             textSprite.Location = new Point2D(ScreenLocation.X + Margins, ScreenLocation.Y + Margins);
             textSprite.SpriteSize = new Size2D(Size.Width - Margins * 2, Size.Height - Margins * 2);
             textSprite.IsActive = AreEffectsActive;
-        }
-
-        protected virtual void OnTextChanged(object sender, EventArgs e)
-        {
-            TextChanged?.Invoke(sender, e);
         }
     }
 }

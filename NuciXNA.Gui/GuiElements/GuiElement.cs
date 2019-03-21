@@ -13,7 +13,7 @@ namespace NuciXNA.Gui.GuiElements
     /// <summary>
     /// GUI Element.
     /// </summary>
-    public class GuiElement : IComponent, IDisposable
+    public abstract class GuiElement : IComponent, IDisposable
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -512,19 +512,17 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public virtual void LoadContent()
+        public void LoadContent()
         {
             if (IsContentLoaded)
             {
                 throw new InvalidOperationException("Content already loaded");
             }
 
-            RegisterChildren();
-            SetChildrenProperties();
+            RegisterEvents();
+            DoLoadContent();
 
             Children.ForEach(x => x.LoadContent());
-
-            RegisterEvents();
 
             IsContentLoaded = true;
             IsDisposed = false;
@@ -535,7 +533,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public virtual void UnloadContent()
+        public void UnloadContent()
         {
             if (!IsContentLoaded)
             {
@@ -546,8 +544,9 @@ namespace NuciXNA.Gui.GuiElements
             UnregisterEvents();
 
             Children.ForEach(x => x.UnloadContent());
-
-            UnregisterChildren();
+            Children.Clear();
+            
+            DoUnloadContent();
             IsContentLoaded = false;
         }
 
@@ -555,8 +554,13 @@ namespace NuciXNA.Gui.GuiElements
         /// Update the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public virtual void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
             Children.RemoveAll(w => w.IsDisposed);
 
             foreach (GuiElement child in Children)
@@ -570,24 +574,32 @@ namespace NuciXNA.Gui.GuiElements
             }
 
             RaiseEvents();
-            SetChildrenProperties();
 
             foreach (GuiElement guiElement in Children.Where(w => w.IsEnabled))
             {
                 guiElement.Update(gameTime);
             }
+
+            DoUpdate(gameTime);
         }
 
         /// <summary>
         /// Draw the content on the specified <see cref="SpriteBatch"/>.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
             foreach (GuiElement guiElement in Children.Where(w => w.IsVisible))
             {
                 guiElement.Draw(spriteBatch);
             }
+
+            DoDraw(spriteBatch);
         }
 
         /// <summary>
@@ -600,6 +612,28 @@ namespace NuciXNA.Gui.GuiElements
 
             Children.ForEach(c => c.Dispose());
         }
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected abstract void DoLoadContent();
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected abstract void DoUnloadContent();
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected abstract void DoUpdate(GameTime gameTime);
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
         /// Disposes of this <see cref="GuiElement"/>.
@@ -645,46 +679,10 @@ namespace NuciXNA.Gui.GuiElements
             IsVisible = false;
         }
 
-        protected virtual void RegisterChildren()
-        {
-
-        }
-
-        protected void UnregisterChildren()
-        {
-            Children.Clear();
-        }
-
         protected void AddChild(GuiElement element)
         {
             Children.Add(element);
             element.Parent = this;
-        }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
-        protected virtual void RegisterEvents()
-        {
-            InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
-            InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
-            InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
-
-            InputManager.Instance.MouseButtonPressed += OnInputManagerMouseButtonPressed;
-            InputManager.Instance.MouseMoved += OnInputManagerMouseMoved;
-        }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
-        protected virtual void UnregisterEvents()
-        {
-            InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
-            InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
-            InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
-
-            InputManager.Instance.MouseButtonPressed -= OnInputManagerMouseButtonPressed;
-            InputManager.Instance.MouseMoved -= OnInputManagerMouseMoved;
         }
 
         protected virtual void RaiseEvents()
@@ -693,11 +691,6 @@ namespace NuciXNA.Gui.GuiElements
             {
                 return;
             }
-        }
-
-        protected virtual void SetChildrenProperties()
-        {
-
         }
         
         protected virtual object GetService(Type service)
@@ -749,6 +742,32 @@ namespace NuciXNA.Gui.GuiElements
 
                 child.HandleInput();
             }
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
+            InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
+            InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
+
+            InputManager.Instance.MouseButtonPressed += OnInputManagerMouseButtonPressed;
+            InputManager.Instance.MouseMoved += OnInputManagerMouseMoved;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
+            InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
+            InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
+
+            InputManager.Instance.MouseButtonPressed -= OnInputManagerMouseButtonPressed;
+            InputManager.Instance.MouseMoved -= OnInputManagerMouseMoved;
         }
 
         void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)

@@ -16,9 +16,9 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Registers the events.
         /// </summary>
-        protected override void RegisterEvents()
+        protected override void DoLoadContent()
         {
-            base.RegisterEvents();
+            base.DoLoadContent();
 
             Activated += OnActivated;
         }
@@ -26,9 +26,9 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        protected override void UnregisterEvents()
+        protected override void DoUnloadContent()
         {
-            base.UnregisterEvents();
+            base.DoUnloadContent();
 
             Activated -= OnActivated;
         }
