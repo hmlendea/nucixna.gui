@@ -102,10 +102,8 @@ namespace NuciXNA.Graphics.Drawing
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
-            base.LoadContent();
-
             Texture = LoadTexture();
 
             if (SpriteSize == Size2D.Empty)
@@ -153,10 +151,8 @@ namespace NuciXNA.Graphics.Drawing
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public override void UnloadContent()
+        protected override void DoUnloadContent()
         {
-            base.UnloadContent();
-            
             SpriteSheetEffect?.UnloadContent();
 
             Texture = null;
@@ -166,13 +162,12 @@ namespace NuciXNA.Graphics.Drawing
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.Update(gameTime);
-            
             SpriteSheetEffect?.Update(gameTime);
 
-            if (loadedContentFile != ContentFile || loadedAlphaMaskFile != AlphaMaskFile)
+            if (loadedContentFile != ContentFile ||
+                loadedAlphaMaskFile != AlphaMaskFile)
             {
                 Texture = LoadTexture();
             }
@@ -182,7 +177,7 @@ namespace NuciXNA.Graphics.Drawing
         /// Draws the content.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
             Point2D origin = new Point2D(SourceRectangle.Size / 2);
 

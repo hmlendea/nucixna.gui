@@ -127,10 +127,26 @@ namespace NuciXNA.Graphics.Drawing
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Sprite"/>'s content is loaded.
+        /// </summary>
+        /// <value><c>true</c> if the content is loaded; otherwise, <c>false</c>.</value>
+        public bool IsContentLoaded { get; private set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Sprite"/> is destroyed.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
         public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/>'s content finished loading.
+        /// </summary>
+        public event EventHandler ContentLoaded;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/>'s content finished unloading.
+        /// </summary>
+        public event EventHandler ContentUnloaded;
 
         /// <summary>
         /// Occurs when this <see cref="Sprite"/> was disposed.
@@ -160,40 +176,74 @@ namespace NuciXNA.Graphics.Drawing
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public virtual void LoadContent()
+        public void LoadContent()
         {
+            if (IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content already loaded");
+            }
+
             OpacityEffect?.LoadContent(this);
             RotationEffect?.LoadContent(this);
             ScaleEffect?.LoadContent(this);
+
+            DoLoadContent();
+
+            IsContentLoaded = true;
+            ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public virtual void UnloadContent()
+        public void UnloadContent()
         {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
             OpacityEffect?.UnloadContent();
             RotationEffect?.UnloadContent();
             ScaleEffect?.UnloadContent();
+
+            DoUnloadContent();
+
+            IsContentLoaded = false;
+            ContentUnloaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public virtual void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
             OpacityEffect?.Update(gameTime);
             RotationEffect?.Update(gameTime);
             ScaleEffect?.Update(gameTime);
+
+            DoUpdate(gameTime);
         }
 
         /// <summary>
         /// Draws the content.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
 
+            DoDraw(spriteBatch);
+        }
         
         /// <summary>
         /// Disposes of this <see cref="GuiElement"/>.
@@ -203,6 +253,28 @@ namespace NuciXNA.Graphics.Drawing
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected abstract void DoLoadContent();
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected abstract void DoUnloadContent();
+
+        /// <summary>
+        /// Updates the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected abstract void DoUpdate(GameTime gameTime);
+
+        /// <summary>
+        /// Draws the content.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
         /// Disposes of this <see cref="GuiElement"/>.
@@ -216,10 +288,44 @@ namespace NuciXNA.Graphics.Drawing
 
             lock (this)
             {
-                UnloadContent();
+                if (IsContentLoaded)
+                {
+                    UnloadContent();
+                }
 
+                IsDisposed = true;
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="ContentLoaded"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        void OnContentLoaded(object sender, EventArgs e)
+        {
+            IsContentLoaded = true;
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="ContentUnloaded"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        void OnContentUnloaded(object sender, EventArgs e)
+        {
+            IsContentLoaded = false;
+        }
+
+        /// <summary>
+        /// Fired by the <see cref="Disposed"> event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        void OnDisposed(object sender, EventArgs e)
+        {
+            IsDisposed = true;
         }
     }
 }
