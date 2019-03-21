@@ -69,7 +69,7 @@ namespace NuciXNA.DataAccess.Content
         /// <param name="graphicsDevice">Graphics device.</param>
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            this.pipelineContentLoader = new PipelineContentLoader(content, graphicsDevice);
+            this.pipelineContentLoader = new PipelineContentLoader(content);
             this.plainFileContentLoader = new PlainFileContentLoader(graphicsDevice);
         }
 
@@ -123,7 +123,8 @@ namespace NuciXNA.DataAccess.Content
                 }
             }
 
-            if (texture2d is null)
+            if (texture2d is null &&
+                !string.IsNullOrWhiteSpace(MissingTexturePlaceholder))
             {
                 texture2d = pipelineContentLoader.LoadTexture2D(MissingTexturePlaceholder);
             }

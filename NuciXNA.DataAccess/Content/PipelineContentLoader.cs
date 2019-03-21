@@ -15,17 +15,14 @@ namespace NuciXNA.DataAccess.Content
     public class PipelineContentLoader : ContentLoader, IContentLoader
     {
         ContentManager content;
-        GraphicsDevice graphicsDevice { get; set; }
 
         /// <summary>
         /// Initialised a new instance of the <see cref="PipelineContentLoader"> class.
         /// </summary>
         /// <param name="content">The XNA content manager.</param>
-        /// <param name="graphicsDevice">The graphics device.</param>
-        public PipelineContentLoader(ContentManager content, GraphicsDevice graphicsDevice)
+        public PipelineContentLoader(ContentManager content)
         {
             this.content = content;
-            this.graphicsDevice = graphicsDevice;
         }
 
         /// <summary>
