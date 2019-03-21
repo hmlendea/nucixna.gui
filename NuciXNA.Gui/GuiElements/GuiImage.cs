@@ -182,7 +182,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether the effects are active.
         /// </summary>
         /// <value><c>true</c> if the effects are active; otherwise, <c>false</c>.</value>
-        public bool EffectsActive { get; set; }
+        public bool AreEffectsActive { get; set; }
 
         public event EventHandler ContentFileChanged;
 
@@ -254,7 +254,7 @@ namespace NuciXNA.Gui.GuiElements
                 Size = sprite.SourceRectangle.Size;
             }
 
-            sprite.Active = EffectsActive;
+            sprite.IsActive = AreEffectsActive;
             sprite.AlphaMaskFile = MaskFile;
             sprite.ContentFile = ContentFile;
             sprite.Location = ScreenLocation;

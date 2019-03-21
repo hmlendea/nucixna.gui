@@ -52,13 +52,13 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets the horizontal alignment of the text.
         /// </summary>
         /// <value>The horizontal alignment.</value>
-        public HorizontalAlignment HorizontalAlignment { get; set; }
+        public Alignment HorizontalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets the vertical alignment of the text.
         /// </summary>
         /// <value>The vertical alignment.</value>
-        public VerticalAlignment VerticalAlignment { get; set; }
+        public Alignment VerticalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets the margins.
@@ -76,7 +76,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether the effects are active.
         /// </summary>
         /// <value><c>true</c> if the effects are active; otherwise, <c>false</c>.</value>
-        public bool EffectsActive { get; set; }
+        public bool AreEffectsActive { get; set; }
 
         public event EventHandler TextChanged;
 
@@ -85,8 +85,8 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         public GuiText()
         {
-            HorizontalAlignment = HorizontalAlignment.Centre;
-            VerticalAlignment = VerticalAlignment.Centre;
+            HorizontalAlignment = Alignment.Middle;
+            VerticalAlignment = Alignment.Middle;
             OutlineColour = Colour.Black;
         }
 
@@ -161,7 +161,7 @@ namespace NuciXNA.Gui.GuiElements
             backgroundImage.Size = new Size2D(
                 Size.Width + Margins * 2,
                 Size.Height + Margins * 2);
-            backgroundImage.EffectsActive = EffectsActive;
+            backgroundImage.AreEffectsActive = AreEffectsActive;
 
             textSprite.Text = Text;
             textSprite.FontName = FontName;
@@ -169,11 +169,11 @@ namespace NuciXNA.Gui.GuiElements
             textSprite.FontOutline = FontOutline;
             textSprite.Tint = ForegroundColour;
             textSprite.Opacity = Opacity;
-            textSprite.TextVerticalAlignment = VerticalAlignment;
-            textSprite.TextHorizontalAlignment = HorizontalAlignment;
+            textSprite.VerticalAlignment = VerticalAlignment;
+            textSprite.HorizontalAlignment = HorizontalAlignment;
             textSprite.Location = new Point2D(ScreenLocation.X + Margins, ScreenLocation.Y + Margins);
             textSprite.SpriteSize = new Size2D(Size.Width - Margins * 2, Size.Height - Margins * 2);
-            textSprite.Active = EffectsActive;
+            textSprite.IsActive = AreEffectsActive;
         }
 
         protected virtual void OnTextChanged(object sender, EventArgs e)

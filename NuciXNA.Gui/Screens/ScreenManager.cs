@@ -175,7 +175,7 @@ namespace NuciXNA.Gui.Screens
             transitionSprite.OpacityEffect.CurrentMultiplier = 0.0f;
             transitionSprite.OpacityEffect.IsIncreasing = true;
             transitionSprite.OpacityEffect.Activate();
-            transitionSprite.Active = true;
+            transitionSprite.IsActive = true;
 
             Transitioning = true;
         }
@@ -194,7 +194,7 @@ namespace NuciXNA.Gui.Screens
                 currentScreen = newScreen;
                 currentScreen.LoadContent();
 
-                transitionSprite.Active = false;
+                transitionSprite.IsActive = false;
                 Transitioning = false;
             }
         }

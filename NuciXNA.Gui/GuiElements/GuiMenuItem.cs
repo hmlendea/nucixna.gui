@@ -57,7 +57,7 @@ namespace NuciXNA.Gui.GuiElements
             text = new GuiText
             {
                 FontName = "MenuFont",
-                EffectsActive = true,
+                AreEffectsActive = true,
                 FadeEffect = new FadeEffect
                 {
                     Speed = 2,
@@ -87,12 +87,12 @@ namespace NuciXNA.Gui.GuiElements
 
             if (IsFocused)
             {
-                text.EffectsActive = true;
+                text.AreEffectsActive = true;
                 text.ForegroundColour = SelectedTextColour;
             }
             else
             {
-                text.EffectsActive = false;
+                text.AreEffectsActive = false;
                 text.ForegroundColour = ForegroundColour;
             }
         }
