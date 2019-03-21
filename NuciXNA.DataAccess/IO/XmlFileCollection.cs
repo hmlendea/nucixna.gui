@@ -34,20 +34,12 @@ namespace NuciXNA.DataAccess.IO
             XmlSerializer xs = new XmlSerializer(typeof(List<T>));
             IEnumerable<T> entities = null;
 
-            try
+            using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
                 using (StreamReader sr = new StreamReader(fs))
                 {
                     entities = (IEnumerable<T>)xs.Deserialize(sr);
                 }
-            }
-            catch (Exception ex)
-            {
-                string logMessage = "The repository cannot be accessed";
-                // TODO: Log error
-
-                Console.WriteLine(logMessage + Environment.NewLine + ex);
             }
 
             return entities;
@@ -59,22 +51,12 @@ namespace NuciXNA.DataAccess.IO
         /// <param name="entities">Entities.</param>
         public void SaveEntities(IEnumerable<T> entities)
         {
-            try
-            {
-                FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write);
+            FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write);
 
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    XmlSerializer xs = new XmlSerializer(typeof(List<T>));
-                    xs.Serialize(sw, entities);
-                }
-            }
-            catch (Exception ex)
+            using (StreamWriter sw = new StreamWriter(fs))
             {
-                string logMessage = "The repository cannot be accessed";
-                // TODO: Log error
-
-                Console.WriteLine(logMessage + Environment.NewLine + ex);
+                XmlSerializer xs = new XmlSerializer(typeof(List<T>));
+                xs.Serialize(sw, entities);
             }
         }
     }
