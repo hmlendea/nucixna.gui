@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.DataAccess.Resources;
+using NuciXNA.DataAccess.Content;
 using NuciXNA.Primitives;
 
 namespace NuciXNA.Graphics.Drawing
@@ -75,7 +75,7 @@ namespace NuciXNA.Graphics.Drawing
 
             if (!string.IsNullOrEmpty(FontName))
             {
-                font = ResourceManager.Instance.LoadSpriteFont("Fonts/" + FontName);
+                font = NuciContentManager.Instance.LoadSpriteFont("Fonts/" + FontName);
             }
 
             if (SpriteSize == Size2D.Empty)

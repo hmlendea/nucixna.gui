@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.DataAccess.Resources;
+using NuciXNA.DataAccess.Content;
 using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Primitives;
 
@@ -208,12 +208,12 @@ namespace NuciXNA.Graphics.Drawing
                 return texture;
             }
 
-            texture = ResourceManager.Instance.LoadTexture2D(ContentFile);
+            texture = NuciContentManager.Instance.LoadTexture2D(ContentFile);
             loadedContentFile = ContentFile;
 
             if (!string.IsNullOrWhiteSpace(AlphaMaskFile))
             {
-                Texture2D alphaMask = ResourceManager.Instance.LoadTexture2D(AlphaMaskFile);
+                Texture2D alphaMask = NuciContentManager.Instance.LoadTexture2D(AlphaMaskFile);
                 loadedAlphaMaskFile = AlphaMaskFile;
 
                 texture = TextureBlend(texture, alphaMask);
