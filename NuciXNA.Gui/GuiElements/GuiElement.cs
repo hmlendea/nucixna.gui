@@ -664,7 +664,7 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void RegisterEvents()
         {
             ContentLoaded += OnContentLoaded;
-            Disposed += OnContentLoaded;
+            Disposed += OnDisposed;
 
             InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
@@ -677,7 +677,7 @@ namespace NuciXNA.Gui.GuiElements
         protected virtual void UnregisterEvents()
         {
             ContentLoaded -= OnContentLoaded;
-            Disposed -= OnContentLoaded;
+            Disposed -= OnDisposed;
 
             InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
