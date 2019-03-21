@@ -7,7 +7,7 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// <summary>
     /// Fade sprite effect.
     /// </summary>
-    public abstract class OpacityEffect : CustomSpriteEffect<Sprite>
+    public abstract class OpacityEffect : NuciSpriteEffect<Sprite>
     {
         /// <summary>
         /// Gets or sets the speed.

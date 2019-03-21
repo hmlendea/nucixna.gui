@@ -7,7 +7,7 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// <summary>
     /// Zoom sprite effect.
     /// </summary>
-    public abstract class ScaleEffect : CustomSpriteEffect<Sprite>
+    public abstract class ScaleEffect : NuciSpriteEffect<Sprite>
     {
         /// <summary>
         /// Gets or sets the speed.

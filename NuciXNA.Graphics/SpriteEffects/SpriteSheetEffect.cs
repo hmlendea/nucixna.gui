@@ -4,7 +4,7 @@ using NuciXNA.Primitives;
 
 namespace NuciXNA.Graphics.SpriteEffects
 {
-    public abstract class SpriteSheetEffect : CustomSpriteEffect<TextureSprite>
+    public abstract class SpriteSheetEffect : NuciSpriteEffect<TextureSprite>
     {
         public int FrameCounter { get; set; }
 

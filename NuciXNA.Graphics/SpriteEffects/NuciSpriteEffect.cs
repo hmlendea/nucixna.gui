@@ -9,12 +9,12 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// <summary>
     /// Effect.
     /// </summary>
-    public class CustomSpriteEffect<TSprite> where TSprite : Sprite
+    public class NuciSpriteEffect<TSprite> where TSprite : Sprite
     {
         bool isContentLoaded;
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="CustomSpriteEffect"/> is active.
+        /// Gets or sets a value indicating whether this <see cref="NuciSpriteEffect"/> is active.
         /// </summary>
         /// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
         public bool Active { get; private set; }
@@ -34,9 +34,9 @@ namespace NuciXNA.Graphics.SpriteEffects
         public string Key { get { return Type.ToString().Split('.').Last(); } }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomSpriteEffect"/> class.
+        /// Initializes a new instance of the <see cref="NuciSpriteEffect"/> class.
         /// </summary>
-        public CustomSpriteEffect()
+        public NuciSpriteEffect()
         {
             Type = GetType();
         }

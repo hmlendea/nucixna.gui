@@ -7,7 +7,7 @@ namespace NuciXNA.Graphics.SpriteEffects
     /// <summary>
     /// Rotation sprite effect.
     /// </summary>
-    public abstract class RotationEffect : CustomSpriteEffect<Sprite>
+    public abstract class RotationEffect : NuciSpriteEffect<Sprite>
     {
         /// <summary>
         /// Gets or sets the speed.
