@@ -25,7 +25,7 @@ namespace NuciXNA.UnitTests.Gui.Screens
         }
 
         [Test]
-        public void UnoadContent_ContentNotLoaded_ThrowsInvalidOperationException()
+        public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
             Screen unloadedScreen = new Screen();
             
