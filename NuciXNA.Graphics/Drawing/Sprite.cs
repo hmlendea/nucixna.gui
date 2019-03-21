@@ -139,17 +139,52 @@ namespace NuciXNA.Graphics.Drawing
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Occurs when this <see cref="Sprite"/>'s content finished loading.
+        /// Occurs when this <see cref="Sprite"/> began loading its content.
+        /// </summary>
+        public event EventHandler ContentLoading;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> finished loading its content.
         /// </summary>
         public event EventHandler ContentLoaded;
 
         /// <summary>
-        /// Occurs when this <see cref="Sprite"/>'s content finished unloading.
+        /// Occurs when this <see cref="Sprite"/> began unloading its content.
+        /// </summary>
+        public event EventHandler ContentUnloading;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> finished unloading its content.
         /// </summary>
         public event EventHandler ContentUnloaded;
 
         /// <summary>
-        /// Occurs when this <see cref="Sprite"/> was disposed.
+        /// Occurs when this <see cref="Sprite"/> began updating.
+        /// </summary>
+        public event EventHandler Updating;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> finished updating.
+        /// </summary>
+        public event EventHandler Updated;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> began drawing.
+        /// </summary>
+        public event EventHandler Drawing;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> finished drawing.
+        /// </summary>
+        public event EventHandler Drawn;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> began disposing.
+        /// </summary>
+        public event EventHandler Disposing;
+
+        /// <summary>
+        /// Occurs when this <see cref="Sprite"/> finished disposing.
         /// </summary>
         public event EventHandler Disposed;
 
@@ -183,6 +218,8 @@ namespace NuciXNA.Graphics.Drawing
                 throw new InvalidOperationException("Content already loaded");
             }
 
+            ContentLoading?.Invoke(this, EventArgs.Empty);
+
             OpacityEffect?.LoadContent(this);
             RotationEffect?.LoadContent(this);
             ScaleEffect?.LoadContent(this);
@@ -202,6 +239,8 @@ namespace NuciXNA.Graphics.Drawing
             {
                 throw new InvalidOperationException("Content not loaded");
             }
+
+            ContentUnloading?.Invoke(this, EventArgs.Empty);
 
             OpacityEffect?.UnloadContent();
             RotationEffect?.UnloadContent();
@@ -224,11 +263,14 @@ namespace NuciXNA.Graphics.Drawing
                 throw new InvalidOperationException("Content not loaded");
             }
 
+            Updating?.Invoke(this, EventArgs.Empty);
+
             OpacityEffect?.Update(gameTime);
             RotationEffect?.Update(gameTime);
             ScaleEffect?.Update(gameTime);
 
             DoUpdate(gameTime);
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -242,7 +284,11 @@ namespace NuciXNA.Graphics.Drawing
                 throw new InvalidOperationException("Content not loaded");
             }
 
+            Drawing?.Invoke(this, EventArgs.Empty);
+
             DoDraw(spriteBatch);
+
+            Drawn?.Invoke(this, EventArgs.Empty);
         }
         
         /// <summary>
@@ -288,6 +334,8 @@ namespace NuciXNA.Graphics.Drawing
 
             lock (this)
             {
+                Disposing?.Invoke(this, EventArgs.Empty);
+
                 if (IsContentLoaded)
                 {
                     UnloadContent();
@@ -296,36 +344,6 @@ namespace NuciXNA.Graphics.Drawing
                 IsDisposed = true;
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="ContentLoaded"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        void OnContentLoaded(object sender, EventArgs e)
-        {
-            IsContentLoaded = true;
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="ContentUnloaded"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        void OnContentUnloaded(object sender, EventArgs e)
-        {
-            IsContentLoaded = false;
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="Disposed"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        void OnDisposed(object sender, EventArgs e)
-        {
-            IsDisposed = true;
         }
     }
 }
