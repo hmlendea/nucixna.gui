@@ -5,6 +5,6 @@
     /// </summary>
     public class GuiMenuText : GuiMenuItem
     {
-        public override bool Selectable => false;
+        public override bool IsSelectable => false;
     }
 }

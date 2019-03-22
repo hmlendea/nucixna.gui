@@ -48,12 +48,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_location == null || _location != value)
-                {
-                    LocationChanged?.Invoke(this, EventArgs.Empty);
-                }
-
                 _location = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Location));
+                LocationChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -96,12 +94,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_size == null || _size != value)
-                {
-                    SizeChanged?.Invoke(this, EventArgs.Empty);
-                }
-
                 _size = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Size));
+                SizeChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -150,8 +146,10 @@ namespace NuciXNA.Gui.GuiElements
                 else if (value != _opacity)
                 {
                     _opacity = value;
-                    OpacityChanged?.Invoke(this, EventArgs.Empty);
                 }
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Opacity));
+                OpacityChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -177,13 +175,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_backgroundColour == null || _backgroundColour != value)
-                {
-                    // TODO: Pass event args
-                    BackgroundColourChanged?.Invoke(this, EventArgs.Empty);
-                }
-
                 _backgroundColour = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(BackgroundColour));
+                BackgroundColourChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -209,12 +204,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_foregroundColour == null || _foregroundColour != value)
-                {
-                    ForegroundColourChanged?.Invoke(this, EventArgs.Empty);
-                }
-
                 _foregroundColour = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ForegroundColour));
+                ForegroundColourChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -240,11 +233,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_fontName != value)
-                {
-                    _fontName = value;
-                    FontNameChanged?.Invoke(this, EventArgs.Empty);
-                }
+                _fontName = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(FontName));
+                FontNameChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -350,7 +342,11 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isFocused != value)
                 {
                     _isFocused = value;
-                    Focused?.Invoke(this, EventArgs.Empty);
+
+                    if (value)
+                    {
+                        Focused?.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -410,32 +406,32 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Occurs when the <see cref="ForegroundColour"> was changed.
         /// </summary>
-        public event EventHandler ForegroundColourChanged;
+        public event PropertyChangedEventHandler ForegroundColourChanged;
 
         /// <summary>
         /// Occurs when the <see cref="BackgroundColour"> was changed.
         /// </summary>
-        public event EventHandler BackgroundColourChanged;
+        public event PropertyChangedEventHandler BackgroundColourChanged;
 
         /// <summary>
         /// Occurs when the <see cref="Opacity"> was changed.
         /// </summary>
-        public event EventHandler OpacityChanged;
+        public event PropertyChangedEventHandler OpacityChanged;
 
         /// <summary>
         /// Occurs when the <see cref="FontName"> was changed.
         /// </summary>
-        public event EventHandler FontNameChanged;
+        public event PropertyChangedEventHandler FontNameChanged;
 
         /// <summary>
         /// Occurs when the <see cref="Location"> was changed.
         /// </summary>
-        public event EventHandler LocationChanged;
+        public event PropertyChangedEventHandler LocationChanged;
 
         /// <summary>
         /// Occurs when the <see cref="Size"> was changed.
         /// </summary>
-        public event EventHandler SizeChanged;
+        public event PropertyChangedEventHandler SizeChanged;
 
         /// <summary>
         /// Occurs when this <see cref="GuiElement"/> was shown.
@@ -603,7 +599,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded " + Id);
+                throw new InvalidOperationException("Content not loaded for GuiElement ID: " + Id);
             }
 
             ContentUnloading?.Invoke(this, EventArgs.Empty);
@@ -628,7 +624,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded " + Id);
+                throw new InvalidOperationException("Content not loaded for GuiElement ID: " + Id);
             }
 
             Updating?.Invoke(this, EventArgs.Empty);
@@ -663,7 +659,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded " + Id);
+                throw new InvalidOperationException("Content not loaded for GuiElement ID: " + Id);
             }
 
             Drawing?.Invoke(this, EventArgs.Empty);

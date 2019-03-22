@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,12 +40,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_contentFile == null || _contentFile != value)
-                {
-                    OnContentFileChanged(this, null);
-                }
-
                 _contentFile = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ContentFile));
+                ContentFileChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -65,12 +64,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_maskFile == null || _maskFile != value)
-                {
-                    OnMaskFileChanged(this, null);
-                }
-
                 _maskFile = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(MaskFile));
+                MaskFileChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -91,12 +88,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_tintColour == null || _tintColour != value)
-                {
-                    OnTintColourChanged(this, null);
-                }
-
                 _tintColour = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(TintColour));
+                TintColourChanged?.Invoke(this, eventArguments);
             }
         }
         
@@ -117,12 +112,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_sourceRectangle == null || _sourceRectangle != value)
-                {
-                    OnSourceRectangleChanged(this, null);
-                }
-
                 _sourceRectangle = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(SourceRectangle));
+                SourceRectangleChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -143,12 +136,10 @@ namespace NuciXNA.Gui.GuiElements
             }
             set
             {
-                if (_textureLayout == null || _textureLayout != value)
-                {
-                    OnTextureLayoutChanged(this, null);
-                }
-
                 _textureLayout = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(TextureLayout));
+                TextureLayoutChanged?.Invoke(this, eventArguments);
             }
         }
         
@@ -184,15 +175,30 @@ namespace NuciXNA.Gui.GuiElements
         /// <value><c>true</c> if the effects are active; otherwise, <c>false</c>.</value>
         public bool AreEffectsActive { get; set; }
 
-        public event EventHandler ContentFileChanged;
+        /// <summary>
+        /// Occurs when the <see cref="ContentFile"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler ContentFileChanged;
 
-        public event EventHandler MaskFileChanged;
+        /// <summary>
+        /// Occurs when the <see cref="MaskFile"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler MaskFileChanged;
 
-        public event EventHandler TintColourChanged;
+        /// <summary>
+        /// Occurs when the <see cref="TintColour"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler TintColourChanged;
 
-        public event EventHandler SourceRectangleChanged;
+        /// <summary>
+        /// Occurs when the <see cref="SourceRectangle"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler SourceRectangleChanged;
 
-        public event EventHandler TextureLayoutChanged;
+        /// <summary>
+        /// Occurs when the <see cref="TextureLayout"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler TextureLayoutChanged;
         
         /// <summary>
         /// Loads the content.
@@ -265,31 +271,6 @@ namespace NuciXNA.Gui.GuiElements
                     (float)Size.Width / sprite.SourceRectangle.Width,
                     (float)Size.Height / sprite.SourceRectangle.Height);
             }
-        }
-
-        protected virtual void OnContentFileChanged(object sender, EventArgs e)
-        {
-            ContentFileChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnMaskFileChanged(object sender, EventArgs e)
-        {
-            MaskFileChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnTintColourChanged(object sender, EventArgs e)
-        {
-            TintColourChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnSourceRectangleChanged(object sender, EventArgs e)
-        {
-            SourceRectangleChanged?.Invoke(sender, e);
-        }
-
-        protected virtual void OnTextureLayoutChanged(object sender, EventArgs e)
-        {
-            TextureLayoutChanged?.Invoke(sender, e);
         }
     }
 }

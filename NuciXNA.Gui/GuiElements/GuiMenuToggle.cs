@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 
@@ -9,17 +10,50 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiMenuToggle : GuiMenuItem
     {
+        string _property;
+        bool _toggleState;
+
         /// <summary>
         /// Gets or sets the property.
         /// </summary>
         /// <value>The type of the property.</value>
-        public string Property { get; set; }
+        public string Property
+        {
+            get => _property;
+            set
+            {
+                _property = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Property));
+                PropertyChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the toggle state.
         /// </summary>
         /// <value>The type of the toggle state.</value>
-        public bool ToggleState { get; set; }
+        public bool ToggleState
+        {
+            get => _toggleState;
+            set
+            {
+                _toggleState = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ToggleState));
+                ToggleStateChanged?.Invoke(this, eventArguments);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the <see cref="Property"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="ToggleState"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler ToggleStateChanged;
 
         string originalText;
 

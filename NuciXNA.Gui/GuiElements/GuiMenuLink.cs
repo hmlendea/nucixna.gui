@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 using NuciXNA.Gui.Screens;
 
@@ -9,17 +10,50 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiMenuLink : GuiMenuItem
     {
+        Type _targetScreen;
+        object[] _parameters;
+
         /// <summary>
         /// Gets or sets the targeted screen.
         /// </summary>
         /// <value>The targeted screen.</value>
-        public Type TargetScreen { get; set; }
+        public Type TargetScreen
+        {
+            get => _targetScreen;
+            set
+            {
+                _targetScreen = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(TargetScreen));
+                TargetScreenChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the link arguments.
         /// </summary>
         /// <value>The link arguments.</value>
-        public object[] Parameters { get; set; }
+        public object[] Parameters
+        {
+            get => _parameters;
+            set
+            {
+                _parameters = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Parameters));
+                ParametersChanged?.Invoke(this, eventArguments);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the <see cref="TargetScreen"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler TargetScreenChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Parameters"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler ParametersChanged;
 
         /// <summary>
         /// Registers the events.

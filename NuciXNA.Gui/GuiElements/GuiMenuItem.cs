@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,19 +16,68 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public abstract class GuiMenuItem : GuiElement
     {
+        private string _text;
+        private Colour _selectedTextColour;
+        private bool _isSelectable;
+
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
         /// <value>The text.</value>
-        public string Text { get; set; }
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Text));
+                TextChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the selected text colour.
         /// </summary>
         /// <value>The selected text colour.</value>
-        public Colour SelectedTextColour { get; set; }
+        public Colour SelectedTextColour
+        {
+            get => _selectedTextColour;
+            set
+            {
+                _selectedTextColour = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(SelectedTextColour));
+                SelectedTextColourChanged?.Invoke(this, eventArguments);
+            }
+        }
 
-        public virtual bool Selectable { get; }
+        public virtual bool IsSelectable
+        {
+            get => _isSelectable;
+            set
+            {
+                _isSelectable = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(IsSelectable));
+                IsSelectableChanged?.Invoke(this, eventArguments);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the <see cref="Text"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler TextChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="SelectedTextColour"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler SelectedTextColourChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="IsSelectable"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler IsSelectableChanged;
 
         // TODO: Maybe implement my own handler and args
         /// <summary>
@@ -48,7 +98,7 @@ namespace NuciXNA.Gui.GuiElements
             ForegroundColour = Colour.White;
             SelectedTextColour = Colour.Gold;
 
-            Selectable = true;
+            IsSelectable = true;
             Size = new Size2D(512, 48);
         }
 

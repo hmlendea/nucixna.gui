@@ -132,7 +132,7 @@ namespace NuciXNA.Gui.Screens
             base.OnMouseMoved(sender, e);
 
             int index = Items.FindIndex(x =>
-                x.Selectable &&
+                x.IsSelectable &&
                 x.DisplayRectangle.Contains(e.Location));
 
             if (index >= 0)
@@ -177,7 +177,7 @@ namespace NuciXNA.Gui.Screens
         {
             int normalisedItemNumber = GetSafeItemNumber(itemNumber);
 
-            if (!Items[normalisedItemNumber].Selectable && Items.Any(x => x.Selectable))
+            if (!Items[normalisedItemNumber].IsSelectable && Items.Any(x => x.IsSelectable))
             {
                 if (lastDirectionBack)
                 {

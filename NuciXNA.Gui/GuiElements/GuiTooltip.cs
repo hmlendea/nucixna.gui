@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.ComponentModel;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Graphics.Drawing;
@@ -12,17 +14,50 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiTooltip : GuiElement
     {
-        /// <summary>
-        /// Gets or sets the text.
-        /// </summary>
-        /// <value>The text.</value>
-        public string Text { get; set; }
-
-        public int BorderSize { get; set; }
+        string _text;
+        int _borderSize;
 
         GuiImage border;
         GuiImage background;
         GuiText text;
+
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Text));
+                TextChanged?.Invoke(this, eventArguments);
+            }
+        }
+
+        public int BorderSize
+        {
+            get => _borderSize;
+            set
+            {
+                _borderSize = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(BorderSize));
+                BorderSizeChanged?.Invoke(this, eventArguments);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the <see cref="Text"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler TextChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="BorderSize"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler BorderSizeChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiTooltip"/> class.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +14,10 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiMenuListSelector : GuiMenuItem
     {
+        int _selectedIndex;
+
+        string originalText;
+
         /// <summary>
         /// Gets or sets the values.
         /// </summary>
@@ -23,7 +28,17 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets the selected index.
         /// </summary>
         /// <value>The selected index.</value>
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set
+            {
+                _selectedIndex = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(SelectedIndex));
+                SelectedIndexChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets the selected value.
@@ -43,18 +58,9 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Occurs when the selected index was changed.
+        /// Occurs when the <see cref="SelectedIndex"> was changed.
         /// </summary>
-        public event EventHandler SelectedIndexChanged;
-
-        /// <summary>
-        /// Occurs when the selected value was changed.
-        /// </summary>
-        public event EventHandler SelectedValueChanged;
-
-        int lastSelectedIndex;
-        string lastSelectedValue;
-        string originalText;
+        public event PropertyChangedEventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiMenuListSelector"/> class.
@@ -76,9 +82,6 @@ namespace NuciXNA.Gui.GuiElements
             {
                 SelectedIndex = 0;
             }
-
-            lastSelectedIndex = SelectedIndex;
-            lastSelectedValue = SelectedValue;
 
             originalText = Text;
 
@@ -120,19 +123,6 @@ namespace NuciXNA.Gui.GuiElements
             }
 
             Text += $" : {SelectedValue}";
-
-            if (SelectedIndex != lastSelectedIndex)
-            {
-                SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
-            }
-
-            if (SelectedValue != lastSelectedValue)
-            {
-                SelectedValueChanged?.Invoke(this, EventArgs.Empty);
-            }
-
-            lastSelectedIndex = SelectedIndex;
-            lastSelectedValue = SelectedValue;
         }
 
         /// <summary>

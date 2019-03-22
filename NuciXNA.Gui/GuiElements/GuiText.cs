@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +19,11 @@ namespace NuciXNA.Gui.GuiElements
         TextSprite textSprite;
 
         string _text;
+        Colour _outlineColour;
+        FontOutline _fontOutline;
+        Alignment _horizontalAlignment;
+        Alignment _verticalAlignment;
+        int _margins;
         
         /// <summary>
         /// Gets or sets the text.
@@ -25,46 +31,87 @@ namespace NuciXNA.Gui.GuiElements
         /// <value>The text.</value>
         public string Text
         {
-            get
-            {
-                if (_text != null)
-                {
-                    return _text;
-                }
-                
-                return string.Empty;
-            }
+            get => _text;
             set
             {
-                if (_text != value)
-                {
-                    _text = value;
-                    TextChanged?.Invoke(this, EventArgs.Empty);
-                }
+                _text = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Text));
+                TextChanged?.Invoke(this, eventArguments);
             }
         }
 
-        public Colour OutlineColour { get; set; }
+        public Colour OutlineColour
+        {
+            get => _outlineColour;
+            set
+            {
+                _outlineColour = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(OutlineColour));
+                OutlineColourChanged?.Invoke(this, eventArguments);
+            }
+        }
 
-        public FontOutline FontOutline { get; set; }
+        public FontOutline FontOutline
+        {
+            get => _fontOutline;
+            set
+            {
+                _fontOutline = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(FontOutline));
+                FontOutlineChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the horizontal alignment of the text.
         /// </summary>
         /// <value>The horizontal alignment.</value>
-        public Alignment HorizontalAlignment { get; set; }
+        public Alignment HorizontalAlignment
+        {
+            get => _horizontalAlignment;
+            set
+            {
+                _horizontalAlignment = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(HorizontalAlignment));
+                HorizontalAlignmentChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the vertical alignment of the text.
         /// </summary>
         /// <value>The vertical alignment.</value>
-        public Alignment VerticalAlignment { get; set; }
+        public Alignment VerticalAlignment
+        {
+            get => _verticalAlignment;
+            set
+            {
+                _verticalAlignment = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(VerticalAlignment));
+                VerticalAlignmentChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the margins.
         /// </summary>
         /// <value>The margins.</value>
-        public int Margins { get; set; }
+        public int Margins
+        {
+            get => _margins;
+            set
+            {
+                _margins = value;
+                
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Margins));
+                MarginsChanged?.Invoke(this, eventArguments);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the fade effect.
@@ -78,7 +125,35 @@ namespace NuciXNA.Gui.GuiElements
         /// <value><c>true</c> if the effects are active; otherwise, <c>false</c>.</value>
         public bool AreEffectsActive { get; set; }
 
-        public event EventHandler TextChanged;
+        /// <summary>
+        /// Occurs when the <see cref="Text"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler TextChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="OutlineColour"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler OutlineColourChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="FontOutline"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler FontOutlineChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="HorizontalAlignment"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler HorizontalAlignmentChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="VerticalAlignment"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler VerticalAlignmentChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Margins"> was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler MarginsChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiText"/> class.
