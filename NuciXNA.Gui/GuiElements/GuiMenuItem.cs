@@ -59,6 +59,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             text = new GuiText
             {
+                Id = $"{Id}_{nameof(text)}",
                 FontName = "MenuFont",
                 AreEffectsActive = true,
                 FadeEffect = new FadeEffect
@@ -67,7 +68,6 @@ namespace NuciXNA.Gui.GuiElements
                     MinimumMultiplier = 0.25f
                 }
             };
-            text.FadeEffect.Activate();
 
             AddChild(text);
 
@@ -101,6 +101,30 @@ namespace NuciXNA.Gui.GuiElements
 
         }
 
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            text.ContentLoaded += OnTextContentLoaded;
+
+            Clicked += OnClicked;
+            KeyPressed += OnKeyPressed;
+            MouseEntered += OnMouseEntered;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            text.ContentLoaded -= OnTextContentLoaded;
+
+            Clicked -= OnClicked;
+            KeyPressed -= OnKeyPressed;
+            MouseEntered -= OnMouseEntered;
+        }
+
         void SetChildrenProperties()
         {
             text.Text = Text;
@@ -118,24 +142,9 @@ namespace NuciXNA.Gui.GuiElements
             }
         }
 
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
-        void RegisterEvents()
+        void OnTextContentLoaded(object sender, EventArgs e)
         {
-            Clicked += OnClicked;
-            KeyPressed += OnKeyPressed;
-            MouseEntered += OnMouseEntered;
-        }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
-        void UnregisterEvents()
-        {
-            Clicked -= OnClicked;
-            KeyPressed -= OnKeyPressed;
-            MouseEntered -= OnMouseEntered;
+            text.FadeEffect.Activate();
         }
 
         void OnClicked(object sender, MouseButtonEventArgs e)
