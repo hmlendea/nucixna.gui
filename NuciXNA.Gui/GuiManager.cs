@@ -106,7 +106,11 @@ namespace NuciXNA.Gui
 
             InputManager.Instance.MouseButtonInputHandled = false;
 
-            foreach (GuiElement guiElement in GuiElements.Where(e => e.IsEnabled))
+            IEnumerable<GuiElement> elementsToUpdate = GuiElements.Where(x =>
+                x.IsContentLoaded &&
+                x.IsEnabled);
+
+            foreach (GuiElement guiElement in elementsToUpdate)
             {
                 guiElement.Update(gameTime);
             }
@@ -118,7 +122,11 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            foreach (GuiElement guiElement in GuiElements.Where(w => w.IsVisible))
+            IEnumerable<GuiElement> elementsToDraw = GuiElements.Where(x =>
+                x.IsContentLoaded &&
+                x.IsVisible);
+
+            foreach (GuiElement guiElement in elementsToDraw)
             {
                 guiElement.Draw(spriteBatch);
             }

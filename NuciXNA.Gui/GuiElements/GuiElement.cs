@@ -603,10 +603,10 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded");
+                throw new InvalidOperationException("Content not loaded " + Id);
             }
 
-            ContentUnloading.Invoke(this, EventArgs.Empty);
+            ContentUnloading?.Invoke(this, EventArgs.Empty);
 
             Parent = null;
 
@@ -617,7 +617,7 @@ namespace NuciXNA.Gui.GuiElements
             Children.Clear();
 
             IsContentLoaded = false;
-            ContentUnloaded.Invoke(this, EventArgs.Empty);
+            ContentUnloaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -628,7 +628,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded");
+                throw new InvalidOperationException("Content not loaded " + Id);
             }
 
             Updating?.Invoke(this, EventArgs.Empty);
@@ -663,7 +663,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded");
+                throw new InvalidOperationException("Content not loaded " + Id);
             }
 
             Drawing?.Invoke(this, EventArgs.Empty);
