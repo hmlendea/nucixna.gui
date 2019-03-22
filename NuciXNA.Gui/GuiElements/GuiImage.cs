@@ -226,6 +226,7 @@ namespace NuciXNA.Gui.GuiElements
         protected override void DoUpdate(GameTime gameTime)
         {
             sprite.Update(gameTime);
+            SetChildrenProperties();
         }
 
         /// <summary>
