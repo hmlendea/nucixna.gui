@@ -594,12 +594,12 @@ namespace NuciXNA.Gui.GuiElements
                 throw new InvalidOperationException("Content not loaded");
             }
 
+            DoDraw(spriteBatch);
+
             foreach (GuiElement guiElement in Children.Where(w => w.IsVisible))
             {
                 guiElement.Draw(spriteBatch);
             }
-
-            DoDraw(spriteBatch);
         }
 
         /// <summary>
