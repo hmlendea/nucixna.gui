@@ -539,12 +539,13 @@ namespace NuciXNA.Gui.GuiElements
             }
 
             Parent = null;
+            
             UnregisterEvents();
+            DoUnloadContent();
 
             Children.ForEach(x => x.UnloadContent());
             Children.Clear();
-            
-            DoUnloadContent();
+
             IsContentLoaded = false;
         }
 
@@ -571,12 +572,12 @@ namespace NuciXNA.Gui.GuiElements
                 }
             }
 
+            DoUpdate(gameTime);
+
             foreach (GuiElement guiElement in Children.Where(w => w.IsEnabled))
             {
                 guiElement.Update(gameTime);
             }
-
-            DoUpdate(gameTime);
         }
 
         /// <summary>
