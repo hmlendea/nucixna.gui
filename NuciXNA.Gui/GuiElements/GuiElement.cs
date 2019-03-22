@@ -273,7 +273,15 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
-                    Enabled?.Invoke(this, EventArgs.Empty);
+
+                    if (value)
+                    {
+                        Enabled?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        Disabled?.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -303,7 +311,15 @@ namespace NuciXNA.Gui.GuiElements
                 if (_isVisible != value)
                 {
                     _isVisible = value;
-                    VisibilityChanged?.Invoke(this, EventArgs.Empty);
+
+                    if (value)
+                    {
+                        Shown?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        Hidden?.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -422,14 +438,24 @@ namespace NuciXNA.Gui.GuiElements
         public event EventHandler SizeChanged;
 
         /// <summary>
-        /// Occurs when the <see cref="IsVisible"> was changed.
+        /// Occurs when this <see cref="GuiElement"/> was shown.
         /// </summary>
-        public event EventHandler VisibilityChanged;
+        public event EventHandler Shown;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was hidden.
+        /// </summary>
+        public event EventHandler Hidden;
 
         /// <summary>
         /// Occurs when this <see cref="GuiElement"/> was enabled.
         /// </summary>
         public event EventHandler Enabled;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> was disabled.
+        /// </summary>
+        public event EventHandler Disabled;
 
         /// <summary>
         /// Occurs when this <see cref="GuiElement"/> was focused.
@@ -442,12 +468,52 @@ namespace NuciXNA.Gui.GuiElements
         public event EventHandler Created;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/>'s content finished loading.
+        /// Occurs when this <see cref="GuiElement"/> began loading its content.
+        /// </summary>
+        public event EventHandler ContentLoading;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> finished loading its content.
         /// </summary>
         public event EventHandler ContentLoaded;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was disposed.
+        /// Occurs when this <see cref="GuiElement"/> began unloading its content.
+        /// </summary>
+        public event EventHandler ContentUnloading;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> finished unloading its content.
+        /// </summary>
+        public event EventHandler ContentUnloaded;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> began updating.
+        /// </summary>
+        public event EventHandler Updating;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> finished updating.
+        /// </summary>
+        public event EventHandler Updated;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> began drawing.
+        /// </summary>
+        public event EventHandler Drawing;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> finished drawing.
+        /// </summary>
+        public event EventHandler Drawn;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> began disposing.
+        /// </summary>
+        public event EventHandler Disposing;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> finished disposing.
         /// </summary>
         public event EventHandler Disposed;
 
@@ -517,6 +583,8 @@ namespace NuciXNA.Gui.GuiElements
                 throw new InvalidOperationException("Content already loaded");
             }
 
+            ContentLoading?.Invoke(this, EventArgs.Empty);
+
             RegisterEvents();
             DoLoadContent();
 
@@ -538,8 +606,10 @@ namespace NuciXNA.Gui.GuiElements
                 throw new InvalidOperationException("Content not loaded");
             }
 
+            ContentUnloading.Invoke(this, EventArgs.Empty);
+
             Parent = null;
-            
+
             UnregisterEvents();
             DoUnloadContent();
 
@@ -547,6 +617,7 @@ namespace NuciXNA.Gui.GuiElements
             Children.Clear();
 
             IsContentLoaded = false;
+            ContentUnloaded.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -559,6 +630,8 @@ namespace NuciXNA.Gui.GuiElements
             {
                 throw new InvalidOperationException("Content not loaded");
             }
+
+            Updating?.Invoke(this, EventArgs.Empty);
 
             Children.RemoveAll(w => w.IsDisposed);
 
@@ -578,6 +651,8 @@ namespace NuciXNA.Gui.GuiElements
             {
                 guiElement.Update(gameTime);
             }
+
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -591,12 +666,16 @@ namespace NuciXNA.Gui.GuiElements
                 throw new InvalidOperationException("Content not loaded");
             }
 
+            Drawing?.Invoke(this, EventArgs.Empty);
+
             DoDraw(spriteBatch);
 
             foreach (GuiElement guiElement in Children.Where(w => w.IsVisible))
             {
                 guiElement.Draw(spriteBatch);
             }
+
+            Drawn?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -608,6 +687,34 @@ namespace NuciXNA.Gui.GuiElements
             GC.SuppressFinalize(this);
 
             Children.ForEach(c => c.Dispose());
+        }
+
+        /// <summary>
+        /// Disposes of this element.
+        /// </summary>
+        protected void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            lock (this)
+            {
+                Disposing?.Invoke(this, EventArgs.Empty);
+
+                if (Site != null && Site.Container != null)
+                {
+                    Site.Container.Remove(this);
+                }
+
+                if (IsContentLoaded)
+                {
+                    UnloadContent();
+                }
+
+                Disposed?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -631,32 +738,6 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         protected abstract void DoDraw(SpriteBatch spriteBatch);
-
-        /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
-        /// </summary>
-        protected void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
-
-            lock (this)
-            {
-                if (Site != null && Site.Container != null)
-                {
-                    Site.Container.Remove(this);
-                }
-
-                if (IsContentLoaded)
-                {
-                    UnloadContent();
-                }
-
-                Disposed?.Invoke(this, EventArgs.Empty);
-            }
-        }
 
         /// <summary>
         /// Shows this GUI element.
