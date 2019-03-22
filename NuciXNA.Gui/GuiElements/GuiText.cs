@@ -95,18 +95,14 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         protected override void DoLoadContent()
         {
-            SetChildrenProperties();
-            
-            AddChild(backgroundImage);
-
             backgroundImage = new GuiImage
             {
+                Id = $"{Id}_{nameof(backgroundImage)}",
                 ContentFile = "ScreenManager/FillImage",
                 TextureLayout = TextureLayout.Tile,
                 Size = new Size2D(
                     Size.Width + Margins * 2,
-                    Size.Height + Margins * 2),
-                OpacityEffect = FadeEffect
+                    Size.Height + Margins * 2)
             };
 
             textSprite = new TextSprite
@@ -114,6 +110,10 @@ namespace NuciXNA.Gui.GuiElements
                 OpacityEffect = FadeEffect
             };
             
+            AddChild(backgroundImage);
+
+            SetChildrenProperties();
+
             textSprite.LoadContent();
         }
 
