@@ -365,8 +365,6 @@ namespace NuciXNA.Gui.GuiElements
 
         public ISite Site { get; set; }
 
-        protected virtual bool CanRaiseEvents => true;
-
         public IContainer Container
         {
             get
@@ -573,8 +571,6 @@ namespace NuciXNA.Gui.GuiElements
                 }
             }
 
-            RaiseEvents();
-
             foreach (GuiElement guiElement in Children.Where(w => w.IsEnabled))
             {
                 guiElement.Update(gameTime);
@@ -684,14 +680,6 @@ namespace NuciXNA.Gui.GuiElements
             Children.Add(element);
             element.Parent = this;
         }
-
-        protected virtual void RaiseEvents()
-        {
-            if (!CanRaiseEvents)
-            {
-                return;
-            }
-        }
         
         protected virtual object GetService(Type service)
         {
@@ -772,8 +760,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
-            if (!IsEnabled || !IsVisible ||
-                !CanRaiseEvents || !IsFocused)
+            if (!IsEnabled || !IsVisible|| !IsFocused)
             {
                 return;
             }
@@ -783,8 +770,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
-            if (!IsEnabled || !IsVisible ||
-                !CanRaiseEvents || !IsFocused)
+            if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
@@ -794,8 +780,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
         {
-            if (!IsEnabled || !IsVisible ||
-                !CanRaiseEvents || !IsFocused)
+            if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
@@ -805,7 +790,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (!IsEnabled || !IsVisible || !CanRaiseEvents)
+            if (!IsEnabled || !IsVisible)
             {
                 return;
             }
@@ -826,7 +811,7 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnInputManagerMouseMoved(object sender, MouseEventArgs e)
         {
-            if (!IsEnabled || !IsVisible || !CanRaiseEvents)
+            if (!IsEnabled || !IsVisible)
             {
                 return;
             }
