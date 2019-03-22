@@ -220,9 +220,9 @@ namespace NuciXNA.Graphics.Drawing
 
             ContentLoading?.Invoke(this, EventArgs.Empty);
 
-            OpacityEffect?.LoadContent(this);
-            RotationEffect?.LoadContent(this);
-            ScaleEffect?.LoadContent(this);
+            LoadEffect(OpacityEffect);
+            LoadEffect(RotationEffect);
+            LoadEffect(ScaleEffect);
 
             DoLoadContent();
 
@@ -343,6 +343,19 @@ namespace NuciXNA.Graphics.Drawing
 
                 IsDisposed = true;
                 Disposed?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        void LoadEffect(NuciSpriteEffect<Sprite> effect)
+        {
+            if (effect is null)
+            {
+                return;
+            }
+
+            if (!effect.IsContentLoaded)
+            {
+                effect.LoadContent(this);
             }
         }
     }

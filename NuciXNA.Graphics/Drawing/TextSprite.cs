@@ -110,8 +110,7 @@ namespace NuciXNA.Graphics.Drawing
         /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            Text = string.Empty;
-            font = null;
+            
         }
 
         /// <summary>
@@ -124,11 +123,13 @@ namespace NuciXNA.Graphics.Drawing
             {
                 return;
             }
+
+            string wrappedText = WrapText(font, Text, SpriteSize.Width);
             
             StringDrawer.Draw(
                 spriteBatch,
                 font,
-                WrapText(font, Text, SpriteSize.Width),
+                wrappedText,
                 ClientRectangle,
                 Tint,
                 OutlineColour,

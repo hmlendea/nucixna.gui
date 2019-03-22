@@ -145,7 +145,10 @@ namespace NuciXNA.Graphics.Drawing
 
             GraphicsManager.Instance.Graphics.GraphicsDevice.SetRenderTarget(null);
             
-            SpriteSheetEffect?.LoadContent(this);
+            if (!(SpriteSheetEffect is null) && !SpriteSheetEffect.IsContentLoaded)
+            {
+                SpriteSheetEffect.LoadContent(this);
+            }
         }
 
         /// <summary>
