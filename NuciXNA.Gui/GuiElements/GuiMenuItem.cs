@@ -81,9 +81,9 @@ namespace NuciXNA.Gui.GuiElements
 
         // TODO: Maybe implement my own handler and args
         /// <summary>
-        /// Occurs when activated.
+        /// Occurs when triggered.
         /// </summary>
-        public event EventHandler Activated;
+        public event EventHandler Triggered;
 
         /// <summary>
         /// The text GUI element.
@@ -199,14 +199,14 @@ namespace NuciXNA.Gui.GuiElements
 
         void OnClicked(object sender, MouseButtonEventArgs e)
         {
-            Activated?.Invoke(this, EventArgs.Empty);
+            Triggered?.Invoke(this, EventArgs.Empty);
         }
 
         void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (e.Key == Keys.Enter || e.Key == Keys.E)
             {
-                Activated?.Invoke(this, EventArgs.Empty);
+                Triggered?.Invoke(this, EventArgs.Empty);
             }
         }
 

@@ -10,52 +10,16 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiMenuToggle : GuiMenuItem
     {
-        string _property;
-        bool _toggleState;
-
-        /// <summary>
-        /// Gets or sets the property.
-        /// </summary>
-        /// <value>The type of the property.</value>
-        public string Property
-        {
-            get => _property;
-            set
-            {
-                _property = value;
-
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Property));
-                PropertyChanged?.Invoke(this, eventArguments);
-            }
-        }
-
         /// <summary>
         /// Gets or sets the toggle state.
         /// </summary>
         /// <value>The type of the toggle state.</value>
-        public bool ToggleState
-        {
-            get => _toggleState;
-            set
-            {
-                _toggleState = value;
-
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ToggleState));
-                ToggleStateChanged?.Invoke(this, eventArguments);
-            }
-        }
+        public bool IsOn { get; private set; }
 
         /// <summary>
-        /// Occurs when the <see cref="Property"> was changed.
+        /// Occurs when the state was changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Occurs when the <see cref="ToggleState"> was changed.
-        /// </summary>
-        public event PropertyChangedEventHandler ToggleStateChanged;
-
-        string originalText;
+        public event PropertyChangedEventHandler StateChanged;
 
         /// <summary>
         /// Loads the content.
@@ -63,8 +27,6 @@ namespace NuciXNA.Gui.GuiElements
         protected override void DoLoadContent()
         {
             base.DoLoadContent();
-
-            originalText = Text;
 
             RegisterEvents();
         }
@@ -76,8 +38,6 @@ namespace NuciXNA.Gui.GuiElements
         {
             base.DoUnloadContent();
 
-            originalText = Text;
-            
             UnregisterEvents();
         }
 
@@ -89,13 +49,13 @@ namespace NuciXNA.Gui.GuiElements
         {
             base.DoUpdate(gameTime);
 
-            if (ToggleState)
+            if (IsOn)
             {
-                Text = originalText + " : On";
+                text.Text = Text + " : On";
             }
             else
             {
-                Text = originalText + " : Off";
+                text.Text = Text + " : Off";
             }
         }
 
@@ -104,7 +64,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         void RegisterEvents()
         {
-            Activated += OnActivated;
+            Triggered += OnTriggered;
         }
 
         /// <summary>
@@ -112,7 +72,7 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         void UnregisterEvents()
         {
-            Activated -= OnActivated;
+            Triggered -= OnTriggered;
         }
 
         /// <summary>
@@ -120,9 +80,9 @@ namespace NuciXNA.Gui.GuiElements
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnActivated(object sender, EventArgs e)
+        void OnTriggered(object sender, EventArgs e)
         {
-            ToggleState = !ToggleState;
+            IsOn = !IsOn;
         }
     }
 }

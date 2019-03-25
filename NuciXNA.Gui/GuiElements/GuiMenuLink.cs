@@ -62,7 +62,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             base.DoLoadContent();
 
-            Activated += OnActivated;
+            Triggered += OnTriggered;
         }
 
         /// <summary>
@@ -72,15 +72,15 @@ namespace NuciXNA.Gui.GuiElements
         {
             base.DoUnloadContent();
 
-            Activated -= OnActivated;
+            Triggered -= OnTriggered;
         }
 
         /// <summary>
-        /// Fired by the Activated event.
+        /// Fired by the <see cref="Triggered"> event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnActivated(object sender, EventArgs e)
+        void OnTriggered(object sender, EventArgs e)
         {
             ScreenManager.Instance.ChangeScreens(TargetScreen, Parameters);
         }
