@@ -26,9 +26,9 @@ namespace NuciXNA.Gui.GuiElements
         Point2D? _location;
         Size2D? _size;
         float? _opacity;
-        bool? _isEnabled;
         bool? _isFocused;
-        bool? _isVisible;
+        bool _isEnabled;
+        bool _isVisible;
         string _fontName;
 
         /// <summary>
@@ -248,33 +248,16 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_isEnabled.HasValue)
+                if (Parent is null || Parent.IsEnabled)
                 {
-                    return _isEnabled.Value;
+                    return _isEnabled;
                 }
 
-                if (Parent != null)
-                {
-                    return Parent.IsEnabled;
-                }
-
-                return true;
+                return false;
             }
-            set
+            private set
             {
-                if (_isEnabled != value)
-                {
-                    _isEnabled = value;
-
-                    if (value)
-                    {
-                        Enabled?.Invoke(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        Disabled?.Invoke(this, EventArgs.Empty);
-                    }
-                }
+                _isEnabled = value;
             }
         }
 
@@ -286,33 +269,16 @@ namespace NuciXNA.Gui.GuiElements
         {
             get
             {
-                if (_isVisible.HasValue)
+                if (Parent is null || Parent.IsVisible)
                 {
-                    return _isVisible.Value;
+                    return _isVisible;
                 }
 
-                if (Parent != null)
-                {
-                    return Parent.IsVisible;
-                }
-
-                return true;
+                return false;
             }
-            set
+            private set
             {
-                if (_isVisible != value)
-                {
-                    _isVisible = value;
-
-                    if (value)
-                    {
-                        Shown?.Invoke(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        Hidden?.Invoke(this, EventArgs.Empty);
-                    }
-                }
+                _isVisible = value;
             }
         }
 
@@ -741,21 +707,43 @@ namespace NuciXNA.Gui.GuiElements
         protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Shows this GUI element.
+        /// Enables this <see cref="GuiElement">.
         /// </summary>
-        public virtual void Show()
+        public virtual void Enable()
         {
             IsEnabled = true;
-            IsVisible = true;
+
+            Enabled?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
-        /// Hide this GUI element.
+        /// Disables this <see cref="GuiElement">.
+        /// </summary>
+        public virtual void Disable()
+        {
+            IsEnabled = false;
+
+            Disabled?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Shows this <see cref="GuiElement">.
+        /// </summary>
+        public virtual void Show()
+        {
+            IsVisible = true;
+
+            Shown?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Hide this <see cref="GuiElement">.
         /// </summary>
         public virtual void Hide()
         {
-            IsEnabled = false;
             IsVisible = false;
+
+            Hidden?.Invoke(this, EventArgs.Empty);
         }
 
         protected void AddChild(GuiElement element)
