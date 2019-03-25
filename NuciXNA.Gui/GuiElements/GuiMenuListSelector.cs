@@ -14,53 +14,30 @@ namespace NuciXNA.Gui.GuiElements
     /// </summary>
     public class GuiMenuListSelector : GuiMenuItem
     {
-        int _selectedIndex;
-
         string originalText;
 
         /// <summary>
         /// Gets or sets the values.
         /// </summary>
         /// <value>The values.</value>
-        public List<string> Values { get; set; }
+        public IList<string> Values { get; set; }
 
         /// <summary>
         /// Gets the selected index.
         /// </summary>
         /// <value>The selected index.</value>
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set
-            {
-                _selectedIndex = value;
-
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(SelectedIndex));
-                SelectedIndexChanged?.Invoke(this, eventArguments);
-            }
-        }
+        public int SelectedIndex { get; private set; }
 
         /// <summary>
         /// Gets the selected value.
         /// </summary>
         /// <value>The selected value.</value>
-        public string SelectedValue
-        {
-            get
-            {
-                if (Values.Count > 0 && Values.Count > SelectedIndex)
-                {
-                    return Values[SelectedIndex];
-                }
-
-                return string.Empty;
-            }
-        }
+        public string SelectedValue => Values[SelectedIndex];
 
         /// <summary>
-        /// Occurs when the <see cref="SelectedIndex"> was changed.
+        /// Occurs when the selected item was changed.
         /// </summary>
-        public event PropertyChangedEventHandler SelectedIndexChanged;
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiMenuListSelector"/> class.
@@ -69,6 +46,34 @@ namespace NuciXNA.Gui.GuiElements
         {
             Values = new List<string>();
             SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// Selects an item by index.
+        /// </summary>
+        /// <param name="index">The index to select.</param>
+        public void SelectItem(int index)
+        {
+            if (index < 0 || index > Values.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            SelectedIndex = index;
+            ListSelectionEventArgs args = new ListSelectionEventArgs(index, Values[index]);
+
+            SelectionChanged?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Selects an item by value.
+        /// </summary>
+        /// <param name="value">The value to select.</param>
+        public void SelectItem(string value)
+        {
+            int index = Values.IndexOf(value);
+
+            SelectItem(index);
         }
 
         /// <summary>
