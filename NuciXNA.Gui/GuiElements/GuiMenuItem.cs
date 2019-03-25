@@ -14,7 +14,7 @@ namespace NuciXNA.Gui.GuiElements
     /// <summary>
     /// Menu item GUI element.
     /// </summary>
-    public abstract class GuiMenuItem : GuiElement
+    public class GuiMenuItem : GuiElement
     {
         private string _text;
         private Colour _selectedTextColour;

@@ -37,7 +37,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Occurs when the selected item was changed.
         /// </summary>
-        public event EventHandler SelectionChanged;
+        public event EventHandler SelectedItemChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiMenuListSelector"/> class.
@@ -62,7 +62,7 @@ namespace NuciXNA.Gui.GuiElements
             SelectedIndex = index;
             ListSelectionEventArgs args = new ListSelectionEventArgs(index, Values[index]);
 
-            SelectionChanged?.Invoke(this, args);
+            SelectedItemChanged?.Invoke(this, args);
         }
 
         /// <summary>
