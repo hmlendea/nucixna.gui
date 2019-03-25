@@ -629,23 +629,25 @@ namespace NuciXNA.Gui.GuiElements
 
             Updating?.Invoke(this, EventArgs.Empty);
 
-            Children.RemoveAll(w => w.IsDisposed);
-
             foreach (GuiElement child in Children)
             {
-                child.Parent = this;
-
                 if (child is null || child.IsDisposed)
                 {
                     Children.Remove(child);
+                }
+                else
+                {
+                    child.Parent = this;
                 }
             }
 
             DoUpdate(gameTime);
 
-            foreach (GuiElement guiElement in Children.Where(w => w.IsEnabled))
+            IEnumerable<GuiElement> enabledChildren = Children.Where(c => c.IsEnabled);
+
+            foreach (GuiElement child in enabledChildren)
             {
-                guiElement.Update(gameTime);
+                child.Update(gameTime);
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
@@ -666,9 +668,11 @@ namespace NuciXNA.Gui.GuiElements
 
             DoDraw(spriteBatch);
 
-            foreach (GuiElement guiElement in Children.Where(w => w.IsVisible))
+            IEnumerable<GuiElement> visibleChildren = Children.Where(c => c.IsEnabled && c.IsVisible);
+
+            foreach (GuiElement child in visibleChildren)
             {
-                guiElement.Draw(spriteBatch);
+                child.Draw(spriteBatch);
             }
 
             Drawn?.Invoke(this, EventArgs.Empty);
@@ -683,6 +687,7 @@ namespace NuciXNA.Gui.GuiElements
             GC.SuppressFinalize(this);
 
             Children.ForEach(c => c.Dispose());
+            Children.Clear();
         }
 
         /// <summary>
