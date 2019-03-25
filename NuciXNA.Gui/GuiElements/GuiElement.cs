@@ -276,7 +276,7 @@ namespace NuciXNA.Gui.GuiElements
 
                 return false;
             }
-            private set
+            protected set
             {
                 _isVisible = value;
             }
@@ -286,7 +286,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is hovered.
         /// </summary>
         /// <value><c>true</c> if hovered; otherwise, <c>false</c>.</value>
-        public bool IsHovered { get; set; }
+        public bool IsHovered { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> has input focus.
