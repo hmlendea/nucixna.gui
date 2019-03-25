@@ -527,6 +527,9 @@ namespace NuciXNA.Gui.GuiElements
             Id = Guid.NewGuid().ToString();
             Children = new List<GuiElement>();
 
+            IsEnabled = true;
+            IsVisible = true;
+
             Created?.Invoke(this, EventArgs.Empty);
         }
 
