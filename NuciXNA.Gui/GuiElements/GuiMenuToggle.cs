@@ -19,7 +19,27 @@ namespace NuciXNA.Gui.GuiElements
         /// <summary>
         /// Occurs when the state was changed.
         /// </summary>
-        public event PropertyChangedEventHandler StateChanged;
+        public event EventHandler StateChanged;
+
+        public void SwitchOn()
+            => SetState(true);
+
+        public void SwitchOff()
+            => SetState(false);
+
+        public void SwitchState()
+            => SetState(!IsOn);
+
+        public void SetState(bool state)
+        {
+            if (IsOn == state)
+            {
+                return;
+            }
+
+            IsOn = state;
+            StateChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         /// Loads the content.
@@ -82,7 +102,7 @@ namespace NuciXNA.Gui.GuiElements
         /// <param name="e">Event arguments.</param>
         void OnTriggered(object sender, EventArgs e)
         {
-            IsOn = !IsOn;
+            SwitchState();
         }
     }
 }
