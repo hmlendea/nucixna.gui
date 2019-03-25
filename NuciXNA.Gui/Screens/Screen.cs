@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 
 using Microsoft.Xna.Framework;
@@ -39,13 +40,10 @@ namespace NuciXNA.Gui.Screens
             }
             set
             {
-                if (_backgroundColour == null || _backgroundColour != value)
-                {
-                    // TODO: Pass event args
-                    OnBackgroundColourChanged(this, null);
-                }
-
                 _backgroundColour = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(BackgroundColour));
+                BackgroundColourChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -66,12 +64,10 @@ namespace NuciXNA.Gui.Screens
             }
             set
             {
-                if (_foregroundColour == null || _foregroundColour != value)
-                {
-                    OnForegroundColourChanged(this, null);
-                }
-
                 _foregroundColour = value;
+
+                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ForegroundColour));
+                ForegroundColourChanged?.Invoke(this, eventArguments);
             }
         }
 
@@ -90,12 +86,12 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Occurs when the <see cref="ForegroundColour"> was changed.
         /// </summary>
-        public event EventHandler ForegroundColourChanged;
+        public event PropertyChangedEventHandler ForegroundColourChanged;
 
         /// <summary>
         /// Occurs when the <see cref="BackgroundColour"> was changed.
         /// </summary>
-        public event EventHandler BackgroundColourChanged;
+        public event PropertyChangedEventHandler BackgroundColourChanged;
 
         /// <summary>
         /// Occurs when a key is pressed while this <see cref="Screen"/> has input focus.
@@ -265,26 +261,6 @@ namespace NuciXNA.Gui.Screens
             InputManager.Instance.KeyboardKeyPressed -= OnKeyPressed;
             InputManager.Instance.MouseButtonPressed -= OnMouseButtonPressed;
             InputManager.Instance.MouseMoved -= OnMouseMoved;
-        }
-
-        /// <summary>
-        /// Raised by the BackgroundColourChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnBackgroundColourChanged(object sender, EventArgs e)
-        {
-            BackgroundColourChanged?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Raised by the ForegroundColourChanged event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnForegroundColourChanged(object sender, EventArgs e)
-        {
-            ForegroundColourChanged?.Invoke(sender, e);
         }
 
         protected virtual void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
