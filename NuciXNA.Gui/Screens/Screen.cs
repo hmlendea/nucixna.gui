@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
@@ -195,7 +198,7 @@ namespace NuciXNA.Gui.Screens
             }
 
             ContentLoading?.Invoke(this, EventArgs.Empty);
-
+            
             backgroundClearColour = BackgroundColour.ToXnaColor();
 
             RegisterEvents();
@@ -223,7 +226,7 @@ namespace NuciXNA.Gui.Screens
             GuiManager.Instance.UnloadContent();
 
             IsContentLoaded = false;
-            ContentUnloaded(this, EventArgs.Empty);
+            ContentUnloaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -259,7 +262,7 @@ namespace NuciXNA.Gui.Screens
             Drawing?.Invoke(this, EventArgs.Empty);
 
             GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(backgroundClearColour);
-            
+
             DoDraw(spriteBatch);
             GuiManager.Instance.Draw(spriteBatch);
 

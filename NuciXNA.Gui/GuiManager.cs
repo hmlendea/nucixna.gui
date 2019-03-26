@@ -137,10 +137,10 @@ namespace NuciXNA.Gui
             }
         }
 
-        public void AddElements(params GuiElement[] elements)
-            => AddElements(elements.ToList());
+        public void RegisterElements(params GuiElement[] elements)
+            => RegisterElements(elements.ToList());
 
-        public void AddElements(IEnumerable<GuiElement> elements)
+        public void RegisterElements(IEnumerable<GuiElement> elements)
         {
             foreach (GuiElement element in elements)
             {

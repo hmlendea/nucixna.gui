@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using NuciXNA.Gui.GuiElements;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
@@ -61,7 +62,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         protected override void DoLoadContent()
         {
-            GuiManager.Instance.AddElements(Items);
+            GuiManager.Instance.RegisterElements(Items);
 
             AlignMenuItems();
 
