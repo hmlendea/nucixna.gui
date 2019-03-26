@@ -18,7 +18,7 @@ namespace NuciXNA.Gui.Screens
     /// <summary>
     /// Screen.
     /// </summary>
-    public abstract class Screen : IDisposable
+    public abstract class Screen : IScreen, IDisposable
     {
         Colour _backgroundColour;
         Colour _foregroundColour;
@@ -80,7 +80,7 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiControl"/>'s content is loaded.
+        /// Gets or sets a value indicating whether this <see cref="Screen"/>'s content is loaded.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
         public bool IsContentLoaded { get; private set; }
@@ -270,7 +270,7 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
-        /// Disposes of this <see cref="GuiControl"/>.
+        /// Disposes of this <see cref="Screen"/>.
         /// </summary>
         public virtual void Dispose()
         {
@@ -301,7 +301,7 @@ namespace NuciXNA.Gui.Screens
         protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Disposes of this <see cref="GuiControl"/>.
+        /// Disposes of this <see cref="Screen"/>.
         /// </summary>
         protected void Dispose(bool disposing)
         {

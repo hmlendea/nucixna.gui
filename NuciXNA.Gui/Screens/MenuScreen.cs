@@ -16,7 +16,7 @@ namespace NuciXNA.Gui.Screens
     /// <summary>
     /// Menu screen.
     /// </summary>
-    public class MenuScreen : Screen
+    public class MenuScreen : Screen, IScreen
     {
         /// <summary>
         /// Gets or sets the axis.

@@ -18,7 +18,7 @@ namespace NuciXNA.Gui.Screens
         static volatile ScreenManager instance;
         static object syncRoot = new object();
 
-        Screen currentScreen, newScreen;
+        IScreen currentScreen, newScreen;
         TextureSprite transitionSprite;
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public void LoadContent()
         {
-            currentScreen = (Screen)Activator.CreateInstance(StartingScreenType);
+            currentScreen = (IScreen)Activator.CreateInstance(StartingScreenType);
 
             transitionSprite = new TextureSprite
             {
@@ -139,10 +139,10 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
-        public void ChangeScreens<TScreen>()
+        public void ChangeScreens<TScreen>() where TScreen : IScreen
             => ChangeScreens<TScreen>(null);
 
-        public void ChangeScreens<TScreen>(params object[] parameters)
+        public void ChangeScreens<TScreen>(params object[] parameters) where TScreen : IScreen
             => ChangeScreens(typeof(TScreen), parameters);
 
         /// <summary>
