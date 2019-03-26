@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
+using NuciXNA.UnitTests.Gui.Helpers;
 
 namespace NuciXNA.UnitTests.Gui.Screens
 {
@@ -14,7 +15,7 @@ namespace NuciXNA.UnitTests.Gui.Screens
         [SetUp]
         public void SetUp()
         {
-            loadedScreen = new Screen();
+            loadedScreen = new DummyScreen();
             loadedScreen.LoadContent();
         }
 
@@ -27,7 +28,7 @@ namespace NuciXNA.UnitTests.Gui.Screens
         [Test]
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
-            Screen unloadedScreen = new Screen();
+            Screen unloadedScreen = new DummyScreen();
             
             Assert.Throws<InvalidOperationException>(() => unloadedScreen.UnloadContent());
         }

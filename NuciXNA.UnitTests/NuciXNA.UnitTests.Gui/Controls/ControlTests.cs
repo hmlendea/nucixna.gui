@@ -4,17 +4,18 @@ using NUnit.Framework;
 
 using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
+using NuciXNA.UnitTests.Gui.Helpers;
 
 namespace NuciXNA.UnitTests.Gui.Controls
 {
     public class ControlTests
     {
-        Control loadedControl;
+        IGuiControl loadedControl;
 
         [SetUp]
         public void SetUp()
         {
-            loadedControl = new Control();
+            loadedControl = new DummyControl();
             loadedControl.LoadContent();
         }
 
@@ -27,7 +28,7 @@ namespace NuciXNA.UnitTests.Gui.Controls
         [Test]
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
-            Control unloadedControl = new Control();
+            IGuiControl unloadedControl = new DummyControl();
             
             Assert.Throws<InvalidOperationException>(() => unloadedControl.UnloadContent());
         }
@@ -39,15 +40,7 @@ namespace NuciXNA.UnitTests.Gui.Controls
         }
         
         [Test]
-        public void Show_IsEnabledIsFalse()
-        {
-            loadedControl.Show();
-
-            Assert.IsTrue(loadedControl.IsEnabled);
-        }
-        
-        [Test]
-        public void Show_IsVisibleIsFalse()
+        public void Show_IsVisibleIsTrue()
         {
             loadedControl.Show();
 
@@ -55,22 +48,14 @@ namespace NuciXNA.UnitTests.Gui.Controls
         }
         
         [Test]
-        public void Show_FiresVisibilityChanged()
+        public void Show_FiresShown()
         {
             bool eventFired = false;
 
-            loadedControl.VisibilityChanged += delegate { eventFired = true; };
+            loadedControl.Shown += delegate { eventFired = true; };
             loadedControl.Show();
 
             Assert.IsTrue(eventFired);
-        }
-        
-        [Test]
-        public void Hide_IsEnabledIsFalse()
-        {
-            loadedControl.Hide();
-
-            Assert.IsFalse(loadedControl.IsEnabled);
         }
         
         [Test]
@@ -82,11 +67,11 @@ namespace NuciXNA.UnitTests.Gui.Controls
         }
         
         [Test]
-        public void Hide_FiresVisibilityChanged()
+        public void Hide_FiresHidden()
         {
             bool eventFired = false;
 
-            loadedControl.VisibilityChanged += delegate { eventFired = true; };
+            loadedControl.Hidden += delegate { eventFired = true; };
             loadedControl.Hide();
 
             Assert.IsTrue(eventFired);
@@ -148,16 +133,6 @@ namespace NuciXNA.UnitTests.Gui.Controls
 
             loadedControl.SizeChanged += delegate { eventFired = true; };
             loadedControl.Size = Size2D.Empty;
-
-            Assert.IsTrue(eventFired);
-        }
-
-        public void SetIsVisible_FiresVisibilityChanged()
-        {
-            bool eventFired = false;
-
-            loadedControl.VisibilityChanged += delegate { eventFired = true; };
-            loadedControl.IsVisible = true;
 
             Assert.IsTrue(eventFired);
         }
