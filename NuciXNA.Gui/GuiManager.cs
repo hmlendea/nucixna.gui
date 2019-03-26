@@ -19,11 +19,7 @@ namespace NuciXNA.Gui
         static volatile GuiManager instance;
         static object syncRoot = new object();
 
-        /// <summary>
-        /// Gets or sets the GUI elements.
-        /// </summary>
-        /// <value>The GUI elements.</value>
-        public List<GuiElement> GuiElements { get; set; }
+        Dictionary<string, GuiElement> guiElements;
 
         public Colour DefaultBackgroundColour { get; set; }
 
@@ -60,7 +56,7 @@ namespace NuciXNA.Gui
 
         public GuiManager()
         {
-            GuiElements = new List<GuiElement>();
+            guiElements = new Dictionary<string, GuiElement>();
 
             DefaultBackgroundColour = Colour.Transparent;
             DefaultForegroundColour = Colour.Black;
@@ -74,7 +70,10 @@ namespace NuciXNA.Gui
         /// </summary>
         public void LoadContent()
         {
-            GuiElements.ToList().ForEach(w => w.LoadContent());
+            foreach (GuiElement element in guiElements.Values)
+            {
+                element.LoadContent();
+            }
         }
 
         /// <summary>
@@ -82,8 +81,12 @@ namespace NuciXNA.Gui
         /// </summary>
         public virtual void UnloadContent()
         {
-            GuiElements.ForEach(w => w.UnloadContent());
-            GuiElements.Clear();
+            foreach (GuiElement element in guiElements.Values)
+            {
+                element.UnloadContent();
+            }
+
+            guiElements.Clear();
         }
 
         /// <summary>
@@ -92,9 +95,11 @@ namespace NuciXNA.Gui
         /// <param name="gameTime">Game time.</param>
         public virtual void Update(GameTime gameTime)
         {
-            GuiElements.RemoveAll(e => e.IsDisposed);
+            RemoveDisposedElements();
 
-            foreach (GuiElement guiElement in GuiElements.Where(e => e.IsEnabled).Reverse())
+            IEnumerable<GuiElement> enabledElements = guiElements.Values.Where(e => e.IsEnabled);
+            
+            foreach (GuiElement guiElement in enabledElements.Reverse())
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {
@@ -106,7 +111,7 @@ namespace NuciXNA.Gui
 
             InputManager.Instance.MouseButtonInputHandled = false;
 
-            IEnumerable<GuiElement> elementsToUpdate = GuiElements.Where(x =>
+            IEnumerable<GuiElement> elementsToUpdate = guiElements.Values.Where(x =>
                 x.IsContentLoaded &&
                 x.IsEnabled);
 
@@ -122,7 +127,7 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            IEnumerable<GuiElement> elementsToDraw = GuiElements.Where(x =>
+            IEnumerable<GuiElement> elementsToDraw = guiElements.Values.Where(x =>
                 x.IsContentLoaded &&
                 x.IsVisible);
 
@@ -132,14 +137,15 @@ namespace NuciXNA.Gui
             }
         }
 
-        /// <summary>
-        /// Focuses the input on the element with the specified identifier.
-        /// </summary>
-        /// <param name="id">Element identifier.</param>
-        public void FocusElement(string id)
+        public void AddElements(params GuiElement[] elements)
+            => AddElements(elements.ToList());
+
+        public void AddElements(IEnumerable<GuiElement> elements)
         {
-            GuiElements.ForEach(e => e.IsFocused = false);
-            GuiElements.FirstOrDefault(e => e.Id == id).IsFocused = true;
+            foreach (GuiElement element in elements)
+            {
+                guiElements.Add(element.Id, element);
+            }
         }
 
         /// <summary>
@@ -147,8 +153,36 @@ namespace NuciXNA.Gui
         /// </summary>
         /// <param name="element">Element.</param>
         public void FocusElement(GuiElement element)
+            => FocusElement(element.Id);
+
+        /// <summary>
+        /// Focuses the input on the element with the specified identifier.
+        /// </summary>
+        /// <param name="id">Element identifier.</param>
+        public void FocusElement(string id)
         {
-            FocusElement(element.Id);
+            foreach (GuiElement element in guiElements.Values)
+            {
+                if (element.IsFocused)
+                {
+                    element.Unfocus();
+                }
+
+                if (element.Id == id && !element.IsFocused)
+                {
+                    element.Focus();
+                }
+            }
+        }
+
+        void RemoveDisposedElements()
+        {
+            IEnumerable<string> disposedElementsKeys = guiElements.Keys.Where(key => guiElements[key].IsDisposed);
+
+            foreach (string key in disposedElementsKeys)
+            {
+                guiElements.Remove(key);
+            }
         }
     }
 }

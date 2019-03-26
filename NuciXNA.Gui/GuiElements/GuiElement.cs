@@ -26,7 +26,6 @@ namespace NuciXNA.Gui.GuiElements
         Point2D? _location;
         Size2D? _size;
         float? _opacity;
-        bool? _isFocused;
         bool _isEnabled;
         bool _isVisible;
         string _fontName;
@@ -292,30 +291,7 @@ namespace NuciXNA.Gui.GuiElements
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/> has input focus.
         /// </summary>
         /// <value><c>true</c> if it has input focus; otherwise, <c>false</c>.</value>
-        public bool IsFocused
-        {
-            get
-            {
-                if (_isFocused.HasValue)
-                {
-                    return _isFocused.Value;
-                }
-                
-                return false;
-            }
-            set
-            {
-                if (_isFocused != value)
-                {
-                    _isFocused = value;
-
-                    if (value)
-                    {
-                        Focused?.Invoke(this, EventArgs.Empty);
-                    }
-                }
-            }
-        }
+        public bool IsFocused { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GuiElement"/>'s content is loaded.
@@ -420,9 +396,14 @@ namespace NuciXNA.Gui.GuiElements
         public event EventHandler Disabled;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was focused.
+        /// Occurs when this <see cref="GuiElement"/> gained focus.
         /// </summary>
         public event EventHandler Focused;
+
+        /// <summary>
+        /// Occurs when this <see cref="GuiElement"/> lost focus.
+        /// </summary>
+        public event EventHandler Unfocused;
 
         /// <summary>
         /// Occurs when this <see cref="GuiElement"/> was created.
@@ -747,6 +728,26 @@ namespace NuciXNA.Gui.GuiElements
             IsVisible = false;
 
             Hidden?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Focuses this <see cref="GuiElement">.
+        /// </summary>
+        public virtual void Focus()
+        {
+            IsFocused = true;
+            
+            Focused?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Unfocuses this <see cref="GuiElement">.
+        /// </summary>
+        public virtual void Unfocus()
+        {
+            IsFocused = false;
+            
+            Unfocused?.Invoke(this, EventArgs.Empty);
         }
 
         protected void AddChild(GuiElement element)

@@ -61,7 +61,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         protected override void DoLoadContent()
         {
-            GuiManager.Instance.GuiElements.AddRange(Items);
+            GuiManager.Instance.AddElements(Items);
 
             AlignMenuItems();
 
