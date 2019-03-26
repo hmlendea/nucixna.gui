@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -47,7 +48,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         public MenuScreen()
         {
-            Id = string.Empty;
+            Id = Guid.NewGuid().ToString();
             SelectedItemIndex = 0;
             Axis = MenuScreenAxis.Vertical;
             Spacing = 32;
@@ -58,20 +59,28 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             GuiManager.Instance.GuiElements.AddRange(Items);
 
-            base.LoadContent();
-
             AlignMenuItems();
+
+            RegisterEvents();
+        }
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+            UnregisterEvents();
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
             int newSelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
 
@@ -81,17 +90,33 @@ namespace NuciXNA.Gui.Screens
 
                 SelectedItemIndex = newSelectedItemIndex;
             }
-
-            base.Update(gameTime);
         }
 
         /// <summary>
-        /// Draws the content on the specified spriteBatch.
+        /// Draws the content.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            MouseMoved += OnMouseMoved;
+            KeyPressed += OnKeyPressed;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            MouseMoved -= OnMouseMoved;
+            KeyPressed -= OnKeyPressed;
         }
 
         void AlignMenuItems()
@@ -127,52 +152,6 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
-        protected override void OnMouseMoved(object sender, MouseEventArgs e)
-        {
-            base.OnMouseMoved(sender, e);
-
-            int index = Items.FindIndex(x =>
-                x.IsSelectable &&
-                x.DisplayRectangle.Contains(e.Location));
-
-            if (index >= 0)
-            {
-                SelectedItemIndex = index;
-            }
-        }
-
-        protected override void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
-        {
-            base.OnKeyPressed(sender, e);
-
-            List<Keys> backKeys;
-            List<Keys> forwardKeys;
-
-            if (Axis == MenuScreenAxis.Vertical)
-            {
-                backKeys = new List<Keys> { Keys.W, Keys.Up };
-                forwardKeys = new List<Keys> { Keys.S, Keys.Down };
-            }
-            else
-            {
-                backKeys = new List<Keys> { Keys.A, Keys.Left};
-                forwardKeys = new List<Keys> { Keys.D, Keys.Right };
-            }
-
-            if (backKeys.Contains(e.Key))
-            {
-                SelectedItemIndex -= 1;
-                lastDirectionBack = true;
-            }
-            else if (forwardKeys.Contains(e.Key))
-            {
-                SelectedItemIndex += 1;
-                lastDirectionBack = false;
-            }
-
-            SelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
-        }
-
         int GetNormalisedItemNumber(int itemNumber)
         {
             int normalisedItemNumber = GetSafeItemNumber(itemNumber);
@@ -206,6 +185,48 @@ namespace NuciXNA.Gui.Screens
             }
 
             return normalisedItemNumber;
+        }
+
+        void OnMouseMoved(object sender, MouseEventArgs e)
+        {
+            int index = Items.FindIndex(x =>
+                x.IsSelectable &&
+                x.DisplayRectangle.Contains(e.Location));
+
+            if (index >= 0)
+            {
+                SelectedItemIndex = index;
+            }
+        }
+
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        {
+            List<Keys> backKeys;
+            List<Keys> forwardKeys;
+
+            if (Axis == MenuScreenAxis.Vertical)
+            {
+                backKeys = new List<Keys> { Keys.W, Keys.Up };
+                forwardKeys = new List<Keys> { Keys.S, Keys.Down };
+            }
+            else
+            {
+                backKeys = new List<Keys> { Keys.A, Keys.Left};
+                forwardKeys = new List<Keys> { Keys.D, Keys.Right };
+            }
+
+            if (backKeys.Contains(e.Key))
+            {
+                SelectedItemIndex -= 1;
+                lastDirectionBack = true;
+            }
+            else if (forwardKeys.Contains(e.Key))
+            {
+                SelectedItemIndex += 1;
+                lastDirectionBack = false;
+            }
+
+            SelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
         }
     }
 }

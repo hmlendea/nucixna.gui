@@ -15,8 +15,13 @@ namespace NuciXNA.Gui.Screens
     /// <summary>
     /// Screen.
     /// </summary>
-    public class Screen : IDisposable
+    public abstract class Screen : IDisposable
     {
+        Colour _backgroundColour;
+        Colour _foregroundColour;
+
+        Color backgroundClearColour;
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -94,6 +99,61 @@ namespace NuciXNA.Gui.Screens
         public event PropertyChangedEventHandler BackgroundColourChanged;
 
         /// <summary>
+        /// Occurs when this <see cref="Screen"/> was created.
+        /// </summary>
+        public event EventHandler Created;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> began loading its content.
+        /// </summary>
+        public event EventHandler ContentLoading;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> finished loading its content.
+        /// </summary>
+        public event EventHandler ContentLoaded;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> began unloading its content.
+        /// </summary>
+        public event EventHandler ContentUnloading;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> finished unloading its content.
+        /// </summary>
+        public event EventHandler ContentUnloaded;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> began updating.
+        /// </summary>
+        public event EventHandler Updating;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> finished updating.
+        /// </summary>
+        public event EventHandler Updated;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> began drawing.
+        /// </summary>
+        public event EventHandler Drawing;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> finished drawing.
+        /// </summary>
+        public event EventHandler Drawn;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> began disposing.
+        /// </summary>
+        public event EventHandler Disposing;
+
+        /// <summary>
+        /// Occurs when this <see cref="Screen"/> finished disposing.
+        /// </summary>
+        public event EventHandler Disposed;
+
+        /// <summary>
         /// Occurs when a key is pressed while this <see cref="Screen"/> has input focus.
         /// </summary>
         public event KeyboardKeyEventHandler KeyPressed;
@@ -107,24 +167,6 @@ namespace NuciXNA.Gui.Screens
         /// Occurs when the mouse moved.
         /// </summary>
         public event MouseEventHandler MouseMoved;
-
-        /// <summary>
-        /// Occurs when this <see cref="Screen"/> was created.
-        /// </summary>
-        public event EventHandler Created;
-
-        /// <summary>
-        /// Occurs when this <see cref="Screen"/>'s content finished loading.
-        /// </summary>
-        public event EventHandler ContentLoaded;
-
-        /// <summary>
-        /// Occurs when this <see cref="Screen"/> was disposed.
-        /// </summary>
-        public event EventHandler Disposed;
-        
-        Colour _backgroundColour;
-        Colour _foregroundColour;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Screen"/> class.
@@ -145,56 +187,83 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public virtual void LoadContent()
+        public void LoadContent()
         {
             if (IsContentLoaded)
             {
                 throw new InvalidOperationException("Content already loaded");
             }
 
-            SetChildrenProperties();
+            ContentLoading?.Invoke(this, EventArgs.Empty);
 
-            GuiManager.Instance.LoadContent();
+            backgroundClearColour = BackgroundColour.ToXnaColor();
 
             RegisterEvents();
+            DoLoadContent();
+            GuiManager.Instance.LoadContent();
 
+            IsContentLoaded = true;
             ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public virtual void UnloadContent()
+        public void UnloadContent()
         {
             if (!IsContentLoaded)
             {
                 throw new InvalidOperationException("Content not loaded");
             }
 
-            GuiManager.Instance.UnloadContent();
+            ContentUnloading?.Invoke(this, EventArgs.Empty);
 
             UnregisterEvents();
+            DoUnloadContent();
+            GuiManager.Instance.UnloadContent();
+
+            IsContentLoaded = false;
+            ContentUnloaded(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public virtual void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            SetChildrenProperties();
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
 
+            Updating?.Invoke(this, EventArgs.Empty);
+
+            DoUpdate(gameTime);
             GuiManager.Instance.Update(gameTime);
+
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(BackgroundColour.ToXnaColor());
+            if (!IsContentLoaded)
+            {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
+            Drawing?.Invoke(this, EventArgs.Empty);
+
+            GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(backgroundClearColour);
+            
+            DoDraw(spriteBatch);
             GuiManager.Instance.Draw(spriteBatch);
+
+            Drawn?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -207,6 +276,28 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected abstract void DoLoadContent();
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected abstract void DoUnloadContent();
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected abstract void DoUpdate(GameTime gameTime);
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected abstract void DoDraw(SpriteBatch spriteBatch);
+
+        /// <summary>
         /// Disposes of this <see cref="GuiElement"/>.
         /// </summary>
         protected void Dispose(bool disposing)
@@ -216,87 +307,53 @@ namespace NuciXNA.Gui.Screens
                 return;
             }
 
-            IsDisposed = true;
-
             lock (this)
             {
+                Disposing?.Invoke(this, EventArgs.Empty);
+
                 if (IsContentLoaded)
                 {
                     UnloadContent();
                 }
 
+                IsDisposed = true;
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
         }
 
         /// <summary>
-        /// Sets the properties of the child elements.
+        /// Registers the events.
         /// </summary>
-        protected virtual void SetChildrenProperties()
+        void RegisterEvents()
         {
-
-        }
-
-        /// <summary>
-        /// Registers the events of the child elements.
-        /// </summary>
-        protected virtual void RegisterEvents()
-        {
-            ContentLoaded += OnContentLoaded;
-            Disposed += OnDisposed;
-
             InputManager.Instance.KeyboardKeyPressed += OnKeyPressed;
             InputManager.Instance.MouseButtonPressed += OnMouseButtonPressed;
             InputManager.Instance.MouseMoved += OnMouseMoved;
         }
 
         /// <summary>
-        /// Unregisters the events of the child elements.
+        /// Unregisters the events.
         /// </summary>
-        protected virtual void UnregisterEvents()
+        void UnregisterEvents()
         {
-            ContentLoaded -= OnContentLoaded;
-            Disposed -= OnDisposed;
-
             InputManager.Instance.KeyboardKeyPressed -= OnKeyPressed;
             InputManager.Instance.MouseButtonPressed -= OnMouseButtonPressed;
             InputManager.Instance.MouseMoved -= OnMouseMoved;
         }
 
-        protected virtual void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             KeyPressed?.Invoke(sender, e);
         }
 
-        protected virtual void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             MouseButtonPressed?.Invoke(sender, e);
         }
 
-        protected virtual void OnMouseMoved(object sender, MouseEventArgs e)
+        void OnMouseMoved(object sender, MouseEventArgs e)
         {
             MouseMoved?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="Disposed"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        protected virtual void OnDisposed(object sender, EventArgs e)
-        {
-            IsDisposed = true;
-        }
-
-        /// <summary>
-        /// Fired by the <see cref="ContentLoaded"> event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        void OnContentLoaded(object sender, EventArgs e)
-        {
-            IsContentLoaded = true;
-            IsDisposed = false;
         }
     }
 }
