@@ -14,7 +14,7 @@ namespace NuciXNA.Gui.Controls
     /// <summary>
     /// Menu item GUI Control.
     /// </summary>
-    public class GuiMenuItem : GuiControl
+    public class GuiMenuItem : GuiControl, IGuiControl
     {
         private string _text;
         private Colour _selectedTextColour;

@@ -12,7 +12,7 @@ namespace NuciXNA.Gui.Controls
     /// <summary>
     /// Tool tip GUI Control.
     /// </summary>
-    public class GuiTooltip : GuiControl
+    public class GuiTooltip : GuiControl, IGuiControl
     {
         string _text;
         int _borderSize;

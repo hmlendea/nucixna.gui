@@ -13,7 +13,7 @@ namespace NuciXNA.Gui.Controls
     /// <summary>
     /// Text GUI Control.
     /// </summary>
-    public class GuiText : GuiControl
+    public class GuiText : GuiControl, IGuiControl
     {
         GuiImage backgroundImage;
         TextSprite textSprite;

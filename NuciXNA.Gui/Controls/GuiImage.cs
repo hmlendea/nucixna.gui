@@ -13,7 +13,7 @@ namespace NuciXNA.Gui.Controls
     /// <summary>
     /// Image GUI Control.
     /// </summary>
-    public class GuiImage : GuiControl
+    public class GuiImage : GuiControl, IGuiControl
     {
         TextureSprite sprite;
 
