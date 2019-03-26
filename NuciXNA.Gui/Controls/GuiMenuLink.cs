@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 using NuciXNA.Gui.Screens;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
     /// Menu link GUI element

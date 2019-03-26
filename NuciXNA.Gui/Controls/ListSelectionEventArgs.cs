@@ -1,6 +1,6 @@
 using System;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     public class ListSelectionEventArgs : EventArgs
     {

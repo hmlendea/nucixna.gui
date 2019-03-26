@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
@@ -19,7 +19,7 @@ namespace NuciXNA.Gui
         static volatile GuiManager instance;
         static object syncRoot = new object();
 
-        Dictionary<string, GuiElement> guiElements;
+        Dictionary<string, GuiControl> guiControls;
 
         public Colour DefaultBackgroundColour { get; set; }
 
@@ -56,7 +56,7 @@ namespace NuciXNA.Gui
 
         public GuiManager()
         {
-            guiElements = new Dictionary<string, GuiElement>();
+            guiControls = new Dictionary<string, GuiControl>();
 
             DefaultBackgroundColour = Colour.Transparent;
             DefaultForegroundColour = Colour.Black;
@@ -70,9 +70,9 @@ namespace NuciXNA.Gui
         /// </summary>
         public void LoadContent()
         {
-            foreach (GuiElement element in guiElements.Values)
+            foreach (GuiControl control in guiControls.Values)
             {
-                element.LoadContent();
+                control.LoadContent();
             }
         }
 
@@ -81,12 +81,12 @@ namespace NuciXNA.Gui
         /// </summary>
         public virtual void UnloadContent()
         {
-            foreach (GuiElement element in guiElements.Values)
+            foreach (GuiControl control in guiControls.Values)
             {
-                element.UnloadContent();
+                control.UnloadContent();
             }
 
-            guiElements.Clear();
+            guiControls.Clear();
         }
 
         /// <summary>
@@ -95,29 +95,29 @@ namespace NuciXNA.Gui
         /// <param name="gameTime">Game time.</param>
         public virtual void Update(GameTime gameTime)
         {
-            RemoveDisposedElements();
+            RemoveDisposedControls();
 
-            IEnumerable<GuiElement> enabledElements = guiElements.Values.Where(e => e.IsEnabled);
+            IEnumerable<GuiControl> enabledControls = guiControls.Values.Where(e => e.IsEnabled);
             
-            foreach (GuiElement guiElement in enabledElements.Reverse())
+            foreach (GuiControl control in enabledControls.Reverse())
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {
                     break;
                 }
 
-                guiElement.HandleInput();
+                control.HandleInput();
             }
 
             InputManager.Instance.MouseButtonInputHandled = false;
 
-            IEnumerable<GuiElement> elementsToUpdate = guiElements.Values.Where(x =>
+            IEnumerable<GuiControl> controlsToUpdate = guiControls.Values.Where(x =>
                 x.IsContentLoaded &&
                 x.IsEnabled);
 
-            foreach (GuiElement guiElement in elementsToUpdate)
+            foreach (GuiControl control in controlsToUpdate)
             {
-                guiElement.Update(gameTime);
+                control.Update(gameTime);
             }
         }
 
@@ -127,61 +127,61 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            IEnumerable<GuiElement> elementsToDraw = guiElements.Values.Where(x =>
+            IEnumerable<GuiControl> controlsToDraw = guiControls.Values.Where(x =>
                 x.IsContentLoaded &&
                 x.IsVisible);
 
-            foreach (GuiElement guiElement in elementsToDraw)
+            foreach (GuiControl control in controlsToDraw)
             {
-                guiElement.Draw(spriteBatch);
+                control.Draw(spriteBatch);
             }
         }
 
-        public void RegisterElements(params GuiElement[] elements)
-            => RegisterElements(elements.ToList());
+        public void RegisterControls(params GuiControl[] controls)
+            => RegisterControls(controls.ToList());
 
-        public void RegisterElements(IEnumerable<GuiElement> elements)
+        public void RegisterControls(IEnumerable<GuiControl> controls)
         {
-            foreach (GuiElement element in elements)
+            foreach (GuiControl control in controls)
             {
-                guiElements.Add(element.Id, element);
+                guiControls.Add(control.Id, control);
             }
         }
 
         /// <summary>
-        /// Focuses the input on the specified element.
+        /// Focuses the input on the specified control.
         /// </summary>
-        /// <param name="element">Element.</param>
-        public void FocusElement(GuiElement element)
-            => FocusElement(element.Id);
+        /// <param name="control">The <see cref="GuiControl"> to focus.</param>
+        public void FocusControl(GuiControl control)
+            => FocusControl(control.Id);
 
         /// <summary>
-        /// Focuses the input on the element with the specified identifier.
+        /// Focuses the input on the control with the specified identifier.
         /// </summary>
-        /// <param name="id">Element identifier.</param>
-        public void FocusElement(string id)
+        /// <param name="id"><see cref="GuiControl"> identifier.</param>
+        public void FocusControl(string id)
         {
-            foreach (GuiElement element in guiElements.Values)
+            foreach (GuiControl control in guiControls.Values)
             {
-                if (element.IsFocused)
+                if (control.IsFocused)
                 {
-                    element.Unfocus();
+                    control.Unfocus();
                 }
 
-                if (element.Id == id && !element.IsFocused)
+                if (control.Id == id && !control.IsFocused)
                 {
-                    element.Focus();
+                    control.Focus();
                 }
             }
         }
 
-        void RemoveDisposedElements()
+        void RemoveDisposedControls()
         {
-            IEnumerable<string> disposedElementsKeys = guiElements.Keys.Where(key => guiElements[key].IsDisposed);
+            IEnumerable<string> disposedControlsKeys = guiControls.Keys.Where(key => guiControls[key].IsDisposed);
 
-            foreach (string key in disposedElementsKeys)
+            foreach (string key in disposedControlsKeys)
             {
-                guiElements.Remove(key);
+                guiControls.Remove(key);
             }
         }
     }

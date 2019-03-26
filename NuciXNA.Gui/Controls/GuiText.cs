@@ -8,12 +8,12 @@ using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
-    /// Text GUI element.
+    /// Text GUI Control.
     /// </summary>
-    public class GuiText : GuiElement
+    public class GuiText : GuiControl
     {
         GuiImage backgroundImage;
         TextSprite textSprite;
@@ -185,7 +185,7 @@ namespace NuciXNA.Gui.GuiElements
                 OpacityEffect = FadeEffect
             };
             
-            AddChild(backgroundImage);
+            RegisterChild(backgroundImage);
 
             SetChildrenProperties();
 

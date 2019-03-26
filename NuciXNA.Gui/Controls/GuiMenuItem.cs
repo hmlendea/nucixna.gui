@@ -9,12 +9,12 @@ using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
-    /// Menu item GUI element.
+    /// Menu item GUI Control.
     /// </summary>
-    public class GuiMenuItem : GuiElement
+    public class GuiMenuItem : GuiControl
     {
         private string _text;
         private Colour _selectedTextColour;
@@ -86,7 +86,7 @@ namespace NuciXNA.Gui.GuiElements
         public event EventHandler Triggered;
 
         /// <summary>
-        /// The text GUI element.
+        /// The text GUI control.
         /// </summary>
         protected GuiText text;
 
@@ -119,7 +119,7 @@ namespace NuciXNA.Gui.GuiElements
                 }
             };
 
-            AddChild(text);
+            RegisterChild(text);
 
             SetChildrenProperties();
             RegisterEvents();
@@ -213,7 +213,7 @@ namespace NuciXNA.Gui.GuiElements
         void OnMouseEntered(object sender, MouseEventArgs e)
         {
             // TODO: Play selection sound
-            GuiManager.Instance.FocusElement(this);
+            GuiManager.Instance.FocusControl(this);
         }
     }
 }

@@ -8,12 +8,12 @@ using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
-    /// Image GUI element.
+    /// Image GUI Control.
     /// </summary>
-    public class GuiImage : GuiElement
+    public class GuiImage : GuiControl
     {
         TextureSprite sprite;
 

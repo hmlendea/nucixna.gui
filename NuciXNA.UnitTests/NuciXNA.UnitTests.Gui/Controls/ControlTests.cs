@@ -2,56 +2,56 @@ using System;
 
 using NUnit.Framework;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
 
-namespace NuciXNA.UnitTests.Gui.GuiElements
+namespace NuciXNA.UnitTests.Gui.Controls
 {
-    public class GuiElementTests
+    public class ControlTests
     {
-        GuiElement loadedElement;
+        Control loadedControl;
 
         [SetUp]
         public void SetUp()
         {
-            loadedElement = new GuiElement();
-            loadedElement.LoadContent();
+            loadedControl = new Control();
+            loadedControl.LoadContent();
         }
 
         [Test]
         public void LoadContent_ContentAlreadyLoaded_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => loadedElement.LoadContent());
+            Assert.Throws<InvalidOperationException>(() => loadedControl.LoadContent());
         }
 
         [Test]
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
-            GuiElement unloadedElement = new GuiElement();
+            Control unloadedControl = new Control();
             
-            Assert.Throws<InvalidOperationException>(() => unloadedElement.UnloadContent());
+            Assert.Throws<InvalidOperationException>(() => unloadedControl.UnloadContent());
         }
         
         [Test]
         public void NotDisposed_IsDisposedIsFalse()
         {
-            Assert.IsFalse(loadedElement.IsDisposed);
+            Assert.IsFalse(loadedControl.IsDisposed);
         }
         
         [Test]
         public void Show_IsEnabledIsFalse()
         {
-            loadedElement.Show();
+            loadedControl.Show();
 
-            Assert.IsTrue(loadedElement.IsEnabled);
+            Assert.IsTrue(loadedControl.IsEnabled);
         }
         
         [Test]
         public void Show_IsVisibleIsFalse()
         {
-            loadedElement.Show();
+            loadedControl.Show();
 
-            Assert.IsTrue(loadedElement.IsVisible);
+            Assert.IsTrue(loadedControl.IsVisible);
         }
         
         [Test]
@@ -59,8 +59,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.VisibilityChanged += delegate { eventFired = true; };
-            loadedElement.Show();
+            loadedControl.VisibilityChanged += delegate { eventFired = true; };
+            loadedControl.Show();
 
             Assert.IsTrue(eventFired);
         }
@@ -68,17 +68,17 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         [Test]
         public void Hide_IsEnabledIsFalse()
         {
-            loadedElement.Hide();
+            loadedControl.Hide();
 
-            Assert.IsFalse(loadedElement.IsEnabled);
+            Assert.IsFalse(loadedControl.IsEnabled);
         }
         
         [Test]
         public void Hide_IsVisibleIsFalse()
         {
-            loadedElement.Hide();
+            loadedControl.Hide();
 
-            Assert.IsFalse(loadedElement.IsVisible);
+            Assert.IsFalse(loadedControl.IsVisible);
         }
         
         [Test]
@@ -86,8 +86,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.VisibilityChanged += delegate { eventFired = true; };
-            loadedElement.Hide();
+            loadedControl.VisibilityChanged += delegate { eventFired = true; };
+            loadedControl.Hide();
 
             Assert.IsTrue(eventFired);
         }
@@ -96,8 +96,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.ForegroundColourChanged += delegate { eventFired = true; };
-            loadedElement.ForegroundColour = Colour.ChromeYellow;
+            loadedControl.ForegroundColourChanged += delegate { eventFired = true; };
+            loadedControl.ForegroundColour = Colour.ChromeYellow;
 
             Assert.IsTrue(eventFired);
         }
@@ -106,8 +106,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.BackgroundColourChanged += delegate { eventFired = true; };
-            loadedElement.BackgroundColour = Colour.ChromeYellow;
+            loadedControl.BackgroundColourChanged += delegate { eventFired = true; };
+            loadedControl.BackgroundColour = Colour.ChromeYellow;
 
             Assert.IsTrue(eventFired);
         }
@@ -116,8 +116,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.OpacityChanged += delegate { eventFired = true; };
-            loadedElement.Opacity = 0.12f;
+            loadedControl.OpacityChanged += delegate { eventFired = true; };
+            loadedControl.Opacity = 0.12f;
 
             Assert.IsTrue(eventFired);
         }
@@ -126,8 +126,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.FontNameChanged += delegate { eventFired = true; };
-            loadedElement.FontName = "TestFont";
+            loadedControl.FontNameChanged += delegate { eventFired = true; };
+            loadedControl.FontName = "TestFont";
 
             Assert.IsTrue(eventFired);
         }
@@ -136,8 +136,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.LocationChanged += delegate { eventFired = true; };
-            loadedElement.Location = Point2D.Empty;
+            loadedControl.LocationChanged += delegate { eventFired = true; };
+            loadedControl.Location = Point2D.Empty;
 
             Assert.IsTrue(eventFired);
         }
@@ -146,8 +146,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.SizeChanged += delegate { eventFired = true; };
-            loadedElement.Size = Size2D.Empty;
+            loadedControl.SizeChanged += delegate { eventFired = true; };
+            loadedControl.Size = Size2D.Empty;
 
             Assert.IsTrue(eventFired);
         }
@@ -156,8 +156,8 @@ namespace NuciXNA.UnitTests.Gui.GuiElements
         {
             bool eventFired = false;
 
-            loadedElement.VisibilityChanged += delegate { eventFired = true; };
-            loadedElement.IsVisible = true;
+            loadedControl.VisibilityChanged += delegate { eventFired = true; };
+            loadedControl.IsVisible = true;
 
             Assert.IsTrue(eventFired);
         }

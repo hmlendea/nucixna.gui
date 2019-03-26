@@ -7,12 +7,12 @@ using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
-    /// Tool tip GUI element.
+    /// Tool tip GUI Control.
     /// </summary>
-    public class GuiTooltip : GuiElement
+    public class GuiTooltip : GuiControl
     {
         string _text;
         int _borderSize;
@@ -91,9 +91,9 @@ namespace NuciXNA.Gui.GuiElements
                 BackgroundColour = Colour.Transparent
             };
 
-            AddChild(border);
-            AddChild(background);
-            AddChild(text);
+            RegisterChild(border);
+            RegisterChild(background);
+            RegisterChild(text);
 
             SetChildrenProperties();
         }

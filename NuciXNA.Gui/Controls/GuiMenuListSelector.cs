@@ -10,7 +10,7 @@ using NuciXNA.Primitives.Mapping;
 
 using XnaKeys = Microsoft.Xna.Framework.Input.Keys;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
     /// Menu item GUI element that cycles through the values of a list of strings

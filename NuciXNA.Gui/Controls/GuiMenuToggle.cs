@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
     /// Menu toggle GUI element.

@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
-namespace NuciXNA.Gui.GuiElements
+namespace NuciXNA.Gui.Controls
 {
     /// <summary>
-    /// GUI Element.
+    /// GUI Control.
     /// </summary>
-    public abstract class GuiElement : IComponent, IDisposable
+    public abstract class GuiControl : IComponent, IDisposable
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -31,7 +31,7 @@ namespace NuciXNA.Gui.GuiElements
         string _fontName;
 
         /// <summary>
-        /// Gets the location of this <see cref="GuiElement"/>.
+        /// Gets the location of this <see cref="GuiControl"/>.
         /// </summary>
         /// <value>The location.</value>
         public Point2D Location
@@ -55,7 +55,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Gets the coordinates of this element on the current <see cref="Screen">.
+        /// Gets the coordinates of this control on the current <see cref="Screen">.
         /// </summary>
         /// <value>The screen coordinates.</value>
         public Point2D ScreenLocation
@@ -72,7 +72,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Gets the size of this <see cref="GuiElement"/>.
+        /// Gets the size of this <see cref="GuiControl"/>.
         /// </summary>
         /// <value>The size.</value>
         public Size2D Size
@@ -101,13 +101,13 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Gets the screen area covered by this <see cref="GuiElement"/> inside of its parent.
+        /// Gets the screen area covered by this <see cref="GuiControl"/> inside of its parent.
         /// </summary>
         /// <value>The covered area.</value>
         public Rectangle2D ClientRectangle => new Rectangle2D(Location, Size);
 
         /// <summary>
-        /// Gets the screen area covered by this <see cref="GuiElement"/> on the screen.
+        /// Gets the screen area covered by this <see cref="GuiControl"/> on the screen.
         /// </summary>
         /// <value>The covered screen area.</value>
         public Rectangle2D DisplayRectangle => new Rectangle2D(ScreenLocation, Size);
@@ -240,7 +240,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is enabled.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/> is enabled.
         /// </summary>
         /// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
         public bool IsEnabled
@@ -261,7 +261,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is visible.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/> is visible.
         /// </summary>
         /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
         public bool IsVisible
@@ -282,40 +282,40 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is hovered.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/> is hovered.
         /// </summary>
         /// <value><c>true</c> if hovered; otherwise, <c>false</c>.</value>
         public bool IsHovered { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> has input focus.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/> has input focus.
         /// </summary>
         /// <value><c>true</c> if it has input focus; otherwise, <c>false</c>.</value>
         public bool IsFocused { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/>'s content is loaded.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/>'s content is loaded.
         /// </summary>
         /// <value><c>true</c> if the content is loaded; otherwise, <c>false</c>.</value>
         public bool IsContentLoaded { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/> is destroyed.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/> is destroyed.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Gets or sets the children GUI elements.
+        /// Gets or sets the child controls.
         /// </summary>
         /// <value>The children.</value>
-        List<GuiElement> Children { get; }
+        List<GuiControl> Children { get; }
 
         /// <summary>
-        /// Gets or sets the parent of this element.
+        /// Gets or sets the parent of this control.
         /// </summary>
         /// <value>The parent.</value>
-        protected GuiElement Parent { get; set; }
+        protected GuiControl Parent { get; set; }
 
         public ISite Site { get; set; }
 
@@ -376,137 +376,137 @@ namespace NuciXNA.Gui.GuiElements
         public event PropertyChangedEventHandler SizeChanged;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was shown.
+        /// Occurs when this <see cref="GuiControl"/> was shown.
         /// </summary>
         public event EventHandler Shown;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was hidden.
+        /// Occurs when this <see cref="GuiControl"/> was hidden.
         /// </summary>
         public event EventHandler Hidden;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was enabled.
+        /// Occurs when this <see cref="GuiControl"/> was enabled.
         /// </summary>
         public event EventHandler Enabled;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was disabled.
+        /// Occurs when this <see cref="GuiControl"/> was disabled.
         /// </summary>
         public event EventHandler Disabled;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> gained focus.
+        /// Occurs when this <see cref="GuiControl"/> gained focus.
         /// </summary>
         public event EventHandler Focused;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> lost focus.
+        /// Occurs when this <see cref="GuiControl"/> lost focus.
         /// </summary>
         public event EventHandler Unfocused;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was created.
+        /// Occurs when this <see cref="GuiControl"/> was created.
         /// </summary>
         public event EventHandler Created;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> began loading its content.
+        /// Occurs when this <see cref="GuiControl"/> began loading its content.
         /// </summary>
         public event EventHandler ContentLoading;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> finished loading its content.
+        /// Occurs when this <see cref="GuiControl"/> finished loading its content.
         /// </summary>
         public event EventHandler ContentLoaded;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> began unloading its content.
+        /// Occurs when this <see cref="GuiControl"/> began unloading its content.
         /// </summary>
         public event EventHandler ContentUnloading;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> finished unloading its content.
+        /// Occurs when this <see cref="GuiControl"/> finished unloading its content.
         /// </summary>
         public event EventHandler ContentUnloaded;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> began updating.
+        /// Occurs when this <see cref="GuiControl"/> began updating.
         /// </summary>
         public event EventHandler Updating;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> finished updating.
+        /// Occurs when this <see cref="GuiControl"/> finished updating.
         /// </summary>
         public event EventHandler Updated;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> began drawing.
+        /// Occurs when this <see cref="GuiControl"/> began drawing.
         /// </summary>
         public event EventHandler Drawing;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> finished drawing.
+        /// Occurs when this <see cref="GuiControl"/> finished drawing.
         /// </summary>
         public event EventHandler Drawn;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> began disposing.
+        /// Occurs when this <see cref="GuiControl"/> began disposing.
         /// </summary>
         public event EventHandler Disposing;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> finished disposing.
+        /// Occurs when this <see cref="GuiControl"/> finished disposing.
         /// </summary>
         public event EventHandler Disposed;
 
         /// <summary>
-        /// Occurs when a key is down while this <see cref="GuiElement"/> has input focus.
+        /// Occurs when a key is down while this <see cref="GuiControl"/> has input focus.
         /// </summary>
         public event KeyboardKeyEventHandler KeyHeldDown;
 
         /// <summary>
-        /// Occurs when a key is pressed while this <see cref="GuiElement"/> has input focus.
+        /// Occurs when a key is pressed while this <see cref="GuiControl"/> has input focus.
         /// </summary>
         public event KeyboardKeyEventHandler KeyPressed;
 
         /// <summary>
-        /// Occurs when a key is released while this <see cref="GuiElement"/> has input focus.
+        /// Occurs when a key is released while this <see cref="GuiControl"/> has input focus.
         /// </summary>
         public event KeyboardKeyEventHandler KeyReleased;
 
         /// <summary>
-        /// Occurs when this <see cref="GuiElement"/> was clicked.
+        /// Occurs when this <see cref="GuiControl"/> was clicked.
         /// </summary>
         public event MouseButtonEventHandler Clicked;
 
         /// <summary>
-        /// Occurs when a mouse button was pressed on this <see cref="GuiElement"/>.
+        /// Occurs when a mouse button was pressed on this <see cref="GuiControl"/>.
         /// </summary>
         public event MouseButtonEventHandler MouseButtonPressed;
 
         /// <summary>
-        /// Occurs when the mouse entered this <see cref="GuiElement"/>.
+        /// Occurs when the mouse entered this <see cref="GuiControl"/>.
         /// </summary>
         public event MouseEventHandler MouseEntered;
 
         /// <summary>
-        /// Occurs when the mouse left this <see cref="GuiElement"/>.
+        /// Occurs when the mouse left this <see cref="GuiControl"/>.
         /// </summary>
         public event MouseEventHandler MouseLeft;
 
         /// <summary>
-        /// Occurs when the mouse moved inside of this <see cref="GuiElement"/>.
+        /// Occurs when the mouse moved inside of this <see cref="GuiControl"/>.
         /// </summary>
         public event MouseEventHandler MouseMoved;
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="GuiElement"/> class.
+        /// Initializes a new instance of the <see cref="GuiControl"/> class.
         /// </summary>
-        public GuiElement()
+        public GuiControl()
         {
             Id = Guid.NewGuid().ToString();
-            Children = new List<GuiElement>();
+            Children = new List<GuiControl>();
 
             IsEnabled = true;
             IsVisible = true;
@@ -514,7 +514,7 @@ namespace NuciXNA.Gui.GuiElements
             Created?.Invoke(this, EventArgs.Empty);
         }
 
-        ~GuiElement()
+        ~GuiControl()
         {
             Dispose();
         }
@@ -549,7 +549,7 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded for GuiElement ID: " + Id);
+                throw new InvalidOperationException("Content not loaded for the GUI Control with ID: " + Id);
             }
 
             ContentUnloading?.Invoke(this, EventArgs.Empty);
@@ -574,12 +574,12 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded for GuiElement ID: " + Id);
+                throw new InvalidOperationException("Content not loaded for the GUI Control with ID: " + Id);
             }
 
             Updating?.Invoke(this, EventArgs.Empty);
 
-            foreach (GuiElement child in Children)
+            foreach (GuiControl child in Children)
             {
                 if (child is null || child.IsDisposed)
                 {
@@ -593,9 +593,9 @@ namespace NuciXNA.Gui.GuiElements
 
             DoUpdate(gameTime);
 
-            IEnumerable<GuiElement> enabledChildren = Children.Where(c => c.IsEnabled);
+            IEnumerable<GuiControl> enabledChildren = Children.Where(c => c.IsEnabled);
 
-            foreach (GuiElement child in enabledChildren)
+            foreach (GuiControl child in enabledChildren)
             {
                 child.Update(gameTime);
             }
@@ -611,16 +611,16 @@ namespace NuciXNA.Gui.GuiElements
         {
             if (!IsContentLoaded)
             {
-                throw new InvalidOperationException("Content not loaded for GuiElement ID: " + Id);
+                throw new InvalidOperationException("Content not loaded for the GUI control with ID: " + Id);
             }
 
             Drawing?.Invoke(this, EventArgs.Empty);
 
             DoDraw(spriteBatch);
 
-            IEnumerable<GuiElement> visibleChildren = Children.Where(c => c.IsEnabled && c.IsVisible);
+            IEnumerable<GuiControl> visibleChildren = Children.Where(c => c.IsEnabled && c.IsVisible);
 
-            foreach (GuiElement child in visibleChildren)
+            foreach (GuiControl child in visibleChildren)
             {
                 child.Draw(spriteBatch);
             }
@@ -629,7 +629,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="GuiControl"/>.
         /// </summary>
         public virtual void Dispose()
         {
@@ -641,7 +641,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Disposes of this element.
+        /// Disposes of this control.
         /// </summary>
         protected void Dispose(bool disposing)
         {
@@ -691,7 +691,7 @@ namespace NuciXNA.Gui.GuiElements
         protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Enables this <see cref="GuiElement">.
+        /// Enables this <see cref="GuiControl">.
         /// </summary>
         public virtual void Enable()
         {
@@ -701,7 +701,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Disables this <see cref="GuiElement">.
+        /// Disables this <see cref="GuiControl">.
         /// </summary>
         public virtual void Disable()
         {
@@ -711,7 +711,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Shows this <see cref="GuiElement">.
+        /// Shows this <see cref="GuiControl">.
         /// </summary>
         public virtual void Show()
         {
@@ -721,7 +721,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Hide this <see cref="GuiElement">.
+        /// Hide this <see cref="GuiControl">.
         /// </summary>
         public virtual void Hide()
         {
@@ -731,7 +731,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Focuses this <see cref="GuiElement">.
+        /// Focuses this <see cref="GuiControl">.
         /// </summary>
         public virtual void Focus()
         {
@@ -741,7 +741,7 @@ namespace NuciXNA.Gui.GuiElements
         }
 
         /// <summary>
-        /// Unfocuses this <see cref="GuiElement">.
+        /// Unfocuses this <see cref="GuiControl">.
         /// </summary>
         public virtual void Unfocus()
         {
@@ -750,10 +750,23 @@ namespace NuciXNA.Gui.GuiElements
             Unfocused?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void AddChild(GuiElement element)
+        protected void RegisterChild(GuiControl control)
         {
-            Children.Add(element);
-            element.Parent = this;
+            Children.Add(control);
+            control.Parent = this;
+        }
+
+        protected void RegisterChildren(params GuiControl[] controls)
+            => RegisterChildren(controls.ToList());
+
+        protected void RegisterChildren(IEnumerable<GuiControl> controls)
+        {
+            Children.AddRange(controls);
+
+            foreach (GuiControl control in controls)
+            {
+                control.Parent = this;
+            }
         }
         
         protected virtual object GetService(Type service)
@@ -790,13 +803,13 @@ namespace NuciXNA.Gui.GuiElements
                     ButtonState.Pressed,
                     InputManager.Instance.MouseLocation);
 
-                GuiManager.Instance.FocusElement(this);
+                GuiManager.Instance.FocusControl(this);
 
                 Clicked?.Invoke(this, e);
                 InputManager.Instance.MouseButtonInputHandled = true;
             }
 
-            foreach (GuiElement child in Children)
+            foreach (GuiControl child in Children)
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
@@ -62,7 +62,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         protected override void DoLoadContent()
         {
-            GuiManager.Instance.RegisterElements(Items);
+            GuiManager.Instance.RegisterControls(Items);
 
             AlignMenuItems();
 
@@ -87,7 +87,7 @@ namespace NuciXNA.Gui.Screens
 
             if (newSelectedItemIndex != SelectedItemIndex)
             {
-                GuiManager.Instance.FocusElement(Items[newSelectedItemIndex]);
+                GuiManager.Instance.FocusControl(Items[newSelectedItemIndex]);
 
                 SelectedItemIndex = newSelectedItemIndex;
             }

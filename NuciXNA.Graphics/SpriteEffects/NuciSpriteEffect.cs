@@ -190,7 +190,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         }
         
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="NuciSpriteEffect"/>.
         /// </summary>
         public virtual void Dispose()
         {
@@ -249,7 +249,7 @@ namespace NuciXNA.Graphics.SpriteEffects
         protected abstract void DoUpdate(GameTime gameTime);
 
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="NuciSpriteEffect"/>.
         /// </summary>
         protected void Dispose(bool disposing)
         {

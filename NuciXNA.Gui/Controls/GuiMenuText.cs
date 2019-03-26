@@ -1,4 +1,4 @@
-﻿namespace NuciXNA.Gui.GuiElements
+﻿namespace NuciXNA.Gui.Controls
 {
     /// <summary>
     /// Menu text GUI element

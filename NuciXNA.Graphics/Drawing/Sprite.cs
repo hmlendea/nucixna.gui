@@ -292,7 +292,7 @@ namespace NuciXNA.Graphics.Drawing
         }
         
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="Sprite"/>.
         /// </summary>
         public virtual void Dispose()
         {
@@ -323,7 +323,7 @@ namespace NuciXNA.Graphics.Drawing
         protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="Sprite"/>.
         /// </summary>
         protected void Dispose(bool disposing)
         {

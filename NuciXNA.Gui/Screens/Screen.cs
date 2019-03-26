@@ -6,7 +6,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
@@ -80,7 +80,7 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="GuiElement"/>'s content is loaded.
+        /// Gets or sets a value indicating whether this <see cref="GuiControl"/>'s content is loaded.
         /// </summary>
         /// <value><c>true</c> if destroyed; otherwise, <c>false</c>.</value>
         public bool IsContentLoaded { get; private set; }
@@ -270,7 +270,7 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="GuiControl"/>.
         /// </summary>
         public virtual void Dispose()
         {
@@ -301,7 +301,7 @@ namespace NuciXNA.Gui.Screens
         protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Disposes of this <see cref="GuiElement"/>.
+        /// Disposes of this <see cref="GuiControl"/>.
         /// </summary>
         protected void Dispose(bool disposing)
         {
