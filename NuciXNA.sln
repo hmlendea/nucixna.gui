@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Primitives", "NuciXNA.Primitives\NuciXNA.Primitives.csproj", "{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Input", "NuciXNA.Input\NuciXNA.Input.csproj", "{135F1B72-5CF1-4275-BF1C-B282533F67C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.DataAccess", "NuciXNA.DataAccess\NuciXNA.DataAccess.csproj", "{A6960081-A981-4B68-91B1-B5590625197C}"
@@ -15,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Graphics", "NuciXNA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuciXNA.UnitTests", "NuciXNA.UnitTests", "{B5AEC406-9D17-4228-AEF1-824821BCA35D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA.UnitTests.Primitives", "NuciXNA.UnitTests\NuciXNA.UnitTests.Primitives\NuciXNA.UnitTests.Primitives.csproj", "{70519137-C6F3-4E4A-900A-2861CB47D3EB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA.UnitTests.Input", "NuciXNA.UnitTests\NuciXNA.UnitTests.Input\NuciXNA.UnitTests.Input.csproj", "{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}"
 EndProject
 Global
@@ -25,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C23C22B-DC6F-446F-864A-AC7AE4B83A90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{135F1B72-5CF1-4275-BF1C-B282533F67C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{135F1B72-5CF1-4275-BF1C-B282533F67C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{135F1B72-5CF1-4275-BF1C-B282533F67C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,10 +37,6 @@ Global
 		{6FCEA66F-4122-450B-BCC5-8217DC33B50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FCEA66F-4122-450B-BCC5-8217DC33B50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FCEA66F-4122-450B-BCC5-8217DC33B50E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70519137-C6F3-4E4A-900A-2861CB47D3EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,7 +49,6 @@ Global
 		SolutionGuid = {E6EFD60D-56EE-4771-9657-4DA9282EC22F}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{70519137-C6F3-4E4A-900A-2861CB47D3EB} = {B5AEC406-9D17-4228-AEF1-824821BCA35D}
 		{E41EB081-B543-4F1D-82E3-C1EFD6606AFB} = {B5AEC406-9D17-4228-AEF1-824821BCA35D}
 	EndGlobalSection
 EndGlobal
