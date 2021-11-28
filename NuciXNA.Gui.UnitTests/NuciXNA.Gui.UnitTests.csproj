@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\NuciXNA.Gui\NuciXNA.Gui.csproj" />
+    <ProjectReference Include="..\NuciXNA.Gui\NuciXNA.Gui.csproj" />
   </ItemGroup>
 
 </Project>

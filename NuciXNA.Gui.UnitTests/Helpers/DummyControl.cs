@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.Screens;
+using NuciXNA.Gui.Controls;
 
-namespace NuciXNA.UnitTests.Gui.Helpers
+namespace NuciXNA.Gui.UnitTests.Helpers
 {
-    public sealed class DummyScreen : Screen
+    public class DummyControl : GuiControl, IGuiControl
     {
         protected override void DoLoadContent()
         {
@@ -14,7 +14,7 @@ namespace NuciXNA.UnitTests.Gui.Helpers
 
         protected override void DoUnloadContent()
         {
-            
+
         }
 
         protected override void DoUpdate(GameTime gameTime)

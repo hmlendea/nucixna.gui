@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuciXNA.Gui", "NuciXNA.Gui\NuciXNA.Gui.csproj", "{D19895CA-7F5A-4014-841B-230D232F617F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuciXNA.UnitTests", "NuciXNA.UnitTests", "{B5AEC406-9D17-4228-AEF1-824821BCA35D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuciXNA.Gui.UnitTests", "NuciXNA.Gui.UnitTests\NuciXNA.Gui.UnitTests.csproj", "{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +17,18 @@ Global
 		{D19895CA-7F5A-4014-841B-230D232F617F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D19895CA-7F5A-4014-841B-230D232F617F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D19895CA-7F5A-4014-841B-230D232F617F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Debug|x64.Build.0 = Debug|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Debug|x86.Build.0 = Debug|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Release|x64.ActiveCfg = Release|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Release|x64.Build.0 = Release|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Release|x86.ActiveCfg = Release|Any CPU
+		{FEBEA3B0-27BE-4A57-9561-6233EC7CC68E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

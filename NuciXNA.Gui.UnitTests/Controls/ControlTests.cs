@@ -3,10 +3,10 @@ using System;
 using NUnit.Framework;
 
 using NuciXNA.Gui.Controls;
+using NuciXNA.Gui.UnitTests.Helpers;
 using NuciXNA.Primitives;
-using NuciXNA.UnitTests.Gui.Helpers;
 
-namespace NuciXNA.UnitTests.Gui.Controls
+namespace NuciXNA.Gui.UnitTests.Controls
 {
     public class ControlTests
     {
