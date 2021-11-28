@@ -3,10 +3,10 @@ using System;
 using NUnit.Framework;
 
 using NuciXNA.Gui.Screens;
+using NuciXNA.Gui.UnitTests.Helpers;
 using NuciXNA.Primitives;
-using NuciXNA.UnitTests.Gui.Helpers;
 
-namespace NuciXNA.UnitTests.Gui.Screens
+namespace NuciXNA.Gui.UnitTests.Screens
 {
     public class ScreenTests
     {
