@@ -1,8 +1,19 @@
-[![Build Status](https://github.com/hmlendea/nucixna.gui/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hmlendea/nucixna.gui/actions/workflows/dotnet.yml)
+[![Build Status](https://github.com/hmlendea/nucixna.gui/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hmlendea/nucixna.gui/actions/workflows/dotnet.yml) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/nucixna.gui)](https://github.com/hmlendea/nucixna.gui/releases/latest)
 
-![Nuget](https://img.shields.io/nuget/v/NuciXNA.Graphics.svg?label=NuciXNA.Graphics) ![Nuget](https://img.shields.io/nuget/v/NuciXNA.Gui.svg?label=NuciXNA.Gui)
+# About
 
-# NuciXNA
+GUI management and basic widgets for the NuciXNA wrapper over MonoGame/XNA.
 
-MonoGame/XNA wrappers for easier game development.
-Work-in-progress
+# Installation
+
+[![Get it from NuGet](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/nuget.png)](https://nuget.org/packages/NuciXNA.Gui)
+
+**.NET CLI**:
+```bash
+dotnet add package NuciXNA.Gui
+```
+
+**Package Manager**:
+```powershell
+Install-Package NuciXNA.Gui
+```
