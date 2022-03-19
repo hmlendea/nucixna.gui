@@ -83,6 +83,8 @@ namespace NuciXNA.Gui.Screens
         /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
+            AlignMenuItems();
+
             int newSelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
 
             if (newSelectedItemIndex != SelectedItemIndex)
