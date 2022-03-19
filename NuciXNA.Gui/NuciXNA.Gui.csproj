@@ -7,7 +7,7 @@
     <Version>2.1.1</Version>
     <Description>GUI management and basic widgets for NuciXNA</Description>
     <Authors>Horațiu Mlendea</Authors>
-    <Copyright>Copyright 2021 © Horațiu Mlendea</Copyright>
+    <Copyright>Copyright 2022 © Horațiu Mlendea</Copyright>
     <RepositoryUrl>https://github.com/hmlendea/nucixna.gui</RepositoryUrl>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
