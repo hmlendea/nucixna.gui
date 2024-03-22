@@ -29,24 +29,24 @@ namespace NuciXNA.Gui.UnitTests.Controls
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
             IGuiControl unloadedControl = new DummyControl();
-            
+
             Assert.Throws<InvalidOperationException>(() => unloadedControl.UnloadContent());
         }
-        
+
         [Test]
         public void NotDisposed_IsDisposedIsFalse()
         {
-            Assert.IsFalse(loadedControl.IsDisposed);
+            Assert.That(loadedControl.IsDisposed, Is.False);
         }
-        
+
         [Test]
         public void Show_IsVisibleIsTrue()
         {
             loadedControl.Show();
 
-            Assert.IsTrue(loadedControl.IsVisible);
+            Assert.That(loadedControl.IsVisible);
         }
-        
+
         [Test]
         public void Show_FiresShown()
         {
@@ -55,17 +55,17 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.Shown += delegate { eventFired = true; };
             loadedControl.Show();
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
-        
+
         [Test]
         public void Hide_IsVisibleIsFalse()
         {
             loadedControl.Hide();
 
-            Assert.IsFalse(loadedControl.IsVisible);
+            Assert.That(loadedControl.IsVisible, Is.False);
         }
-        
+
         [Test]
         public void Hide_FiresHidden()
         {
@@ -74,7 +74,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.Hidden += delegate { eventFired = true; };
             loadedControl.Hide();
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetForegroundColour_FiresForegroundColourChanged()
@@ -84,7 +84,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.ForegroundColourChanged += delegate { eventFired = true; };
             loadedControl.ForegroundColour = Colour.ChromeYellow;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetBackgroundColour_FiresBackgroundColourChanged()
@@ -94,7 +94,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.BackgroundColourChanged += delegate { eventFired = true; };
             loadedControl.BackgroundColour = Colour.ChromeYellow;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetOpacity_FiresOpacityChanged()
@@ -104,7 +104,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.OpacityChanged += delegate { eventFired = true; };
             loadedControl.Opacity = 0.12f;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetFontName_FiresFontNameChanged()
@@ -114,7 +114,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.FontNameChanged += delegate { eventFired = true; };
             loadedControl.FontName = "TestFont";
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetLocation_FiresLocationChanged()
@@ -124,7 +124,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.LocationChanged += delegate { eventFired = true; };
             loadedControl.Location = Point2D.Empty;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetSize_FiresSizeChanged()
@@ -134,7 +134,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.SizeChanged += delegate { eventFired = true; };
             loadedControl.Size = Size2D.Empty;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
     }
 }
