@@ -29,16 +29,16 @@ namespace NuciXNA.Gui.UnitTests.Screens
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
             Screen unloadedScreen = new DummyScreen();
-            
+
             Assert.Throws<InvalidOperationException>(() => unloadedScreen.UnloadContent());
         }
-        
+
         [Test]
         public void NotDisposed_IsDisposedIsFalse()
         {
-            Assert.IsFalse(loadedScreen.IsDisposed);
+            Assert.That(loadedScreen.IsDisposed, Is.False);
         }
-        
+
         public void SetForegroundColour_FiresForegroundColourChanged()
         {
             bool eventFired = false;
@@ -46,7 +46,7 @@ namespace NuciXNA.Gui.UnitTests.Screens
             loadedScreen.ForegroundColourChanged += delegate { eventFired = true; };
             loadedScreen.ForegroundColour = Colour.ChromeYellow;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
 
         public void SetBackgroundColour_FiresBackgroundColourChanged()
@@ -56,7 +56,7 @@ namespace NuciXNA.Gui.UnitTests.Screens
             loadedScreen.BackgroundColourChanged += delegate { eventFired = true; };
             loadedScreen.BackgroundColour = Colour.ChromeYellow;
 
-            Assert.IsTrue(eventFired);
+            Assert.That(eventFired);
         }
     }
 }
