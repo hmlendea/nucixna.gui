@@ -9,6 +9,8 @@ namespace NuciXNA.Gui
 {
     public class Cursor
     {
+        ButtonState _state;
+
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
@@ -17,17 +19,18 @@ namespace NuciXNA.Gui
 
         public Point2D LocationOffset { get; set; }
 
-        public ButtonState State { get; private set; }
+        public ButtonState State
+        {
+            get => _state ?? ButtonState.Released;
+            set => _state = value;
+        }
 
         public int Frames { get; set; }
 
         TextureSprite idleSprite;
         TextureSprite clickSprite;
 
-        public Cursor()
-        {
-            Frames = 1;
-        }
+        public Cursor() => Frames = 1;
 
         /// <summary>
         /// Loads the content.
