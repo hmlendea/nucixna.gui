@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +23,7 @@ namespace NuciXNA.Gui.Controls
         Alignment _horizontalAlignment;
         Alignment _verticalAlignment;
         int _margins;
-        
+
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
@@ -35,8 +34,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _text = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Text));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(Text));
                 TextChanged?.Invoke(this, eventArguments);
             }
         }
@@ -47,8 +46,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _outlineColour = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(OutlineColour));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(OutlineColour));
                 OutlineColourChanged?.Invoke(this, eventArguments);
             }
         }
@@ -59,8 +58,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _fontOutline = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(FontOutline));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(FontOutline));
                 FontOutlineChanged?.Invoke(this, eventArguments);
             }
         }
@@ -75,8 +74,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _horizontalAlignment = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(HorizontalAlignment));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(HorizontalAlignment));
                 HorizontalAlignmentChanged?.Invoke(this, eventArguments);
             }
         }
@@ -91,8 +90,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _verticalAlignment = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(VerticalAlignment));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(VerticalAlignment));
                 VerticalAlignmentChanged?.Invoke(this, eventArguments);
             }
         }
@@ -107,8 +106,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _margins = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Margins));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(Margins));
                 MarginsChanged?.Invoke(this, eventArguments);
             }
         }
@@ -184,7 +183,7 @@ namespace NuciXNA.Gui.Controls
             {
                 OpacityEffect = FadeEffect
             };
-            
+
             RegisterChild(backgroundImage);
 
             SetChildrenProperties();
@@ -195,10 +194,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            textSprite.UnloadContent();
-        }
+        protected override void DoUnloadContent() => textSprite.UnloadContent();
 
         /// <summary>
         /// Updates the content.
@@ -214,10 +210,7 @@ namespace NuciXNA.Gui.Controls
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-            textSprite.Draw(spriteBatch);
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) => textSprite.Draw(spriteBatch);
 
         void SetChildrenProperties()
         {

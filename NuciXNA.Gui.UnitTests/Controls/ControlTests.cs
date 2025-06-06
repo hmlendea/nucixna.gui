@@ -10,7 +10,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
 {
     public class ControlTests
     {
-        IGuiControl loadedControl;
+        GuiControl loadedControl;
 
         [SetUp]
         public void SetUp()
@@ -21,9 +21,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         [Test]
         public void LoadContent_ContentAlreadyLoaded_ThrowsInvalidOperationException()
-        {
-            Assert.Throws<InvalidOperationException>(() => loadedControl.LoadContent());
-        }
+            => Assert.Throws<InvalidOperationException>(() => loadedControl.LoadContent());
 
         [Test]
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()

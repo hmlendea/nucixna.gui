@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
 
 namespace NuciXNA.Gui.Screens
 {
@@ -29,7 +28,7 @@ namespace NuciXNA.Gui.Screens
         /// </summary>
         /// <value>The spacing.</value>
         public int Spacing { get; set; }
-        
+
         /// <summary>
         /// Gets all the items.
         /// </summary>
@@ -54,7 +53,7 @@ namespace NuciXNA.Gui.Screens
             Axis = MenuScreenAxis.Vertical;
             Spacing = 32;
 
-            Items = new List<GuiMenuItem>();
+            Items = [];
         }
 
         /// <summary>
@@ -72,10 +71,7 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Updates the content.
@@ -99,10 +95,7 @@ namespace NuciXNA.Gui.Screens
         /// Draws the content.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         /// <summary>
         /// Registers the events.
@@ -124,7 +117,7 @@ namespace NuciXNA.Gui.Screens
 
         void AlignMenuItems()
         {
-            Size2D halfSpacingSize = new Size2D(Spacing);
+            Size2D halfSpacingSize = new(Spacing);
             Size2D dimensions = Size2D.Empty;
 
             foreach (GuiMenuItem menuItem in Items)
@@ -209,13 +202,13 @@ namespace NuciXNA.Gui.Screens
 
             if (Axis == MenuScreenAxis.Vertical)
             {
-                backKeys = new List<Keys> { Keys.W, Keys.Up };
-                forwardKeys = new List<Keys> { Keys.S, Keys.Down };
+                backKeys = [Keys.W, Keys.Up];
+                forwardKeys = [Keys.S, Keys.Down];
             }
             else
             {
-                backKeys = new List<Keys> { Keys.A, Keys.Left};
-                forwardKeys = new List<Keys> { Keys.D, Keys.Right };
+                backKeys = [Keys.A, Keys.Left];
+                forwardKeys = [Keys.D, Keys.Right];
             }
 
             if (backKeys.Contains(e.Key))

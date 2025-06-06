@@ -78,7 +78,7 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (State == ButtonState.Pressed)
+            if (State.Equals(ButtonState.Pressed))
             {
                 clickSprite.Draw(spriteBatch);
             }
@@ -96,7 +96,7 @@ namespace NuciXNA.Gui
 
         void InputManager_OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButton.Left)
+            if (e.Button.Equals(MouseButton.Left))
             {
                 State = ButtonState.Pressed;
             }
@@ -104,15 +104,12 @@ namespace NuciXNA.Gui
 
         void InputManager_OnMouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButton.Left)
+            if (e.Button.Equals(MouseButton.Left))
             {
                 State = ButtonState.Released;
             }
         }
 
-        void InputManager_OnMouseMoved(object sender, MouseEventArgs e)
-        {
-            Location = e.Location;
-        }
+        void InputManager_OnMouseMoved(object sender, MouseEventArgs e) => Location = e.Location;
     }
 }

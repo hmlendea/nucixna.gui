@@ -16,7 +16,7 @@ namespace NuciXNA.Gui.Screens
     public class ScreenManager
     {
         static volatile ScreenManager instance;
-        static object syncRoot = new object();
+        static object syncRoot = new();
 
         IScreen currentScreen, newScreen;
         TextureSprite transitionSprite;
@@ -29,11 +29,11 @@ namespace NuciXNA.Gui.Screens
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
                     lock (syncRoot)
                     {
-                        if (instance == null)
+                        if (instance is null)
                         {
                             instance = new ScreenManager();
                         }
@@ -67,10 +67,7 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Initializes a new instance of the <see cref="ScreenManager"/> class.
         /// </summary>
-        public ScreenManager()
-        {
-            Size = GraphicsManager.Instance.BackBufferSize;
-        }
+        public ScreenManager() => Size = GraphicsManager.Instance.BackBufferSize;
 
         /// <summary>
         /// Loads the content.
@@ -149,8 +146,7 @@ namespace NuciXNA.Gui.Screens
         /// Changes the screen.
         /// </summary>
         /// <param name="screenType">Screen type.</param>
-        public void ChangeScreens(Type screenType)
-            => ChangeScreens(screenType, null);
+        public void ChangeScreens(Type screenType) => ChangeScreens(screenType, null);
 
         /// <summary>
         /// Changes the screen.
@@ -163,10 +159,10 @@ namespace NuciXNA.Gui.Screens
             {
                 return;
             }
-            
+
             newScreen = (Screen)Activator.CreateInstance(screenType, parameters);
 
-            if (currentScreen == null)
+            if (currentScreen is null)
             {
                 currentScreen = newScreen;
                 return;
@@ -188,15 +184,17 @@ namespace NuciXNA.Gui.Screens
         {
             transitionSprite.Update(gameTime);
 
-            if (transitionSprite.ClientOpacity >= 1.0f)
+            if (transitionSprite.ClientOpacity < 1.0f)
             {
-                currentScreen.Dispose();
-                currentScreen = newScreen;
-                currentScreen.LoadContent();
-
-                transitionSprite.IsActive = false;
-                Transitioning = false;
+                return;
             }
+
+            currentScreen.Dispose();
+            currentScreen = newScreen;
+            currentScreen.LoadContent();
+
+            transitionSprite.IsActive = false;
+            Transitioning = false;
         }
     }
 }

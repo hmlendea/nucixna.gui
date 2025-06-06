@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
-
-using NuciXNA.Graphics;
 
 namespace NuciXNA.Gui.Screens
 {

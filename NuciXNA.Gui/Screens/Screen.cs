@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
@@ -39,7 +35,7 @@ namespace NuciXNA.Gui.Screens
         {
             get
             {
-                if (_backgroundColour != null)
+                if (_backgroundColour is not null)
                 {
                     return _backgroundColour;
                 }
@@ -50,7 +46,7 @@ namespace NuciXNA.Gui.Screens
             {
                 _backgroundColour = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(BackgroundColour));
+                PropertyChangedEventArgs eventArguments = new(nameof(BackgroundColour));
                 BackgroundColourChanged?.Invoke(this, eventArguments);
             }
         }
@@ -63,7 +59,7 @@ namespace NuciXNA.Gui.Screens
         {
             get
             {
-                if (_foregroundColour != null)
+                if (_foregroundColour is not null)
                 {
                     return _foregroundColour;
                 }
@@ -74,7 +70,7 @@ namespace NuciXNA.Gui.Screens
             {
                 _foregroundColour = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ForegroundColour));
+                PropertyChangedEventArgs eventArguments = new(nameof(ForegroundColour));
                 ForegroundColourChanged?.Invoke(this, eventArguments);
             }
         }
@@ -182,10 +178,7 @@ namespace NuciXNA.Gui.Screens
             Created?.Invoke(this, EventArgs.Empty);
         }
 
-        ~Screen()
-        {
-            Dispose();
-        }
+        ~Screen() => Dispose();
 
         /// <summary>
         /// Loads the content.
@@ -198,7 +191,7 @@ namespace NuciXNA.Gui.Screens
             }
 
             ContentLoading?.Invoke(this, EventArgs.Empty);
-            
+
             backgroundClearColour = BackgroundColour.ToXnaColor();
 
             RegisterEvents();
@@ -344,19 +337,10 @@ namespace NuciXNA.Gui.Screens
             InputManager.Instance.MouseMoved -= OnMouseMoved;
         }
 
-        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
-        {
-            KeyPressed?.Invoke(sender, e);
-        }
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e) => KeyPressed?.Invoke(sender, e);
 
-        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            MouseButtonPressed?.Invoke(sender, e);
-        }
+        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => MouseButtonPressed?.Invoke(sender, e);
 
-        void OnMouseMoved(object sender, MouseEventArgs e)
-        {
-            MouseMoved?.Invoke(sender, e);
-        }
+        void OnMouseMoved(object sender, MouseEventArgs e) => MouseMoved?.Invoke(sender, e);
     }
 }

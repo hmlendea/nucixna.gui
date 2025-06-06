@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,7 +30,7 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_contentFile != null)
+                if (_contentFile is not null)
                 {
                     return _contentFile;
                 }
@@ -42,7 +41,7 @@ namespace NuciXNA.Gui.Controls
             {
                 _contentFile = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(ContentFile));
+                PropertyChangedEventArgs eventArguments = new(nameof(ContentFile));
                 ContentFileChanged?.Invoke(this, eventArguments);
             }
         }
@@ -55,7 +54,7 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_maskFile != null)
+                if (_maskFile is not null)
                 {
                     return _maskFile;
                 }
@@ -66,7 +65,7 @@ namespace NuciXNA.Gui.Controls
             {
                 _maskFile = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(MaskFile));
+                PropertyChangedEventArgs eventArguments = new(nameof(MaskFile));
                 MaskFileChanged?.Invoke(this, eventArguments);
             }
         }
@@ -79,22 +78,22 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_tintColour != null)
+                if (_tintColour is not null)
                 {
                     return _tintColour;
                 }
-                
+
                 return Colour.White;
             }
             set
             {
                 _tintColour = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(TintColour));
+                PropertyChangedEventArgs eventArguments = new(nameof(TintColour));
                 TintColourChanged?.Invoke(this, eventArguments);
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the source rectangle.
         /// </summary>
@@ -103,7 +102,7 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_sourceRectangle != null)
+                if (_sourceRectangle is not null)
                 {
                     return (Rectangle2D)_sourceRectangle;
                 }
@@ -114,7 +113,7 @@ namespace NuciXNA.Gui.Controls
             {
                 _sourceRectangle = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(SourceRectangle));
+                PropertyChangedEventArgs eventArguments = new(nameof(SourceRectangle));
                 SourceRectangleChanged?.Invoke(this, eventArguments);
             }
         }
@@ -127,7 +126,7 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_textureLayout != null)
+                if (_textureLayout is not null)
                 {
                     return (TextureLayout)_textureLayout;
                 }
@@ -138,11 +137,11 @@ namespace NuciXNA.Gui.Controls
             {
                 _textureLayout = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(TextureLayout));
+                PropertyChangedEventArgs eventArguments = new(nameof(TextureLayout));
                 TextureLayoutChanged?.Invoke(this, eventArguments);
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the opacity effect.
         /// </summary>
@@ -199,19 +198,19 @@ namespace NuciXNA.Gui.Controls
         /// Occurs when the <see cref="TextureLayout"> was changed.
         /// </summary>
         public event PropertyChangedEventHandler TextureLayoutChanged;
-        
+
         /// <summary>
         /// Loads the content.
         /// </summary>
         protected override void DoLoadContent()
         {
-            this.sprite = new TextureSprite();
+            sprite = new();
 
             SetChildrenProperties();
 
             sprite.LoadContent();
 
-            if (SourceRectangle == Rectangle2D.Empty)
+            if (SourceRectangle.IsEmpty)
             {
                 SourceRectangle = new Rectangle2D(Point2D.Empty, sprite.SpriteSize);
             }
@@ -220,10 +219,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            sprite.UnloadContent();
-        }
+        protected override void DoUnloadContent() => sprite.UnloadContent();
 
         /// <summary>
         /// Updates the content.
@@ -239,10 +235,7 @@ namespace NuciXNA.Gui.Controls
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-            sprite.Draw(spriteBatch);
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) => sprite.Draw(spriteBatch);
 
         void SetChildrenProperties()
         {
@@ -259,7 +252,7 @@ namespace NuciXNA.Gui.Controls
             sprite.Rotation = Rotation;
             sprite.TextureLayout = TextureLayout;
             sprite.Tint = TintColour;
-            
+
             sprite.OpacityEffect = OpacityEffect;
             sprite.RotationEffect = RotationEffect;
             sprite.SpriteSheetEffect = SpriteSheetEffect;

@@ -2,19 +2,12 @@ using System;
 
 namespace NuciXNA.Gui.Controls
 {
-    public class ListSelectionEventArgs : EventArgs
+    public class ListSelectionEventArgs(int index, string key, string value) : EventArgs
     {
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex { get; set; } = index;
 
-        public string SelectedKey { get; set; }
+        public string SelectedKey { get; set; } = key;
 
-        public string SelectedValue { get; set; }
-
-        public ListSelectionEventArgs(int index, string key, string value)
-        {
-            SelectedIndex = index;
-            SelectedKey = key;
-            SelectedValue = value;
-        }
+        public string SelectedValue { get; set; } = value;
     }
 }

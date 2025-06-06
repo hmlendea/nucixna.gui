@@ -24,7 +24,7 @@ namespace NuciXNA.Gui.Controls
             {
                 _targetScreen = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(TargetScreen));
+                PropertyChangedEventArgs eventArguments = new(nameof(TargetScreen));
                 TargetScreenChanged?.Invoke(this, eventArguments);
             }
         }
@@ -40,7 +40,7 @@ namespace NuciXNA.Gui.Controls
             {
                 _parameters = value;
 
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Parameters));
+                PropertyChangedEventArgs eventArguments = new(nameof(Parameters));
                 ParametersChanged?.Invoke(this, eventArguments);
             }
         }
@@ -80,9 +80,6 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnTriggered(object sender, EventArgs e)
-        {
-            ScreenManager.Instance.ChangeScreens(TargetScreen, Parameters);
-        }
+        void OnTriggered(object sender, EventArgs e) => ScreenManager.Instance.ChangeScreens(TargetScreen, Parameters);
     }
 }

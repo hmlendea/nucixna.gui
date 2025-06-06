@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -17,9 +17,9 @@ namespace NuciXNA.Gui
     public class GuiManager
     {
         static volatile GuiManager instance;
-        static object syncRoot = new object();
+        static readonly Lock syncRoot = new();
 
-        Dictionary<string, GuiControl> guiControls;
+        readonly Dictionary<string, GuiControl> guiControls;
 
         public Colour DefaultBackgroundColour { get; set; }
 
@@ -39,14 +39,11 @@ namespace NuciXNA.Gui
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
                     lock (syncRoot)
                     {
-                        if (instance == null)
-                        {
-                            instance = new GuiManager();
-                        }
+                        instance ??= new GuiManager();
                     }
                 }
 
@@ -56,7 +53,7 @@ namespace NuciXNA.Gui
 
         public GuiManager()
         {
-            guiControls = new Dictionary<string, GuiControl>();
+            guiControls = [];
 
             DefaultBackgroundColour = Colour.Transparent;
             DefaultForegroundColour = Colour.Black;
@@ -98,7 +95,7 @@ namespace NuciXNA.Gui
             RemoveDisposedControls();
 
             IEnumerable<GuiControl> enabledControls = guiControls.Values.Where(e => e.IsEnabled);
-            
+
             foreach (GuiControl control in enabledControls.Reverse())
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
