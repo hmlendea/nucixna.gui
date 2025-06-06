@@ -31,8 +31,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _text = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Text));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(Text));
                 TextChanged?.Invoke(this, eventArguments);
             }
         }
@@ -43,8 +43,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _borderSize = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(BorderSize));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(BorderSize));
                 BorderSizeChanged?.Invoke(this, eventArguments);
             }
         }
@@ -101,28 +101,19 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            
-        }
+        protected override void DoUnloadContent() { }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            SetChildrenProperties();
-        }
+        protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
         /// <summary>
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-            
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         void SetChildrenProperties()
         {
@@ -143,7 +134,7 @@ namespace NuciXNA.Gui.Controls
             {
                 Location = new Point2D(Location.X, Location.Y - ScreenLocation.Y);
             }
-            
+
             border.TintColour = ForegroundColour;
             background.TintColour = BackgroundColour;
             background.Size = new Size2D(Size.Width - BorderSize * 2, Size.Height - BorderSize * 2);

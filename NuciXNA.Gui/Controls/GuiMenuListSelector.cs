@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using NuciXNA.Input;
-using NuciXNA.Primitives.Mapping;
 
 using XnaKeys = Microsoft.Xna.Framework.Input.Keys;
 
@@ -17,19 +14,19 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiMenuListSelector : GuiMenuItem
     {
-        IDictionary<string, string> items { get; set; }
+        Dictionary<string, string> Items { get; set; }
 
         /// <summary>
         /// Gets the keys.
         /// </summary>
         /// <value>The keys.</value>
-        public IEnumerable<string> Keys => items.Keys;
+        public IEnumerable<string> Keys => Items.Keys;
 
         /// <summary>
         /// Gets the values.
         /// </summary>
         /// <value>The values.</value>
-        public IEnumerable<string> Values => items.Values;
+        public IEnumerable<string> Values => Items.Values;
 
         /// <summary>
         /// Gets the selected index.
@@ -49,7 +46,7 @@ namespace NuciXNA.Gui.Controls
         /// <value>The selected value.</value>
         public string SelectedValue => Values.ElementAt(SelectedIndex);
 
-        public int ItemsCount => items.Count;
+        public int ItemsCount => Items.Count;
 
         /// <summary>
         /// Occurs when the items collection was changed.
@@ -66,30 +63,30 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         public GuiMenuListSelector()
         {
-            items = new Dictionary<string, string>();
+            Items = [];
             SelectedIndex = -1;
         }
 
         public void SelectNextItem()
         {
-            if (items.Count == 1)
+            if (Items.Count == 1)
             {
                 return;
             }
 
             int newIndex = SelectedIndex + 1;
 
-            if (newIndex >= items.Count)
+            if (newIndex >= Items.Count)
             {
                 newIndex = 0;
             }
-            
+
             SelectItemByIndex(newIndex);
         }
 
         public void SelectPreviousItem()
         {
-            if (items.Count == 1)
+            if (Items.Count == 1)
             {
                 return;
             }
@@ -98,9 +95,9 @@ namespace NuciXNA.Gui.Controls
 
             if (newIndex <= 0)
             {
-                newIndex = items.Count - 1;
+                newIndex = Items.Count - 1;
             }
-            
+
             SelectItemByIndex(newIndex);
         }
 
@@ -115,14 +112,14 @@ namespace NuciXNA.Gui.Controls
                 return;
             }
 
-            if (index < 0 || index >= items.Count)
+            if (index < 0 || index >= Items.Count)
             {
                 throw new IndexOutOfRangeException();
             }
 
             SelectedIndex = index;
 
-            ListSelectionEventArgs args = new ListSelectionEventArgs(SelectedIndex, SelectedKey, SelectedValue);
+            ListSelectionEventArgs args = new(SelectedIndex, SelectedKey, SelectedValue);
             SelectedItemChanged?.Invoke(this, args);
         }
 
@@ -137,15 +134,15 @@ namespace NuciXNA.Gui.Controls
                 return;
             }
 
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
-                if (items.ElementAt(i).Key == key)
+                if (Items.ElementAt(i).Key == key)
                 {
                     SelectItemByIndex(i);
                     return;
                 }
             }
-            
+
             throw new ArgumentOutOfRangeException(nameof(key));
         }
 
@@ -160,15 +157,15 @@ namespace NuciXNA.Gui.Controls
                 return;
             }
 
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
-                if (items.ElementAt(i).Value == value)
+                if (Items.ElementAt(i).Value == value)
                 {
                     SelectItemByIndex(i);
                     return;
                 }
             }
-            
+
             throw new ArgumentOutOfRangeException(nameof(value));
         }
 
@@ -242,7 +239,7 @@ namespace NuciXNA.Gui.Controls
 
         public void SetItems(IDictionary<string, string> items)
         {
-            this.items = items.ToDictionary(x => x.Key, x => x.Value);
+            Items = items.ToDictionary(x => x.Key, x => x.Value);
 
             ItemsChanged?.Invoke(this, EventArgs.Empty);
 
@@ -253,7 +250,7 @@ namespace NuciXNA.Gui.Controls
         }
 
         public IDictionary<string, string> GetItems()
-            => items.ToDictionary(x => x.Key, x => x.Value);
+            => Items.ToDictionary(x => x.Key, x => x.Value);
 
         /// <summary>
         /// Loads the content.
@@ -262,7 +259,7 @@ namespace NuciXNA.Gui.Controls
         {
             base.DoLoadContent();
 
-            if (items.Count > 0)
+            if (Items.Count > 0)
             {
                 SelectedIndex = 0;
             }
@@ -287,19 +284,19 @@ namespace NuciXNA.Gui.Controls
         protected override void DoUpdate(GameTime gameTime)
         {
             base.DoUpdate(gameTime);
-            
-            if (items.Count == 0)
+
+            if (Items.Count == 0)
             {
                 return;
             }
 
-            if (SelectedIndex >= items.Count)
+            if (SelectedIndex >= Items.Count)
             {
                 SelectedIndex = 0;
             }
             else if (SelectedIndex < 0)
             {
-                SelectedIndex = items.Count - 1;
+                SelectedIndex = Items.Count - 1;
             }
 
             text.Text = Text + $" : {SelectedValue}";

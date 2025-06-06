@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 
 using Microsoft.Xna.Framework;
 
@@ -21,18 +20,15 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         public event EventHandler StateChanged;
 
-        public void SwitchOn()
-            => SetState(true);
+        public void SwitchOn() => SetState(true);
 
-        public void SwitchOff()
-            => SetState(false);
+        public void SwitchOff() => SetState(false);
 
-        public void SwitchState()
-            => SetState(!IsOn);
+        public void SwitchState() => SetState(!IsOn);
 
         public void SetState(bool state)
         {
-            if (IsOn == state)
+            if (IsOn.Equals(state))
             {
                 return;
             }
@@ -82,27 +78,18 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
-        {
-            Triggered += OnTriggered;
-        }
+        void RegisterEvents() => Triggered += OnTriggered;
 
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
-        {
-            Triggered -= OnTriggered;
-        }
+        void UnregisterEvents() => Triggered -= OnTriggered;
 
         /// <summary>
         /// Fired by the Activated event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnTriggered(object sender, EventArgs e)
-        {
-            SwitchState();
-        }
+        void OnTriggered(object sender, EventArgs e) => SwitchState();
     }
 }

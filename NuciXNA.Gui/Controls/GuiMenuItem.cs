@@ -30,8 +30,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _text = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(Text));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(Text));
                 TextChanged?.Invoke(this, eventArguments);
             }
         }
@@ -46,8 +46,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _selectedTextColour = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(SelectedTextColour));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(SelectedTextColour));
                 SelectedTextColourChanged?.Invoke(this, eventArguments);
             }
         }
@@ -58,8 +58,8 @@ namespace NuciXNA.Gui.Controls
             set
             {
                 _isSelectable = value;
-                
-                PropertyChangedEventArgs eventArguments = new PropertyChangedEventArgs(nameof(IsSelectable));
+
+                PropertyChangedEventArgs eventArguments = new(nameof(IsSelectable));
                 IsSelectableChanged?.Invoke(this, eventArguments);
             }
         }
@@ -128,28 +128,19 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            SetChildrenProperties();
-        }
+        protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
         /// <summary>
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         /// <summary>
         /// Registers the events.
@@ -192,15 +183,9 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnTextContentLoaded(object sender, EventArgs e)
-        {
-            text.FadeEffect.Activate();
-        }
+        void OnTextContentLoaded(object sender, EventArgs e) => text.FadeEffect.Activate();
 
-        void OnClicked(object sender, MouseButtonEventArgs e)
-        {
-            Triggered?.Invoke(this, EventArgs.Empty);
-        }
+        void OnClicked(object sender, MouseButtonEventArgs e) => Triggered?.Invoke(this, EventArgs.Empty);
 
         void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -271,7 +269,7 @@ namespace NuciXNA.Gui.Controls
         /// Occurs when the mouse moved inside of this <see cref="GuiControl"/>.
         /// </summary>
         event MouseEventHandler MouseMoved;
-        
+
         /// <summary>
         /// Loads the content.
         /// </summary>
@@ -330,7 +328,7 @@ namespace NuciXNA.Gui.Controls
         void Unfocus();
 
         string ToString();
-        
+
         /// <summary>
         /// Handles the input.
         /// </summary>

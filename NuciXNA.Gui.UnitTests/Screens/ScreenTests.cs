@@ -21,23 +21,19 @@ namespace NuciXNA.Gui.UnitTests.Screens
 
         [Test]
         public void LoadContent_ContentAlreadyLoaded_ThrowsInvalidOperationException()
-        {
-            Assert.Throws<InvalidOperationException>(() => loadedScreen.LoadContent());
-        }
+            => Assert.Throws<InvalidOperationException>(loadedScreen.LoadContent);
 
         [Test]
         public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
         {
             Screen unloadedScreen = new DummyScreen();
 
-            Assert.Throws<InvalidOperationException>(() => unloadedScreen.UnloadContent());
+            Assert.Throws<InvalidOperationException>(unloadedScreen.UnloadContent);
         }
 
         [Test]
         public void NotDisposed_IsDisposedIsFalse()
-        {
-            Assert.That(loadedScreen.IsDisposed, Is.False);
-        }
+            => Assert.That(loadedScreen.IsDisposed, Is.False);
 
         public void SetForegroundColour_FiresForegroundColourChanged()
         {

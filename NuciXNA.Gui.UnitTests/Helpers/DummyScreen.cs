@@ -7,24 +7,12 @@ namespace NuciXNA.Gui.UnitTests.Helpers
 {
     public sealed class DummyScreen : Screen
     {
-        protected override void DoLoadContent()
-        {
-            
-        }
+        protected override void DoLoadContent() { }
 
-        protected override void DoUnloadContent()
-        {
-            
-        }
+        protected override void DoUnloadContent() { }
 
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            
-        }
+        protected override void DoUpdate(GameTime gameTime) { }
 
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-            
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
     }
 }
