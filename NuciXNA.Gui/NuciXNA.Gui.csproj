@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>NuciXNA.Gui</RootNamespace>
     <Version>3.0.2</Version>
     <Description>GUI management and basic widgets for NuciXNA</Description>
