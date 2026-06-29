@@ -27,26 +27,53 @@ namespace NuciXNA.Gui
 
         public int Frames { get; set; }
 
+        public Size2D SpriteSize { get; set; }
+
+        public Scale2D Scale { get; set; }
+
+        /// <summary>
+        /// Gets or sets a single content file to use instead of the default idle/click pair.
+        /// When set, a single sprite is loaded from this path and no click-state switching occurs.
+        /// When not set (the default), the cursor uses <c>Cursors/idle</c> and <c>Cursors/click</c>.
+        /// </summary>
+        public string ContentFile { get; set; }
+
         TextureSprite idleSprite;
         TextureSprite clickSprite;
 
-        public Cursor() => Frames = 1;
+        public Cursor()
+        {
+            Frames = 1;
+            Scale = Scale2D.One;
+        }
 
         /// <summary>
         /// Loads the content.
         /// </summary>
         public void LoadContent()
         {
-            idleSprite = new TextureSprite { ContentFile = "Cursors/idle" };
-            clickSprite = new TextureSprite { ContentFile = "Cursors/click" };
+            if (string.IsNullOrEmpty(ContentFile))
+            {
+                idleSprite = new TextureSprite { ContentFile = "Cursors/idle" };
+                clickSprite = new TextureSprite { ContentFile = "Cursors/click" };
 
-            SetChildrenProperites();
+                SetChildrenProperites();
 
-            idleSprite.LoadContent();
-            clickSprite.LoadContent();
+                idleSprite.LoadContent();
+                clickSprite.LoadContent();
 
-            InputManager.Instance.MouseButtonPressed += InputManager_OnMouseButtonPressed;
-            InputManager.Instance.MouseButtonReleased += InputManager_OnMouseButtonReleased;
+                InputManager.Instance.MouseButtonPressed += InputManager_OnMouseButtonPressed;
+                InputManager.Instance.MouseButtonReleased += InputManager_OnMouseButtonReleased;
+            }
+            else
+            {
+                idleSprite = new TextureSprite { ContentFile = ContentFile };
+
+                SetChildrenProperites();
+
+                idleSprite.LoadContent();
+            }
+
             InputManager.Instance.MouseMoved += InputManager_OnMouseMoved;
         }
 
@@ -56,10 +83,14 @@ namespace NuciXNA.Gui
         public void UnloadContent()
         {
             idleSprite.UnloadContent();
-            clickSprite.UnloadContent();
+            clickSprite?.UnloadContent();
 
-            InputManager.Instance.MouseButtonPressed -= InputManager_OnMouseButtonPressed;
-            InputManager.Instance.MouseButtonReleased -= InputManager_OnMouseButtonReleased;
+            if (string.IsNullOrEmpty(ContentFile))
+            {
+                InputManager.Instance.MouseButtonPressed -= InputManager_OnMouseButtonPressed;
+                InputManager.Instance.MouseButtonReleased -= InputManager_OnMouseButtonReleased;
+            }
+
             InputManager.Instance.MouseMoved -= InputManager_OnMouseMoved;
         }
 
@@ -72,7 +103,7 @@ namespace NuciXNA.Gui
             SetChildrenProperites();
 
             idleSprite.Update(gameTime);
-            clickSprite.Update(gameTime);
+            clickSprite?.Update(gameTime);
         }
 
         /// <summary>
@@ -81,7 +112,7 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (State.Equals(ButtonState.Pressed))
+            if (clickSprite is not null && State.Equals(ButtonState.Pressed))
             {
                 clickSprite.Draw(spriteBatch);
             }
@@ -94,7 +125,19 @@ namespace NuciXNA.Gui
         void SetChildrenProperites()
         {
             idleSprite.Location = Location + LocationOffset;
-            clickSprite.Location = Location + LocationOffset;
+
+            clickSprite?.Location = Location + LocationOffset;
+
+            if (!SpriteSize.Equals(Size2D.Empty))
+            {
+                idleSprite.SpriteSize = SpriteSize;
+
+                clickSprite?.SpriteSize = SpriteSize;
+            }
+
+            idleSprite.Scale = Scale;
+
+            clickSprite?.Scale = Scale;
         }
 
         void InputManager_OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
