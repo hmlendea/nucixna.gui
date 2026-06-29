@@ -169,6 +169,12 @@ namespace NuciXNA.Gui.Controls
         public float Rotation { get; set; }
 
         /// <summary>
+        /// Gets or sets the sampler state used when drawing this image.
+        /// When null (the default), falls back to <see cref="GraphicsManager.DefaultSamplerState"/>.
+        /// </summary>
+        public SamplerState SamplerState { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the effects are active.
         /// </summary>
         /// <value><c>true</c> if the effects are active; otherwise, <c>false</c>.</value>
@@ -257,6 +263,7 @@ namespace NuciXNA.Gui.Controls
             sprite.RotationEffect = RotationEffect;
             sprite.SpriteSheetEffect = SpriteSheetEffect;
             sprite.ScaleEffect = ScaleEffect;
+            sprite.SamplerState = SamplerState;
 
             if (!sprite.SourceRectangle.IsEmpty)
             {
