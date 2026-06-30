@@ -254,6 +254,7 @@ namespace NuciXNA.Gui.Controls
             sprite.AlphaMaskFile = MaskFile;
             sprite.ContentFile = ContentFile;
             sprite.Location = ScreenLocation;
+            sprite.Opacity = Opacity;
             sprite.SourceRectangle = SourceRectangle;
             sprite.Rotation = Rotation;
             sprite.TextureLayout = TextureLayout;
