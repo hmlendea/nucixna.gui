@@ -65,14 +65,7 @@ namespace NuciXNA.Gui.Controls
         {
             base.DoUpdate(gameTime);
 
-            if (IsOn)
-            {
-                text.Text = Text + " : On";
-            }
-            else
-            {
-                text.Text = Text + " : Off";
-            }
+            text.Text = Text + (IsOn ? " : On" : " : Off");
         }
 
         /// <summary>
