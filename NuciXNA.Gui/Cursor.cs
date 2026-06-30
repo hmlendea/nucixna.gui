@@ -35,8 +35,29 @@ namespace NuciXNA.Gui
         /// Gets or sets a single content file to use instead of the default idle/click pair.
         /// When set, a single sprite is loaded from this path and no click-state switching occurs.
         /// When not set (the default), the cursor uses <c>Cursors/idle</c> and <c>Cursors/click</c>.
+        /// Changing this property after content is loaded immediately swaps the spritesheet.
         /// </summary>
-        public string ContentFile { get; set; }
+        public string ContentFile
+        {
+            get => _contentFile;
+            set
+            {
+                if (_contentFile == value)
+                {
+                    return;
+                }
+
+                _contentFile = value;
+
+                if (_isContentLoaded)
+                {
+                    ReloadIdleSprite();
+                }
+            }
+        }
+
+        string _contentFile;
+        bool _isContentLoaded;
 
         TextureSprite idleSprite;
         TextureSprite clickSprite;
@@ -74,6 +95,7 @@ namespace NuciXNA.Gui
                 idleSprite.LoadContent();
             }
 
+            _isContentLoaded = true;
             InputManager.Instance.MouseMoved += InputManager_OnMouseMoved;
         }
 
@@ -82,6 +104,7 @@ namespace NuciXNA.Gui
         /// </summary>
         public void UnloadContent()
         {
+            _isContentLoaded = false;
             idleSprite.UnloadContent();
             clickSprite?.UnloadContent();
 
@@ -157,5 +180,13 @@ namespace NuciXNA.Gui
         }
 
         void InputManager_OnMouseMoved(object sender, MouseEventArgs e) => Location = e.Location;
+
+        void ReloadIdleSprite()
+        {
+            idleSprite.UnloadContent();
+            idleSprite = new TextureSprite { ContentFile = _contentFile };
+            SetChildrenProperites();
+            idleSprite.LoadContent();
+        }
     }
 }
