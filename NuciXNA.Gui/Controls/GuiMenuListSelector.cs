@@ -93,7 +93,7 @@ namespace NuciXNA.Gui.Controls
 
             int newIndex = SelectedIndex - 1;
 
-            if (newIndex <= 0)
+            if (newIndex < 0)
             {
                 newIndex = Items.Count - 1;
             }
@@ -179,9 +179,8 @@ namespace NuciXNA.Gui.Controls
             {
                 SelectItemByIndex(index);
             }
-            catch
+            catch (IndexOutOfRangeException)
             {
-
             }
         }
 
@@ -195,9 +194,8 @@ namespace NuciXNA.Gui.Controls
             {
                 SelectItemByValue(value);
             }
-            catch
+            catch (ArgumentOutOfRangeException)
             {
-
             }
         }
 

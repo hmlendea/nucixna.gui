@@ -16,7 +16,7 @@ namespace NuciXNA.Gui.Screens
     public class ScreenManager
     {
         static volatile ScreenManager instance;
-        static object syncRoot = new();
+        static readonly object syncRoot = new();
 
         IScreen currentScreen, newScreen;
         TextureSprite transitionSprite;

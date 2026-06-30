@@ -544,7 +544,7 @@ namespace NuciXNA.Gui.Controls
 
             Updating?.Invoke(this, EventArgs.Empty);
 
-            foreach (GuiControl child in Children.Cast<GuiControl>())
+            foreach (GuiControl child in Children.Cast<GuiControl>().ToList())
             {
                 if (child is null || child.IsDisposed)
                 {
@@ -629,6 +629,7 @@ namespace NuciXNA.Gui.Controls
                     UnloadContent();
                 }
 
+                IsDisposed = true;
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -879,7 +880,6 @@ namespace NuciXNA.Gui.Controls
                 !DisplayRectangle.Contains(e.PreviousLocation))
             {
                 MouseEntered?.Invoke(this, e);
-                IsHovered = true;
             }
 
             if (!DisplayRectangle.Contains(e.Location) &&
