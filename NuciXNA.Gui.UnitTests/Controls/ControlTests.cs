@@ -20,11 +20,11 @@ namespace NuciXNA.Gui.UnitTests.Controls
         }
 
         [Test]
-        public void LoadContent_ContentAlreadyLoaded_ThrowsInvalidOperationException()
+        public void GivenContentAlreadyLoaded_WhenLoadContent_ThenThrowsInvalidOperationException()
             => Assert.Throws<InvalidOperationException>(() => loadedControl.LoadContent());
 
         [Test]
-        public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
+        public void GivenContentNotLoaded_WhenUnloadContent_ThenThrowsInvalidOperationException()
         {
             IGuiControl unloadedControl = new DummyControl();
 
@@ -32,13 +32,13 @@ namespace NuciXNA.Gui.UnitTests.Controls
         }
 
         [Test]
-        public void NotDisposed_IsDisposedIsFalse()
+        public void GivenFreshControl_WhenNotDisposed_ThenIsDisposedIsFalse()
         {
             Assert.That(loadedControl.IsDisposed, Is.False);
         }
 
         [Test]
-        public void Show_IsVisibleIsTrue()
+        public void GivenLoadedControl_WhenShow_ThenIsVisibleIsTrue()
         {
             loadedControl.Show();
 
@@ -46,7 +46,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
         }
 
         [Test]
-        public void Show_FiresShown()
+        public void GivenLoadedControl_WhenShow_ThenFiresShown()
         {
             bool eventFired = false;
 
@@ -57,7 +57,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
         }
 
         [Test]
-        public void Hide_IsVisibleIsFalse()
+        public void GivenLoadedControl_WhenHide_ThenIsVisibleIsFalse()
         {
             loadedControl.Hide();
 
@@ -65,7 +65,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
         }
 
         [Test]
-        public void Hide_FiresHidden()
+        public void GivenLoadedControl_WhenHide_ThenFiresHidden()
         {
             bool eventFired = false;
 
@@ -75,7 +75,8 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        public void SetForegroundColour_FiresForegroundColourChanged()
+        [Test]
+        public void GivenLoadedControl_WhenSettingForegroundColour_ThenFiresForegroundColourChanged()
         {
             bool eventFired = false;
 
@@ -85,7 +86,8 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        public void SetBackgroundColour_FiresBackgroundColourChanged()
+        [Test]
+        public void GivenLoadedControl_WhenSettingBackgroundColour_ThenFiresBackgroundColourChanged()
         {
             bool eventFired = false;
 
@@ -95,7 +97,8 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        public void SetOpacity_FiresOpacityChanged()
+        [Test]
+        public void GivenLoadedControl_WhenSettingOpacity_ThenFiresOpacityChanged()
         {
             bool eventFired = false;
 
@@ -105,7 +108,8 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        public void SetFontName_FiresFontNameChanged()
+        [Test]
+        public void GivenLoadedControl_WhenSettingFontName_ThenFiresFontNameChanged()
         {
             bool eventFired = false;
 
@@ -115,7 +119,8 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        public void SetLocation_FiresLocationChanged()
+        [Test]
+        public void GivenLoadedControl_WhenSettingLocation_ThenFiresLocationChanged()
         {
             bool eventFired = false;
 
@@ -125,7 +130,8 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        public void SetSize_FiresSizeChanged()
+        [Test]
+        public void GivenLoadedControl_WhenSettingSize_ThenFiresSizeChanged()
         {
             bool eventFired = false;
 
@@ -133,6 +139,266 @@ namespace NuciXNA.Gui.UnitTests.Controls
             loadedControl.Size = Size2D.Empty;
 
             Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenDisabledControl_WhenEnable_ThenIsEnabledIsTrue()
+        {
+            loadedControl.Disable();
+            loadedControl.Enable();
+
+            Assert.That(loadedControl.IsEnabled);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenEnable_ThenFiresEnabled()
+        {
+            bool eventFired = false;
+
+            loadedControl.Enabled += delegate { eventFired = true; };
+            loadedControl.Enable();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenEnabledControl_WhenDisable_ThenIsEnabledIsFalse()
+        {
+            loadedControl.Disable();
+
+            Assert.That(loadedControl.IsEnabled, Is.False);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenDisable_ThenFiresDisabled()
+        {
+            bool eventFired = false;
+
+            loadedControl.Disabled += delegate { eventFired = true; };
+            loadedControl.Disable();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenUnfocusedControl_WhenFocus_ThenIsFocusedIsTrue()
+        {
+            loadedControl.Focus();
+
+            Assert.That(loadedControl.IsFocused);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenFocus_ThenFiresFocused()
+        {
+            bool eventFired = false;
+
+            loadedControl.Focused += delegate { eventFired = true; };
+            loadedControl.Focus();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenFocusedControl_WhenUnfocus_ThenIsFocusedIsFalse()
+        {
+            loadedControl.Focus();
+            loadedControl.Unfocus();
+
+            Assert.That(loadedControl.IsFocused, Is.False);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenUnfocus_ThenFiresUnfocused()
+        {
+            bool eventFired = false;
+
+            loadedControl.Unfocused += delegate { eventFired = true; };
+            loadedControl.Unfocus();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenUnloadedControl_WhenLoadContent_ThenIsContentLoadedIsTrue()
+            => Assert.That(loadedControl.IsContentLoaded);
+
+        [Test]
+        public void GivenLoadedControl_WhenUnloadContent_ThenIsContentLoadedIsFalse()
+        {
+            loadedControl.UnloadContent();
+
+            Assert.That(loadedControl.IsContentLoaded, Is.False);
+        }
+
+        [Test]
+        public void GivenUnloadedControl_WhenLoadContent_ThenFiresContentLoading()
+        {
+            DummyControl control = new();
+            bool eventFired = false;
+
+            control.ContentLoading += delegate { eventFired = true; };
+            control.LoadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenUnloadedControl_WhenLoadContent_ThenFiresContentLoaded()
+        {
+            DummyControl control = new();
+            bool eventFired = false;
+
+            control.ContentLoaded += delegate { eventFired = true; };
+            control.LoadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenUnloadContent_ThenFiresContentUnloading()
+        {
+            bool eventFired = false;
+
+            loadedControl.ContentUnloading += delegate { eventFired = true; };
+            loadedControl.UnloadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenUnloadContent_ThenFiresContentUnloaded()
+        {
+            bool eventFired = false;
+
+            loadedControl.ContentUnloaded += delegate { eventFired = true; };
+            loadedControl.UnloadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenLoadedControl_WhenDispose_ThenIsDisposedIsTrue()
+        {
+            loadedControl.Dispose();
+
+            Assert.That(loadedControl.IsDisposed);
+        }
+
+        [Test]
+        public void GivenNoOpacitySet_WhenGettingOpacity_ThenDefaultIsOne()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.Opacity, Is.EqualTo(1.0f));
+        }
+
+        [Test]
+        public void GivenOpacityAboveOne_WhenSet_ThenOpacityIsClampedToOne()
+        {
+            loadedControl.Opacity = 2.5f;
+
+            Assert.That(loadedControl.Opacity, Is.EqualTo(1.0f));
+        }
+
+        [Test]
+        public void GivenOpacityBelowZero_WhenSet_ThenOpacityIsClampedToZero()
+        {
+            loadedControl.Opacity = -0.5f;
+
+            Assert.That(loadedControl.Opacity, Is.EqualTo(0.0f));
+        }
+
+        [Test]
+        public void GivenParentWithOpacity_WhenChildHasNoOpacity_ThenChildInheritsParentOpacity()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.Opacity = 0.42f;
+            child.Parent = parent;
+
+            Assert.That(child.Opacity, Is.EqualTo(0.42f));
+        }
+
+        [Test]
+        public void GivenNoLocationSet_WhenGettingLocation_ThenReturnsEmpty()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.Location, Is.EqualTo(Point2D.Empty));
+        }
+
+        [Test]
+        public void GivenNoParent_WhenGettingScreenLocation_ThenEqualsLocation()
+        {
+            loadedControl.Location = new Point2D(10, 20);
+
+            Assert.That(loadedControl.ScreenLocation.X, Is.EqualTo(10));
+            Assert.That(loadedControl.ScreenLocation.Y, Is.EqualTo(20));
+        }
+
+        [Test]
+        public void GivenParentWithLocation_WhenGettingChildScreenLocation_ThenEqualsParentPlusChildLocation()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.Location = new Point2D(10, 20);
+            child.Location = new Point2D(5, 15);
+            child.Parent = parent;
+
+            Assert.That(child.ScreenLocation.X, Is.EqualTo(15));
+            Assert.That(child.ScreenLocation.Y, Is.EqualTo(35));
+        }
+
+        [Test]
+        public void GivenNoSizeSet_WhenGettingSize_ThenReturnsEmpty()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.Size, Is.EqualTo(Size2D.Empty));
+        }
+
+        [Test]
+        public void GivenParentWithSize_WhenChildHasNoSize_ThenChildInheritsParentSize()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.Size = new Size2D(100, 200);
+            child.Parent = parent;
+
+            Assert.That(child.Size.Width, Is.EqualTo(100));
+            Assert.That(child.Size.Height, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void GivenParentHidden_WhenChildIsVisible_ThenIsVisibleIsFalse()
+        {
+            DummyControl parent = new();
+            DummyControl child = new()
+            {
+                Parent = parent
+            };
+            child.Show();
+            parent.Hide();
+
+            Assert.That(child.IsVisible, Is.False);
+        }
+
+        [Test]
+        public void GivenParentDisabled_WhenChildIsEnabled_ThenIsEnabledIsFalse()
+        {
+            DummyControl parent = new();
+            DummyControl child = new()
+            {
+                Parent = parent
+            };
+            child.Enable();
+            parent.Disable();
+
+            Assert.That(child.IsEnabled, Is.False);
         }
     }
 }

@@ -20,11 +20,11 @@ namespace NuciXNA.Gui.UnitTests.Screens
         }
 
         [Test]
-        public void LoadContent_ContentAlreadyLoaded_ThrowsInvalidOperationException()
+        public void GivenContentAlreadyLoaded_WhenLoadContent_ThenThrowsInvalidOperationException()
             => Assert.Throws<InvalidOperationException>(loadedScreen.LoadContent);
 
         [Test]
-        public void UnloadContent_ContentNotLoaded_ThrowsInvalidOperationException()
+        public void GivenContentNotLoaded_WhenUnloadContent_ThenThrowsInvalidOperationException()
         {
             Screen unloadedScreen = new DummyScreen();
 
@@ -32,10 +32,11 @@ namespace NuciXNA.Gui.UnitTests.Screens
         }
 
         [Test]
-        public void NotDisposed_IsDisposedIsFalse()
+        public void GivenFreshScreen_WhenNotDisposed_ThenIsDisposedIsFalse()
             => Assert.That(loadedScreen.IsDisposed, Is.False);
 
-        public void SetForegroundColour_FiresForegroundColourChanged()
+        [Test]
+        public void GivenLoadedScreen_WhenSettingForegroundColour_ThenFiresForegroundColourChanged()
         {
             bool eventFired = false;
 
@@ -45,7 +46,8 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(eventFired);
         }
 
-        public void SetBackgroundColour_FiresBackgroundColourChanged()
+        [Test]
+        public void GivenLoadedScreen_WhenSettingBackgroundColour_ThenFiresBackgroundColourChanged()
         {
             bool eventFired = false;
 
@@ -53,6 +55,80 @@ namespace NuciXNA.Gui.UnitTests.Screens
             loadedScreen.BackgroundColour = Colour.ChromeYellow;
 
             Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenUnloadedScreen_WhenLoadContent_ThenIsContentLoadedIsTrue()
+            => Assert.That(loadedScreen.IsContentLoaded);
+
+        [Test]
+        public void GivenLoadedScreen_WhenUnloadContent_ThenIsContentLoadedIsFalse()
+        {
+            loadedScreen.UnloadContent();
+
+            Assert.That(loadedScreen.IsContentLoaded, Is.False);
+        }
+
+        [Test]
+        public void GivenUnloadedScreen_WhenLoadContent_ThenFiresContentLoading()
+        {
+            DummyScreen screen = new();
+            bool eventFired = false;
+
+            screen.ContentLoading += delegate { eventFired = true; };
+            screen.LoadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenUnloadedScreen_WhenLoadContent_ThenFiresContentLoaded()
+        {
+            DummyScreen screen = new();
+            bool eventFired = false;
+
+            screen.ContentLoaded += delegate { eventFired = true; };
+            screen.LoadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenLoadedScreen_WhenUnloadContent_ThenFiresContentUnloading()
+        {
+            bool eventFired = false;
+
+            loadedScreen.ContentUnloading += delegate { eventFired = true; };
+            loadedScreen.UnloadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenLoadedScreen_WhenUnloadContent_ThenFiresContentUnloaded()
+        {
+            bool eventFired = false;
+
+            loadedScreen.ContentUnloaded += delegate { eventFired = true; };
+            loadedScreen.UnloadContent();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenLoadedScreen_WhenDispose_ThenIsDisposedIsTrue()
+        {
+            loadedScreen.Dispose();
+
+            Assert.That(loadedScreen.IsDisposed);
+        }
+
+        [Test]
+        public void GivenLoadedScreen_WhenDispose_ThenIsContentLoadedIsFalse()
+        {
+            loadedScreen.Dispose();
+
+            Assert.That(loadedScreen.IsContentLoaded, Is.False);
         }
     }
 }
