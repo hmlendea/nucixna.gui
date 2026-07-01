@@ -161,6 +161,12 @@ namespace NuciXNA.Gui.Controls
         public SpriteSheetEffect SpriteSheetEffect { get; set; }
 
         /// <summary>
+        /// Gets or sets the movement effect.
+        /// </summary>
+        /// <value>The movement effect.</value>
+        public MovementEffect MovementEffect { get; set; }
+
+        /// <summary>
         /// Gets or sets the scale effect.
         /// </summary>
         /// <value>The scale effect.</value>
@@ -233,21 +239,27 @@ namespace NuciXNA.Gui.Controls
         /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            sprite.Update(gameTime);
             SetChildrenProperties();
+            sprite.Update(gameTime);
+            sprite.Location = ScreenLocation;
         }
 
         /// <summary>
         /// Draws the content on the specified spriteBatch.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        protected override void DoDraw(SpriteBatch spriteBatch) => sprite.Draw(spriteBatch);
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+            sprite.Location = ScreenLocation;
+            sprite.Tint = TintColour;
+            sprite.Draw(spriteBatch);
+        }
 
         void SetChildrenProperties()
         {
             if (Size == Size2D.Empty)
             {
-                Size = sprite.SourceRectangle.Size;
+                Size = SourceRectangle.Size;
             }
 
             sprite.IsActive = AreEffectsActive;
@@ -260,6 +272,7 @@ namespace NuciXNA.Gui.Controls
             sprite.TextureLayout = TextureLayout;
             sprite.Tint = TintColour;
 
+            sprite.MovementEffect = MovementEffect;
             sprite.OpacityEffect = OpacityEffect;
             sprite.RotationEffect = RotationEffect;
             sprite.SpriteSheetEffect = SpriteSheetEffect;
