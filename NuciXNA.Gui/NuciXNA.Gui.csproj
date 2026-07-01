@@ -20,9 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
-    <PackageReference Include="NuciXNA.Graphics" Version="2.2.2" />
-    <PackageReference Include="NuciXNA.Input" Version="2.0.3" />
-    <PackageReference Include="NuciXNA.Primitives" Version="2.1.4" />
+    <PackageReference Include="NuciXNA.Graphics" Version="2.2.3" />
+    <PackageReference Include="NuciXNA.Input" Version="2.0.4" />
+    <PackageReference Include="NuciXNA.Primitives" Version="2.1.6" />
   </ItemGroup>
 
 </Project>
