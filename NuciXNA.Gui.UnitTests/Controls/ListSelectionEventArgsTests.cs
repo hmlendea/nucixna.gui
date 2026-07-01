@@ -33,9 +33,10 @@ namespace NuciXNA.Gui.UnitTests.Controls
         [Test]
         public void GivenCreatedArgs_WhenSettingSelectedIndex_ThenSelectedIndexUpdated()
         {
-            ListSelectionEventArgs args = new(0, "key", "value");
-
-            args.SelectedIndex = 7;
+            ListSelectionEventArgs args = new(0, "key", "value")
+            {
+                SelectedIndex = 7
+            };
 
             Assert.That(args.SelectedIndex, Is.EqualTo(7));
         }
@@ -43,9 +44,10 @@ namespace NuciXNA.Gui.UnitTests.Controls
         [Test]
         public void GivenCreatedArgs_WhenSettingSelectedKey_ThenSelectedKeyUpdated()
         {
-            ListSelectionEventArgs args = new(0, "key", "value");
-
-            args.SelectedKey = "newKey";
+            ListSelectionEventArgs args = new(0, "key", "value")
+            {
+                SelectedKey = "newKey"
+            };
 
             Assert.That(args.SelectedKey, Is.EqualTo("newKey"));
         }
@@ -53,9 +55,10 @@ namespace NuciXNA.Gui.UnitTests.Controls
         [Test]
         public void GivenCreatedArgs_WhenSettingSelectedValue_ThenSelectedValueUpdated()
         {
-            ListSelectionEventArgs args = new(0, "key", "value");
-
-            args.SelectedValue = "newValue";
+            ListSelectionEventArgs args = new(0, "key", "value")
+            {
+                SelectedValue = "newValue"
+            };
 
             Assert.That(args.SelectedValue, Is.EqualTo("newValue"));
         }

@@ -21,14 +21,14 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         [Test]
         public void GivenContentAlreadyLoaded_WhenLoadContent_ThenThrowsInvalidOperationException()
-            => Assert.Throws<InvalidOperationException>(() => loadedControl.LoadContent());
+            => Assert.Throws<InvalidOperationException>(loadedControl.LoadContent);
 
         [Test]
         public void GivenContentNotLoaded_WhenUnloadContent_ThenThrowsInvalidOperationException()
         {
             IGuiControl unloadedControl = new DummyControl();
 
-            Assert.Throws<InvalidOperationException>(() => unloadedControl.UnloadContent());
+            Assert.Throws<InvalidOperationException>(unloadedControl.UnloadContent);
         }
 
         [Test]
@@ -399,6 +399,49 @@ namespace NuciXNA.Gui.UnitTests.Controls
             parent.Disable();
 
             Assert.That(child.IsEnabled, Is.False);
+        }
+
+        [Test]
+        public void GivenLocationAndSize_WhenGettingClientRectangle_ThenMatchesLocationAndSize()
+        {
+            DummyControl control = new()
+            {
+                Location = new Point2D(10, 20),
+                Size = new Size2D(100, 50)
+            };
+
+            Rectangle2D expected = new(control.Location, control.Size);
+
+            Assert.That(control.ClientRectangle, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void GivenLocationAndSize_WhenGettingDisplayRectangle_ThenMatchesScreenLocationAndSize()
+        {
+            DummyControl control = new()
+            {
+                Location = new Point2D(30, 40),
+                Size = new Size2D(200, 100)
+            };
+
+            Rectangle2D expected = new(control.ScreenLocation, control.Size);
+
+            Assert.That(control.DisplayRectangle, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void GivenParentWithLocation_WhenGettingChildDisplayRectangle_ThenUsesScreenLocation()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+            parent.Location = new Point2D(10, 10);
+            child.Location = new Point2D(5, 5);
+            child.Size = new Size2D(50, 25);
+            child.Parent = parent;
+
+            Rectangle2D expected = new(child.ScreenLocation, child.Size);
+
+            Assert.That(child.DisplayRectangle, Is.EqualTo(expected));
         }
     }
 }
