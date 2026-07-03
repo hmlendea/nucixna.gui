@@ -246,6 +246,21 @@ namespace NuciXNA.Gui.Controls
         event KeyboardKeyEventHandler KeyReleased;
 
         /// <summary>
+        /// Occurs when a gamepad button is held down while this <see cref="GuiControl"/> has input focus.
+        /// </summary>
+        event GamepadButtonEventHandler GamepadButtonHeldDown;
+
+        /// <summary>
+        /// Occurs when a gamepad button is pressed while this <see cref="GuiControl"/> has input focus.
+        /// </summary>
+        event GamepadButtonEventHandler GamepadButtonPressed;
+
+        /// <summary>
+        /// Occurs when a gamepad button is released while this <see cref="GuiControl"/> has input focus.
+        /// </summary>
+        event GamepadButtonEventHandler GamepadButtonReleased;
+
+        /// <summary>
         /// Occurs when this <see cref="GuiControl"/> was clicked.
         /// </summary>
         event MouseButtonEventHandler Clicked;

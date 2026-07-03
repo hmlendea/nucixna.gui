@@ -168,6 +168,11 @@ namespace NuciXNA.Gui.Screens
         public event MouseEventHandler MouseMoved;
 
         /// <summary>
+        /// Occurs when a gamepad button is pressed.
+        /// </summary>
+        public event GamepadButtonEventHandler GamepadButtonPressed;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Screen"/> class.
         /// </summary>
         public Screen()
@@ -325,6 +330,7 @@ namespace NuciXNA.Gui.Screens
             InputManager.Instance.KeyboardKeyPressed += OnKeyPressed;
             InputManager.Instance.MouseButtonPressed += OnMouseButtonPressed;
             InputManager.Instance.MouseMoved += OnMouseMoved;
+            InputManager.Instance.GamepadButtonPressed += OnGamepadButtonPressed;
         }
 
         /// <summary>
@@ -335,6 +341,7 @@ namespace NuciXNA.Gui.Screens
             InputManager.Instance.KeyboardKeyPressed -= OnKeyPressed;
             InputManager.Instance.MouseButtonPressed -= OnMouseButtonPressed;
             InputManager.Instance.MouseMoved -= OnMouseMoved;
+            InputManager.Instance.GamepadButtonPressed -= OnGamepadButtonPressed;
         }
 
         void OnKeyPressed(object sender, KeyboardKeyEventArgs e) => KeyPressed?.Invoke(sender, e);
@@ -342,5 +349,7 @@ namespace NuciXNA.Gui.Screens
         void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => MouseButtonPressed?.Invoke(sender, e);
 
         void OnMouseMoved(object sender, MouseEventArgs e) => MouseMoved?.Invoke(sender, e);
+
+        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e) => GamepadButtonPressed?.Invoke(sender, e);
     }
 }

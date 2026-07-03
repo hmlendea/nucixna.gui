@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using NuciXNA.Input;
 
+using XnaButtons = Microsoft.Xna.Framework.Input.Buttons;
 using XnaKeys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace NuciXNA.Gui.Controls
@@ -306,6 +307,7 @@ namespace NuciXNA.Gui.Controls
         void RegisterEvents()
         {
             KeyPressed += OnKeyPressed;
+            GamepadButtonPressed += OnGamepadButtonPressed;
             MouseButtonPressed += OnMouseButtonPressed;
         }
 
@@ -315,6 +317,7 @@ namespace NuciXNA.Gui.Controls
         void UnregisterEvents()
         {
             KeyPressed -= OnKeyPressed;
+            GamepadButtonPressed -= OnGamepadButtonPressed;
             MouseButtonPressed -= OnMouseButtonPressed;
         }
 
@@ -330,6 +333,18 @@ namespace NuciXNA.Gui.Controls
                 SelectNextItem();
             }
             else if (e.Key == XnaKeys.Left || e.Key == XnaKeys.A)
+            {
+                SelectPreviousItem();
+            }
+        }
+
+        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        {
+            if (e.Button == XnaButtons.DPadRight || e.Button == XnaButtons.LeftThumbstickRight)
+            {
+                SelectNextItem();
+            }
+            else if (e.Button == XnaButtons.DPadLeft || e.Button == XnaButtons.LeftThumbstickLeft)
             {
                 SelectPreviousItem();
             }

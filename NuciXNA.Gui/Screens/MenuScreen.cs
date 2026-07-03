@@ -104,6 +104,7 @@ namespace NuciXNA.Gui.Screens
         {
             MouseMoved += OnMouseMoved;
             KeyPressed += OnKeyPressed;
+            GamepadButtonPressed += OnGamepadButtonPressed;
         }
 
         /// <summary>
@@ -113,6 +114,7 @@ namespace NuciXNA.Gui.Screens
         {
             MouseMoved -= OnMouseMoved;
             KeyPressed -= OnKeyPressed;
+            GamepadButtonPressed -= OnGamepadButtonPressed;
         }
 
         void AlignMenuItems()
@@ -217,6 +219,36 @@ namespace NuciXNA.Gui.Screens
                 lastDirectionBack = true;
             }
             else if (forwardKeys.Contains(e.Key))
+            {
+                SelectedItemIndex += 1;
+                lastDirectionBack = false;
+            }
+
+            SelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
+        }
+
+        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        {
+            List<Buttons> backButtons;
+            List<Buttons> forwardButtons;
+
+            if (Axis == MenuScreenAxis.Vertical)
+            {
+                backButtons = [Buttons.DPadUp, Buttons.LeftThumbstickUp];
+                forwardButtons = [Buttons.DPadDown, Buttons.LeftThumbstickDown];
+            }
+            else
+            {
+                backButtons = [Buttons.DPadLeft, Buttons.LeftThumbstickLeft];
+                forwardButtons = [Buttons.DPadRight, Buttons.LeftThumbstickRight];
+            }
+
+            if (backButtons.Contains(e.Button))
+            {
+                SelectedItemIndex -= 1;
+                lastDirectionBack = true;
+            }
+            else if (forwardButtons.Contains(e.Button))
             {
                 SelectedItemIndex += 1;
                 lastDirectionBack = false;
