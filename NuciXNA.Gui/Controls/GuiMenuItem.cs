@@ -151,6 +151,7 @@ namespace NuciXNA.Gui.Controls
 
             Clicked += OnClicked;
             KeyPressed += OnKeyPressed;
+            GamepadButtonPressed += OnGamepadButtonPressed;
             MouseEntered += OnMouseEntered;
         }
 
@@ -163,6 +164,7 @@ namespace NuciXNA.Gui.Controls
 
             Clicked -= OnClicked;
             KeyPressed -= OnKeyPressed;
+            GamepadButtonPressed -= OnGamepadButtonPressed;
             MouseEntered -= OnMouseEntered;
         }
 
@@ -190,6 +192,14 @@ namespace NuciXNA.Gui.Controls
         void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (e.Key == Keys.Enter || e.Key == Keys.E)
+            {
+                Triggered?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        {
+            if (e.Button == Buttons.A)
             {
                 Triggered?.Invoke(this, EventArgs.Empty);
             }

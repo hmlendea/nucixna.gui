@@ -124,6 +124,11 @@ namespace NuciXNA.Gui.Screens
         event MouseEventHandler MouseMoved;
 
         /// <summary>
+        /// Occurs when a gamepad button is pressed.
+        /// </summary>
+        event GamepadButtonEventHandler GamepadButtonPressed;
+
+        /// <summary>
         /// Loads the content.
         /// </summary>
         void LoadContent();

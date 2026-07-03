@@ -444,6 +444,21 @@ namespace NuciXNA.Gui.Controls
         public event KeyboardKeyEventHandler KeyReleased;
 
         /// <summary>
+        /// Occurs when a gamepad button is held down while this <see cref="GuiControl"/> has input focus.
+        /// </summary>
+        public event GamepadButtonEventHandler GamepadButtonHeldDown;
+
+        /// <summary>
+        /// Occurs when a gamepad button is pressed while this <see cref="GuiControl"/> has input focus.
+        /// </summary>
+        public event GamepadButtonEventHandler GamepadButtonPressed;
+
+        /// <summary>
+        /// Occurs when a gamepad button is released while this <see cref="GuiControl"/> has input focus.
+        /// </summary>
+        public event GamepadButtonEventHandler GamepadButtonReleased;
+
+        /// <summary>
         /// Occurs when this <see cref="GuiControl"/> was clicked.
         /// </summary>
         public event MouseButtonEventHandler Clicked;
@@ -787,6 +802,10 @@ namespace NuciXNA.Gui.Controls
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
 
+            InputManager.Instance.GamepadButtonHeldDown += OnInputManagerGamepadButtonHeldDown;
+            InputManager.Instance.GamepadButtonPressed += OnInputManagerGamepadButtonPressed;
+            InputManager.Instance.GamepadButtonReleased += OnInputManagerGamepadButtonReleased;
+
             InputManager.Instance.MouseButtonPressed += OnInputManagerMouseButtonPressed;
             InputManager.Instance.MouseMoved += OnInputManagerMouseMoved;
         }
@@ -799,6 +818,10 @@ namespace NuciXNA.Gui.Controls
             InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
+
+            InputManager.Instance.GamepadButtonHeldDown -= OnInputManagerGamepadButtonHeldDown;
+            InputManager.Instance.GamepadButtonPressed -= OnInputManagerGamepadButtonPressed;
+            InputManager.Instance.GamepadButtonReleased -= OnInputManagerGamepadButtonReleased;
 
             InputManager.Instance.MouseButtonPressed -= OnInputManagerMouseButtonPressed;
             InputManager.Instance.MouseMoved -= OnInputManagerMouseMoved;
@@ -832,6 +855,36 @@ namespace NuciXNA.Gui.Controls
             }
 
             KeyReleased?.Invoke(sender, e);
+        }
+
+        void OnInputManagerGamepadButtonHeldDown(object sender, GamepadButtonEventArgs e)
+        {
+            if (!IsEnabled || !IsVisible || !IsFocused)
+            {
+                return;
+            }
+
+            GamepadButtonHeldDown?.Invoke(sender, e);
+        }
+
+        void OnInputManagerGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        {
+            if (!IsEnabled || !IsVisible || !IsFocused)
+            {
+                return;
+            }
+
+            GamepadButtonPressed?.Invoke(sender, e);
+        }
+
+        void OnInputManagerGamepadButtonReleased(object sender, GamepadButtonEventArgs e)
+        {
+            if (!IsEnabled || !IsVisible || !IsFocused)
+            {
+                return;
+            }
+
+            GamepadButtonReleased?.Invoke(sender, e);
         }
 
         void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)

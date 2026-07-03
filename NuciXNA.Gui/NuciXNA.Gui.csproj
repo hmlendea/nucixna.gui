@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>NuciXNA.Gui</RootNamespace>
-    <Version>3.3.0</Version>
+    <Version>3.4.0</Version>
     <Description>GUI management and basic widgets for NuciXNA</Description>
     <Authors>Horațiu Mlendea</Authors>
     <Copyright>Copyright 2026 © Horațiu Mlendea</Copyright>
@@ -21,8 +21,8 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
     <PackageReference Include="NuciXNA.Graphics" Version="2.2.3" />
-    <PackageReference Include="NuciXNA.Input" Version="2.0.4" />
-    <PackageReference Include="NuciXNA.Primitives" Version="2.1.6" />
+    <PackageReference Include="NuciXNA.Input" Version="2.1.0" />
+    <PackageReference Include="NuciXNA.Primitives" Version="2.1.7" />
   </ItemGroup>
 
 </Project>
