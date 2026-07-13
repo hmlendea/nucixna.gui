@@ -7,6 +7,7 @@ using NuciXNA.Gui.Controls;
 
 namespace NuciXNA.Gui.UnitTests.Controls
 {
+    [TestFixture]
     public class GuiMenuListSelectorTests
     {
         GuiMenuListSelector selector;

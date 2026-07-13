@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NuciXNA.Input;
-using NuciXNA.Primitives;
 
 using NuciXNA.Graphics.Drawing;
+using NuciXNA.Input;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui
 {
     public class Cursor
     {
-        ButtonState _state;
+        private ButtonState state;
 
         /// <summary>
         /// Gets or sets the location.
@@ -21,8 +21,16 @@ namespace NuciXNA.Gui
 
         public ButtonState State
         {
-            get => _state ?? ButtonState.Released;
-            set => _state = value;
+            get
+            {
+                if (state is not null)
+                {
+                    return state;
+                }
+
+                return ButtonState.Released;
+            }
+            set => state = value;
         }
 
         public int Frames { get; set; }
@@ -39,28 +47,28 @@ namespace NuciXNA.Gui
         /// </summary>
         public string ContentFile
         {
-            get => _contentFile;
+            get => contentFile;
             set
             {
-                if (_contentFile == value)
+                if (string.Equals(contentFile, value))
                 {
                     return;
                 }
 
-                _contentFile = value;
+                contentFile = value;
 
-                if (_isContentLoaded)
+                if (isContentLoaded)
                 {
                     ReloadIdleSprite();
                 }
             }
         }
 
-        string _contentFile;
-        bool _isContentLoaded;
+        private string contentFile;
+        private bool isContentLoaded;
 
-        TextureSprite idleSprite;
-        TextureSprite clickSprite;
+        private TextureSprite idleSprite;
+        private TextureSprite clickSprite;
 
         public Cursor()
         {
@@ -78,25 +86,25 @@ namespace NuciXNA.Gui
                 idleSprite = new TextureSprite { ContentFile = "Cursors/idle" };
                 clickSprite = new TextureSprite { ContentFile = "Cursors/click" };
 
-                SetChildrenProperites();
+                SetChildrenProperties();
 
                 idleSprite.LoadContent();
                 clickSprite.LoadContent();
 
-                InputManager.Instance.MouseButtonPressed += InputManager_OnMouseButtonPressed;
-                InputManager.Instance.MouseButtonReleased += InputManager_OnMouseButtonReleased;
+                InputManager.Instance.MouseButtonPressed += OnInputManagerMouseButtonPressed;
+                InputManager.Instance.MouseButtonReleased += OnInputManagerMouseButtonReleased;
             }
             else
             {
                 idleSprite = new TextureSprite { ContentFile = ContentFile };
 
-                SetChildrenProperites();
+                SetChildrenProperties();
 
                 idleSprite.LoadContent();
             }
 
-            _isContentLoaded = true;
-            InputManager.Instance.MouseMoved += InputManager_OnMouseMoved;
+            isContentLoaded = true;
+            InputManager.Instance.MouseMoved += OnInputManagerMouseMoved;
         }
 
         /// <summary>
@@ -104,17 +112,17 @@ namespace NuciXNA.Gui
         /// </summary>
         public void UnloadContent()
         {
-            _isContentLoaded = false;
+            isContentLoaded = false;
             idleSprite.UnloadContent();
             clickSprite?.UnloadContent();
 
             if (string.IsNullOrEmpty(ContentFile))
             {
-                InputManager.Instance.MouseButtonPressed -= InputManager_OnMouseButtonPressed;
-                InputManager.Instance.MouseButtonReleased -= InputManager_OnMouseButtonReleased;
+                InputManager.Instance.MouseButtonPressed -= OnInputManagerMouseButtonPressed;
+                InputManager.Instance.MouseButtonReleased -= OnInputManagerMouseButtonReleased;
             }
 
-            InputManager.Instance.MouseMoved -= InputManager_OnMouseMoved;
+            InputManager.Instance.MouseMoved -= OnInputManagerMouseMoved;
         }
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace NuciXNA.Gui
         /// <param name="gameTime">Game time.</param>
         public void Update(GameTime gameTime)
         {
-            SetChildrenProperites();
+            SetChildrenProperties();
 
             idleSprite.Update(gameTime);
             clickSprite?.Update(gameTime);
@@ -135,7 +143,7 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (clickSprite is not null && State.Equals(ButtonState.Pressed))
+            if (clickSprite is not null && object.Equals(State, ButtonState.Pressed))
             {
                 clickSprite.Draw(spriteBatch);
             }
@@ -145,13 +153,13 @@ namespace NuciXNA.Gui
             }
         }
 
-        void SetChildrenProperites()
+        private void SetChildrenProperties()
         {
             idleSprite.Location = Location + LocationOffset;
 
             clickSprite?.Location = Location + LocationOffset;
 
-            if (!SpriteSize.Equals(Size2D.Empty))
+            if (!object.Equals(SpriteSize, Size2D.Empty))
             {
                 idleSprite.SpriteSize = SpriteSize;
 
@@ -163,29 +171,29 @@ namespace NuciXNA.Gui
             clickSprite?.Scale = Scale;
         }
 
-        void InputManager_OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button.Equals(MouseButton.Left))
+            if (object.Equals(e.Button, MouseButton.Left))
             {
                 State = ButtonState.Pressed;
             }
         }
 
-        void InputManager_OnMouseButtonReleased(object sender, MouseButtonEventArgs e)
+        private void OnInputManagerMouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button.Equals(MouseButton.Left))
+            if (object.Equals(e.Button, MouseButton.Left))
             {
                 State = ButtonState.Released;
             }
         }
 
-        void InputManager_OnMouseMoved(object sender, MouseEventArgs e) => Location = e.Location;
+        private void OnInputManagerMouseMoved(object sender, MouseEventArgs e) => Location = e.Location;
 
-        void ReloadIdleSprite()
+        private void ReloadIdleSprite()
         {
             idleSprite.UnloadContent();
-            idleSprite = new TextureSprite { ContentFile = _contentFile };
-            SetChildrenProperites();
+            idleSprite = new TextureSprite { ContentFile = contentFile };
+            SetChildrenProperties();
             idleSprite.LoadContent();
         }
     }

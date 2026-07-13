@@ -28,7 +28,7 @@ namespace NuciXNA.Gui.Controls
 
         public void SetState(bool state)
         {
-            if (IsOn.Equals(state))
+            if (object.Equals(IsOn, state))
             {
                 return;
             }
@@ -65,24 +65,31 @@ namespace NuciXNA.Gui.Controls
         {
             base.DoUpdate(gameTime);
 
-            text.Text = Text + (IsOn ? " : On" : " : Off");
+            string stateLabel = " : Off";
+
+            if (IsOn)
+            {
+                stateLabel = " : On";
+            }
+
+            text.Text = Text + stateLabel;
         }
 
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents() => Triggered += OnTriggered;
+        private void RegisterEvents() => Triggered += OnTriggered;
 
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents() => Triggered -= OnTriggered;
+        private void UnregisterEvents() => Triggered -= OnTriggered;
 
         /// <summary>
         /// Fired by the Activated event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnTriggered(object sender, EventArgs e) => SwitchState();
+        private void OnTriggered(object sender, EventArgs e) => SwitchState();
     }
 }

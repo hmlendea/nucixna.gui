@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,11 +16,12 @@ namespace NuciXNA.Gui.Screens
     /// </summary>
     public class ScreenManager
     {
-        static volatile ScreenManager instance;
-        static readonly object syncRoot = new();
+        private static volatile ScreenManager instance;
+        private static readonly Lock syncRoot = new();
 
-        IScreen currentScreen, newScreen;
-        TextureSprite transitionSprite;
+        private IScreen currentScreen;
+        private IScreen newScreen;
+        private TextureSprite transitionSprite;
 
         /// <summary>
         /// Gets the instance.
@@ -33,10 +35,7 @@ namespace NuciXNA.Gui.Screens
                 {
                     lock (syncRoot)
                     {
-                        if (instance is null)
-                        {
-                            instance = new ScreenManager();
-                        }
+                        instance ??= new ScreenManager();
                     }
                 }
 
@@ -180,7 +179,7 @@ namespace NuciXNA.Gui.Screens
         /// Transitions to the new screen.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        void Transition(GameTime gameTime)
+        private void Transition(GameTime gameTime)
         {
             transitionSprite.Update(gameTime);
 

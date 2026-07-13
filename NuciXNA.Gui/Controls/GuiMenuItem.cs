@@ -16,9 +16,9 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiMenuItem : GuiControl, IGuiControl
     {
-        private string _text;
-        private Colour _selectedTextColour;
-        private bool _isSelectable;
+        private string textContent;
+        private Colour selectedTextColour;
+        private bool isSelectable;
 
         /// <summary>
         /// Gets or sets the text.
@@ -26,10 +26,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The text.</value>
         public string Text
         {
-            get => _text;
+            get => textContent;
             set
             {
-                _text = value;
+                textContent = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Text));
                 TextChanged?.Invoke(this, eventArguments);
@@ -42,10 +42,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The selected text colour.</value>
         public Colour SelectedTextColour
         {
-            get => _selectedTextColour;
+            get => selectedTextColour;
             set
             {
-                _selectedTextColour = value;
+                selectedTextColour = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(SelectedTextColour));
                 SelectedTextColourChanged?.Invoke(this, eventArguments);
@@ -54,10 +54,10 @@ namespace NuciXNA.Gui.Controls
 
         public virtual bool IsSelectable
         {
-            get => _isSelectable;
+            get => isSelectable;
             set
             {
-                _isSelectable = value;
+                isSelectable = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(IsSelectable));
                 IsSelectableChanged?.Invoke(this, eventArguments);
@@ -145,7 +145,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             text.ContentLoaded += OnTextContentLoaded;
 
@@ -158,7 +158,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             text.ContentLoaded -= OnTextContentLoaded;
 
@@ -168,7 +168,7 @@ namespace NuciXNA.Gui.Controls
             MouseEntered -= OnMouseEntered;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             text.Text = Text;
             text.Size = Size;
@@ -185,11 +185,11 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnTextContentLoaded(object sender, EventArgs e) => text.FadeEffect.Activate();
+        private void OnTextContentLoaded(object sender, EventArgs e) => text.FadeEffect.Activate();
 
-        void OnClicked(object sender, MouseButtonEventArgs e) => Triggered?.Invoke(this, EventArgs.Empty);
+        private void OnClicked(object sender, MouseButtonEventArgs e) => Triggered?.Invoke(this, EventArgs.Empty);
 
-        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (e.Key == Keys.Enter || e.Key == Keys.E)
             {
@@ -197,7 +197,7 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
         {
             if (e.Button == Buttons.A)
             {
@@ -205,7 +205,7 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnMouseEntered(object sender, MouseEventArgs e)
+        private void OnMouseEntered(object sender, MouseEventArgs e)
         {
             // TODO: Play selection sound
             GuiManager.Instance.FocusControl(this);

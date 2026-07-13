@@ -1,13 +1,15 @@
 using System;
 
+using NuciXNA.Primitives;
+
 using NUnit.Framework;
 
 using NuciXNA.Gui.Screens;
 using NuciXNA.Gui.UnitTests.Helpers;
-using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui.UnitTests.Screens
 {
+    [TestFixture]
     public class ScreenTests
     {
         Screen loadedScreen;
