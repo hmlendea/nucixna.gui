@@ -223,8 +223,13 @@ namespace NuciXNA.Gui.Screens
                 SelectedItemIndex += 1;
                 lastDirectionBack = false;
             }
+            else
+            {
+                return;
+            }
 
             SelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
+            GuiManager.Instance.FocusControl(Items[SelectedItemIndex]);
         }
 
         void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
@@ -253,8 +258,13 @@ namespace NuciXNA.Gui.Screens
                 SelectedItemIndex += 1;
                 lastDirectionBack = false;
             }
+            else
+            {
+                return;
+            }
 
             SelectedItemIndex = GetNormalisedItemNumber(SelectedItemIndex);
+            GuiManager.Instance.FocusControl(Items[SelectedItemIndex]);
         }
     }
 }
