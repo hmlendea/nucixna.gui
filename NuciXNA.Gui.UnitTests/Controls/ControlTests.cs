@@ -445,5 +445,127 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(child.DisplayRectangle, Is.EqualTo(expected));
         }
+
+        // ── Id ────────────────────────────────────────────────────────────────
+
+        [Test]
+        public void GivenFreshControl_WhenGettingId_ThenIdIsNotNullOrEmpty()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.Id, Is.Not.Null.And.Not.Empty);
+        }
+
+        [Test]
+        public void GivenTwoNewControls_WhenGettingIds_ThenIdsAreDifferent()
+        {
+            DummyControl first = new();
+            DummyControl second = new();
+
+            Assert.That(first.Id, Is.Not.EqualTo(second.Id));
+        }
+
+        // ── Default property values ────────────────────────────────────────────
+
+        [Test]
+        public void GivenFreshControl_WhenGettingIsEnabled_ThenIsTrue()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.IsEnabled);
+        }
+
+        [Test]
+        public void GivenFreshControl_WhenGettingIsVisible_ThenIsTrue()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.IsVisible);
+        }
+
+        [Test]
+        public void GivenFreshControl_WhenGettingIsFocused_ThenIsFalse()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.IsFocused, Is.False);
+        }
+
+        [Test]
+        public void GivenFreshControl_WhenGettingIsHovered_ThenIsFalse()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.IsHovered, Is.False);
+        }
+
+        [Test]
+        public void GivenFreshControl_WhenGettingIsContentLoaded_ThenIsFalse()
+        {
+            DummyControl control = new();
+
+            Assert.That(control.IsContentLoaded, Is.False);
+        }
+
+        // ── Colour and font inheritance ────────────────────────────────────────
+
+        [Test]
+        public void GivenParentWithBackgroundColour_WhenChildHasNoBackgroundColour_ThenChildInheritsParentBackgroundColour()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.BackgroundColour = Colour.ChromeYellow;
+            child.Parent = parent;
+
+            Assert.That(child.BackgroundColour, Is.EqualTo(Colour.ChromeYellow));
+        }
+
+        [Test]
+        public void GivenChildWithBackgroundColour_WhenParentHasDifferentBackgroundColour_ThenChildBackgroundColourTakesPrecedence()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.BackgroundColour = Colour.Gold;
+            child.BackgroundColour = Colour.ChromeYellow;
+            child.Parent = parent;
+
+            Assert.That(child.BackgroundColour, Is.EqualTo(Colour.ChromeYellow));
+        }
+
+        [Test]
+        public void GivenParentWithForegroundColour_WhenChildHasNoForegroundColour_ThenChildInheritsParentForegroundColour()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.ForegroundColour = Colour.ChromeYellow;
+            child.Parent = parent;
+
+            Assert.That(child.ForegroundColour, Is.EqualTo(Colour.ChromeYellow));
+        }
+
+        [Test]
+        public void GivenParentWithFontName_WhenChildHasNoFontName_ThenChildInheritsParentFontName()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+
+            parent.FontName = "TestFont";
+            child.Parent = parent;
+
+            Assert.That(child.FontName, Is.EqualTo("TestFont"));
+        }
+
+        // ── Dispose ────────────────────────────────────────────────────────────
+
+        [Test]
+        public void GivenLoadedControl_WhenDispose_ThenIsContentLoadedIsFalse()
+        {
+            loadedControl.Dispose();
+
+            Assert.That(loadedControl.IsContentLoaded, Is.False);
+        }
     }
 }

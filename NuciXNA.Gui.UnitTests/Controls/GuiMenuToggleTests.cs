@@ -1,5 +1,3 @@
-using System;
-
 using NUnit.Framework;
 
 using NuciXNA.Gui.Controls;
@@ -124,6 +122,44 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             toggle.SwitchState();
             Assert.That(toggle.IsOn, Is.True);
+        }
+
+        // ── SwitchOn / SwitchOff events ────────────────────────────────────────
+
+        [Test]
+        public void GivenToggleOff_WhenSwitchOn_ThenFiresStateChanged()
+        {
+            bool eventFired = false;
+            toggle.StateChanged += delegate { eventFired = true; };
+
+            toggle.SwitchOn();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenToggleOn_WhenSwitchOff_ThenFiresStateChanged()
+        {
+            toggle.SwitchOn();
+            bool eventFired = false;
+            toggle.StateChanged += delegate { eventFired = true; };
+
+            toggle.SwitchOff();
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenToggleOn_WhenSwitchOffTwice_ThenStateChangedFiresOnce()
+        {
+            toggle.SwitchOn();
+            int fireCount = 0;
+            toggle.StateChanged += delegate { fireCount++; };
+
+            toggle.SwitchOff();
+            toggle.SwitchOff();
+
+            Assert.That(fireCount, Is.EqualTo(1));
         }
     }
 }

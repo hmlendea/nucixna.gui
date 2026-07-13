@@ -488,5 +488,43 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(receivedArgs.SelectedKey, Is.EqualTo("b"));
             Assert.That(receivedArgs.SelectedValue, Is.EqualTo("Banana"));
         }
+
+        // ── Initial state ──────────────────────────────────────────────────────
+
+        [Test]
+        public void GivenFreshSelector_WhenGettingSelectedIndex_ThenIsMinusOne()
+            => Assert.That(selector.SelectedIndex, Is.EqualTo(-1));
+
+        [Test]
+        public void GivenFreshSelector_WhenGettingItemsCount_ThenIsZero()
+            => Assert.That(selector.ItemsCount, Is.EqualTo(0));
+
+        // ── SetItems (IEnumerable<KeyValuePair<string, string>>) ───────────────
+
+        [Test]
+        public void GivenEnumerableKeyValuePairs_WhenSetItems_ThenItemsCountMatches()
+        {
+            IEnumerable<KeyValuePair<string, string>> items = [
+                new KeyValuePair<string, string>("a", "Apple"),
+                new KeyValuePair<string, string>("b", "Banana")
+            ];
+
+            selector.SetItems(items);
+
+            Assert.That(selector.ItemsCount, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void GivenEnumerableKeyValuePairs_WhenSetItems_ThenSelectedKeyIsFirst()
+        {
+            IEnumerable<KeyValuePair<string, string>> items = [
+                new KeyValuePair<string, string>("a", "Apple"),
+                new KeyValuePair<string, string>("b", "Banana")
+            ];
+
+            selector.SetItems(items);
+
+            Assert.That(selector.SelectedKey, Is.EqualTo("a"));
+        }
     }
 }

@@ -1,5 +1,3 @@
-using System;
-
 using NuciXNA.Primitives;
 
 using NUnit.Framework;
@@ -106,6 +104,19 @@ namespace NuciXNA.Gui.UnitTests.Controls
             menuItem.IsSelectable = true;
 
             Assert.That(eventFired);
+        }
+
+        // ── Default size and text ──────────────────────────────────────────────
+
+        [Test]
+        public void GivenFreshMenuItem_WhenGettingText_ThenIsNull()
+            => Assert.That(menuItem.Text, Is.Null);
+
+        [Test]
+        public void GivenFreshMenuItem_WhenGettingSize_ThenIs512By48()
+        {
+            Assert.That(menuItem.Size.Width, Is.EqualTo(512));
+            Assert.That(menuItem.Size.Height, Is.EqualTo(48));
         }
     }
 }
