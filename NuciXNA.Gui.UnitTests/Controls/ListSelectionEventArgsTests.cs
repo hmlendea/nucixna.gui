@@ -4,6 +4,7 @@ using NuciXNA.Gui.Controls;
 
 namespace NuciXNA.Gui.UnitTests.Controls
 {
+    [TestFixture]
     public class ListSelectionEventArgsTests
     {
         [Test]

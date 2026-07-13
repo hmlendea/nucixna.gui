@@ -10,8 +10,8 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiMenuLink : GuiMenuItem
     {
-        Type _targetScreen;
-        object[] _parameters;
+        private Type targetScreen;
+        private object[] parameters;
 
         /// <summary>
         /// Gets or sets the targeted screen.
@@ -19,10 +19,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The targeted screen.</value>
         public Type TargetScreen
         {
-            get => _targetScreen;
+            get => targetScreen;
             set
             {
-                _targetScreen = value;
+                targetScreen = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(TargetScreen));
                 TargetScreenChanged?.Invoke(this, eventArguments);
@@ -35,10 +35,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The link arguments.</value>
         public object[] Parameters
         {
-            get => _parameters;
+            get => parameters;
             set
             {
-                _parameters = value;
+                parameters = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Parameters));
                 ParametersChanged?.Invoke(this, eventArguments);
@@ -80,6 +80,6 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnTriggered(object sender, EventArgs e) => ScreenManager.Instance.ChangeScreens(TargetScreen, Parameters);
+        private void OnTriggered(object sender, EventArgs e) => ScreenManager.Instance.ChangeScreens(TargetScreen, Parameters);
     }
 }

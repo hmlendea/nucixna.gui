@@ -3,9 +3,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui.Controls
 {
@@ -14,13 +14,13 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiImage : GuiControl, IGuiControl
     {
-        TextureSprite sprite;
+        private TextureSprite sprite;
 
-        string _contentFile;
-        string _maskFile;
-        Colour _tintColour;
-        Rectangle2D? _sourceRectangle;
-        TextureLayout? _textureLayout;
+        private string contentFile;
+        private string maskFile;
+        private Colour tintColour;
+        private Rectangle2D? sourceRectangle;
+        private TextureLayout? textureLayout;
 
         /// <summary>
         /// Gets or sets the content file.
@@ -30,16 +30,16 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_contentFile is not null)
+                if (contentFile is not null)
                 {
-                    return _contentFile;
+                    return contentFile;
                 }
 
                 return string.Empty;
             }
             set
             {
-                _contentFile = value;
+                contentFile = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(ContentFile));
                 ContentFileChanged?.Invoke(this, eventArguments);
@@ -54,16 +54,16 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_maskFile is not null)
+                if (maskFile is not null)
                 {
-                    return _maskFile;
+                    return maskFile;
                 }
 
                 return string.Empty;
             }
             set
             {
-                _maskFile = value;
+                maskFile = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(MaskFile));
                 MaskFileChanged?.Invoke(this, eventArguments);
@@ -78,16 +78,16 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_tintColour is not null)
+                if (tintColour is not null)
                 {
-                    return _tintColour;
+                    return tintColour;
                 }
 
                 return Colour.White;
             }
             set
             {
-                _tintColour = value;
+                tintColour = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(TintColour));
                 TintColourChanged?.Invoke(this, eventArguments);
@@ -102,16 +102,16 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_sourceRectangle is not null)
+                if (sourceRectangle is not null)
                 {
-                    return (Rectangle2D)_sourceRectangle;
+                    return (Rectangle2D)sourceRectangle;
                 }
 
                 return Rectangle2D.Empty;
             }
             set
             {
-                _sourceRectangle = value;
+                sourceRectangle = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(SourceRectangle));
                 SourceRectangleChanged?.Invoke(this, eventArguments);
@@ -126,16 +126,16 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_textureLayout is not null)
+                if (textureLayout is not null)
                 {
-                    return (TextureLayout)_textureLayout;
+                    return (TextureLayout)textureLayout;
                 }
 
                 return GuiManager.Instance.DefaultTextureLayout;
             }
             set
             {
-                _textureLayout = value;
+                textureLayout = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(TextureLayout));
                 TextureLayoutChanged?.Invoke(this, eventArguments);
@@ -255,7 +255,7 @@ namespace NuciXNA.Gui.Controls
             sprite.Draw(spriteBatch);
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             if (Size == Size2D.Empty)
             {

@@ -4,8 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
+
+using NuciXNA.Gui.Screens;
 
 namespace NuciXNA.Gui.Controls
 {
@@ -14,12 +15,12 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiTooltip : GuiControl, IGuiControl
     {
-        string _text;
-        int _borderSize;
+        private string textContent;
+        private int borderSize;
 
-        GuiImage border;
-        GuiImage background;
-        GuiText text;
+        private GuiImage border;
+        private GuiImage background;
+        private GuiText text;
 
         /// <summary>
         /// Gets or sets the text.
@@ -27,10 +28,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The text.</value>
         public string Text
         {
-            get => _text;
+            get => textContent;
             set
             {
-                _text = value;
+                textContent = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Text));
                 TextChanged?.Invoke(this, eventArguments);
@@ -39,10 +40,10 @@ namespace NuciXNA.Gui.Controls
 
         public int BorderSize
         {
-            get => _borderSize;
+            get => borderSize;
             set
             {
-                _borderSize = value;
+                borderSize = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(BorderSize));
                 BorderSizeChanged?.Invoke(this, eventArguments);
@@ -115,7 +116,7 @@ namespace NuciXNA.Gui.Controls
         /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch) { }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             if (ScreenLocation.X + Size.Width > ScreenManager.Instance.Size.Width)
             {

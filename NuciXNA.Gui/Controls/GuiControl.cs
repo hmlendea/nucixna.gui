@@ -5,6 +5,7 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
@@ -15,16 +16,16 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public abstract class GuiControl : IGuiControl, IComponent, IDisposable
     {
-        List<IGuiControl> Children { get; }
+        private List<IGuiControl> Children { get; }
 
-        Colour _backgroundColour;
-        Colour _foregroundColour;
-        Point2D? _location;
-        Size2D? _size;
-        float? _opacity;
-        bool _isEnabled;
-        bool _isVisible;
-        string _fontName;
+        private Colour backgroundColour;
+        private Colour foregroundColour;
+        private Point2D? location;
+        private Size2D? size;
+        private float? opacity;
+        private bool isEnabled;
+        private bool isVisible;
+        private string fontName;
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -40,16 +41,16 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_location.HasValue)
+                if (location.HasValue)
                 {
-                    return _location.Value;
+                    return location.Value;
                 }
 
                 return Point2D.Empty;
             }
             set
             {
-                _location = value;
+                location = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Location));
                 LocationChanged?.Invoke(this, eventArguments);
@@ -81,9 +82,9 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_size.HasValue)
+                if (size.HasValue)
                 {
-                    return _size.Value;
+                    return size.Value;
                 }
 
                 if (Parent is not null)
@@ -95,7 +96,7 @@ namespace NuciXNA.Gui.Controls
             }
             set
             {
-                _size = value;
+                size = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Size));
                 SizeChanged?.Invoke(this, eventArguments);
@@ -122,9 +123,9 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_opacity.HasValue)
+                if (opacity.HasValue)
                 {
-                    return _opacity.Value;
+                    return opacity.Value;
                 }
 
                 if (Parent is not null)
@@ -138,15 +139,15 @@ namespace NuciXNA.Gui.Controls
             {
                 if (value > 1.0f)
                 {
-                    _opacity = 1.0f;
+                    opacity = 1.0f;
                 }
                 else if (value < 0.0f)
                 {
-                    _opacity = 0.0f;
+                    opacity = 0.0f;
                 }
-                else if (value != _opacity)
+                else if (value != opacity)
                 {
-                    _opacity = value;
+                    opacity = value;
                 }
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Opacity));
@@ -162,9 +163,9 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_backgroundColour is not null)
+                if (backgroundColour is not null)
                 {
-                    return _backgroundColour;
+                    return backgroundColour;
                 }
 
                 if (Parent is not null)
@@ -176,7 +177,7 @@ namespace NuciXNA.Gui.Controls
             }
             set
             {
-                _backgroundColour = value;
+                backgroundColour = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(BackgroundColour));
                 BackgroundColourChanged?.Invoke(this, eventArguments);
@@ -191,9 +192,9 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_foregroundColour is not null)
+                if (foregroundColour is not null)
                 {
-                    return _foregroundColour;
+                    return foregroundColour;
                 }
 
                 if (Parent is not null)
@@ -205,7 +206,7 @@ namespace NuciXNA.Gui.Controls
             }
             set
             {
-                _foregroundColour = value;
+                foregroundColour = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(ForegroundColour));
                 ForegroundColourChanged?.Invoke(this, eventArguments);
@@ -220,9 +221,9 @@ namespace NuciXNA.Gui.Controls
         {
             get
             {
-                if (_fontName is not null)
+                if (fontName is not null)
                 {
-                    return _fontName;
+                    return fontName;
                 }
 
                 if (Parent is not null)
@@ -234,7 +235,7 @@ namespace NuciXNA.Gui.Controls
             }
             set
             {
-                _fontName = value;
+                fontName = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(FontName));
                 FontNameChanged?.Invoke(this, eventArguments);
@@ -251,12 +252,12 @@ namespace NuciXNA.Gui.Controls
             {
                 if (Parent is null || Parent.IsEnabled)
                 {
-                    return _isEnabled;
+                    return isEnabled;
                 }
 
                 return false;
             }
-            private set => _isEnabled = value;
+            private set => isEnabled = value;
         }
 
         /// <summary>
@@ -269,12 +270,12 @@ namespace NuciXNA.Gui.Controls
             {
                 if (Parent is null || Parent.IsVisible)
                 {
-                    return _isVisible;
+                    return isVisible;
                 }
 
                 return false;
             }
-            protected set => _isVisible = value;
+            protected set => isVisible = value;
         }
 
         /// <summary>
@@ -514,7 +515,7 @@ namespace NuciXNA.Gui.Controls
             RegisterEvents();
             DoLoadContent();
 
-            Children.ForEach(x => x.LoadContent());
+            Children.ForEach(child => child.LoadContent());
 
             IsContentLoaded = true;
             IsDisposed = false;
@@ -573,7 +574,7 @@ namespace NuciXNA.Gui.Controls
 
             DoUpdate(gameTime);
 
-            IEnumerable<IGuiControl> enabledChildren = Children.Where(c => c.IsEnabled);
+            IEnumerable<IGuiControl> enabledChildren = Children.Where(child => child.IsEnabled);
 
             foreach (IGuiControl child in enabledChildren)
             {
@@ -598,7 +599,7 @@ namespace NuciXNA.Gui.Controls
 
             DoDraw(spriteBatch);
 
-            IEnumerable<IGuiControl> visibleChildren = Children.Where(c => c.IsEnabled && c.IsVisible);
+            IEnumerable<IGuiControl> visibleChildren = Children.Where(child => child.IsEnabled && child.IsVisible);
 
             foreach (IGuiControl child in visibleChildren)
             {
@@ -616,7 +617,7 @@ namespace NuciXNA.Gui.Controls
             Dispose(true);
             GC.SuppressFinalize(this);
 
-            Children.ForEach(c => c.Dispose());
+            Children.ForEach(child => child.Dispose());
             Children.Clear();
         }
 
@@ -767,7 +768,9 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         public void HandleInput()
         {
-            if (IsEnabled && IsVisible && DisplayRectangle.Contains(InputManager.Instance.MouseLocation) &&
+            if (IsEnabled &&
+                IsVisible &&
+                DisplayRectangle.Contains(InputManager.Instance.MouseLocation) &&
                 !InputManager.Instance.MouseButtonInputHandled &&
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
@@ -796,7 +799,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
@@ -813,7 +816,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyHeldDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
@@ -827,9 +830,9 @@ namespace NuciXNA.Gui.Controls
             InputManager.Instance.MouseMoved -= OnInputManagerMouseMoved;
         }
 
-        void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
+        private void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
         {
-            if (!IsEnabled || !IsVisible|| !IsFocused)
+            if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
@@ -837,7 +840,7 @@ namespace NuciXNA.Gui.Controls
             KeyHeldDown?.Invoke(sender, e);
         }
 
-        void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
@@ -847,7 +850,7 @@ namespace NuciXNA.Gui.Controls
             KeyPressed?.Invoke(sender, e);
         }
 
-        void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
+        private void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
@@ -857,7 +860,7 @@ namespace NuciXNA.Gui.Controls
             KeyReleased?.Invoke(sender, e);
         }
 
-        void OnInputManagerGamepadButtonHeldDown(object sender, GamepadButtonEventArgs e)
+        private void OnInputManagerGamepadButtonHeldDown(object sender, GamepadButtonEventArgs e)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
@@ -867,7 +870,7 @@ namespace NuciXNA.Gui.Controls
             GamepadButtonHeldDown?.Invoke(sender, e);
         }
 
-        void OnInputManagerGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnInputManagerGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
@@ -877,7 +880,7 @@ namespace NuciXNA.Gui.Controls
             GamepadButtonPressed?.Invoke(sender, e);
         }
 
-        void OnInputManagerGamepadButtonReleased(object sender, GamepadButtonEventArgs e)
+        private void OnInputManagerGamepadButtonReleased(object sender, GamepadButtonEventArgs e)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
@@ -887,7 +890,7 @@ namespace NuciXNA.Gui.Controls
             GamepadButtonReleased?.Invoke(sender, e);
         }
 
-        void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             if (!IsEnabled || !IsVisible)
             {
@@ -908,7 +911,7 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnInputManagerMouseMoved(object sender, MouseEventArgs e)
+        private void OnInputManagerMouseMoved(object sender, MouseEventArgs e)
         {
             if (!IsEnabled || !IsVisible)
             {

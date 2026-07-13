@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
-using NuciXNA.Input;
-
 using XnaButtons = Microsoft.Xna.Framework.Input.Buttons;
 using XnaKeys = Microsoft.Xna.Framework.Input.Keys;
+
+using NuciXNA.Input;
 
 namespace NuciXNA.Gui.Controls
 {
@@ -15,7 +15,7 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiMenuListSelector : GuiMenuItem
     {
-        Dictionary<string, string> Items { get; set; }
+        private Dictionary<string, string> Items { get; set; }
 
         /// <summary>
         /// Gets the keys.
@@ -135,11 +135,11 @@ namespace NuciXNA.Gui.Controls
                 return;
             }
 
-            for (int i = 0; i < Items.Count; i++)
+            for (int index = 0; index < Items.Count; index++)
             {
-                if (Items.ElementAt(i).Key == key)
+                if (Items.ElementAt(index).Key == key)
                 {
-                    SelectItemByIndex(i);
+                    SelectItemByIndex(index);
                     return;
                 }
             }
@@ -158,11 +158,11 @@ namespace NuciXNA.Gui.Controls
                 return;
             }
 
-            for (int i = 0; i < Items.Count; i++)
+            for (int index = 0; index < Items.Count; index++)
             {
-                if (Items.ElementAt(i).Value == value)
+                if (Items.ElementAt(index).Value == value)
                 {
-                    SelectItemByIndex(i);
+                    SelectItemByIndex(index);
                     return;
                 }
             }
@@ -203,8 +203,8 @@ namespace NuciXNA.Gui.Controls
         public void SetItems(params string[] values)
         {
             IDictionary<string, string> itemsDictionary = values.ToDictionary(
-                x => Guid.NewGuid().ToString(),
-                x => x);
+                item => Guid.NewGuid().ToString(),
+                item => item);
 
             SetItems(itemsDictionary);
         }
@@ -212,8 +212,8 @@ namespace NuciXNA.Gui.Controls
         public void SetItems(params KeyValuePair<string, string>[] items)
         {
             IDictionary<string, string> itemsDictionary = items.ToDictionary(
-                x => x.Key,
-                x => x.Value);
+                item => item.Key,
+                item => item.Value);
 
             SetItems(itemsDictionary);
         }
@@ -221,8 +221,8 @@ namespace NuciXNA.Gui.Controls
         public void SetItems(IEnumerable<string> values)
         {
             IDictionary<string, string> itemsDictionary = values.ToDictionary(
-                x => Guid.NewGuid().ToString(),
-                x => x);
+                item => Guid.NewGuid().ToString(),
+                item => item);
 
             SetItems(itemsDictionary);
         }
@@ -230,15 +230,15 @@ namespace NuciXNA.Gui.Controls
         public void SetItems(IEnumerable<KeyValuePair<string, string>> items)
         {
             IDictionary<string, string> itemsDictionary = items.ToDictionary(
-                x => x.Key,
-                x => x.Value);
+                item => item.Key,
+                item => item.Value);
 
             SetItems(itemsDictionary);
         }
 
         public void SetItems(IDictionary<string, string> items)
         {
-            Items = items.ToDictionary(x => x.Key, x => x.Value);
+            Items = items.ToDictionary(item => item.Key, item => item.Value);
 
             ItemsChanged?.Invoke(this, EventArgs.Empty);
 
@@ -249,7 +249,7 @@ namespace NuciXNA.Gui.Controls
         }
 
         public IDictionary<string, string> GetItems()
-            => Items.ToDictionary(x => x.Key, x => x.Value);
+            => Items.ToDictionary(item => item.Key, item => item.Value);
 
         /// <summary>
         /// Loads the content.
@@ -304,7 +304,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             KeyPressed += OnKeyPressed;
             GamepadButtonPressed += OnGamepadButtonPressed;
@@ -314,7 +314,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             KeyPressed -= OnKeyPressed;
             GamepadButtonPressed -= OnGamepadButtonPressed;
@@ -326,7 +326,7 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             if (e.Key == XnaKeys.Right || e.Key == XnaKeys.D)
             {
@@ -338,7 +338,7 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
         {
             if (e.Button == XnaButtons.DPadRight || e.Button == XnaButtons.LeftThumbstickRight)
             {
@@ -350,7 +350,7 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             if (!DisplayRectangle.Contains(e.Location))
             {

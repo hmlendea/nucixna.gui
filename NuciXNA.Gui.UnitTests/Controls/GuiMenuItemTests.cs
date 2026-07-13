@@ -1,12 +1,14 @@
 using System;
 
+using NuciXNA.Primitives;
+
 using NUnit.Framework;
 
 using NuciXNA.Gui.Controls;
-using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui.UnitTests.Controls
 {
+    [TestFixture]
     public class GuiMenuItemTests
     {
         GuiMenuItem menuItem;

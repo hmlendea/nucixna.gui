@@ -2,10 +2,10 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NuciXNA.Primitives;
 
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Graphics.SpriteEffects;
+using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui.Controls
 {
@@ -14,15 +14,15 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiText : GuiControl, IGuiControl
     {
-        GuiImage backgroundImage;
-        TextSprite textSprite;
+        private GuiImage backgroundImage;
+        private TextSprite textSprite;
 
-        string _text;
-        Colour _outlineColour;
-        FontOutline _fontOutline;
-        Alignment _horizontalAlignment;
-        Alignment _verticalAlignment;
-        int _margins;
+        private string text;
+        private Colour outlineColour;
+        private FontOutline fontOutline;
+        private Alignment horizontalAlignment;
+        private Alignment verticalAlignment;
+        private int margins;
 
         /// <summary>
         /// Gets or sets the text.
@@ -30,10 +30,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The text.</value>
         public string Text
         {
-            get => _text;
+            get => text;
             set
             {
-                _text = value;
+                text = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Text));
                 TextChanged?.Invoke(this, eventArguments);
@@ -42,10 +42,10 @@ namespace NuciXNA.Gui.Controls
 
         public Colour OutlineColour
         {
-            get => _outlineColour;
+            get => outlineColour;
             set
             {
-                _outlineColour = value;
+                outlineColour = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(OutlineColour));
                 OutlineColourChanged?.Invoke(this, eventArguments);
@@ -54,10 +54,10 @@ namespace NuciXNA.Gui.Controls
 
         public FontOutline FontOutline
         {
-            get => _fontOutline;
+            get => fontOutline;
             set
             {
-                _fontOutline = value;
+                fontOutline = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(FontOutline));
                 FontOutlineChanged?.Invoke(this, eventArguments);
@@ -70,10 +70,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The horizontal alignment.</value>
         public Alignment HorizontalAlignment
         {
-            get => _horizontalAlignment;
+            get => horizontalAlignment;
             set
             {
-                _horizontalAlignment = value;
+                horizontalAlignment = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(HorizontalAlignment));
                 HorizontalAlignmentChanged?.Invoke(this, eventArguments);
@@ -86,10 +86,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The vertical alignment.</value>
         public Alignment VerticalAlignment
         {
-            get => _verticalAlignment;
+            get => verticalAlignment;
             set
             {
-                _verticalAlignment = value;
+                verticalAlignment = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(VerticalAlignment));
                 VerticalAlignmentChanged?.Invoke(this, eventArguments);
@@ -102,10 +102,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The margins.</value>
         public int Margins
         {
-            get => _margins;
+            get => margins;
             set
             {
-                _margins = value;
+                margins = value;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Margins));
                 MarginsChanged?.Invoke(this, eventArguments);
@@ -212,7 +212,7 @@ namespace NuciXNA.Gui.Controls
         /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch) => textSprite.Draw(spriteBatch);
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             backgroundImage.TintColour = BackgroundColour;
             backgroundImage.Size = new Size2D(

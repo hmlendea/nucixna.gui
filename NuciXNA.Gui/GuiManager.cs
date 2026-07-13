@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
+
+using NuciXNA.Gui.Controls;
 
 namespace NuciXNA.Gui
 {
@@ -16,10 +18,10 @@ namespace NuciXNA.Gui
     /// </summary>
     public class GuiManager
     {
-        static volatile GuiManager instance;
-        static readonly Lock syncRoot = new();
+        private static volatile GuiManager instance;
+        private static readonly Lock syncRoot = new();
 
-        readonly Dictionary<string, GuiControl> guiControls;
+        private readonly Dictionary<string, GuiControl> guiControls;
 
         public Colour DefaultBackgroundColour { get; set; }
 
@@ -94,7 +96,7 @@ namespace NuciXNA.Gui
         {
             RemoveDisposedControls();
 
-            IEnumerable<GuiControl> enabledControls = guiControls.Values.Where(e => e.IsEnabled);
+            IEnumerable<GuiControl> enabledControls = guiControls.Values.Where(control => control.IsEnabled);
 
             foreach (GuiControl control in enabledControls.Reverse())
             {
@@ -108,9 +110,9 @@ namespace NuciXNA.Gui
 
             InputManager.Instance.MouseButtonInputHandled = false;
 
-            IEnumerable<GuiControl> controlsToUpdate = guiControls.Values.Where(x =>
-                x.IsContentLoaded &&
-                x.IsEnabled);
+            IEnumerable<GuiControl> controlsToUpdate = guiControls.Values.Where(control =>
+                control.IsContentLoaded &&
+                control.IsEnabled);
 
             foreach (GuiControl control in controlsToUpdate)
             {
@@ -124,9 +126,9 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            IEnumerable<GuiControl> controlsToDraw = guiControls.Values.Where(x =>
-                x.IsContentLoaded &&
-                x.IsVisible);
+            IEnumerable<GuiControl> controlsToDraw = guiControls.Values.Where(control =>
+                control.IsContentLoaded &&
+                control.IsVisible);
 
             foreach (GuiControl control in controlsToDraw)
             {
@@ -135,7 +137,7 @@ namespace NuciXNA.Gui
         }
 
         public void RegisterControls(params GuiControl[] controls)
-            => RegisterControls(controls.ToList());
+            => RegisterControls((IEnumerable<GuiControl>)controls);
 
         public void RegisterControls(IEnumerable<GuiControl> controls)
         {
@@ -172,7 +174,7 @@ namespace NuciXNA.Gui
             }
         }
 
-        void RemoveDisposedControls()
+        private void RemoveDisposedControls()
         {
             IEnumerable<string> disposedControlsKeys = guiControls.Keys.Where(key => guiControls[key].IsDisposed);
 

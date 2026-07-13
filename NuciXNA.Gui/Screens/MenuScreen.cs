@@ -6,9 +6,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
+
+using NuciXNA.Gui.Controls;
 
 namespace NuciXNA.Gui.Screens
 {
@@ -41,7 +42,7 @@ namespace NuciXNA.Gui.Screens
         /// <value>The item number.</value>
         public int SelectedItemIndex { get; private set; }
 
-        bool lastDirectionBack;
+        private bool wasLastDirectionBack;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuScreen"/> class.
@@ -100,7 +101,7 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             MouseMoved += OnMouseMoved;
             KeyPressed += OnKeyPressed;
@@ -110,14 +111,14 @@ namespace NuciXNA.Gui.Screens
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             MouseMoved -= OnMouseMoved;
             KeyPressed -= OnKeyPressed;
             GamepadButtonPressed -= OnGamepadButtonPressed;
         }
 
-        void AlignMenuItems()
+        private void AlignMenuItems()
         {
             Size2D halfSpacingSize = new(Spacing);
             Size2D dimensions = Size2D.Empty;
@@ -150,13 +151,13 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
-        int GetNormalisedItemNumber(int itemNumber)
+        private int GetNormalisedItemNumber(int itemNumber)
         {
             int normalisedItemNumber = GetSafeItemNumber(itemNumber);
 
-            if (!Items[normalisedItemNumber].IsSelectable && Items.Any(x => x.IsSelectable))
+            if (!Items[normalisedItemNumber].IsSelectable && Items.Any(item => item.IsSelectable))
             {
-                if (lastDirectionBack)
+                if (wasLastDirectionBack)
                 {
                     normalisedItemNumber -= 1;
                 }
@@ -169,7 +170,7 @@ namespace NuciXNA.Gui.Screens
             return GetSafeItemNumber(normalisedItemNumber);
         }
 
-        int GetSafeItemNumber(int itemNumber)
+        private int GetSafeItemNumber(int itemNumber)
         {
             int normalisedItemNumber = itemNumber;
 
@@ -185,11 +186,11 @@ namespace NuciXNA.Gui.Screens
             return normalisedItemNumber;
         }
 
-        void OnMouseMoved(object sender, MouseEventArgs e)
+        private void OnMouseMoved(object sender, MouseEventArgs e)
         {
-            int index = Items.FindIndex(x =>
-                x.IsSelectable &&
-                x.DisplayRectangle.Contains(e.Location));
+            int index = Items.FindIndex(item =>
+                item.IsSelectable &&
+                item.DisplayRectangle.Contains(e.Location));
 
             if (index >= 0)
             {
@@ -197,7 +198,7 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
-        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             List<Keys> backKeys;
             List<Keys> forwardKeys;
@@ -216,12 +217,12 @@ namespace NuciXNA.Gui.Screens
             if (backKeys.Contains(e.Key))
             {
                 SelectedItemIndex -= 1;
-                lastDirectionBack = true;
+                wasLastDirectionBack = true;
             }
             else if (forwardKeys.Contains(e.Key))
             {
                 SelectedItemIndex += 1;
-                lastDirectionBack = false;
+                wasLastDirectionBack = false;
             }
             else
             {
@@ -232,7 +233,7 @@ namespace NuciXNA.Gui.Screens
             GuiManager.Instance.FocusControl(Items[SelectedItemIndex]);
         }
 
-        void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
         {
             List<Buttons> backButtons;
             List<Buttons> forwardButtons;
@@ -251,12 +252,12 @@ namespace NuciXNA.Gui.Screens
             if (backButtons.Contains(e.Button))
             {
                 SelectedItemIndex -= 1;
-                lastDirectionBack = true;
+                wasLastDirectionBack = true;
             }
             else if (forwardButtons.Contains(e.Button))
             {
                 SelectedItemIndex += 1;
-                lastDirectionBack = false;
+                wasLastDirectionBack = false;
             }
             else
             {
