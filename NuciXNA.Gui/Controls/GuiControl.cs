@@ -16,7 +16,7 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public abstract class GuiControl : IGuiControl, IComponent, IDisposable
     {
-        private List<IGuiControl> Children { get; }
+        private readonly List<IGuiControl> children;
 
         private Colour backgroundColour;
         private Colour foregroundColour;
@@ -490,7 +490,7 @@ namespace NuciXNA.Gui.Controls
         public GuiControl()
         {
             Id = Guid.NewGuid().ToString();
-            Children = [];
+            children = [];
 
             IsEnabled = true;
             IsVisible = true;
@@ -515,7 +515,7 @@ namespace NuciXNA.Gui.Controls
             RegisterEvents();
             DoLoadContent();
 
-            Children.ForEach(child => child.LoadContent());
+            children.ForEach(child => child.LoadContent());
 
             IsContentLoaded = true;
             IsDisposed = false;
@@ -540,8 +540,8 @@ namespace NuciXNA.Gui.Controls
             UnregisterEvents();
             DoUnloadContent();
 
-            Children.ForEach(x => x.UnloadContent());
-            Children.Clear();
+            children.ForEach(child => child.UnloadContent());
+            children.Clear();
 
             IsContentLoaded = false;
             ContentUnloaded?.Invoke(this, EventArgs.Empty);
@@ -560,11 +560,11 @@ namespace NuciXNA.Gui.Controls
 
             Updating?.Invoke(this, EventArgs.Empty);
 
-            foreach (GuiControl child in Children.Cast<GuiControl>().ToList())
+            foreach (GuiControl child in children.Cast<GuiControl>().ToList())
             {
                 if (child is null || child.IsDisposed)
                 {
-                    Children.Remove(child);
+                    children.Remove(child);
                 }
                 else
                 {
@@ -574,7 +574,7 @@ namespace NuciXNA.Gui.Controls
 
             DoUpdate(gameTime);
 
-            IEnumerable<IGuiControl> enabledChildren = Children.Where(child => child.IsEnabled);
+            IEnumerable<IGuiControl> enabledChildren = children.Where(child => child.IsEnabled);
 
             foreach (IGuiControl child in enabledChildren)
             {
@@ -599,7 +599,7 @@ namespace NuciXNA.Gui.Controls
 
             DoDraw(spriteBatch);
 
-            IEnumerable<IGuiControl> visibleChildren = Children.Where(child => child.IsEnabled && child.IsVisible);
+            IEnumerable<IGuiControl> visibleChildren = children.Where(child => child.IsEnabled && child.IsVisible);
 
             foreach (IGuiControl child in visibleChildren)
             {
@@ -617,8 +617,8 @@ namespace NuciXNA.Gui.Controls
             Dispose(true);
             GC.SuppressFinalize(this);
 
-            Children.ForEach(child => child.Dispose());
-            Children.Clear();
+            children.ForEach(child => child.Dispose());
+            children.Clear();
         }
 
         /// <summary>
@@ -734,7 +734,7 @@ namespace NuciXNA.Gui.Controls
 
         protected void RegisterChild(IGuiControl control)
         {
-            Children.Add(control);
+            children.Add(control);
             control.Parent = this;
         }
 
@@ -743,7 +743,7 @@ namespace NuciXNA.Gui.Controls
 
         protected void RegisterChildren(IEnumerable<IGuiControl> controls)
         {
-            Children.AddRange(controls);
+            children.AddRange(controls);
 
             foreach (IGuiControl control in controls)
             {
@@ -785,7 +785,7 @@ namespace NuciXNA.Gui.Controls
                 InputManager.Instance.MouseButtonInputHandled = true;
             }
 
-            foreach (GuiControl child in Children.Cast<GuiControl>())
+            foreach (GuiControl child in children.Cast<GuiControl>())
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {

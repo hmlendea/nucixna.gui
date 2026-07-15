@@ -136,6 +136,9 @@ namespace NuciXNA.Gui
             }
         }
 
+        public void RegisterControl(GuiControl control)
+            => guiControls.Add(control.Id, control);
+
         public void RegisterControls(params GuiControl[] controls)
             => RegisterControls((IEnumerable<GuiControl>)controls);
 
@@ -176,11 +179,11 @@ namespace NuciXNA.Gui
 
         private void RemoveDisposedControls()
         {
-            IEnumerable<string> disposedControlsKeys = guiControls.Keys.Where(key => guiControls[key].IsDisposed);
+            IEnumerable<string> disposedControlIds = [.. guiControls.Keys.Where(controlId => guiControls[controlId].IsDisposed)];
 
-            foreach (string key in disposedControlsKeys)
+            foreach (string controlId in disposedControlIds)
             {
-                guiControls.Remove(key);
+                guiControls.Remove(controlId);
             }
         }
     }

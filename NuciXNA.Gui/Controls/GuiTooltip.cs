@@ -15,6 +15,8 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiTooltip : GuiControl, IGuiControl
     {
+        private static int DefaultBorderSize => 1;
+        private static int DefaultTooltipTextMargins => 2;
         private string textContent;
         private int borderSize;
 
@@ -68,7 +70,7 @@ namespace NuciXNA.Gui.Controls
             FontName = "MenuFont";
             IsVisible = false;
 
-            BorderSize = 1;
+            BorderSize = DefaultBorderSize;
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace NuciXNA.Gui.Controls
             };
             text = new GuiText
             {
-                Margins = 2,
+                Margins = DefaultTooltipTextMargins,
                 BackgroundColour = Colour.Transparent
             };
 
