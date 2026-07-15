@@ -7,49 +7,60 @@
 
 GUI management and lightweight widgets for the NuciXNA stack on top of MonoGame/XNA.
 
-`NuciXNA.Gui` provides:
+## ✨ Features
 
-- a central GUI manager (`GuiManager`) for registering, updating and drawing controls
-- reusable controls such as text, image, menu entries, selectors and toggles
-- screen abstractions (`Screen`, `MenuScreen`) and a transition-enabled `ScreenManager`
-- default styling values (font, colors, texture layout, margins) inherited by controls
+- Central `GuiManager` singleton for registering, updating, and drawing controls
+- Reusable controls: `GuiText`, `GuiImage`, `GuiMenuItem`, `GuiMenuText`, `GuiMenuLink`, `GuiMenuToggle`, `GuiMenuListSelector`, `GuiTooltip`
+- Screen abstractions (`Screen`, `MenuScreen`) with full lifecycle management
+- Transition-enabled `ScreenManager` for screen switching
+- Parent-inherited default styling: font, colours, opacity, and margins
 
-## Installation
+## 🚀 Usage
 
-[![Get it from NuGet](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/nuget.png)](https://nuget.org/packages/NuciXNA.Gui)
+### Setting up the screen manager
 
-### .NET CLI
+Configure the starting screen in your `Game` subclass:
 
-```bash
-dotnet add package NuciXNA.Gui
+```csharp
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using NuciXNA.Gui.Screens;
+
+public class GameRoot : Game
+{
+    SpriteBatch spriteBatch;
+
+    protected override void LoadContent()
+    {
+        spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        ScreenManager.Instance.StartingScreenType = typeof(MainMenuScreen);
+        ScreenManager.Instance.LoadContent();
+    }
+
+    protected override void Update(GameTime gameTime)
+    {
+        ScreenManager.Instance.Update(gameTime);
+        base.Update(gameTime);
+    }
+
+    protected override void Draw(GameTime gameTime)
+    {
+        ScreenManager.Instance.Draw(spriteBatch);
+        base.Draw(gameTime);
+    }
+
+    protected override void UnloadContent()
+    {
+        ScreenManager.Instance.UnloadContent();
+        base.UnloadContent();
+    }
+}
 ```
 
-### Package Manager
+### Implementing a screen
 
-```powershell
-Install-Package NuciXNA.Gui
-```
-
-## Requirements
-
-- .NET target framework: `net10.0`
-- MonoGame DesktopGL (or compatible runtime)
-- NuciXNA dependencies (restored automatically from NuGet):
-  - `NuciXNA.Graphics`
-  - `NuciXNA.Input`
-  - `NuciXNA.Primitives`
-
-## Quick Start
-
-The typical flow is:
-
-1. Configure your starting screen type in `ScreenManager`
-2. Call `LoadContent()` once
-3. Forward your game loop `Update(...)` and `Draw(...)` to the manager
-4. Build screens by deriving from `Screen` or `MenuScreen`
-5. Register controls through `GuiManager.Instance.RegisterControls(...)`
-
-Example screen with a basic label:
+Derive from `Screen` or `MenuScreen` and register controls via `GuiManager`:
 
 ```csharp
 using Microsoft.Xna.Framework;
@@ -61,150 +72,142 @@ using NuciXNA.Primitives;
 
 public class MainMenuScreen : Screen
 {
-	GuiText title;
+    GuiText title;
 
-	protected override void DoLoadContent()
-	{
-		title = new GuiText
-		{
-			Id = "title",
-			Text = "My Game",
-			Location = new Point2D(32, 24),
-			Size = new Size2D(480, 64)
-		};
+    protected override void DoLoadContent()
+    {
+        title = new GuiText
+        {
+            Id = "title",
+            Text = "My Game",
+            Location = new Point2D(32, 24),
+            Size = new Size2D(480, 64)
+        };
 
-		GuiManager.Instance.RegisterControls(title);
-	}
+        GuiManager.Instance.RegisterControls(title);
+    }
 
-	protected override void DoUnloadContent() { }
+    protected override void DoUnloadContent() { }
 
-	protected override void DoUpdate(GameTime gameTime) { }
+    protected override void DoUpdate(GameTime gameTime) { }
 
-	protected override void DoDraw(SpriteBatch spriteBatch) { }
+    protected override void DoDraw(SpriteBatch spriteBatch) { }
 }
 ```
 
-Game-level integration example:
-
-```csharp
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using NuciXNA.Gui.Screens;
-
-public class GameRoot : Game
-{
-	SpriteBatch spriteBatch;
-
-	protected override void LoadContent()
-	{
-		spriteBatch = new SpriteBatch(GraphicsDevice);
-
-		ScreenManager.Instance.StartingScreenType = typeof(MainMenuScreen);
-		ScreenManager.Instance.LoadContent();
-	}
-
-	protected override void Update(GameTime gameTime)
-	{
-		ScreenManager.Instance.Update(gameTime);
-		base.Update(gameTime);
-	}
-
-	protected override void Draw(GameTime gameTime)
-	{
-		ScreenManager.Instance.Draw(spriteBatch);
-		base.Draw(gameTime);
-	}
-
-	protected override void UnloadContent()
-	{
-		ScreenManager.Instance.UnloadContent();
-		base.UnloadContent();
-	}
-}
-```
-
-## Available Controls
-
-- `GuiText`: text rendering with alignment, margins and optional fade effect
-- `GuiImage`: textured control with tint, source rectangle and sprite effects
-- `GuiMenuItem`: base interactive menu element
-- `GuiMenuText`: non-selectable menu text
-- `GuiMenuLink`: menu item with action semantics
-- `GuiMenuToggle`: on/off menu item with state change events
-- `GuiMenuListSelector`: cycles through predefined values
-- `GuiTooltip`: helper control for tooltip-like text
-
-## Screen System
-
-- `Screen`: base class handling lifecycle (`LoadContent`, `Update`, `Draw`, `UnloadContent`) and input event wiring
-- `MenuScreen`: helper for menu-based screens with auto layout and keyboard/mouse selection
-- `ScreenManager`: singleton manager that tracks current screen and supports transition effects when switching
-
-To switch screens at runtime:
+### Switching screens
 
 ```csharp
 ScreenManager.Instance.ChangeScreens<MainMenuScreen>();
 ```
 
-or with parameters:
+Or with parameters:
 
 ```csharp
 ScreenManager.Instance.ChangeScreens(typeof(GameplayScreen), levelId);
 ```
 
-## Defaults and Styling
+### Global defaults
 
-Global defaults are configured on `GuiManager.Instance`:
+Configure shared defaults on `GuiManager.Instance` before loading content:
 
-- `DefaultBackgroundColour`
-- `DefaultForegroundColour`
-- `DefaultFontName`
-- `DefaultTextureLayout`
-- `DefaultMargins`
+```csharp
+GuiManager.Instance.DefaultFontName = "Fonts/MyFont";
+GuiManager.Instance.DefaultForegroundColour = Colour.White;
+GuiManager.Instance.DefaultBackgroundColour = Colour.Transparent;
+```
 
-Controls inherit values from parents first, then fall back to these global defaults.
+Controls inherit values from their parent first, then fall back to these global defaults.
 
-## Development
+## 📦 Installation
+
+[![Get it from NuGet](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/nuget.png)](https://nuget.org/packages/NuciXNA.Gui)
+
+### .NET CLI
+
+```bash
+dotnet add package NuciXNA.Gui
+```
+
+### Package Manager Console
+
+```powershell
+Install-Package NuciXNA.Gui
+```
+
+## 🛠️ Development
+
+### Requirements
+
+- [.NET 10.0 SDK](https://dotnet.microsoft.com/download)
+
+All NuGet dependencies are restored automatically by `dotnet restore`.
 
 ### Build
 
 ```bash
-dotnet build NuciXNA.Gui.sln
+dotnet build NuciXNA.sln
 ```
 
 ### Test
 
 ```bash
-dotnet test NuciXNA.Gui.sln
+dotnet test NuciXNA.sln
 ```
 
-### Pack
+### Release
 
 ```bash
 dotnet pack NuciXNA.Gui/NuciXNA.Gui.csproj -c Release
 ```
 
-## Contributing
+### Dependencies
 
-Contributions are welcome.
+| Package | Purpose |
+|---------|---------|
+| `MonoGame.Framework.DesktopGL` | XNA/MonoGame rendering and input runtime |
+| `NuciXNA.Graphics` | Sprite rendering utilities |
+| `NuciXNA.Input` | Input event abstractions |
+| `NuciXNA.Primitives` | Common value types (`Point2D`, `Size2D`, `Colour`) |
 
-Please:
+## 🗂️ Project Structure
 
-- keep changes cross-platform
-- preserve public APIs unless the change is intentionally breaking
-- keep pull requests focused and consistent with existing style
-- update documentation when behaviour changes
-- add or update tests for new behaviour
+The solution contains the following projects:
 
-## Related Projects
+- `NuciXNA.Gui`: Main library with controls, screens, and the GUI manager
+- `NuciXNA.Gui.UnitTests`: Unit tests for the library
 
-- [NuciXNA.DataAccess](https://github.com/hmlendea/nucixna.dataaccess)
-- [NuciXNA.Graphics](https://github.com/hmlendea/nucixna.graphics)
-- [NuciXNA.GUI](https://github.com/hmlendea/nucixna.gui)
-- [NuciXNA.Input](https://github.com/hmlendea/nucixna.input)
-- [NuciXNA.Primitives](https://github.com/hmlendea/nucixna.Primitives)
+The key directories inside `NuciXNA.Gui/` are:
 
-## License
+| Directory | Purpose |
+|-----------|---------|
+| `Controls/` | `GuiControl` base class and all concrete control implementations |
+| `Screens/` | `Screen`, `MenuScreen`, and `ScreenManager` |
 
-Licensed under the GNU General Public License v3.0 or later.
+## 🤝 Contributing
+
+Contributions are welcome. Please:
+- Keep the changes cross-platform
+- Keep the existing public contract intact unless a breaking change is intentional
+- Keep the pull requests focused and consistent with the existing code style
+- Update the documentation when behaviour changes
+- Properly test all changes, including edge cases and error conditions
+- Add unit tests for any new or changed functionality
+
+## 🔗 Related Projects
+
+- [NuciXNA.DataAccess](https://github.com/hmlendea/nucixna.dataaccess): Data access utilities for the NuciXNA stack
+- [NuciXNA.Graphics](https://github.com/hmlendea/nucixna.graphics): Sprite rendering utilities
+- [NuciXNA.Input](https://github.com/hmlendea/nucixna.input): Input event abstractions
+- [NuciXNA.Primitives](https://github.com/hmlendea/nucixna.primitives): Common value types
+
+## 💝 Support
+
+Found a bug or have a suggestion? [Open an issue](https://github.com/hmlendea/nucixna.gui/issues)!
+
+If you find this project useful, consider [funding it](https://hmlendea.go.ro/funding) or giving a ⭐️ on GitHub!
+
+## 📄 License
+
+Licensed under the `GNU General Public License v3.0` or later.
 See [LICENSE](./LICENSE) for details.
