@@ -266,15 +266,13 @@ namespace NuciXNA.Gui.Controls
 
             ItemsChanged?.Invoke(this, EventArgs.Empty);
 
+            SelectedIndex = -1;
+            currentSelectionKey = null;
+            currentSelectionValue = null;
+
             if (items.Count > 0)
             {
                 SelectItemByIndex(0);
-            }
-            else
-            {
-                SelectedIndex = -1;
-                currentSelectionKey = null;
-                currentSelectionValue = null;
             }
         }
 

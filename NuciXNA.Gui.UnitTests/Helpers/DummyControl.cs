@@ -7,6 +7,8 @@ namespace NuciXNA.Gui.UnitTests.Helpers
 {
     public sealed class DummyControl : GuiControl
     {
+        public void AddChild(DummyControl child) => RegisterChild(child);
+
         protected override void DoLoadContent() { }
 
         protected override void DoUnloadContent() { }

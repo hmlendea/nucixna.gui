@@ -156,19 +156,21 @@ namespace NuciXNA.Gui.Screens
         {
             int normalisedItemNumber = GetSafeItemNumber(itemNumber);
 
-            if (!Items[normalisedItemNumber].IsSelectable && Items.Any(item => item.IsSelectable))
+            if (!Items.Any(item => item.IsSelectable))
             {
-                if (wasLastDirectionBack)
-                {
-                    normalisedItemNumber -= 1;
-                }
-                else
-                {
-                    normalisedItemNumber += 1;
-                }
+                return normalisedItemNumber;
             }
 
-            return GetSafeItemNumber(normalisedItemNumber);
+            int attempts = 0;
+
+            while (!Items[normalisedItemNumber].IsSelectable && attempts < Items.Count)
+            {
+                normalisedItemNumber = GetSafeItemNumber(
+                    wasLastDirectionBack ? normalisedItemNumber - 1 : normalisedItemNumber + 1);
+                attempts += 1;
+            }
+
+            return normalisedItemNumber;
         }
 
         private int GetSafeItemNumber(int itemNumber)
