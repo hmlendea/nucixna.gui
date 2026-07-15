@@ -488,5 +488,66 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(control.Id, Is.EqualTo("SolairOfAstora"));
         }
+
+        // ── Child disposal ─────────────────────────────────────────────────────
+
+        [Test]
+        public void GivenLoadedParentWithLoadedChild_WhenParentDisposed_ThenChildIsDisposed()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+            parent.AddChild(child);
+            parent.LoadContent();
+
+            parent.Dispose();
+
+            Assert.That(child.IsDisposed);
+        }
+
+        [Test]
+        public void GivenLoadedParentWithMultipleChildren_WhenParentDisposed_ThenAllChildrenAreDisposed()
+        {
+            DummyControl parent = new();
+            DummyControl firstChild = new();
+            DummyControl secondChild = new();
+            DummyControl thirdChild = new();
+            parent.AddChild(firstChild);
+            parent.AddChild(secondChild);
+            parent.AddChild(thirdChild);
+            parent.LoadContent();
+
+            parent.Dispose();
+
+            Assert.That(firstChild.IsDisposed);
+            Assert.That(secondChild.IsDisposed);
+            Assert.That(thirdChild.IsDisposed);
+        }
+
+        [Test]
+        public void GivenLoadedParentWithLoadedChild_WhenParentDisposed_ThenChildDisposedEventFires()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+            parent.AddChild(child);
+            parent.LoadContent();
+            bool childDisposedFired = false;
+            child.Disposed += delegate { childDisposedFired = true; };
+
+            parent.Dispose();
+
+            Assert.That(childDisposedFired);
+        }
+
+        [Test]
+        public void GivenUnloadedParentWithChild_WhenParentDisposed_ThenChildIsDisposed()
+        {
+            DummyControl parent = new();
+            DummyControl child = new();
+            parent.AddChild(child);
+
+            parent.Dispose();
+
+            Assert.That(child.IsDisposed);
+        }
     }
 }

@@ -589,5 +589,59 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(child.Parent, Is.EqualTo(secondParent));
         }
+
+        // ── Opacity event suppression ──────────────────────────────────────────
+
+        [Test]
+        public void GivenOpacitySetToHalf_WhenSetToSameValueAgain_ThenOpacityChangedDoesNotFire()
+        {
+            DummyControl control = new();
+            control.Opacity = 0.5f;
+            int fireCount = 0;
+            control.OpacityChanged += delegate { fireCount++; };
+
+            control.Opacity = 0.5f;
+
+            Assert.That(fireCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GivenOpacitySetToOne_WhenSetToAboveOneAgain_ThenOpacityChangedDoesNotFire()
+        {
+            DummyControl control = new();
+            control.Opacity = 1.5f;
+            int fireCount = 0;
+            control.OpacityChanged += delegate { fireCount++; };
+
+            control.Opacity = 2.0f;
+
+            Assert.That(fireCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GivenOpacitySetToZero_WhenSetToBelowZeroAgain_ThenOpacityChangedDoesNotFire()
+        {
+            DummyControl control = new();
+            control.Opacity = -0.5f;
+            int fireCount = 0;
+            control.OpacityChanged += delegate { fireCount++; };
+
+            control.Opacity = -1.0f;
+
+            Assert.That(fireCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GivenOpacitySetToHalf_WhenSetToDifferentValue_ThenOpacityChangedFires()
+        {
+            DummyControl control = new();
+            control.Opacity = 0.5f;
+            int fireCount = 0;
+            control.OpacityChanged += delegate { fireCount++; };
+
+            control.Opacity = 0.8f;
+
+            Assert.That(fireCount, Is.EqualTo(1));
+        }
     }
 }

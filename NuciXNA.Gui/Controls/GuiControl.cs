@@ -136,18 +136,27 @@ namespace NuciXNA.Gui.Controls
             }
             set
             {
+                float clampedValue;
+
                 if (value > 1.0f)
                 {
-                    opacity = 1.0f;
+                    clampedValue = 1.0f;
                 }
                 else if (value < 0.0f)
                 {
-                    opacity = 0.0f;
+                    clampedValue = 0.0f;
                 }
-                else if (value != opacity)
+                else
                 {
-                    opacity = value;
+                    clampedValue = value;
                 }
+
+                if (clampedValue == opacity)
+                {
+                    return;
+                }
+
+                opacity = clampedValue;
 
                 PropertyChangedEventArgs eventArguments = new(nameof(Opacity));
                 OpacityChanged?.Invoke(this, eventArguments);
@@ -620,15 +629,15 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         public virtual void Dispose()
         {
+            List<GuiControl> childrenSnapshot = [.. children];
+
             Dispose(true);
             GC.SuppressFinalize(this);
 
-            foreach (GuiControl child in children)
+            foreach (GuiControl child in childrenSnapshot)
             {
                 child.Dispose();
             }
-
-            children.Clear();
         }
 
         /// <summary>
