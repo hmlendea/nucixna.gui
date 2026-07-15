@@ -636,7 +636,7 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         protected void Dispose(bool disposing)
         {
-            if (!disposing)
+            if (!disposing || IsDisposed)
             {
                 return;
             }
