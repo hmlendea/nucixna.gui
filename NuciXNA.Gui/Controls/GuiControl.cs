@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +15,7 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public abstract class GuiControl : IGuiControl, IComponent, IDisposable
     {
-        private readonly List<IGuiControl> children;
+        private readonly List<GuiControl> children;
 
         private Colour backgroundColour;
         private Colour foregroundColour;
@@ -515,7 +514,10 @@ namespace NuciXNA.Gui.Controls
             RegisterEvents();
             DoLoadContent();
 
-            children.ForEach(child => child.LoadContent());
+            foreach (GuiControl child in children)
+            {
+                child.LoadContent();
+            }
 
             IsContentLoaded = true;
             IsDisposed = false;
@@ -560,11 +562,13 @@ namespace NuciXNA.Gui.Controls
 
             Updating?.Invoke(this, EventArgs.Empty);
 
-            foreach (GuiControl child in children.Cast<GuiControl>().ToList())
+            for (int childIndex = children.Count - 1; childIndex >= 0; childIndex -= 1)
             {
+                GuiControl child = children[childIndex];
+
                 if (child is null || child.IsDisposed)
                 {
-                    children.Remove(child);
+                    children.RemoveAt(childIndex);
                 }
                 else
                 {
@@ -574,11 +578,12 @@ namespace NuciXNA.Gui.Controls
 
             DoUpdate(gameTime);
 
-            IEnumerable<IGuiControl> enabledChildren = children.Where(child => child.IsEnabled);
-
-            foreach (IGuiControl child in enabledChildren)
+            foreach (GuiControl child in children)
             {
-                child.Update(gameTime);
+                if (child.IsEnabled)
+                {
+                    child.Update(gameTime);
+                }
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
@@ -599,11 +604,12 @@ namespace NuciXNA.Gui.Controls
 
             DoDraw(spriteBatch);
 
-            IEnumerable<IGuiControl> visibleChildren = children.Where(child => child.IsEnabled && child.IsVisible);
-
-            foreach (IGuiControl child in visibleChildren)
+            foreach (GuiControl child in children)
             {
-                child.Draw(spriteBatch);
+                if (child.IsEnabled && child.IsVisible)
+                {
+                    child.Draw(spriteBatch);
+                }
             }
 
             Drawn?.Invoke(this, EventArgs.Empty);
@@ -617,7 +623,11 @@ namespace NuciXNA.Gui.Controls
             Dispose(true);
             GC.SuppressFinalize(this);
 
-            children.ForEach(child => child.Dispose());
+            foreach (GuiControl child in children)
+            {
+                child.Dispose();
+            }
+
             children.Clear();
         }
 
@@ -734,19 +744,18 @@ namespace NuciXNA.Gui.Controls
 
         protected void RegisterChild(IGuiControl control)
         {
-            children.Add(control);
+            children.Add((GuiControl)control);
             control.Parent = this;
         }
 
         protected void RegisterChildren(params IGuiControl[] controls)
-            => RegisterChildren(controls.ToList());
+            => RegisterChildren((IEnumerable<IGuiControl>)controls);
 
         protected void RegisterChildren(IEnumerable<IGuiControl> controls)
         {
-            children.AddRange(controls);
-
             foreach (IGuiControl control in controls)
             {
+                children.Add((GuiControl)control);
                 control.Parent = this;
             }
         }
@@ -785,7 +794,7 @@ namespace NuciXNA.Gui.Controls
                 InputManager.Instance.MouseButtonInputHandled = true;
             }
 
-            foreach (GuiControl child in children.Cast<GuiControl>())
+            foreach (GuiControl child in children)
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {

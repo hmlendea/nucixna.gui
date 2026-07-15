@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 using Microsoft.Xna.Framework;
@@ -96,27 +95,29 @@ namespace NuciXNA.Gui
         {
             RemoveDisposedControls();
 
-            IEnumerable<GuiControl> enabledControls = guiControls.Values.Where(control => control.IsEnabled);
+            List<GuiControl> controlValues = [.. guiControls.Values];
 
-            foreach (GuiControl control in enabledControls.Reverse())
+            for (int controlIndex = controlValues.Count - 1; controlIndex >= 0; controlIndex -= 1)
             {
                 if (InputManager.Instance.MouseButtonInputHandled)
                 {
                     break;
                 }
 
-                control.HandleInput();
+                if (controlValues[controlIndex].IsEnabled)
+                {
+                    controlValues[controlIndex].HandleInput();
+                }
             }
 
             InputManager.Instance.MouseButtonInputHandled = false;
 
-            IEnumerable<GuiControl> controlsToUpdate = guiControls.Values.Where(control =>
-                control.IsContentLoaded &&
-                control.IsEnabled);
-
-            foreach (GuiControl control in controlsToUpdate)
+            foreach (GuiControl control in controlValues)
             {
-                control.Update(gameTime);
+                if (control.IsContentLoaded && control.IsEnabled)
+                {
+                    control.Update(gameTime);
+                }
             }
         }
 
@@ -126,13 +127,12 @@ namespace NuciXNA.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            IEnumerable<GuiControl> controlsToDraw = guiControls.Values.Where(control =>
-                control.IsContentLoaded &&
-                control.IsVisible);
-
-            foreach (GuiControl control in controlsToDraw)
+            foreach (GuiControl control in guiControls.Values)
             {
-                control.Draw(spriteBatch);
+                if (control.IsContentLoaded && control.IsVisible)
+                {
+                    control.Draw(spriteBatch);
+                }
             }
         }
 
@@ -170,7 +170,7 @@ namespace NuciXNA.Gui
                     control.Unfocus();
                 }
 
-                if (control.Id == id && !control.IsFocused)
+                if (string.Equals(control.Id, id) && !control.IsFocused)
                 {
                     control.Focus();
                 }
@@ -179,7 +179,15 @@ namespace NuciXNA.Gui
 
         private void RemoveDisposedControls()
         {
-            IEnumerable<string> disposedControlIds = [.. guiControls.Keys.Where(controlId => guiControls[controlId].IsDisposed)];
+            List<string> disposedControlIds = [];
+
+            foreach (KeyValuePair<string, GuiControl> entry in guiControls)
+            {
+                if (entry.Value.IsDisposed)
+                {
+                    disposedControlIds.Add(entry.Key);
+                }
+            }
 
             foreach (string controlId in disposedControlIds)
             {

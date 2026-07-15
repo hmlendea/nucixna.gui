@@ -28,7 +28,7 @@ namespace NuciXNA.Gui.Controls
 
         public void SetState(bool state)
         {
-            if (object.Equals(IsOn, state))
+            if (IsOn == state)
             {
                 return;
             }
