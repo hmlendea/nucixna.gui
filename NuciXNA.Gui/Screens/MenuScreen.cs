@@ -16,8 +16,9 @@ namespace NuciXNA.Gui.Screens
     /// <summary>
     /// Menu screen.
     /// </summary>
-    public class MenuScreen : Screen, IScreen
+    public class MenuScreen : Screen
     {
+        private static int DefaultSpacing => 32;
         /// <summary>
         /// Gets or sets the axis.
         /// </summary>
@@ -52,7 +53,7 @@ namespace NuciXNA.Gui.Screens
             Id = Guid.NewGuid().ToString();
             SelectedItemIndex = 0;
             Axis = MenuScreenAxis.Vertical;
-            Spacing = 32;
+            Spacing = DefaultSpacing;
 
             Items = [];
         }

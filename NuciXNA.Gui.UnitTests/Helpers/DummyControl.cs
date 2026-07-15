@@ -5,7 +5,7 @@ using NuciXNA.Gui.Controls;
 
 namespace NuciXNA.Gui.UnitTests.Helpers
 {
-    public class DummyControl : GuiControl
+    public sealed class DummyControl : GuiControl
     {
         protected override void DoLoadContent() { }
 

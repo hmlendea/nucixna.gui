@@ -16,6 +16,10 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public class GuiMenuItem : GuiControl, IGuiControl
     {
+        private static int DefaultItemWidth => 512;
+        private static int DefaultItemHeight => 48;
+        private static int TextFadeSpeed => 2;
+        private static float TextFadeMinimumMultiplier => 0.25f;
         private string textContent;
         private Colour selectedTextColour;
         private bool isSelectable;
@@ -99,7 +103,7 @@ namespace NuciXNA.Gui.Controls
             SelectedTextColour = Colour.Gold;
 
             IsSelectable = true;
-            Size = new Size2D(512, 48);
+            Size = new Size2D(DefaultItemWidth, DefaultItemHeight);
         }
 
         /// <summary>
@@ -114,8 +118,8 @@ namespace NuciXNA.Gui.Controls
                 AreEffectsActive = true,
                 FadeEffect = new FadeEffect
                 {
-                    Speed = 2,
-                    MinimumMultiplier = 0.25f
+                    Speed = TextFadeSpeed,
+                    MinimumMultiplier = TextFadeMinimumMultiplier
                 }
             };
 

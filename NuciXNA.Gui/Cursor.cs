@@ -7,7 +7,7 @@ using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui
 {
-    public class Cursor
+    public sealed class Cursor
     {
         private ButtonState state;
 

@@ -216,7 +216,7 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         protected override void DoLoadContent()
         {
-            sprite = new();
+            sprite = new TextureSprite();
 
             SetChildrenProperties();
 
