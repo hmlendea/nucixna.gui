@@ -1,6 +1,6 @@
 # Security Policy
 
-NuciXNA.Gui is a .NET GUI library for MonoGame/XNA applications with no network connectivity, external dependencies, or attack surface for remote exploitation. This policy covers vulnerability reporting for the library itself.
+This policy defines supported-release coverage and private, coordinated reporting for vulnerabilities caused by NuciXNA.Gui. The library has no built-in network service, persistence, authentication, or telemetry, but it executes inside consuming MonoGame applications and depends on MonoGame and NuciXNA packages.
 
 ## 📑 Table of Contents
 
@@ -8,6 +8,8 @@ NuciXNA.Gui is a .NET GUI library for MonoGame/XNA applications with no network 
 - [Reporting a Vulnerability](#reporting-a-vulnerability)
 - [Scope](#scope)
 - [Disclosure Policy](#disclosure-policy)
+- [Safe Harbour](#safe-harbour)
+- [Recognition](#recognition)
 
 ## 🛡️ Supported Versions
 
@@ -17,6 +19,7 @@ Use this table to indicate which project versions currently receive security mai
 |---------|--------------------|-----------|
 | Latest version | NuGet.org | ✅ |
 | Latest version | GitHub Releases | ✅ |
+| Latest version | Unofficial third-party distribution channels | ❌ |
 | Preceding versions | Any distribution channel | ❌ |
 
 ## 🚨 Reporting a Vulnerability
@@ -24,21 +27,20 @@ Use this table to indicate which project versions currently receive security mai
 Please do not disclose suspected vulnerabilities publicly before maintainers have had an opportunity to validate and remediate them.
 
 To report a vulnerability:
-- [GitHub Security Advisories](https://github.com/hmlendea/NuciXNA.Gui/security/advisories)
+- [GitHub Security Advisories](https://github.com/hmlendea/nucixna.gui/security/advisories)
 - Contact the maintainers directly
 
 ## 📌 Scope
 
 The subsequent report categories are in scope for this repository:
-- Memory safety issues in the library code (buffer overflows, use-after-free, etc.)
-- Deserialization vulnerabilities in any data parsing
-- Supply chain vulnerabilities in declared dependencies
+- Unintended code execution, information exposure, or trust-boundary violation caused by the library's reflection, lifecycle, content, input, or event handling
+- Supply-chain vulnerabilities in declared dependencies with a demonstrated NuciXNA.Gui execution path
 
 The subsequent categories are out of scope unless explicitly stated to the contrary:
-- Vulnerabilities in consuming applications that use NuciXNA.Gui
-- Vulnerabilities in MonoGame, XNA, or .NET runtime
-- Denial-of-service via resource exhaustion in consuming applications
-- Issues requiring network access (NuciXNA.Gui has no network capabilities)
+- Consuming-application logic, configuration, content, or data handling that does not originate in this library
+- Vulnerabilities solely in MonoGame, NuciXNA dependencies, NuGet infrastructure, or the .NET runtime without a repository-specific cause or mitigation
+- Availability issues caused solely by a host deliberately supplying unbounded control trees, text, textures, or event-handler work
+- Network-service issues, because this library opens no ports and sends no requests
 
 ## 📢 Disclosure Policy
 

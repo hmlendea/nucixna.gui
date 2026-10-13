@@ -10,10 +10,21 @@ This document describes the current architecture of the NuciXNA.Gui library, a .
 - [Runtime Flow](#runtime-flow)
 - [Components](#components)
 - [Architectural Areas](#architectural-areas)
+    - [Controls](#controls)
+    - [Screens](#screens)
+    - [Managers](#managers)
 - [Data Architecture](#data-architecture)
 - [Interfaces and Integrations](#interfaces-and-integrations)
 - [Key Flows](#key-flows)
+    - [Control Registration Flow](#control-registration-flow)
+    - [Screen Transition Flow](#screen-transition-flow)
+    - [Input Handling Flow](#input-handling-flow)
 - [Cross-Cutting Concerns](#cross-cutting-concerns)
+    - [Security and Privacy](#security-and-privacy)
+    - [Error Handling](#error-handling)
+    - [Observability](#observability)
+    - [Configuration](#configuration)
+    - [Concurrency and Resource Use](#concurrency-and-resource-use)
 - [Dependency Direction and Rules](#dependency-direction-and-rules)
 - [External Dependencies](#external-dependencies)
 - [Deployment and Operations](#deployment-and-operations)
@@ -21,14 +32,15 @@ This document describes the current architecture of the NuciXNA.Gui library, a .
 - [Testing and Verification](#testing-and-verification)
 - [Design Constraints](#design-constraints)
 - [Extension Points](#extension-points)
-- [Evolution and Migration](#evolution-and-migration)
+    - [Custom Control Extension](#custom-control-extension)
+    - [Custom Screen Extension](#custom-screen-extension)
 - [Architecture Decisions](#architecture-decisions)
 - [Source Map](#source-map)
 - [Related Documentation](#related-documentation)
 
 ## 🎯 Purpose
 
-NuciXNA.Gui provides immediate-mode GUI controls and screen management for MonoGame/XNA games and applications. It enables developers to create interactive user interfaces (buttons, menus, text, images, tooltips) that integrate seamlessly with the game loop. The library is designed for real-time applications where UI updates must synchronize with rendering at 60 FPS.
+NuciXNA.Gui provides retained GUI controls, menu interaction, cursor rendering, and screen lifecycle utilities for MonoGame/NuciXNA hosts. This current-state document records ownership, synchronous lifecycle order, integration boundaries, and compatibility-sensitive behaviour for consumers and contributors; host game logic and external package internals remain outside its scope.
 
 ## 🌐 System Context
 
@@ -50,70 +62,76 @@ The principal external boundaries are:
 
 ## 🏗️ Architectural Style
 
-NuciXNA.Gui follows a **Component-Based Architectural Style** with **Singleton Managers** and **Immediate-Mode GUI** principles. The library implements a retained-mode GUI where controls maintain state between frames, but follows immediate-mode rendering principles where the entire UI is redrawn each frame.
+NuciXNA.Gui combines retained component trees, template-method lifecycles, synchronous events, and singleton-based coordination. Controls retain state and ancestry between frames; the host chooses when to redraw them through MonoGame. Locked lazy construction protects only `Instance` creation, while mutable runtime state assumes serialised host access.
 
 ```mermaid
 graph TD
-    A[GuiManager Singleton] -->|Manages| B[GUI Controls]
-    B -->|Hierarchical| C[Control Children]
-    A -->|Updates| D[Game Loop]
-    A -->|Draws| E[SpriteBatch]
-    F[ScreenManager Singleton] -->|Manages| G[Screens]
-    G -->|Contains| B
+    A[Host Game Loop] -->|Update/Draw| F[ScreenManager]
+    F -->|Owns current/pending| G[IScreen]
+    G -->|Drives lifecycle| B[GuiManager]
+    B -->|Indexes roots by ID| C[GuiControl Roots]
+    C -->|Owns private children| D[GuiControl Descendants]
+    C -->|Uses events/state| E[InputManager]
 ```
 
 The principal architecture boundaries are:
-- **GuiManager:** Owns control registration, update/draw lifecycle, input handling
-- **Individual Controls:** Own visual state, layout, behavior, and child controls
-- **ScreenManager:** Owns screen transitions and active screen lifecycle
-- **Screens:** Own screen-specific control collections and logic
+- **GuiManager:** Owns the global root-control dictionary, root lifecycle traversal, click/focus arbitration, and defaults.
+- **Individual Controls:** Own retained visual/input/lifecycle state and private child-control lists.
+- **ScreenManager:** Owns current/pending screen references, transition overlay, and cached back-buffer size.
+- **Screens:** Own screen-specific hooks and drive the global GuiManager lifecycle; they expose no public control collection.
 
 ## 🔄 Runtime Flow
 
 ```mermaid
 sequenceDiagram
     participant App as Application
-    participant GM as GuiManager
     participant SM as ScreenManager
     participant S as Screen
+    participant GM as GuiManager
     participant C as GuiControl
 
-    loop Game Loop (60 FPS)
-        App->>GM: Update(GameTime)
-        GM->>SM: Update(GameTime)
-        SM->>S: Update(GameTime)
-        S->>C: Update(GameTime)
-        GM->>C: HandleInput()
-        GM->>C: Update(GameTime)
+    App->>SM: StartingScreenType; LoadContent()
+    SM->>S: Construct and LoadContent()
+    S->>S: DoLoadContent registers roots
+    S->>GM: LoadContent()
+    GM->>C: Load roots and children
 
-        App->>GM: Draw(SpriteBatch)
-        GM->>SM: Draw(SpriteBatch)
+    loop Host-selected game loop cadence
+        App->>SM: Update(GameTime)
+        SM->>S: Update(GameTime)
+        S->>S: DoUpdate(GameTime)
+        S->>GM: Update(GameTime)
+        GM->>C: Reverse HandleInput; forward Update
+
+        App->>SM: Draw(SpriteBatch)
         SM->>S: Draw(SpriteBatch)
-        S->>C: Draw(SpriteBatch)
+        S->>S: Clear; DoDraw(SpriteBatch)
+        S->>GM: Draw(SpriteBatch)
+        GM->>C: Draw roots and children
     end
+
+    App->>SM: UnloadContent()
+    SM->>S: Dispose and unload
+    S->>GM: Unload roots and clear registry
 ```
 
 The principal runtime sequence is:
-1. Application calls GuiManager.Update() with current GameTime
-2. GuiManager updates ScreenManager
-3. ScreenManager updates current Screen
-4. Screen updates its GuiControls
-5. GuiManager processes input for controls
-6. GuiManager updates controls (position, state, animations)
-7. Application calls GuiManager.Draw() with SpriteBatch
-8. GuiManager draws ScreenManager
-9. ScreenManager draws current Screen
-10. Screen draws its GuiControls
+1. The host configures and loads `ScreenManager`, which constructs/loads the starting screen and fixed transition sprite.
+2. `Screen.LoadContent` invokes its hook, then `GuiManager.LoadContent` loads every registered root and descendant.
+3. Each host update reaches the current screen, screen hook, manager reverse click polling, and forward control update traversal; an active transition advances afterwards.
+4. Each host draw reaches current-screen clear/hook, manager control drawing, and then the transition overlay when active.
+5. Shutdown or an opaque transition disposes the current screen; screen unload unloads and clears the complete root registry.
 
 ## 🧩 Components
 
 | Component | Responsibility | Principal Dependencies | Lifetime or Ownership |
 |-----------|----------------|------------------------|-----------------------|
-| `GuiManager` | Singleton manager for GUI control lifecycle, input handling, and rendering | NuciXNA.Input, NuciXNA.Gui.Controls | Application lifetime (singleton) |
-| `GuiControl` | Abstract base class for all GUI controls - provides layout, state, event handling | NuciXNA.Primitives, NuciXNA.Input | Control lifetime (managed by GuiManager or parent controls) |
-| `ScreenManager` | Singleton manager for screen transitions and active screen lifecycle | NuciXNA.Graphics.Drawing, NuciXNA.Graphics.SpriteEffects | Application lifetime (singleton) |
-| `IScreen` / `Screen` | Interface/base class for game screens that can contain GUI controls | NuciXNA.Gui.Controls | Screen lifetime (managed by ScreenManager) |
-| Concrete Controls (GuiImage, GuiText, etc.) | Specific GUI control implementations with visual rendering and behavior | NuciXNA.Gui.Controls, NuciXNA.Graphics.Drawing | Control lifetime |
+| `GuiManager` | Root registry, lifecycle traversal, click/focus arbitration, defaults | NuciXNA.Input, controls | Static instance normally used; public constructor permits others |
+| `GuiControl` | Retained state, effective values, child ownership, input events, lifecycle hooks | NuciXNA.Primitives, NuciXNA.Input | Root manager or parent control |
+| `ScreenManager` | Current/pending screen and transition overlay | NuciXNA.Graphics, `IScreen` | Static instance normally used; host drives lifecycle |
+| `IScreen` / `Screen` | Screen lifecycle, clear colour, input forwarding, manager coordination | GuiManager, graphics, input | ScreenManager |
+| Concrete controls | Graphics wrapper composition and menu/selection behaviour | Base control, NuciXNA.Graphics | Root manager or parent control |
+| `Cursor` | Independent custom pointer sprites and input subscriptions | NuciXNA.Graphics, NuciXNA.Input | Consuming host |
 
 ## 🗂️ Architectural Areas
 
@@ -128,9 +146,9 @@ Responsibilities:
 - Support hierarchical composition (controls can contain child controls)
 
 Boundary rules:
-- Depend only on NuciXNA.Gui.Controls, NuciXNA.Primitives, NuciXNA.Input, and NuciXNA.Graphics.Drawing
-- Do not depend on ScreenManager or Screens
-- Do not have direct access to SpriteBatch or GameTime (receive via method parameters)
+- Base and visual controls depend on primitives, input, graphics wrappers/effects, and MonoGame method parameters.
+- `GuiMenuLink` and `GuiTooltip` depend on `ScreenManager`; the controls area is not isolated from screens.
+- Descendants are private parent-owned children; only roots belong in `GuiManager`.
 
 ### Screens
 
@@ -145,7 +163,7 @@ Responsibilities:
 Boundary rules:
 - Depend on NuciXNA.Gui.Controls for GUI elements
 - Depend on NuciXNA.Graphics and NuciXNA.Graphics.Drawing for rendering
-- Do not depend on GuiManager for core functionality (use via singleton access)
+- `Screen` directly drives `GuiManager` after each derived hook; `MenuScreen` registers and focuses menu roots.
 
 ### Managers
 
@@ -159,9 +177,9 @@ Responsibilities:
 - Coordinate between application and library components
 
 Boundary rules:
-- Depend on their respective component areas (GuiManager depends on Controls, ScreenManager depends on Screens and Graphics)
-- Follow singleton pattern with thread-safe initialization
-- Do not depend on each other to avoid circular dependencies
+- `GuiManager` depends on controls/input; `ScreenManager` depends on screens/graphics.
+- Static `Instance` construction is locked, but constructors remain public and mutable operations are not generally thread-safe.
+- Managers do not directly call each other; `Screen` bridges screen management to control management.
 
 ## 💾 Data Architecture
 
@@ -189,23 +207,23 @@ flowchart TD
 | `Control Enabled State` | Individual GuiControl | Boolean flag | Mutable, controlled by application logic |
 | `Control Opacity` | Individual GuiControl | Float (0.0-1.0) | Mutable, supports fade animations |
 | `Control Text` | GuiText/GuiMenuText controls | String | Mutable, updated via application logic |
-| `Control Texture` | GuiImage controls | Texture2D reference | Shared, managed by consuming application |
-| `Control Hierarchy` | Parent GuiControl | List<GuiControl> | Mutable, supports dynamic UI construction |
+| `Control Content` | GuiImage/GuiText controls | Content identifiers and owned graphics wrappers | Loaded/unloaded with control lifecycle |
+| `Control Hierarchy` | Parent GuiControl | Private `List<GuiControl>` plus public Parent reference | Protected registration; unload clears children |
 | `Registered Controls` | GuiManager | Dictionary<string, GuiControl> | Mutable, cleared on UnloadContent() |
-| `Current Screen` | ScreenManager | IScreen reference | Mutable, changes during screen transitions |
+| `Current/Pending Screen` | ScreenManager | Private `IScreen` references | Pending constructed at request; loaded after old disposal |
 | `Transition Sprite` | ScreenManager | TextureSprite with opacity effect | Mutable, used only during screen transitions |
 
 ## 🔌 Interfaces and Integrations
 
 | Interface or Integration | Direction | Contract | Owner | Failure Semantics |
 |--------------------------|-----------|----------|-------|-------------------|
-| `IGuiControl` | Bidirectional | C# interface defining control contract | NuciXNA.Gui.Controls | Compile-time errors if not implemented correctly |
-| `IScreen` | Bidirectional | C# interface defining screen contract | NuciXNA.Gui.Screens | Compile-time errors if not implemented correctly |
+| `IGuiControl` | In-process public API | Control properties, events, and lifecycle; concrete Parent type | NuciXNA.Gui.Controls | Child registration casts to GuiControl; independent implementations fail there |
+| `IScreen` | In-process public API | Screen properties, events, lifecycle, and disposal | NuciXNA.Gui.Screens | ScreenManager reflected path casts to Screen despite interface constraint |
 | `Microsoft.Xna.Framework.GameTime` | Inbound | Game timing structure | MonoGame Framework | Application must provide valid GameTime |
 | `Microsoft.Xna.Framework.Graphics.SpriteBatch` | Inbound | Drawing interface | MonoGame Framework | Application must provide valid SpriteBatch |
-| `NuciXNA.Input.InputManager` | Inbound | Input state singleton | NuciXNA.Input | Returns default state if not initialized |
-| `NuciXNA.Graphics.Drawing.TextureSprite` | Outbound | Drawing utility | NuciXNA.Graphics.Drawing | Falls back to solid color if texture missing |
-| `NuciXNA.Graphics.SpriteEffects.FadeEffect` | Outbound | Animation utility | NuciXNA.Graphics.SpriteEffects | Uses default fade parameters if not configured |
+| `NuciXNA.Input.InputManager` | Bidirectional package boundary | Direct events plus mouse state/handled-flag queries | NuciXNA.Input/host | Package/event exceptions propagate; host owns input lifecycle |
+| `NuciXNA.Graphics.Drawing.TextureSprite` | Outbound | Content-backed image/cursor/overlay wrapper | NuciXNA.Graphics | Graphics/content exceptions propagate |
+| `NuciXNA.Graphics.SpriteEffects.FadeEffect` | Outbound | Fixed transition and menu text effects | NuciXNA.Graphics | Effect exceptions propagate; transition parameters are hard-coded |
 
 ## 🔀 Key Flows
 
@@ -218,10 +236,10 @@ sequenceDiagram
     participant C as GuiControl
 
     App->>GM: RegisterControl(control)
-    GM->>C: Validate control not null
-    GM->>GM: Add to guiControls dictionary
-    GM->>C: Set up reverse reference (if needed)
-    Note over GM,C: Control now receives Update/Draw calls
+    GM->>GM: Dictionary.Add(control.Id, control)
+    Note over GM,C: Duplicate/null IDs propagate dictionary failures
+    App->>GM: LoadContent via Screen lifecycle
+    GM->>C: LoadContent root and descendants
 ```
 
 ### Screen Transition Flow
@@ -230,25 +248,26 @@ sequenceDiagram
 sequenceDiagram
     participant App as Application
     participant SM as ScreenManager
-    parameter Transition Sprite
     participant TS as TransitionSprite
     participant CS as Current Screen
     participant NS as New Screen
 
     App->>SM: ChangeScreens<NewScreenType>()
-    SM->>NS: Create new screen instance
-    SM->>CS: Dispose current screen (if exists)
-    SM->>TS: Reset and activate transition sprite
+    SM->>NS: Construct pending screen only
+    SM->>TS: Activate increasing black overlay
     SM->>SM: Set Transitioning = true
-    loop During Transition (approx 1 second)
+    loop Until overlay opacity reaches 1
         App->>SM: Update(GameTime)
+        SM->>CS: Update old screen normally
         SM->>TS: Update opacity effect
-        SM->>TS: Draw transition sprite
         App->>SM: Draw(SpriteBatch)
         SM->>CS: Draw current screen (behind transition)
+        SM->>TS: Draw transition sprite
     end
-    SM->>NS: LoadContent() on new screen
+    SM->>CS: Dispose old screen and clear roots
     SM->>SM: Set currentScreen = newScreen
+    SM->>NS: LoadContent()
+    SM->>TS: Deactivate
     SM->>SM: Set Transitioning = false
 ```
 
@@ -261,17 +280,20 @@ sequenceDiagram
     participant GM as GuiManager
     participant C as GuiControl
 
-    App->>IM: Update input state (mouse/keyboard)
+    App->>IM: Advance input using package contract
+    IM->>C: Direct loaded-control events
     App->>GM: Update(GameTime)
-    GM->>IM: Check if mouse button handled
+    GM->>IM: Check shared mouse-button handled flag
     alt Mouse button not handled
-        GM->>C: HandleInput() for each control (reverse draw order)
-        C->>C: Check mouse bounds
-        C->>C: Raise Click event if applicable
-        GM->>IM: Mark mouse button as handled
+        GM->>C: HandleInput() for roots in reverse snapshot order
+        C->>C: Check effective state and DisplayRectangle
+        C->>C: Focus and raise Clicked if applicable
+        C->>IM: Mark mouse button as handled
     else Mouse button already handled
         GM->>C: Skip HandleInput() for controls
     end
+    GM->>IM: Reset handled flag
+    GM->>C: Update loaded, enabled roots forwards
 ```
 
 ## 🧵 Cross-Cutting Concerns
@@ -279,45 +301,45 @@ sequenceDiagram
 ### Security and Privacy
 
 NuciXNA.Gui operates within the trust boundary of the consuming application. It:
-- Does not perform input validation or sanitization (assumes trusted input from application)
-- Does not encrypt or protect data in memory (relies on application process security)
-- Does not communicate externally (no network, file, or registry access)
-- Has no secrets or sensitive data to protect
-- Relies on the application to handle any sensitive data passed to controls (e.g., password fields in GuiText)
+- Performs limited lifecycle/range validation and otherwise trusts host types, constructor arguments, content identifiers, input, effects, and event handlers.
+- Does not encrypt or protect in-memory UI state; host process security and data policy apply.
+- Contains no built-in network, persistence, logging, telemetry, authentication, or secret storage.
+- Relies on the host to constrain untrusted resource sizes/graphs and sensitive displayed data.
+- Treats package/content sources and reflection targets as supply-chain/trust boundaries.
 
 ### Error Handling
 
 The library follows these error handling principles:
-- **Null Argument Checking:** Public methods validate arguments and throw ArgumentNullException when appropriate
-- **State Validation:** Methods check object state (e.g., IsContentLoaded) before performing operations
-- **Exception Transparency:** Exceptions from dependencies (MonoGame, NuciXNA.* packages) are not caught unless they can be meaningfully handled
-- **Resource Safety:** Implements IDisposable pattern for controls that hold native resources (textures, etc.)
-- **Fail Fast:** Assumes consuming application will handle exceptions appropriately for UI failures
+- **State Validation:** Control/screen base lifecycles reject invalid loaded state with `InvalidOperationException`.
+- **Argument/Reflection Validation:** Managers perform little explicit validation; dictionary/reflection/cast exceptions propagate.
+- **Exception Transparency:** Dependency, hook, and event-handler exceptions propagate without logging/retry/translation.
+- **Partial Failure:** Load/unload loops and transition swaps have no rollback transaction.
+- **Selective Suppression:** Selector `TrySelectItem` catches only its documented lookup exception; active transition requests return silently.
 
 ### Observability
 
 NuciXNA.Gui provides limited built-in observability:
-- **Events:** Controls expose events (Click, LocationChanged, SizeChanged, etc.) for application monitoring
+- **Events:** Controls/screens expose lifecycle, property, input, `Clicked`, trigger, toggle, and selection events.
 - **State Properties:** All control state (position, size, visibility, etc.) is accessible via properties
 - **No Built-in Logging:** Does not include tracing, metrics, or health check endpoints
-- **Debug Visualization:** Can be extended with debug rendering overlays (not included in core library)
+- **Diagnostic Gap:** No trace correlation, event IDs, diagnostic renderer, benchmark, or health signal is built in.
 
 ### Configuration
 
 The library has no external configuration system. All configuration is done programmatically:
-- **Default Values:** GuiManager provides default property values for new controls
-- **Runtime Properties:** All control properties can be modified at runtime
+- **Default Values:** GuiManager supplies colour/font/texture-layout fallbacks; `DefaultMargins` currently has no production consumer.
+- **Runtime Properties:** Public manager/control/cursor properties configure behaviour; some state uses methods/private setters.
 - **No Configuration Files:** Does not read from app.config, json, xml, or other external sources
 - **Theme Support:** Applications must implement their own theming by setting control properties
 
 ### Concurrency and Resource Use
 
-- **Thread Safety:** Singleton managers use locks for thread-safe initialization
-- **Game Thread Assumption:** All Update/Draw methods are called from the main game thread
+- **Thread Safety:** Manager `Instance` creation is locked; collections and lifecycle methods are not generally thread-safe.
+- **Caller Thread:** Methods/events execute synchronously on their caller. A MonoGame host normally serialises them on its graphics/game thread, but the library does not enforce affinity.
 - **No Background Processing:** Does not use timers, background threads, or async operations
-- **Resource Disposal:** Controls implementing IDisposable properly release native resources
+- **Resource Disposal:** Screen/control disposal unloads graphics wrappers and unsubscribes events; manager unload does not explicitly dispose roots.
 - **Memory Management:** Relies on .NET garbage collection for managed objects
-- **Sprite Batch Efficiency:** Designed to work efficiently with SpriteBatch.Draw() calls
+- **Capacity Evidence:** The repository contains no benchmark or frame-budget guarantee; hosts must profile representative control trees/assets/effects.
 
 ## 🧭 Dependency Direction and Rules
 
@@ -336,10 +358,10 @@ graph TD
 
 The principal dependency rules are:
 - **NuciXNA.Gui depends only on:** NuciXNA.Graphics, NuciXNA.Input, NuciXNA.Primitives, and MonoGame.Framework
-- **No circular dependencies:** GuiManager does not depend on ScreenManager, and vice versa
-- **Layered architecture:** Controls depend on Primitives and Input; Managers depend on Controls and Graphics
-- **Stable abstractions:** Interfaces (IGuiControl, IScreen) depend only on primitive types and NuciXNA.* contracts
-- **Dependency direction:** Dependencies flow from high-level policy (GuiManager) to low-level details (primitives, input)
+- **Manager direction:** GuiManager does not call ScreenManager; Screen bridges ScreenManager to GuiManager.
+- **Cross-area dependencies:** GuiMenuLink/GuiTooltip/MenuScreen reach ScreenManager, so controls/screens are not strict layers.
+- **Public coupling:** IGuiControl and IScreen expose MonoGame, NuciXNA.Input, and NuciXNA.Primitives types.
+- **Ownership:** Register only roots with GuiManager; descendants belong to parent private lists.
 
 ## 📦 External Dependencies
 
@@ -354,10 +376,10 @@ The principal dependency rules are:
 
 | Concern | Current Design | Architectural Consequence |
 |---------|----------------|---------------------------|
-| **Process topology** | Single-threaded library operating within application's main thread | No inter-process communication; all calls synchronous |
+| **Process topology** | In-process synchronous library; no internal worker/scheduler | Host serialises lifecycle on a MonoGame-compatible thread |
 | **Persistent state** | None - all state is transient memory state | Application must persist UI state if needed (e.g., via serialization) |
-| **Filesystem/network requirements** | None - library performs no I/O operations | Zero deployment footprint beyond DLL references |
-| **Scaling assumptions** | Designed for fixed-resolution or scalable UI via layout systems | Applications must handle resolution changes and DPI scaling |
+| **Filesystem/network requirements** | No direct I/O/network source; content resolution belongs to NuciXNA.Graphics/host | Deploy assembly/dependencies and required host assets/fonts |
+| **Scaling assumptions** | Screen manager tracks back-buffer size; menu/tooltip use it | Host owns DPI/content/layout policy; size is not refreshed mid-transition |
 | **Startup responsibilities** | Application must initialize dependencies and call LoadContent() | Clear initialization sequence required |
 | **Shutdown responsibilities** | Application must call UnloadContent() to release resources | Prevents resource leaks in long-running applications |
 | **Operator-visible outputs** | Visual GUI elements rendered to screen; no console/log output | Debugging requires visual inspection or application-provided logging |
@@ -366,19 +388,19 @@ The principal dependency rules are:
 
 | Contract | Owner | Invariant | Verification | Change Policy |
 |----------|-------|-----------|--------------|---------------|
-| `IGuiControl Interface` | NuciXNA.Gui.Controls | All GUI controls must implement Id, Location, Size, Visible, Enabled, Opacity properties and Update/Draw/HandleInput/LoadContent/UnloadContent methods | Compile-time verification; unit tests for concrete implementations | Major version change required for breaking changes |
-| `IScreen Interface` | NuciXNA.Gui.Screens | All screens must implement LoadContent, UnloadContent, Update, Draw methods | Compile-time verification; integration tests | Major version change required for breaking changes |
-| `Control Event Signatures` | NuciXNA.Gui.Controls | Events like Click, LocationChanged, SizeChanged use standard .NET EventHandler patterns | Compile-time verification; usage testing | Minor version change for additions; major for breaking changes |
-| `Default Property Values` | GuiManager | DefaultBackgroundColour, DefaultForegroundColour, etc. have sensible defaults | Unit tests; visual regression testing | Minor version change with documentation |
-| `Singleton Access Pattern` | GuiManager, ScreenManager | Instance property returns thread-safe singleton | Unit tests; stress testing | Major version change required |
+| `IGuiControl Interface` | NuciXNA.Gui.Controls | Public properties/events/lifecycle plus concrete GuiControl Parent | Compilation and base-control tests; independent implementations untested | Treat signature/semantics changes as public compatibility changes |
+| `IScreen Interface` | NuciXNA.Gui.Screens | Public screen properties/events/lifecycle/disposal | Compilation and Screen tests; independent implementations untested | Align interface and manager concrete-cast policy deliberately |
+| `Lifecycle/Event Order` | GuiControl/Screen | Hooks, children/manager calls, flags, and events preserve order | Unit event traces; integration gaps documented | Add characterisation tests before change |
+| `Content Identifiers` | Graphics-using types | Conventional fill/cursor/font identifiers remain resolvable | Host/manual integration | Document/migrate asset changes with consumers |
+| `Manager Instance Access` | Managers and internal callers | Static Instance is the internally used coordinator | Compilation; no focused singleton stress tests | Public constructor/static-access changes require migration analysis |
 
 ## ✅ Testing and Verification
 
 The library architecture is verified through:
-- **Unit Tests:** NuciXNA.Gui.UnitTests project tests individual control behavior and manager functionality
-- **Integration Tests:** Manual testing of control composition and screen transitions
-- **Runtime Verification:** Visual verification of rendering and input handling
-- **Contract Testing:** Verification that interfaces are properly implemented by concrete classes
+- **Unit Tests:** NuciXNA.Gui.UnitTests covers base control/screen lifecycle/properties and menu-control state/behaviour.
+- **Coverage Gaps:** No focused manager, transition, MenuScreen, Cursor, GuiText, GuiImage, GuiTooltip, graphics-device, or end-to-end input tests.
+- **Manual Verification:** Rendering/content/input/transitions require a representative MonoGame/NuciXNA host until integration automation exists.
+- **CI:** Ubuntu restores, builds, and runs tests after installing .NET 10 and Microsoft core fonts; no coverage report is configured.
 
 Execute the principal automated verification with:
 
@@ -388,93 +410,60 @@ dotnet test NuciXNA.GUI.slnx
 
 ## ⚠️ Design Constraints
 
-- **Real-time Performance:** All operations must complete within 16ms (60 FPS) frame budget
-- **Immediate Mode Rendering:** Entire UI redrawn each frame; no retained rendering buffers
-- **MonoGame Coupling:** Tightly coupled to MonoGame 3.8+ API surface
-- **No External Dependencies:** Cannot depend on network, databases, or file systems
-- **Backward Compatibility:** Must maintain compatibility with existing GuiControl implementations
-- **Threading Model:** Assumes single-threaded game loop; no built-in multi-threading support
+- **No Published Performance Budget:** Traversal scales with roots/descendants and graphics effects; benchmark in the host.
+- **Retained State, Per-Frame Draw:** No dirty-region/render cache; host controls cadence/batching.
+- **MonoGame/NuciXNA Coupling:** Public contracts directly expose package types and exact declared dependency versions.
+- **Global State:** Internal code hardcodes static manager instances even though constructors are public.
+- **No Persistence/Networking/Logging:** Hosts own these concerns and any resulting privacy/security boundary.
+- **Synchronous Mutable State:** No general concurrency/thread-affinity enforcement.
+- **Partial Failure:** Lifecycle loops and transition swap have no rollback transaction.
 
 ## 🔧 Extension Points
 
 ### Custom Control Extension
 
-1. **Implement or revise the owning contract:** Inherit from GuiControl abstract class or implement IGuiControl interface
-2. **Register or integrate the implementation:** Instantiate and register with GuiManager or add as child to existing control
-3. **Add the verification required to preserve neighbouring contracts:** Ensure Update, Draw, HandleInput, LoadContent, UnloadContent methods follow expected patterns
+1. Inherit from `GuiControl` and implement all four protected lifecycle hooks.
+2. Register roots through `GuiManager` during screen `DoLoadContent`; register descendants through protected child methods.
+3. Add lifecycle, inheritance, input, draw-order, failure, and disposal tests.
 
-[[State any naming, lifetime, protocol, ordering, or compatibility convention that the extension must preserve.]]
-- Controls must follow the Update/Draw game loop pattern
-- Controls must properly dispose of native resources
-- Controls must raise events for state changes
-- Controls must respect parent control transformations (location, size, opacity)
+Independent `IGuiControl` implementations cannot be registered as children because child registration casts to `GuiControl`. Preserve hook/event/child ordering and unsubscribe external events on unload.
 
 ### Custom Screen Extension
 
-1. **Implement or revise the owning contract:** Inherit from Screen base class or implement IScreen interface
-2. **Register or integrate the implementation:** Set as StartingScreenType or change to via ScreenManager.ChangeScreens()
-3. **Add the verification required to preserve neighbouring contracts:** Ensure LoadContent, UnloadContent, Update, Draw methods follow expected patterns
+1. Inherit from `Screen` and implement its four protected lifecycle hooks.
+2. Supply it as `StartingScreenType` or through `ScreenManager.ChangeScreens`, with matching constructor arguments.
+3. Add lifecycle, root-registry, input, transition, and failure tests.
 
-[[State any naming, lifetime, protocol, ordering, or compatibility convention that the extension must preserve.]]
-- Screens must properly load and unload content
-- Screens must manage their own control collections
-- Screens must follow the Update/Draw game loop pattern
-- Screens must coordinate with ScreenManager for transitions
-
-## 🌱 Evolution and Migration
-
-### Current State
-
-NuciXNA.Gui provides immediate-mode GUI controls with singleton managers, component-based controls, and screen management. The library is tightly integrated with the MonoGame game loop and provides no persistent state or external integrations.
-
-### Target State
-
-The library could evolve toward:
-- More flexible rendering backends (not tied to MonoGame SpriteBatch)
-- Optional persistent state management for UI configurations
-- Enhanced theming and styling systems
-- Accessibility improvements (keyboard navigation, screen reader support)
-- More sophisticated layout systems (anchoring, docking, grid-based)
-
-### Transition
-
-1. **Abstract rendering interface:** Introduce IRenderer abstraction to decouple from MonoGame SpriteBatch
-2. **Add persistence options:** Optional JSON/XML serialization for control state
-3. **Enhance theming system:** Introduce theme resources and style inheritance
-4. **Improve accessibility:** Add keyboard focus management and ARIA-like properties
-5. **Modularize layout system:** Extract layout logic into reusable components
-
-Compatibility requirements:
-- **IGuiControl contract must remain stable** - existing controls must continue to work
-- **Singleton manager pattern must be preserved** - GuiManager and ScreenManager access must remain consistent
-- **Game loop integration must be maintained** - Update/Draw methods must continue to be called per frame
-- **Event-based interaction model must be preserved** - Controls must continue to raise events for state changes
+The manager's reflected transition path casts to concrete `Screen`, so independent `IScreen` implementations are not currently viable. Register roots in `DoLoadContent`; the base screen loads them afterwards.
 
 ## 📝 Architecture Decisions
 
 | Decision | Rationale | Consequence | Record |
 |----------|-----------|-------------|--------|
-| **Singleton Managers** | Simplifies access from anywhere in application; avoids passing manager references everywhere | Global state that complicates testing; tight coupling to manager classes | Documented here |
-| **Immediate Mode Rendering** | Simplifies implementation; matches MonoGame/XNA rendering paradigm | Higher GPU usage; no batching optimization opportunities | Documented here |
-| **Component-Based Controls** | Enables complex UIs through composition; follows established GUI patterns | Requires careful management of parent-child relationships; potential for deep hierarchies | Documented here |
-| **Event-Based Interaction** | Familiar .NET pattern; decouples controls from application logic | Potential for memory leaks if events not properly unsubscribed | Documented here |
-| **Dependency on NuciXNA.* Packages** | Leverages existing utility libraries; reduces code duplication | Creates ecosystem lock-in; requires consumers to use entire NuciXNA stack | Documented here |
-| **No Built-in Theming** | Keeps core library simple; allows applications to implement their own styling | Applications must duplicate styling logic; inconsistent look and feel across apps | Documented here |
+| Static manager instances | Historical rationale is not recorded; production code consistently uses `Instance` | Global mutable state and difficult substitution despite public constructors | [Design Decisions](docs/design-decisions.md) |
+| Retained controls with per-frame drawing | Matches implemented stateful controls and host-driven MonoGame draw calls | No dirty-region/cache; host profiles actual cost | [Design Decisions](docs/design-decisions.md) |
+| Template-method lifecycle | Base classes enforce observed hook/event/child-manager order | Derived types must preserve base-hook dependencies | [Design Decisions](docs/design-decisions.md) |
+| Synchronous input/events | Directly follows NuciXNA.Input and .NET event implementation | Subscriber work/failures occur inline; unload balance is material | [Design Decisions](docs/design-decisions.md) |
+| In-memory state only | No persistence/configuration provider exists in production source | Host owns durable state and all resulting data policy | [State and Persistence](docs/state-and-persistence.md) |
+| Fixed black transition overlay | ScreenManager constructs one hard-coded TextureSprite/FadeEffect | No public strategy/duration; pending load occurs after old disposal | [Screen Transitions](docs/flows/screen-transitions.md) |
 
 ## 🗺️ Source Map
 
 | Area | Path |
 |------|------|
-| Controls | `NuciXNA.Gui/Controls/` |
-| Screens | `NuciXNA.Gui/Screens/` |
-| Managers | `NuciXNA.Gui/GuiManager.cs`, `NuciXNA.Gui/Screens/ScreenManager.cs` |
-| Project File | `NuciXNA.Gui/NuciXNA.Gui.csproj` |
-| Unit Tests | `NuciXNA.Gui.UnitTests/` |
+| Controls | [`NuciXNA.Gui/Controls/`](NuciXNA.Gui/Controls/) |
+| Screens | [`NuciXNA.Gui/Screens/`](NuciXNA.Gui/Screens/) |
+| Managers | [`GuiManager.cs`](NuciXNA.Gui/GuiManager.cs), [`ScreenManager.cs`](NuciXNA.Gui/Screens/ScreenManager.cs) |
+| Project File | [`NuciXNA.Gui.csproj`](NuciXNA.Gui/NuciXNA.Gui.csproj) |
+| Unit Tests | [`NuciXNA.Gui.UnitTests/`](NuciXNA.Gui.UnitTests/) |
 
 ## 📚 Related Documentation
 
 - [README.md](README.md) - General project overview and usage instructions
+- [Documentation Index](docs/INDEX.md) - Detailed repository knowledge base and navigation
+- [Detailed Architecture](docs/architecture.md) - Implementation-level architecture mechanics
+- [API Reference](docs/api-reference/INDEX.md) - Exact public contracts and edge semantics
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Guidelines for contributing to the project
 - [SECURITY.md](SECURITY.md) - Security vulnerability reporting policy
 - [PRIVACY.md](PRIVACY.md) - Privacy and personal data handling information
-- [LICENSE](LICENSE) - MIT license terms
+- [LICENSE](LICENSE) - GNU General Public License v3.0 or later
