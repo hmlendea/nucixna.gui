@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="NuciXNA.Gui\NuciXNA.Gui.csproj" />
+  <Project Path="NuciXNA.Gui.UnitTests\NuciXNA.Gui.UnitTests.csproj" />
+</Solution>
