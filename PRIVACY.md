@@ -1,6 +1,6 @@
 # Privacy and Personal Data
 
-NuciXNA.Gui is a .NET GUI library for MonoGame/XNA applications. It is a self-contained library with no network connectivity, telemetry, or data collection capabilities.
+This document covers the NuciXNA.Gui in-process .NET library and its verified data handling. The library requests and collects no personal data automatically, but a consuming application may supply runtime UI values that contain personal data; the host controls those values and their lifecycle.
 
 **Information reviewed:** 2026-10-13
 
@@ -8,6 +8,9 @@ NuciXNA.Gui is a .NET GUI library for MonoGame/XNA applications. It is a self-co
 
 - [What This Document Covers](#what-this-document-covers)
 - [Data We Handle](#data-we-handle)
+	- [Data Provided to the Application](#data-provided-to-the-application)
+	- [Data Generated or Collected by the Application](#data-generated-or-collected-by-the-application)
+	- [Data Received from Integrations](#data-received-from-integrations)
 - [Processing and Use](#processing-and-use)
 - [Storage, Retention, and Deletion](#storage-retention-and-deletion)
 - [External Processing and Integrations](#external-processing-and-integrations)
@@ -17,33 +20,37 @@ NuciXNA.Gui is a .NET GUI library for MonoGame/XNA applications. It is a self-co
 
 ## 🔎 What This Document Covers
 
-This document describes how NuciXNA.Gui handles personal data. NuciXNA.Gui is a .NET class library that provides GUI controls (buttons, menus, text, images, tooltips) and screen management for MonoGame/XNA games and applications. It has no network capabilities, no telemetry, no crash reporting, and no external service integrations.
+This document describes how NuciXNA.Gui at https://github.com/hmlendea/nucixna.gui handles personal data. It covers the library behaviour and verified integrations described below. NuciXNA.Gui provides GUI controls and screen management inside a consuming MonoGame/NuciXNA application; it has no built-in network transfer, telemetry, crash reporting, persistence, logging, or external service integration.
 
 ## 📥 Data We Handle
 
 ### Data Provided to the Application
 
-NuciXNA.Gui does not request, collect, or process any personal data from users, administrators, or connected systems.
+- NuciXNA.Gui requests no personal data itself. A consuming application can pass text, selection values, content identifiers, constructor parameters, and event data at runtime; those values may contain personal data depending on the host.
 
 ### Data Generated or Collected by the Application
 
-NuciXNA.Gui does not generate, collect, or store any personal data automatically. It does not produce logs, telemetry, crash reports, or usage analytics.
+- NuciXNA.Gui generates or collects no personal data automatically and produces no built-in logs, telemetry, crash reports, or usage analytics.
 
 ### Data Received from Integrations
 
-NuciXNA.Gui has no built-in integrations with external services and does not receive data from third parties.
+- NuciXNA.Gui has no built-in external service integration and receives no personal data from third parties.
 
 ## 🧭 Processing and Use
 
-NuciXNA.Gui processes only the data explicitly passed to it by the consuming application at runtime (e.g., text strings for display, texture references for images, layout coordinates). This data exists only in memory during application execution and is not persisted, transmitted, or analyzed by the library.
+The application processes the data described above for these verified functions:
+- UI display and interaction - host-provided text, selections, layout, colours, content identifiers, and constructor parameters.
+- Input and lifecycle event delivery - NuciXNA.Input event arguments and host event handlers.
+
+These values exist only in process memory from this library's perspective and are not persisted, transmitted, logged, or analysed by NuciXNA.Gui.
 
 ## 🗄️ Storage, Retention, and Deletion
 
-NuciXNA.Gui does not persist any data to disk, databases, caches, or backups. All data exists only in the consuming application's memory for the duration of the application session. The consuming application controls all data lifecycle.
+NuciXNA.Gui stores no data in files, databases, external caches, logs, or backups. Library-owned state remains in the consuming process until controls/screens/cursors are unloaded, disposed, dereferenced, or the process ends. The consuming application controls any separate persistence, deletion, logs, crash dumps, screenshots, and backups.
 
 ## 🔗 External Processing and Integrations
 
-NuciXNA.Gui has no built-in external data transfer, network connectivity, or third-party service integrations.
+NuciXNA.Gui has no built-in external data transfer. MonoGame and the declared NuciXNA packages execute in process to provide graphics, input, and primitive types; this repository does not send UI values to them as remote processors.
 
 | Service or integration | Purpose | Data involved | Configuration or documentation |
 |-----------------------|---------|---------------|--------------------------------|
@@ -51,13 +58,13 @@ NuciXNA.Gui has no built-in external data transfer, network connectivity, or thi
 
 ## 🛡️ Data Protection and Security
 
-NuciXNA.Gui is a library with no attack surface for data exfiltration. It does not:
+NuciXNA.Gui provides no authentication, encryption, sandbox, or data-loss-prevention boundary. It does not:
 - Open network ports or make HTTP requests
 - Read or write files outside the consuming application's control
 - Execute code from untrusted sources
 - Store secrets, credentials, or tokens
 
-The consuming application is responsible for its own security posture, including any data it passes to NuciXNA.Gui controls.
+The consuming application is responsible for updates, content/package provenance, process access, event handlers, crash dumps, screenshots, and any data it passes to NuciXNA.Gui controls. See [SECURITY.md](./SECURITY.md) for vulnerability reporting; no absolute security guarantee is made.
 
 ## 🔄 Document Changes
 
@@ -65,4 +72,4 @@ Update this document if NuciXNA.Gui adds network capabilities, telemetry, extern
 
 ## 📬 Contact
 
-For questions about NuciXNA.Gui data handling, contact the project maintainers via the repository issue tracker. NuciXNA.Gui does not handle personal data directly; any data concerns should be directed to the consuming application's operator.
+For questions about application data handling, contact the project maintainers. For a consuming application, contact its operator unless this project explicitly handles the request. Include enough information to identify the library data flow; do not send passwords, access tokens, personal data, or other secrets.

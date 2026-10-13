@@ -5,9 +5,18 @@ This document covers the guidelines and processes for contributing to this proje
 ## 📑 Table of Contents
 
 - [How to Contribute](#how-to-contribute)
-- [Code of Conduct](#code-of-conduct)
-- [Security Policy](#security-policy)
+  - [Reporting Issues](#reporting-issues)
+  - [Suggesting Enhancements](#suggesting-enhancements)
+  - [Code Contributions](#code-contributions)
+    - [Prerequisites](#prerequisites)
+    - [Development Setup](#development-setup)
+    - [Making Changes](#making-changes)
+    - [Pull Request Guidelines](#pull-request-guidelines)
+  - [Testing](#testing)
+  - [Documentation](#documentation)
+- [Security](#security)
 - [License](#license)
+- [Getting Help](#getting-help)
 
 ## 🤝 How to Contribute
 
@@ -28,7 +37,7 @@ This document covers the guidelines and processes for contributing to this proje
 
 #### Prerequisites
 
-- .NET SDK 10.0 or later
+- .NET 10 SDK
 - Git
 
 #### Development Setup
@@ -38,7 +47,7 @@ This document covers the guidelines and processes for contributing to this proje
 git clone https://github.com/hmlendea/NuciXNA.Gui.git
 cd NuciXNA.Gui
 
-# Restore dependencies
+# Install dependencies
 dotnet restore NuciXNA.GUI.slnx
 ```
 
@@ -48,24 +57,17 @@ dotnet restore NuciXNA.GUI.slnx
 2. Create a feature branch: `git checkout -b feature/your-feature-name`
 3. Make your changes.
 4. Run tests: `dotnet test NuciXNA.GUI.slnx`
-5. Run build: `dotnet build NuciXNA.GUI.slnx --configuration Release`
-6. Commit with clear and descriptive messages.
-7. Push to your fork.
-8. Open a Pull Request.
+5. Commit with clear and descriptive messages.
+6. Push to your fork.
+7. Open a Pull Request.
 
 #### Pull Request Guidelines
 
-- Target the `dev` branch.
+- Target the `master` branch.
 - Keep PRs focused and atomic.
 - Update documentation if applicable.
 - Add tests for any new functionality.
 - Ensure the CI checks pass.
-
-### Code Style
-
-Follow the project's coding standards:
-- C# coding conventions per `csharp.coding.instructions.md`
-- Run `dotnet format NuciXNA.GUI.slnx` before committing.
 
 ### Testing
 
@@ -83,14 +85,15 @@ dotnet test NuciXNA.Gui.UnitTests/NuciXNA.Gui.UnitTests.csproj
 - Follow the documentation style guide.
 - Preview changes locally if possible.
 
-## 📋 Code of Conduct
+## 🔒 Security
 
-This project follows the [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## 🛡️ Security Policy
-
-See [Security Policy](SECURITY.md) for vulnerability reporting.
+Report security vulnerabilities per the [Security Policy](./SECURITY.md).
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+By contributing, you agree that your contributions will be licensed under the GNU General Public License v3.0 or later.
+
+## ❓ Getting Help
+
+- Use the [GitHub issue tracker](https://github.com/hmlendea/nucixna.gui/issues).
+- Check existing issues and [documentation](./docs/INDEX.md) first.
