@@ -13,7 +13,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
     [TestFixture]
     public class ScreenExtendedTests
     {
-        // ── Id uniqueness ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenTwoFreshScreens_WhenGettingIds_ThenIdsAreDifferent()
@@ -46,7 +45,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.Id, Is.EqualTo("SolairOfAstora"));
         }
 
-        // ── Default property values ────────────────────────────────────────────
 
         [Test]
         public void GivenFreshScreen_WhenGettingIsContentLoaded_ThenIsFalse()
@@ -64,7 +62,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.IsDisposed, Is.False);
         }
 
-        // ── LoadContent event ordering ─────────────────────────────────────────
 
         [Test]
         public void GivenFreshScreen_WhenLoadContent_ThenContentLoadingFiresBeforeContentLoaded()
@@ -82,7 +79,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(loadingOrder, Is.LessThan(loadedOrder));
         }
 
-        // ── UnloadContent ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedScreen_WhenUnloadContent_ThenContentUnloadingFiresBeforeContentUnloaded()
@@ -113,7 +109,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.IsContentLoaded);
         }
 
-        // ── Dispose ────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedScreen_WhenDispose_ThenDisposingFiresBeforeDisposed()
@@ -156,7 +151,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-        // ── BackgroundColour ───────────────────────────────────────────────────
 
         [Test]
         public void GivenScreen_WhenSettingBackgroundColourTwice_ThenLastValueWins()
@@ -181,7 +175,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(fireCount, Is.EqualTo(2));
         }
 
-        // ── ForegroundColour ───────────────────────────────────────────────────
 
         [Test]
         public void GivenScreen_WhenSettingForegroundColourTwice_ThenLastValueWins()

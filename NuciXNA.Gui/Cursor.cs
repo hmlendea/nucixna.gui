@@ -171,23 +171,23 @@ namespace NuciXNA.Gui
             clickSprite?.Scale = Scale;
         }
 
-        private void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs eventArguments)
         {
-            if (object.Equals(e.Button, MouseButton.Left))
+            if (object.Equals(eventArguments.Button, MouseButton.Left))
             {
                 State = ButtonState.Pressed;
             }
         }
 
-        private void OnInputManagerMouseButtonReleased(object sender, MouseButtonEventArgs e)
+        private void OnInputManagerMouseButtonReleased(object sender, MouseButtonEventArgs eventArguments)
         {
-            if (object.Equals(e.Button, MouseButton.Left))
+            if (object.Equals(eventArguments.Button, MouseButton.Left))
             {
                 State = ButtonState.Released;
             }
         }
 
-        private void OnInputManagerMouseMoved(object sender, MouseEventArgs e) => Location = e.Location;
+        private void OnInputManagerMouseMoved(object sender, MouseEventArgs eventArguments) => Location = eventArguments.Location;
 
         private void ReloadIdleSprite()
         {

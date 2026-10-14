@@ -15,7 +15,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             menuText = new GuiMenuText();
         }
 
-        // ── IsSelectable ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshMenuText_WhenGettingIsSelectable_ThenIsFalse()

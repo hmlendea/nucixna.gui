@@ -10,7 +10,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiControlPropertyTests
     {
-        // ── Opacity ────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenNoOpacitySet_WhenGettingOpacity_ThenDefaultIsOne()
@@ -106,7 +105,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(3));
         }
 
-        // ── Location ───────────────────────────────────────────────────────────
 
         [Test]
         public void GivenNoLocationSet_WhenGettingLocation_ThenReturnsEmpty()
@@ -187,7 +185,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(control.ScreenLocation.Y, Is.EqualTo(0));
         }
 
-        // ── Size ───────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenNoSizeSet_WhenGettingSize_ThenReturnsEmpty()
@@ -241,7 +238,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.Size, Is.EqualTo(new Size2D(613, 873)));
         }
 
-        // ── ClientRectangle / DisplayRectangle ────────────────────────────────
 
         [Test]
         public void GivenLocationAndSize_WhenGettingClientRectangle_ThenMatchesLocationAndSize()
@@ -283,7 +279,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.DisplayRectangle.Location.Y, Is.EqualTo(70));
         }
 
-        // ── BackgroundColour inheritance ───────────────────────────────────────
 
         [Test]
         public void GivenBackgroundColourSet_WhenGettingBackgroundColour_ThenReturnsSetValue()
@@ -342,7 +337,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.BackgroundColour, Is.EqualTo(Colour.Red));
         }
 
-        // ── ForegroundColour inheritance ───────────────────────────────────────
 
         [Test]
         public void GivenForegroundColourSet_WhenGettingForegroundColour_ThenReturnsSetValue()
@@ -388,7 +382,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.ForegroundColour, Is.EqualTo(Colour.Red));
         }
 
-        // ── FontName inheritance ───────────────────────────────────────────────
 
         [Test]
         public void GivenFontNameSet_WhenGettingFontName_ThenReturnsSetValue()
@@ -447,7 +440,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.FontName, Is.EqualTo("GrandparentFont"));
         }
 
-        // ── Parent visibility/enabled propagation ──────────────────────────────
 
         [Test]
         public void GivenParentHidden_WhenChildIsVisible_ThenChildIsVisibleIsFalse()
@@ -517,7 +509,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.IsEnabled, Is.False);
         }
 
-        // ── Parent reference ───────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenGettingParent_ThenIsNull()
@@ -550,7 +541,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.Parent, Is.EqualTo(secondParent));
         }
 
-        // ── Opacity event suppression ──────────────────────────────────────────
 
         [TestCase(0.5f, 0.5f)]
         [TestCase(1.5f, 2.0f)]

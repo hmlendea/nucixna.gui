@@ -344,12 +344,12 @@ namespace NuciXNA.Gui.Screens
             InputManager.Instance.GamepadButtonPressed -= OnGamepadButtonPressed;
         }
 
-        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e) => KeyPressed?.Invoke(sender, e);
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs eventArguments) => KeyPressed?.Invoke(sender, eventArguments);
 
-        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => MouseButtonPressed?.Invoke(sender, e);
+        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs eventArguments) => MouseButtonPressed?.Invoke(sender, eventArguments);
 
-        private void OnMouseMoved(object sender, MouseEventArgs e) => MouseMoved?.Invoke(sender, e);
+        private void OnMouseMoved(object sender, MouseEventArgs eventArguments) => MouseMoved?.Invoke(sender, eventArguments);
 
-        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e) => GamepadButtonPressed?.Invoke(sender, e);
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs eventArguments) => GamepadButtonPressed?.Invoke(sender, eventArguments);
     }
 }

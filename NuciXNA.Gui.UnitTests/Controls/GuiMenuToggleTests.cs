@@ -124,7 +124,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(toggle.IsOn, Is.True);
         }
 
-        // ── SwitchOn / SwitchOff events ────────────────────────────────────────
 
         [Test]
         public void GivenToggleOff_WhenSwitchOn_ThenFiresStateChanged()

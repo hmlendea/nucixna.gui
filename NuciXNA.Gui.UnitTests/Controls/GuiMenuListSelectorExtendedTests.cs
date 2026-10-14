@@ -19,7 +19,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             selector = new GuiMenuListSelector();
         }
 
-        // ── Initial state ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshSelector_WhenGettingSelectedIndex_ThenIsMinusOne()
@@ -45,7 +44,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
         public void GivenFreshSelector_WhenGettingValues_ThenIsEmpty()
             => Assert.That(selector.Values, Is.Empty);
 
-        // ── SetItems – replaces previous collection ────────────────────────────
 
         [Test]
         public void GivenItemsAlreadySet_WhenSetItemsCalledAgain_ThenItemsCountMatchesNewCollection()
@@ -114,7 +112,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(2));
         }
 
-        // ── SetItems – string params overload ──────────────────────────────────
 
         [TestCase("Dark Souls III")]
         [TestCase("Minecraft", "Terraria", "RuneScape", "Narivia", "SokoGrump")]
@@ -142,7 +139,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo("Dark Souls III"));
         }
 
-        // ── SetItems – KeyValuePair params overload ────────────────────────────
 
         [Test]
         public void GivenKeyValuePairParams_WhenSetItems_ThenAllKeysArePresent()
@@ -180,7 +176,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.ItemsCount, Is.EqualTo(3));
         }
 
-        // ── SelectItemByIndex – key and value cache consistency ────────────────
 
         [TestCase(0, "a", "Apple")]
         [TestCase(1, "b", "Banana")]
@@ -206,7 +201,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo(expectedValue));
         }
 
-        // ── SelectItemByKey – cache consistency ────────────────────────────────
 
         [TestCase("a", 0, "Apple")]
         [TestCase("b", 1, "Banana")]
@@ -224,7 +218,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo(expectedValue));
         }
 
-        // ── SelectItemByValue – cache consistency ──────────────────────────────
 
         [TestCase("Apple", 0, "a")]
         [TestCase("Banana", 1, "b")]
@@ -242,7 +235,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedKey, Is.EqualTo(expectedKey));
         }
 
-        // ── SelectNextItem / SelectPreviousItem – cache consistency ────────────
 
         [Test]
         public void GivenItemsAtFirstIndex_WhenSelectNextItem_ThenCacheIsCorrect()
@@ -290,7 +282,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo("Banana"));
         }
 
-        // ── Navigation – full cycle ────────────────────────────────────────────
 
         [Test]
         public void GivenThreeItems_WhenCyclingNextThreeTimes_ThenReturnsToFirstIndex()
@@ -331,7 +322,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedIndex, Is.EqualTo(1));
         }
 
-        // ── TrySelectItem(string) ─────────────────────────────────────────────
 
         [Test]
         public void GivenItems_WhenTrySelectItemByValueWithValidValue_ThenSelectedValueUpdated()
@@ -365,7 +355,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired, Is.False);
         }
 
-        // ── TrySelectItem(int) ────────────────────────────────────────────────
 
         [Test]
         public void GivenItems_WhenTrySelectItemByCurrentIndex_ThenDoesNotFireSelectedItemChanged()
@@ -397,7 +386,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedIndex, Is.EqualTo(0));
         }
 
-        // ── GetItems – isolation ───────────────────────────────────────────────
 
         [Test]
         public void GivenItems_WhenGetItemsReturnedAndModified_ThenOriginalIsUnchanged()
@@ -435,7 +423,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(result.Count, Is.EqualTo(0));
         }
 
-        // ── SelectedItemChanged event args ────────────────────────────────────
 
         [Test]
         public void GivenItems_WhenSelectNextItem_ThenSelectedItemChangedArgsAreCorrect()
@@ -492,7 +479,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(receivedArgs.SelectedValue, Is.EqualTo("Banana"));
         }
 
-        // ── Boundary – single item ─────────────────────────────────────────────
 
         [Test]
         public void GivenSingleItem_WhenSelectItemByIndex0_ThenCacheIsCorrect()
@@ -512,7 +498,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.Throws<IndexOutOfRangeException>(() => selector.SelectItemByIndex(1));
         }
 
-        // ── Keys and Values collections ────────────────────────────────────────
 
         [Test]
         public void GivenThreeItems_WhenGettingKeys_ThenCountIsThree()

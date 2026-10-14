@@ -15,13 +15,11 @@ namespace NuciXNA.Gui.UnitTests.Controls
             toggle = new GuiMenuToggle();
         }
 
-        // ── Initial state ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshToggle_WhenGettingIsOn_ThenIsFalse()
             => Assert.That(toggle.IsOn, Is.False);
 
-        // ── SetState – idempotency ─────────────────────────────────────────────
 
         [TestCase(false, false, false)]
         [TestCase(true, true, true)]
@@ -57,7 +55,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(expectedFireCount));
         }
 
-        // ── SwitchOn ───────────────────────────────────────────────────────────
 
         [Test]
         public void GivenToggleOff_WhenSwitchOn_ThenIsOnIsTrue()
@@ -112,7 +109,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-        // ── SwitchOff ──────────────────────────────────────────────────────────
 
         [Test]
         public void GivenToggleOn_WhenSwitchOff_ThenIsOnIsFalse()
@@ -168,7 +164,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-        // ── SwitchState ────────────────────────────────────────────────────────
 
         [Test]
         public void GivenToggleOff_WhenSwitchState_ThenIsOnIsTrue()
@@ -220,7 +215,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(switchCount));
         }
 
-        // ── SetState – transitions ─────────────────────────────────────────────
 
         [Test]
         public void GivenToggleOff_WhenSetStateTrue_ThenIsOnIsTrue()
@@ -262,7 +256,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        // ── Complex sequences ──────────────────────────────────────────────────
 
         [Test]
         public void GivenToggle_WhenOnOffOnOff_ThenStateChangedFiresFourTimes()
