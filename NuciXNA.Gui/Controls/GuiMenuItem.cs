@@ -83,7 +83,7 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         public event PropertyChangedEventHandler IsSelectableChanged;
 
-        // TODO: Maybe implement my own handler and args
+        // TODO: Implement a dedicated trigger event handler and event arguments.
         /// <summary>
         /// Occurs when triggered.
         /// </summary>
@@ -189,29 +189,29 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
-        private void OnTextContentLoaded(object sender, EventArgs e) => text.FadeEffect.Activate();
+        private void OnTextContentLoaded(object sender, EventArgs eventArguments) => text.FadeEffect.Activate();
 
-        private void OnClicked(object sender, MouseButtonEventArgs e) => Triggered?.Invoke(this, EventArgs.Empty);
+        private void OnClicked(object sender, MouseButtonEventArgs eventArguments) => Triggered?.Invoke(this, EventArgs.Empty);
 
-        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs eventArguments)
         {
-            if (e.Key == Keys.Enter || e.Key == Keys.E)
+            if (eventArguments.Key == Keys.Enter || eventArguments.Key == Keys.E)
             {
                 Triggered?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs eventArguments)
         {
-            if (e.Button == Buttons.A)
+            if (eventArguments.Button == Buttons.A)
             {
                 Triggered?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private void OnMouseEntered(object sender, MouseEventArgs e)
+        private void OnMouseEntered(object sender, MouseEventArgs eventArguments)
         {
-            // TODO: Play selection sound
+            // TODO: Play the selection sound.
             GuiManager.Instance.FocusControl(this);
         }
     }

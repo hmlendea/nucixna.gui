@@ -10,7 +10,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiControlLifecycleTests
     {
-        // ── LoadContent ────────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenLoadContent_ThenIsContentLoadedIsTrue()
@@ -79,7 +78,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.Throws<InvalidOperationException>(control.LoadContent);
         }
 
-        // ── UnloadContent ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedControl_WhenUnloadContent_ThenIsContentLoadedIsFalse()
@@ -166,7 +164,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.Parent, Is.Null);
         }
 
-        // ── Dispose ────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedControl_WhenDispose_ThenIsDisposedIsTrue()
@@ -267,7 +264,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-        // ── Focus / Unfocus ────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenFocus_ThenIsFocusedIsTrue()
@@ -327,7 +323,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(2));
         }
 
-        // ── Enable / Disable ───────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenGettingIsEnabled_ThenIsTrue()
@@ -387,7 +382,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        // ── Show / Hide ────────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenGettingIsVisible_ThenIsTrue()
@@ -447,7 +441,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        // ── Id ─────────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenGettingId_ThenIdIsNotNullOrEmpty()
@@ -489,7 +482,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(control.Id, Is.EqualTo("SolairOfAstora"));
         }
 
-        // ── Child disposal ─────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedParentWithLoadedChild_WhenParentDisposed_ThenChildIsDisposed()

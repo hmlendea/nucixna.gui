@@ -189,11 +189,11 @@ namespace NuciXNA.Gui.Screens
             return normalisedItemNumber;
         }
 
-        private void OnMouseMoved(object sender, MouseEventArgs e)
+        private void OnMouseMoved(object sender, MouseEventArgs eventArguments)
         {
             int index = Items.FindIndex(item =>
                 item.IsSelectable &&
-                item.DisplayRectangle.Contains(e.Location));
+            item.DisplayRectangle.Contains(eventArguments.Location));
 
             if (index >= 0)
             {
@@ -201,7 +201,7 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
-        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs eventArguments)
         {
             List<Keys> backKeys;
             List<Keys> forwardKeys;
@@ -217,12 +217,12 @@ namespace NuciXNA.Gui.Screens
                 forwardKeys = [Keys.D, Keys.Right];
             }
 
-            if (backKeys.Contains(e.Key))
+            if (backKeys.Contains(eventArguments.Key))
             {
                 SelectedItemIndex -= 1;
                 wasLastDirectionBack = true;
             }
-            else if (forwardKeys.Contains(e.Key))
+            else if (forwardKeys.Contains(eventArguments.Key))
             {
                 SelectedItemIndex += 1;
                 wasLastDirectionBack = false;
@@ -236,7 +236,7 @@ namespace NuciXNA.Gui.Screens
             GuiManager.Instance.FocusControl(Items[SelectedItemIndex]);
         }
 
-        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs eventArguments)
         {
             List<Buttons> backButtons;
             List<Buttons> forwardButtons;
@@ -252,12 +252,12 @@ namespace NuciXNA.Gui.Screens
                 forwardButtons = [Buttons.DPadRight, Buttons.LeftThumbstickRight];
             }
 
-            if (backButtons.Contains(e.Button))
+            if (backButtons.Contains(eventArguments.Button))
             {
                 SelectedItemIndex -= 1;
                 wasLastDirectionBack = true;
             }
-            else if (forwardButtons.Contains(e.Button))
+            else if (forwardButtons.Contains(eventArguments.Button))
             {
                 SelectedItemIndex += 1;
                 wasLastDirectionBack = false;

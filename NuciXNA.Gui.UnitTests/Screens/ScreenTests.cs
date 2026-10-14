@@ -173,7 +173,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(loadedScreen.IsContentLoaded, Is.False);
         }
 
-        // ── Id ────────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshScreen_WhenGettingId_ThenIdIsNotNullOrEmpty()
@@ -183,7 +182,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.Id, Is.Not.Null.And.Not.Empty);
         }
 
-        // ── Default property values ────────────────────────────────────────────
 
         [Test]
         public void GivenFreshScreen_WhenGettingBackgroundColour_ThenIsBlack()
@@ -193,7 +191,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.BackgroundColour, Is.EqualTo(Colour.Black));
         }
 
-        // ── Property setters ──────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshScreen_WhenSettingBackgroundColour_ThenBackgroundColourIsUpdated()
@@ -215,7 +212,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.ForegroundColour, Is.EqualTo(Colour.ChromeYellow));
         }
 
-        // ── Dispose ────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedScreen_WhenDispose_ThenFiresDisposing()

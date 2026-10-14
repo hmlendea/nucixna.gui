@@ -110,7 +110,7 @@ namespace NuciXNA.Gui.Controls
         /// Gets or sets the parent of this control.
         /// </summary>
         /// <value>The parent.</value>
-        GuiControl Parent { get; set; } // TODO: This shouldn't be public
+        GuiControl Parent { get; set; } // TODO: Reconsider whether this property should be public.
 
         ISite Site { get; set; }
 

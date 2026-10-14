@@ -314,7 +314,7 @@ namespace NuciXNA.Gui.Controls
         /// Gets or sets the parent of this control.
         /// </summary>
         /// <value>The parent.</value>
-        public GuiControl Parent { get; set; } // TODO: This shouldn't be public
+        public GuiControl Parent { get; set; } // TODO: Reconsider whether this property should be public.
 
         public ISite Site { get; set; }
 
@@ -792,14 +792,14 @@ namespace NuciXNA.Gui.Controls
                 !InputManager.Instance.MouseButtonInputHandled &&
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
-                MouseButtonEventArgs e = new(
+                MouseButtonEventArgs eventArguments = new(
                     MouseButton.Left,
                     ButtonState.Pressed,
                     InputManager.Instance.MouseLocation);
 
                 GuiManager.Instance.FocusControl(this);
 
-                Clicked?.Invoke(this, e);
+                Clicked?.Invoke(this, eventArguments);
                 InputManager.Instance.MouseButtonInputHandled = true;
             }
 
@@ -848,118 +848,118 @@ namespace NuciXNA.Gui.Controls
             InputManager.Instance.MouseMoved -= OnInputManagerMouseMoved;
         }
 
-        private void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs e)
+        private void OnInputManagerKeyboardKeyHeldDown(object sender, KeyboardKeyEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
 
-            KeyHeldDown?.Invoke(sender, e);
+            KeyHeldDown?.Invoke(sender, eventArguments);
         }
 
-        private void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs e)
+        private void OnInputManagerKeyboardKeyPressed(object sender, KeyboardKeyEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
 
-            KeyPressed?.Invoke(sender, e);
+            KeyPressed?.Invoke(sender, eventArguments);
         }
 
-        private void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs e)
+        private void OnInputManagerKeyboardKeyReleased(object sender, KeyboardKeyEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
 
-            KeyReleased?.Invoke(sender, e);
+            KeyReleased?.Invoke(sender, eventArguments);
         }
 
-        private void OnInputManagerGamepadButtonHeldDown(object sender, GamepadButtonEventArgs e)
+        private void OnInputManagerGamepadButtonHeldDown(object sender, GamepadButtonEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
 
-            GamepadButtonHeldDown?.Invoke(sender, e);
+            GamepadButtonHeldDown?.Invoke(sender, eventArguments);
         }
 
-        private void OnInputManagerGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnInputManagerGamepadButtonPressed(object sender, GamepadButtonEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
 
-            GamepadButtonPressed?.Invoke(sender, e);
+            GamepadButtonPressed?.Invoke(sender, eventArguments);
         }
 
-        private void OnInputManagerGamepadButtonReleased(object sender, GamepadButtonEventArgs e)
+        private void OnInputManagerGamepadButtonReleased(object sender, GamepadButtonEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible || !IsFocused)
             {
                 return;
             }
 
-            GamepadButtonReleased?.Invoke(sender, e);
+            GamepadButtonReleased?.Invoke(sender, eventArguments);
         }
 
-        private void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void OnInputManagerMouseButtonPressed(object sender, MouseButtonEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible)
             {
                 return;
             }
 
-            if (!DisplayRectangle.Contains(e.Location))
+            if (!DisplayRectangle.Contains(eventArguments.Location))
             {
                 return;
             }
 
-            MouseButtonPressed?.Invoke(this, e);
+            MouseButtonPressed?.Invoke(this, eventArguments);
 
-            if (e.Button == MouseButton.Left)
+            if (eventArguments.Button == MouseButton.Left)
             {
-                Clicked?.Invoke(sender, e);
+                Clicked?.Invoke(sender, eventArguments);
                 InputManager.Instance.MouseButtonInputHandled = true;
             }
         }
 
-        private void OnInputManagerMouseMoved(object sender, MouseEventArgs e)
+        private void OnInputManagerMouseMoved(object sender, MouseEventArgs eventArguments)
         {
             if (!IsEnabled || !IsVisible)
             {
                 return;
             }
 
-            if (e.Location.Equals(e.PreviousLocation))
+            if (eventArguments.Location.Equals(eventArguments.PreviousLocation))
             {
                 return;
             }
 
-            if (!DisplayRectangle.Contains(e.Location) &&
-                !DisplayRectangle.Contains(e.PreviousLocation))
+            if (!DisplayRectangle.Contains(eventArguments.Location) &&
+                !DisplayRectangle.Contains(eventArguments.PreviousLocation))
             {
                 return;
             }
 
-            MouseMoved?.Invoke(this, e);
+            MouseMoved?.Invoke(this, eventArguments);
             IsHovered = true;
 
-            if (DisplayRectangle.Contains(e.Location) &&
-                !DisplayRectangle.Contains(e.PreviousLocation))
+            if (DisplayRectangle.Contains(eventArguments.Location) &&
+                !DisplayRectangle.Contains(eventArguments.PreviousLocation))
             {
-                MouseEntered?.Invoke(this, e);
+                MouseEntered?.Invoke(this, eventArguments);
             }
 
-            if (!DisplayRectangle.Contains(e.Location) &&
-                DisplayRectangle.Contains(e.PreviousLocation))
+            if (!DisplayRectangle.Contains(eventArguments.Location) &&
+                DisplayRectangle.Contains(eventArguments.PreviousLocation))
             {
-                MouseLeft?.Invoke(this, e);
+                MouseLeft?.Invoke(this, eventArguments);
                 IsHovered = false;
             }
         }

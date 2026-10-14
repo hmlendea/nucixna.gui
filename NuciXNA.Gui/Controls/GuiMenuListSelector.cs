@@ -117,7 +117,8 @@ namespace NuciXNA.Gui.Controls
 
             if (index < 0 || index >= items.Count)
             {
-                throw new IndexOutOfRangeException();
+                throw new IndexOutOfRangeException(
+                    $"The index '{index}' is outside the valid range from 0 to {items.Count - 1}.");
             }
 
             SelectedIndex = index;
@@ -136,8 +137,8 @@ namespace NuciXNA.Gui.Controls
                 currentIndex += 1;
             }
 
-            ListSelectionEventArgs args = new(SelectedIndex, currentSelectionKey, currentSelectionValue);
-            SelectedItemChanged?.Invoke(this, args);
+            ListSelectionEventArgs eventArguments = new(SelectedIndex, currentSelectionKey, currentSelectionValue);
+            SelectedItemChanged?.Invoke(this, eventArguments);
         }
 
         /// <summary>
@@ -200,12 +201,9 @@ namespace NuciXNA.Gui.Controls
         /// <param name="index">The index to select.</param>
         public void TrySelectItem(int index)
         {
-            try
+            if (index >= 0 && index < items.Count)
             {
                 SelectItemByIndex(index);
-            }
-            catch (IndexOutOfRangeException)
-            {
             }
         }
 
@@ -215,12 +213,9 @@ namespace NuciXNA.Gui.Controls
         /// <param name="value">The value to select.</param>
         public void TrySelectItem(string value)
         {
-            try
+            if (items.Values.Contains(value))
             {
                 SelectItemByValue(value);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
             }
         }
 
@@ -353,43 +348,43 @@ namespace NuciXNA.Gui.Controls
         /// Fires when a keyboard key was pressed.
         /// </summary>
         /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        /// <param name="eventArguments">Event arguments.</param>
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs eventArguments)
         {
-            if (e.Key == XnaKeys.Right || e.Key == XnaKeys.D)
+            if (eventArguments.Key == XnaKeys.Right || eventArguments.Key == XnaKeys.D)
             {
                 SelectNextItem();
             }
-            else if (e.Key == XnaKeys.Left || e.Key == XnaKeys.A)
+            else if (eventArguments.Key == XnaKeys.Left || eventArguments.Key == XnaKeys.A)
             {
                 SelectPreviousItem();
             }
         }
 
-        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs e)
+        private void OnGamepadButtonPressed(object sender, GamepadButtonEventArgs eventArguments)
         {
-            if (e.Button == XnaButtons.DPadRight || e.Button == XnaButtons.LeftThumbstickRight)
+            if (eventArguments.Button == XnaButtons.DPadRight || eventArguments.Button == XnaButtons.LeftThumbstickRight)
             {
                 SelectNextItem();
             }
-            else if (e.Button == XnaButtons.DPadLeft || e.Button == XnaButtons.LeftThumbstickLeft)
+            else if (eventArguments.Button == XnaButtons.DPadLeft || eventArguments.Button == XnaButtons.LeftThumbstickLeft)
             {
                 SelectPreviousItem();
             }
         }
 
-        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs eventArguments)
         {
-            if (!DisplayRectangle.Contains(e.Location))
+            if (!DisplayRectangle.Contains(eventArguments.Location))
             {
                 return;
             }
 
-            if (e.Button == MouseButton.Left)
+            if (eventArguments.Button == MouseButton.Left)
             {
                 SelectNextItem();
             }
-            else if (e.Button == MouseButton.Right)
+            else if (eventArguments.Button == MouseButton.Right)
             {
                 SelectPreviousItem();
             }
