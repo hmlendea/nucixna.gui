@@ -1,5 +1,7 @@
 using System;
 
+using Microsoft.Xna.Framework;
+
 using NuciXNA.Primitives;
 
 using NUnit.Framework;
@@ -12,7 +14,7 @@ namespace NuciXNA.Gui.UnitTests.Screens
     [TestFixture]
     public class ScreenTests
     {
-        Screen loadedScreen;
+        private Screen loadedScreen;
 
         [SetUp]
         public void SetUp()
@@ -115,6 +117,44 @@ namespace NuciXNA.Gui.UnitTests.Screens
             loadedScreen.UnloadContent();
 
             Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenUnloadedScreen_WhenUpdate_ThenThrowsInvalidOperationException()
+        {
+            Screen unloadedScreen = new DummyScreen();
+
+            Assert.Throws<InvalidOperationException>(() => unloadedScreen.Update(new GameTime()));
+        }
+
+        [Test]
+        public void GivenLoadedScreen_WhenUpdate_ThenFiresUpdatingAndUpdated()
+        {
+            bool updatingFired = false;
+            bool updatedFired = false;
+
+            loadedScreen.Updating += delegate { updatingFired = true; };
+            loadedScreen.Updated += delegate { updatedFired = true; };
+
+            loadedScreen.Update(new GameTime());
+
+            Assert.That(updatingFired);
+            Assert.That(updatedFired);
+        }
+
+        [Test]
+        public void GivenLoadedScreen_WhenUpdate_ThenUpdatingFiresBeforeUpdated()
+        {
+            int updatingOrder = 0;
+            int updatedOrder = 0;
+            int eventOrder = 0;
+
+            loadedScreen.Updating += delegate { updatingOrder = ++eventOrder; };
+            loadedScreen.Updated += delegate { updatedOrder = ++eventOrder; };
+
+            loadedScreen.Update(new GameTime());
+
+            Assert.That(updatingOrder, Is.LessThan(updatedOrder));
         }
 
         [Test]

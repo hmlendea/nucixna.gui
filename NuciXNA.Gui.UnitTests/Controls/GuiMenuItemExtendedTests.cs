@@ -9,15 +9,13 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuItemExtendedTests
     {
-        GuiMenuItem menuItem;
+        private GuiMenuItem menuItem;
 
         [SetUp]
         public void SetUp()
         {
             menuItem = new GuiMenuItem();
         }
-
-        // ── Default property values ────────────────────────────────────────────
 
         [Test]
         public void GivenFreshMenuItem_WhenGettingText_ThenIsNull()
@@ -43,14 +41,12 @@ namespace NuciXNA.Gui.UnitTests.Controls
         public void GivenFreshMenuItem_WhenGettingHeight_ThenIs48()
             => Assert.That(menuItem.Size.Height, Is.EqualTo(48));
 
-        // ── Text ───────────────────────────────────────────────────────────────
-
         [Test]
         public void GivenMenuItem_WhenSettingTextToEmptyString_ThenTextIsEmptyString()
         {
             menuItem.Text = string.Empty;
 
-            Assert.That(menuItem.Text, Is.EqualTo(string.Empty));
+            Assert.That(menuItem.Text, Is.Empty);
         }
 
         [Test]
@@ -95,8 +91,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        // ── SelectedTextColour ─────────────────────────────────────────────────
-
         [Test]
         public void GivenMenuItem_WhenSettingSelectedTextColour_ThenColourIsUpdated()
         {
@@ -125,8 +119,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(fireCount, Is.EqualTo(2));
         }
-
-        // ── IsSelectable ───────────────────────────────────────────────────────
 
         [Test]
         public void GivenMenuItem_WhenSettingIsSelectableToFalse_ThenIsSelectableIsFalse()
@@ -170,8 +162,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(3));
         }
 
-        // ── Size ───────────────────────────────────────────────────────────────
-
         [Test]
         public void GivenMenuItem_WhenSettingSize_ThenSizeIsUpdated()
         {
@@ -191,8 +181,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(menuItem.Size.Height, Is.EqualTo(48));
         }
 
-        // ── ForegroundColour ───────────────────────────────────────────────────
-
         [Test]
         public void GivenMenuItem_WhenSettingForegroundColour_ThenForegroundColourIsUpdated()
         {
@@ -210,7 +198,142 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(menuItem.ForegroundColour, Is.EqualTo(Colour.Gold));
         }
 
-        // ── GuiMenuText specifics ──────────────────────────────────────────────
+        [Test]
+        public void GivenMenuItem_WhenSettingForegroundColourTwice_ThenForegroundColourChangedFiresTwice()
+        {
+            int fireCount = 0;
+            menuItem.ForegroundColourChanged += delegate { fireCount++; };
+
+            menuItem.ForegroundColour = Colour.Red;
+            menuItem.ForegroundColour = Colour.Gold;
+
+            Assert.That(fireCount, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenSettingForegroundColourToSameValue_ThenFiresEvent()
+        {
+            int fireCount = 0;
+            menuItem.ForegroundColourChanged += delegate { fireCount++; };
+
+            menuItem.ForegroundColour = Colour.White;
+            menuItem.ForegroundColour = Colour.White;
+
+            Assert.That(fireCount, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenTriggeredEventSubscribed_ThenCanBeInvoked()
+        {
+            bool eventFired = false;
+            menuItem.Triggered += delegate { eventFired = true; };
+
+            Assert.That(eventFired, Is.False);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenClickedEventFires_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnClicked", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.MouseButtonEventArgs(NuciXNA.Input.MouseButton.Left, NuciXNA.Input.ButtonState.Pressed, NuciXNA.Primitives.Point2D.Empty)]);
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenKeyPressedEnter_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.Enter, NuciXNA.Input.ButtonState.Pressed)]);
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenKeyPressedE_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.E, NuciXNA.Input.ButtonState.Pressed)]);
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenKeyPressedOther_ThenTriggeredDoesNotFire()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.Space, NuciXNA.Input.ButtonState.Pressed)]);
+
+            Assert.That(triggeredFired, Is.False);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenGamepadButtonPressedA_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.A, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenGamepadButtonPressedStart_ThenTriggeredDoesNotFire()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.Start, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+
+            Assert.That(triggeredFired, Is.False);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenGamepadButtonPressedOther_ThenTriggeredDoesNotFire()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.B, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+
+            Assert.That(triggeredFired, Is.False);
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenMouseEntered_ThenTriggeredDoesNotFire()
+        {
+            bool triggeredFired = false;
+            menuItem.Triggered += delegate { triggeredFired = true; };
+
+            menuItem.GetType()
+                .GetMethod("OnMouseEntered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuItem, [this, new NuciXNA.Input.MouseEventArgs(NuciXNA.Primitives.Point2D.Empty, NuciXNA.Primitives.Point2D.Empty)]);
+
+            Assert.That(triggeredFired, Is.False);
+        }
 
         [Test]
         public void GivenFreshMenuText_WhenGettingIsSelectable_ThenIsFalse()

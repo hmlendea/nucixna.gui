@@ -11,7 +11,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuListSelectorExtendedTests
     {
-        GuiMenuListSelector selector;
+        private GuiMenuListSelector selector;
 
         [SetUp]
         public void SetUp()
@@ -116,20 +116,13 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         // ── SetItems – string params overload ──────────────────────────────────
 
-        [Test]
-        public void GivenStringParams_WhenSetItemsWithOneValue_ThenItemsCountIsOne()
+        [TestCase("Dark Souls III")]
+        [TestCase("Minecraft", "Terraria", "RuneScape", "Narivia", "SokoGrump")]
+        public void GivenStringParams_WhenSetItems_ThenItemsCountMatchesValues(params string[] values)
         {
-            selector.SetItems("Dark Souls III");
+            selector.SetItems(values);
 
-            Assert.That(selector.ItemsCount, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void GivenStringParams_WhenSetItemsWithFiveValues_ThenItemsCountIsFive()
-        {
-            selector.SetItems("Minecraft", "Terraria", "RuneScape", "Narivia", "SokoGrump");
-
-            Assert.That(selector.ItemsCount, Is.EqualTo(5));
+            Assert.That(selector.ItemsCount, Is.EqualTo(values.Length));
         }
 
         [Test]
@@ -189,44 +182,14 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         // ── SelectItemByIndex – key and value cache consistency ────────────────
 
-        [Test]
-        public void GivenItems_WhenSelectItemByIndex_ThenSelectedKeyIsCorrect()
-        {
-            selector.SetItems(new Dictionary<string, string> { ["solara"] = "Solara", ["nuc"] = "Nucilandia" });
-
-            selector.SelectItemByIndex(1);
-
-            Assert.That(selector.SelectedKey, Is.EqualTo("nuc"));
-        }
-
-        [Test]
-        public void GivenItems_WhenSelectItemByIndex_ThenSelectedValueIsCorrect()
-        {
-            selector.SetItems(new Dictionary<string, string> { ["solara"] = "Solara", ["nuc"] = "Nucilandia" });
-
-            selector.SelectItemByIndex(1);
-
-            Assert.That(selector.SelectedValue, Is.EqualTo("Nucilandia"));
-        }
-
-        [Test]
-        public void GivenThreeItems_WhenSelectMiddleItemByIndex_ThenCacheIsCorrect()
-        {
-            selector.SetItems(new Dictionary<string, string>
-            {
-                ["a"] = "Apple",
-                ["b"] = "Banana",
-                ["c"] = "Cherry"
-            });
-
-            selector.SelectItemByIndex(1);
-
-            Assert.That(selector.SelectedKey, Is.EqualTo("b"));
-            Assert.That(selector.SelectedValue, Is.EqualTo("Banana"));
-        }
-
-        [Test]
-        public void GivenFiveItems_WhenSelectLastItemByIndex_ThenCacheIsCorrect()
+        [TestCase(0, "a", "Apple")]
+        [TestCase(1, "b", "Banana")]
+        [TestCase(2, "c", "Cherry")]
+        [TestCase(4, "e", "Elderberry")]
+        public void GivenItems_WhenSelectItemByIndex_ThenCacheMatchesSelectedItem(
+            int selectedIndex,
+            string expectedKey,
+            string expectedValue)
         {
             selector.SetItems(new Dictionary<string, string>
             {
@@ -237,69 +200,46 @@ namespace NuciXNA.Gui.UnitTests.Controls
                 ["e"] = "Elderberry"
             });
 
-            selector.SelectItemByIndex(4);
+            selector.SelectItemByIndex(selectedIndex);
 
-            Assert.That(selector.SelectedKey, Is.EqualTo("e"));
-            Assert.That(selector.SelectedValue, Is.EqualTo("Elderberry"));
-        }
-
-        [Test]
-        public void GivenItems_WhenSelectItemByIndexZero_ThenCacheMatchesFirstItem()
-        {
-            selector.SetItems(new Dictionary<string, string>
-            {
-                ["horidava"] = "Horidava",
-                ["cornova"] = "Cornova"
-            });
-
-            selector.SelectItemByIndex(0);
-
-            Assert.That(selector.SelectedKey, Is.EqualTo("horidava"));
-            Assert.That(selector.SelectedValue, Is.EqualTo("Horidava"));
+            Assert.That(selector.SelectedKey, Is.EqualTo(expectedKey));
+            Assert.That(selector.SelectedValue, Is.EqualTo(expectedValue));
         }
 
         // ── SelectItemByKey – cache consistency ────────────────────────────────
 
-        [Test]
-        public void GivenItems_WhenSelectItemByKey_ThenSelectedIndexIsCorrect()
+        [TestCase("a", 0, "Apple")]
+        [TestCase("b", 1, "Banana")]
+        [TestCase("c", 2, "Cherry")]
+        public void GivenItems_WhenSelectItemByKey_ThenSelectedItemMatches(
+            string selectedKey,
+            int expectedIndex,
+            string expectedValue)
         {
             selector.SetItems(new Dictionary<string, string> { ["a"] = "Apple", ["b"] = "Banana", ["c"] = "Cherry" });
 
-            selector.SelectItemByKey("c");
+            selector.SelectItemByKey(selectedKey);
 
-            Assert.That(selector.SelectedIndex, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void GivenItems_WhenSelectItemByKey_ThenSelectedValueIsCorrect()
-        {
-            selector.SetItems(new Dictionary<string, string> { ["a"] = "Apple", ["b"] = "Banana", ["c"] = "Cherry" });
-
-            selector.SelectItemByKey("b");
-
-            Assert.That(selector.SelectedValue, Is.EqualTo("Banana"));
+            Assert.That(selector.SelectedIndex, Is.EqualTo(expectedIndex));
+            Assert.That(selector.SelectedValue, Is.EqualTo(expectedValue));
         }
 
         // ── SelectItemByValue – cache consistency ──────────────────────────────
 
-        [Test]
-        public void GivenItems_WhenSelectItemByValue_ThenSelectedIndexIsCorrect()
+        [TestCase("Apple", 0, "a")]
+        [TestCase("Banana", 1, "b")]
+        [TestCase("Cherry", 2, "c")]
+        public void GivenItems_WhenSelectItemByValue_ThenSelectedItemMatches(
+            string selectedValue,
+            int expectedIndex,
+            string expectedKey)
         {
             selector.SetItems(new Dictionary<string, string> { ["a"] = "Apple", ["b"] = "Banana", ["c"] = "Cherry" });
 
-            selector.SelectItemByValue("Cherry");
+            selector.SelectItemByValue(selectedValue);
 
-            Assert.That(selector.SelectedIndex, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void GivenItems_WhenSelectItemByValue_ThenSelectedKeyIsCorrect()
-        {
-            selector.SetItems(new Dictionary<string, string> { ["a"] = "Apple", ["b"] = "Banana", ["c"] = "Cherry" });
-
-            selector.SelectItemByValue("Cherry");
-
-            Assert.That(selector.SelectedKey, Is.EqualTo("c"));
+            Assert.That(selector.SelectedIndex, Is.EqualTo(expectedIndex));
+            Assert.That(selector.SelectedKey, Is.EqualTo(expectedKey));
         }
 
         // ── SelectNextItem / SelectPreviousItem – cache consistency ────────────
