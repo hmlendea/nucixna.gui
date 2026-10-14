@@ -9,7 +9,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuItemTests
     {
-        GuiMenuItem menuItem;
+        private GuiMenuItem menuItem;
 
         [SetUp]
         public void SetUp()
@@ -106,8 +106,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-        // ── Default size and text ──────────────────────────────────────────────
-
         [Test]
         public void GivenFreshMenuItem_WhenGettingText_ThenIsNull()
             => Assert.That(menuItem.Text, Is.Null);
@@ -117,6 +115,15 @@ namespace NuciXNA.Gui.UnitTests.Controls
         {
             Assert.That(menuItem.Size.Width, Is.EqualTo(512));
             Assert.That(menuItem.Size.Height, Is.EqualTo(48));
+        }
+
+        [Test]
+        public void GivenMenuItem_WhenTriggeredEventSubscribed_ThenCanBeInvoked()
+        {
+            bool eventFired = false;
+            menuItem.Triggered += delegate { eventFired = true; };
+
+            Assert.That(eventFired, Is.False);
         }
     }
 }

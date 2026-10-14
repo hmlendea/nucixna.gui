@@ -12,15 +12,13 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuLinkExtendedTests
     {
-        GuiMenuLink menuLink;
+        private GuiMenuLink menuLink;
 
         [SetUp]
         public void SetUp()
         {
             menuLink = new GuiMenuLink();
         }
-
-        // ── Default state ──────────────────────────────────────────────────────
 
         [Test]
         public void GivenFreshMenuLink_WhenGettingTargetScreen_ThenIsNull()
@@ -33,8 +31,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
         [Test]
         public void GivenFreshMenuLink_WhenGettingIsSelectable_ThenIsTrue()
             => Assert.That(menuLink.IsSelectable);
-
-        // ── TargetScreen ───────────────────────────────────────────────────────
 
         [Test]
         public void GivenMenuLink_WhenSettingTargetScreen_ThenTargetScreenIsUpdated()
@@ -108,8 +104,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(fireCount, Is.EqualTo(2));
         }
-
-        // ── Parameters ────────────────────────────────────────────────────────
 
         [Test]
         public void GivenMenuLink_WhenSettingParameters_ThenParametersIsUpdated()
@@ -205,7 +199,66 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(menuLink.Parameters[3], Is.EqualTo(3.14));
         }
 
-        // ── Inherited MenuItem properties ──────────────────────────────────────
+        [Test]
+        public void GivenMenuLink_WhenTriggeredEventSubscribed_ThenCanBeInvoked()
+        {
+            bool eventFired = false;
+            menuLink.Triggered += delegate { eventFired = true; };
+
+            Assert.That(eventFired, Is.False);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenClickedEventFires_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuLink.Triggered += delegate { triggeredFired = true; };
+
+            typeof(GuiMenuItem)
+                .GetMethod("OnClicked", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuLink, new object[] { this, new NuciXNA.Input.MouseButtonEventArgs(NuciXNA.Input.MouseButton.Left, NuciXNA.Input.ButtonState.Pressed, NuciXNA.Primitives.Point2D.Empty) });
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenKeyPressedEnter_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuLink.Triggered += delegate { triggeredFired = true; };
+
+            typeof(GuiMenuItem)
+                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuLink, new object[] { this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.Enter, NuciXNA.Input.ButtonState.Pressed) });
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenKeyPressedE_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuLink.Triggered += delegate { triggeredFired = true; };
+
+            typeof(GuiMenuItem)
+                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuLink, new object[] { this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.E, NuciXNA.Input.ButtonState.Pressed) });
+
+            Assert.That(triggeredFired);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenGamepadButtonPressedA_ThenTriggeredFires()
+        {
+            bool triggeredFired = false;
+            menuLink.Triggered += delegate { triggeredFired = true; };
+
+            typeof(GuiMenuItem)
+                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.Invoke(menuLink, new object[] { this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.A, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One) });
+
+            Assert.That(triggeredFired);
+        }
 
         [Test]
         public void GivenFreshMenuLink_WhenGettingForegroundColour_ThenIsWhite()
@@ -236,6 +289,48 @@ namespace NuciXNA.Gui.UnitTests.Controls
             menuLink.Text = "Nucilandia";
 
             Assert.That(menuLink.Text, Is.EqualTo("Nucilandia"));
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenSettingForegroundColour_ThenFiresForegroundColourChanged()
+        {
+            bool eventFired = false;
+            menuLink.ForegroundColourChanged += delegate { eventFired = true; };
+
+            menuLink.ForegroundColour = Colour.Red;
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenSettingSelectedTextColour_ThenFiresSelectedTextColourChanged()
+        {
+            bool eventFired = false;
+            menuLink.SelectedTextColourChanged += delegate { eventFired = true; };
+
+            menuLink.SelectedTextColour = Colour.Red;
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenSettingIsSelectable_ThenFiresIsSelectableChanged()
+        {
+            bool eventFired = false;
+            menuLink.IsSelectableChanged += delegate { eventFired = true; };
+
+            menuLink.IsSelectable = false;
+
+            Assert.That(eventFired);
+        }
+
+        [Test]
+        public void GivenMenuLink_WhenSettingSize_ThenSizeIsUpdated()
+        {
+            menuLink.Size = new Size2D(800, 60);
+
+            Assert.That(menuLink.Size.Width, Is.EqualTo(800));
+            Assert.That(menuLink.Size.Height, Is.EqualTo(60));
         }
     }
 }

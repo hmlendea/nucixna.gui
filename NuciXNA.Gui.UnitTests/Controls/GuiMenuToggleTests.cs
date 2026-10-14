@@ -7,7 +7,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuToggleTests
     {
-        GuiMenuToggle toggle;
+        private GuiMenuToggle toggle;
 
         [SetUp]
         public void SetUp()

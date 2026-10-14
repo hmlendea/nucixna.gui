@@ -7,7 +7,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuToggleExtendedTests
     {
-        GuiMenuToggle toggle;
+        private GuiMenuToggle toggle;
 
         [SetUp]
         public void SetUp()
@@ -23,48 +23,38 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         // ── SetState – idempotency ─────────────────────────────────────────────
 
-        [Test]
-        public void GivenToggleOff_WhenSetStateFalse_ThenIsOnRemainsOff()
+        [TestCase(false, false, false)]
+        [TestCase(true, true, true)]
+        [TestCase(false, true, true)]
+        [TestCase(true, false, false)]
+        public void GivenToggleWithInitialState_WhenSetState_ThenIsOnMatchesExpectedState(
+            bool initialState,
+            bool state,
+            bool expectedState)
         {
-            toggle.SetState(false);
+            toggle.SetState(initialState);
+            toggle.SetState(state);
 
-            Assert.That(toggle.IsOn, Is.False);
+            Assert.That(toggle.IsOn, Is.EqualTo(expectedState));
         }
 
-        [Test]
-        public void GivenToggleOn_WhenSetStateTrue_ThenIsOnRemainsOn()
+        [TestCase(false, false, 0)]
+        [TestCase(true, true, 0)]
+        [TestCase(false, true, 1)]
+        [TestCase(true, false, 1)]
+        public void GivenToggleWithInitialState_WhenSetState_ThenStateChangedFiresExpectedNumberOfTimes(
+            bool initialState,
+            bool state,
+            int expectedFireCount)
         {
-            toggle.SwitchOn();
-            toggle.SetState(true);
+            toggle.SetState(initialState);
 
-            Assert.That(toggle.IsOn);
-        }
-
-        [Test]
-        public void GivenToggleOff_WhenSetStateFalseRepeatedly_ThenStateChangedNeverFires()
-        {
             int fireCount = 0;
             toggle.StateChanged += delegate { fireCount++; };
 
-            toggle.SetState(false);
-            toggle.SetState(false);
-            toggle.SetState(false);
+            toggle.SetState(state);
 
-            Assert.That(fireCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void GivenToggleOn_WhenSetStateTrueRepeatedly_ThenStateChangedNeverFires()
-        {
-            toggle.SwitchOn();
-            int fireCount = 0;
-            toggle.StateChanged += delegate { fireCount++; };
-
-            toggle.SetState(true);
-            toggle.SetState(true);
-            toggle.SetState(true);
-
-            Assert.That(fireCount, Is.EqualTo(0));
+            Assert.That(fireCount, Is.EqualTo(expectedFireCount));
         }
 
         // ── SwitchOn ───────────────────────────────────────────────────────────
@@ -197,41 +187,37 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(toggle.IsOn, Is.False);
         }
 
-        [Test]
-        public void GivenToggleOff_WhenSwitchStateFourTimes_ThenIsOnIsFalse()
+        [TestCase(1, true)]
+        [TestCase(2, false)]
+        [TestCase(4, false)]
+        [TestCase(5, true)]
+        public void GivenToggleOff_WhenSwitchStateRepeatedly_ThenIsOnMatchesParity(
+            int switchCount,
+            bool expectedState)
         {
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
+            for (int iteration = 0; iteration < switchCount; iteration++)
+            {
+                toggle.SwitchState();
+            }
 
-            Assert.That(toggle.IsOn, Is.False);
+            Assert.That(toggle.IsOn, Is.EqualTo(expectedState));
         }
 
-        [Test]
-        public void GivenToggleOff_WhenSwitchStateFiveTimes_ThenIsOnIsTrue()
-        {
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
-
-            Assert.That(toggle.IsOn);
-        }
-
-        [Test]
-        public void GivenToggleOff_WhenSwitchStateFourTimes_ThenStateChangedFiresFourTimes()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(4)]
+        [TestCase(5)]
+        public void GivenToggleOff_WhenSwitchStateRepeatedly_ThenStateChangedFiresOncePerSwitch(int switchCount)
         {
             int fireCount = 0;
             toggle.StateChanged += delegate { fireCount++; };
 
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
-            toggle.SwitchState();
+            for (int iteration = 0; iteration < switchCount; iteration++)
+            {
+                toggle.SwitchState();
+            }
 
-            Assert.That(fireCount, Is.EqualTo(4));
+            Assert.That(fireCount, Is.EqualTo(switchCount));
         }
 
         // ── SetState – transitions ─────────────────────────────────────────────

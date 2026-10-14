@@ -7,7 +7,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuTextTests
     {
-        GuiMenuText menuText;
+        private GuiMenuText menuText;
 
         [SetUp]
         public void SetUp()

@@ -10,7 +10,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class GuiMenuListSelectorTests
     {
-        GuiMenuListSelector selector;
+        private GuiMenuListSelector selector;
 
         [SetUp]
         public void SetUp()

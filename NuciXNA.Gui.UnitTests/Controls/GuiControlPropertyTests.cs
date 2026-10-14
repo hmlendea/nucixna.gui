@@ -20,67 +20,27 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(control.Opacity, Is.EqualTo(1.0f));
         }
 
-        [Test]
-        public void GivenOpacitySetToZero_WhenGettingOpacity_ThenIsZero()
+        [TestCase(0.0f)]
+        [TestCase(0.5f)]
+        [TestCase(1.0f)]
+        public void GivenOpacitySet_WhenGettingOpacity_ThenReturnsSetValue(float opacity)
         {
             DummyControl control = new();
-            control.Opacity = 0.0f;
+            control.Opacity = opacity;
 
-            Assert.That(control.Opacity, Is.EqualTo(0.0f));
+            Assert.That(control.Opacity, Is.EqualTo(opacity));
         }
 
-        [Test]
-        public void GivenOpacitySetToOne_WhenGettingOpacity_ThenIsOne()
+        [TestCase(6.13f, 1.0f)]
+        [TestCase(1.0001f, 1.0f)]
+        [TestCase(-0.0001f, 0.0f)]
+        [TestCase(-8.73f, 0.0f)]
+        public void GivenOpacityOutsideRange_WhenSet_ThenOpacityIsClamped(float opacity, float expectedOpacity)
         {
             DummyControl control = new();
-            control.Opacity = 1.0f;
+            control.Opacity = opacity;
 
-            Assert.That(control.Opacity, Is.EqualTo(1.0f));
-        }
-
-        [Test]
-        public void GivenOpacitySetToHalf_WhenGettingOpacity_ThenIsHalf()
-        {
-            DummyControl control = new();
-            control.Opacity = 0.5f;
-
-            Assert.That(control.Opacity, Is.EqualTo(0.5f));
-        }
-
-        [Test]
-        public void GivenOpacityAboveOne_WhenSet_ThenOpacityIsClampedToOne()
-        {
-            DummyControl control = new();
-            control.Opacity = 6.13f;
-
-            Assert.That(control.Opacity, Is.EqualTo(1.0f));
-        }
-
-        [Test]
-        public void GivenOpacityBelowZero_WhenSet_ThenOpacityIsClampedToZero()
-        {
-            DummyControl control = new();
-            control.Opacity = -8.73f;
-
-            Assert.That(control.Opacity, Is.EqualTo(0.0f));
-        }
-
-        [Test]
-        public void GivenOpacityJustAboveOne_WhenSet_ThenOpacityIsClampedToOne()
-        {
-            DummyControl control = new();
-            control.Opacity = 1.0001f;
-
-            Assert.That(control.Opacity, Is.EqualTo(1.0f));
-        }
-
-        [Test]
-        public void GivenOpacityJustBelowZero_WhenSet_ThenOpacityIsClampedToZero()
-        {
-            DummyControl control = new();
-            control.Opacity = -0.0001f;
-
-            Assert.That(control.Opacity, Is.EqualTo(0.0f));
+            Assert.That(control.Opacity, Is.EqualTo(expectedOpacity));
         }
 
         [Test]
@@ -592,41 +552,19 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         // ── Opacity event suppression ──────────────────────────────────────────
 
-        [Test]
-        public void GivenOpacitySetToHalf_WhenSetToSameValueAgain_ThenOpacityChangedDoesNotFire()
+        [TestCase(0.5f, 0.5f)]
+        [TestCase(1.5f, 2.0f)]
+        [TestCase(-0.5f, -1.0f)]
+        public void GivenOpacityValuesWithSameEffectiveValue_WhenSetSecondValue_ThenOpacityChangedDoesNotFire(
+            float initialOpacity,
+            float nextOpacity)
         {
             DummyControl control = new();
-            control.Opacity = 0.5f;
+            control.Opacity = initialOpacity;
             int fireCount = 0;
             control.OpacityChanged += delegate { fireCount++; };
 
-            control.Opacity = 0.5f;
-
-            Assert.That(fireCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void GivenOpacitySetToOne_WhenSetToAboveOneAgain_ThenOpacityChangedDoesNotFire()
-        {
-            DummyControl control = new();
-            control.Opacity = 1.5f;
-            int fireCount = 0;
-            control.OpacityChanged += delegate { fireCount++; };
-
-            control.Opacity = 2.0f;
-
-            Assert.That(fireCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void GivenOpacitySetToZero_WhenSetToBelowZeroAgain_ThenOpacityChangedDoesNotFire()
-        {
-            DummyControl control = new();
-            control.Opacity = -0.5f;
-            int fireCount = 0;
-            control.OpacityChanged += delegate { fireCount++; };
-
-            control.Opacity = -1.0f;
+            control.Opacity = nextOpacity;
 
             Assert.That(fireCount, Is.EqualTo(0));
         }

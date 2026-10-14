@@ -12,7 +12,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
     [TestFixture]
     public class ControlTests
     {
-        GuiControl loadedControl;
+        private GuiControl loadedControl;
 
         [SetUp]
         public void SetUp()
@@ -446,8 +446,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(child.DisplayRectangle, Is.EqualTo(expected));
         }
 
-        // ── Id ────────────────────────────────────────────────────────────────
-
         [Test]
         public void GivenFreshControl_WhenGettingId_ThenIdIsNotNullOrEmpty()
         {
@@ -464,8 +462,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(first.Id, Is.Not.EqualTo(second.Id));
         }
-
-        // ── Default property values ────────────────────────────────────────────
 
         [Test]
         public void GivenFreshControl_WhenGettingIsEnabled_ThenIsTrue()
@@ -506,8 +502,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(control.IsContentLoaded, Is.False);
         }
-
-        // ── Colour and font inheritance ────────────────────────────────────────
 
         [Test]
         public void GivenParentWithBackgroundColour_WhenChildHasNoBackgroundColour_ThenChildInheritsParentBackgroundColour()
@@ -557,8 +551,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(child.FontName, Is.EqualTo("TestFont"));
         }
-
-        // ── Dispose ────────────────────────────────────────────────────────────
 
         [Test]
         public void GivenLoadedControl_WhenDispose_ThenIsContentLoadedIsFalse()
