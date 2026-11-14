@@ -14,6 +14,7 @@ This document covers the guidelines and processes for contributing to this proje
     - [Pull Request Guidelines](#pull-request-guidelines)
   - [Testing](#testing)
   - [Documentation](#documentation)
+- [Code of Conduct](#code-of-conduct)
 - [Security](#security)
 - [License](#license)
 - [Getting Help](#getting-help)
@@ -84,6 +85,10 @@ dotnet test NuciXNA.Gui.UnitTests/NuciXNA.Gui.UnitTests.csproj
 - Update relevant docs for changes.
 - Follow the documentation style guide.
 - Preview changes locally if possible.
+
+## 📜 Code of Conduct
+
+This project follows the [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## 🔒 Security
 
