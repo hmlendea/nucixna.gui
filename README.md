@@ -43,6 +43,7 @@ GUI management and lightweight widgets for the NuciXNA stack on top of MonoGame/
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
 - [Contributing](#contributing)
+- [Code of Conduct](#code-of-conduct)
 - [Related Projects](#related-projects)
 - [Security](#security)
 - [Project Engagement](#project-engagement)
@@ -361,6 +362,10 @@ When doing so, please:
 - Raise a new [issue](https://github.com/hmlendea/nucixna.gui/issues) for problems or suggestions
 
 See the [contributing guidelines](./CONTRIBUTING.md) for details on how to report issues, suggest enhancements, and submit changes.
+
+## 📜 Code of Conduct
+
+See the [Code of Conduct](./CODE_OF_CONDUCT.md) for the standards of conduct expected in all project spaces.
 
 ## 🔗 Related Projects
 
