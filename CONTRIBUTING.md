@@ -78,6 +78,9 @@ dotnet test NuciXNA.GUI.slnx
 
 # Run specific test project
 dotnet test NuciXNA.Gui.UnitTests/NuciXNA.Gui.UnitTests.csproj
+
+# Run the architecture/fitness rules
+dotnet test NuciXNA.Gui.ArchitectureTests/NuciXNA.Gui.ArchitectureTests.csproj
 ```
 
 ### Documentation

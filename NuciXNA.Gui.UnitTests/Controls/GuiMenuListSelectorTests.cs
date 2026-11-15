@@ -18,7 +18,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             selector = new GuiMenuListSelector();
         }
 
-
         [Test]
         public void GivenDictionaryItems_WhenSetItems_ThenItemsCountMatches()
         {
@@ -138,7 +137,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedKey, Is.EqualTo("x"));
         }
 
-
         [Test]
         public void GivenItems_WhenSelectItemByIndex_ThenSelectedIndexUpdated()
         {
@@ -189,7 +187,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.Throws<IndexOutOfRangeException>(() => selector.SelectItemByIndex(-1));
         }
 
-
         [Test]
         public void GivenItems_WhenSelectItemByKey_ThenSelectedKeyUpdated()
         {
@@ -232,7 +229,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.Throws<ArgumentOutOfRangeException>(() => selector.SelectItemByKey("z"));
         }
 
-
         [Test]
         public void GivenItems_WhenSelectItemByValue_ThenSelectedValueUpdated()
         {
@@ -274,7 +270,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.Throws<ArgumentOutOfRangeException>(() => selector.SelectItemByValue("Zucchini"));
         }
-
 
         [Test]
         public void GivenItemsAtFirstIndex_WhenSelectNextItem_ThenSelectedIndexIsOne()
@@ -319,7 +314,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired, Is.False);
         }
 
-
         [Test]
         public void GivenItemsAtSecondIndex_WhenSelectPreviousItem_ThenSelectedIndexIsZero()
         {
@@ -363,7 +357,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired, Is.False);
         }
 
-
         [Test]
         public void GivenItems_WhenTrySelectItemWithValidIndex_ThenSelectedIndexUpdated()
         {
@@ -391,7 +384,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(selector.SelectedIndex, Is.EqualTo(0));
         }
-
 
         [Test]
         public void GivenItems_WhenTrySelectItemWithValidValue_ThenSelectedValueUpdated()
@@ -421,7 +413,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedIndex, Is.EqualTo(0));
         }
 
-
         [Test]
         public void GivenItems_WhenGetItems_ThenReturnsAllItems()
         {
@@ -445,7 +436,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo("Apple"));
         }
 
-
         [Test]
         public void GivenItems_WhenGettingKeys_ThenContainsAllKeys()
         {
@@ -462,7 +452,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.Values, Is.EquivalentTo(new[] { "Apple", "Banana" }));
         }
 
-
         [Test]
         public void GivenItems_WhenSelectItemByIndex_ThenSelectedItemChangedArgsHaveCorrectIndex()
         {
@@ -478,7 +467,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(receivedArgs.SelectedValue, Is.EqualTo("Banana"));
         }
 
-
         [Test]
         public void GivenFreshSelector_WhenGettingSelectedIndex_ThenIsMinusOne()
             => Assert.That(selector.SelectedIndex, Is.EqualTo(-1));
@@ -486,7 +474,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
         [Test]
         public void GivenFreshSelector_WhenGettingItemsCount_ThenIsZero()
             => Assert.That(selector.ItemsCount, Is.EqualTo(0));
-
 
         [Test]
         public void GivenEnumerableKeyValuePairs_WhenSetItems_ThenItemsCountMatches()

@@ -398,6 +398,7 @@ The principal dependency rules are:
 
 The library architecture is verified through:
 - **Unit Tests:** NuciXNA.Gui.UnitTests covers base control/screen lifecycle/properties and menu-control state/behaviour.
+- **Architecture Tests:** NuciXNA.Gui.ArchitectureTests enforces documented boundaries, project/solution configuration, and source conventions using ArchUnitNET and Roslyn.
 - **Coverage Gaps:** No focused manager, transition, MenuScreen, Cursor, GuiText, GuiImage, GuiTooltip, graphics-device, or end-to-end input tests.
 - **Manual Verification:** Rendering/content/input/transitions require a representative MonoGame/NuciXNA host until integration automation exists.
 - **CI:** Ubuntu restores, builds, and runs tests after installing .NET 10 and Microsoft core fonts; no coverage report is configured.
@@ -456,6 +457,7 @@ The manager's reflected transition path casts to concrete `Screen`, so independe
 | Managers | [`GuiManager.cs`](NuciXNA.Gui/GuiManager.cs), [`ScreenManager.cs`](NuciXNA.Gui/Screens/ScreenManager.cs) |
 | Project File | [`NuciXNA.Gui.csproj`](NuciXNA.Gui/NuciXNA.Gui.csproj) |
 | Unit Tests | [`NuciXNA.Gui.UnitTests/`](NuciXNA.Gui.UnitTests/) |
+| Architecture Tests | [`NuciXNA.Gui.ArchitectureTests/`](NuciXNA.Gui.ArchitectureTests/) |
 
 ## 📚 Related Documentation
 

@@ -72,6 +72,24 @@ NuciXNA.Gui.UnitTests/
 ├── Screens/                   # Unit tests for screens
 ├── Helpers/                   # Test helpers (DummyControl, DummyScreen)
 └── NuciXNA.Gui.UnitTests.csproj
+
+NuciXNA.Gui.ArchitectureTests/
+├── ArchitectureResources.cs   # Embedded production, test, and project sources
+├── ProductionArchitecture.cs  # Reusable ArchUnitNET production model
+├── SourceParsing.cs           # Shared Roslyn parsing helpers
+├── DependencyRuleTests.cs     # Assemblies, namespaces, references, public surface
+├── DependencyPinConventionTests.cs # Package pinning and non-vacuity guards
+├── ProjectConventionTests.cs  # Project properties, packages, and references
+├── SolutionConventionTests.cs # SDK-style solution structure and order
+├── SourceFileConventionTests.cs # Files, namespaces, syntax, using directives
+├── LayoutAndApiConventionTests.cs # Namespace mapping, layout, collections, contracts
+├── TypeDeclarationConventionTests.cs # Contracts, colocation, XML documentation
+├── TypeSurfaceConventionTests.cs # Enumerations, interface docs, static state
+├── MemberOrganisationTests.cs # Accessibility, member order, formatting
+├── NamingConventionTests.cs   # Type, method, field, and fixture naming
+├── FrameworkUsageConventionTests.cs # MonoGame wrappers, async, dummies, lifecycle ownership
+├── TestSourceConventionTests.cs # Fixture attributes, naming, reflection, case counts
+└── NuciXNA.Gui.ArchitectureTests.csproj
 ```
 
 ## Target Framework

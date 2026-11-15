@@ -14,6 +14,10 @@ namespace NuciXNA.Gui.Controls
     /// </summary>
     public interface IGuiControl
     {
+        /// <summary>
+        /// Gets or sets the identifier used to register this control.
+        /// </summary>
+        /// <value>The identifier.</value>
         string Id { get; set; }
 
         /// <summary>
@@ -112,8 +116,16 @@ namespace NuciXNA.Gui.Controls
         /// <value>The parent.</value>
         GuiControl Parent { get; set; } // TODO: Reconsider whether this property should be public.
 
+        /// <summary>
+        /// Gets or sets the site that hosts this control in a designer.
+        /// </summary>
+        /// <value>The hosting site.</value>
         ISite Site { get; set; }
 
+        /// <summary>
+        /// Gets the container that owns this control, when it is hosted in a designer.
+        /// </summary>
+        /// <value>The owning container.</value>
         IContainer Container { get; }
 
         /// <summary>
@@ -343,6 +355,10 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         void Unfocus();
 
+        /// <summary>
+        /// Returns a textual representation of this control.
+        /// </summary>
+        /// <returns>The textual representation.</returns>
         string ToString();
 
         /// <summary>

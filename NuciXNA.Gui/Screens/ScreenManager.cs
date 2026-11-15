@@ -16,8 +16,8 @@ namespace NuciXNA.Gui.Screens
     /// </summary>
     public class ScreenManager
     {
-        private static volatile ScreenManager instance;
         private static readonly Lock syncRoot = new();
+        private static volatile ScreenManager instance;
 
         private IScreen currentScreen;
         private IScreen newScreen;
@@ -43,6 +43,10 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
+        /// <summary>
+        /// Gets or sets the type the starting screen is instantiated from.
+        /// </summary>
+        /// <value>The starting screen type.</value>
         public Type StartingScreenType { get; set; }
 
         /// <summary>
@@ -135,9 +139,18 @@ namespace NuciXNA.Gui.Screens
             }
         }
 
+        /// <summary>
+        /// Changes the current screen to a newly constructed instance of the requested type.
+        /// </summary>
+        /// <typeparam name="TScreen">The screen type.</typeparam>
         public void ChangeScreens<TScreen>() where TScreen : IScreen
             => ChangeScreens<TScreen>(null);
 
+        /// <summary>
+        /// Changes the current screen to a newly constructed instance of the requested type.
+        /// </summary>
+        /// <typeparam name="TScreen">The screen type.</typeparam>
+        /// <param name="parameters">The constructor arguments.</param>
         public void ChangeScreens<TScreen>(params object[] parameters) where TScreen : IScreen
             => ChangeScreens(typeof(TScreen), parameters);
 

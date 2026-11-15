@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework.Input;
+
 using NuciXNA.Primitives;
 
 using NUnit.Framework;
@@ -237,9 +239,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnClicked", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.MouseButtonEventArgs(NuciXNA.Input.MouseButton.Left, NuciXNA.Input.ButtonState.Pressed, NuciXNA.Primitives.Point2D.Empty)]);
+            menuItem.PerformClick();
 
             Assert.That(triggeredFired);
         }
@@ -250,9 +250,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.Enter, NuciXNA.Input.ButtonState.Pressed)]);
+            menuItem.PerformKeyPress(Keys.Enter);
 
             Assert.That(triggeredFired);
         }
@@ -263,9 +261,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.E, NuciXNA.Input.ButtonState.Pressed)]);
+            menuItem.PerformKeyPress(Keys.E);
 
             Assert.That(triggeredFired);
         }
@@ -276,9 +272,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnKeyPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.KeyboardKeyEventArgs(Microsoft.Xna.Framework.Input.Keys.Space, NuciXNA.Input.ButtonState.Pressed)]);
+            menuItem.PerformKeyPress(Keys.Space);
 
             Assert.That(triggeredFired, Is.False);
         }
@@ -289,9 +283,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.A, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+            menuItem.PerformGamepadPress(Buttons.A);
 
             Assert.That(triggeredFired);
         }
@@ -302,9 +294,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.Start, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+            menuItem.PerformGamepadPress(Buttons.Start);
 
             Assert.That(triggeredFired, Is.False);
         }
@@ -315,9 +305,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnGamepadButtonPressed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.GamepadButtonEventArgs(Microsoft.Xna.Framework.Input.Buttons.B, NuciXNA.Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+            menuItem.PerformGamepadPress(Buttons.B);
 
             Assert.That(triggeredFired, Is.False);
         }
@@ -328,9 +316,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuItem.Triggered += delegate { triggeredFired = true; };
 
-            menuItem.GetType()
-                .GetMethod("OnMouseEntered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.Invoke(menuItem, [this, new NuciXNA.Input.MouseEventArgs(NuciXNA.Primitives.Point2D.Empty, NuciXNA.Primitives.Point2D.Empty)]);
+            menuItem.PerformMouseEnter();
 
             Assert.That(triggeredFired, Is.False);
         }

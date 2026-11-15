@@ -49,6 +49,24 @@ NuciXNA.Gui.UnitTests/                # Unit test project
 │   └── DummyScreen.cs                # Minimal Screen implementation
 └── NuciXNA.Gui.UnitTests.csproj      # Test project file (net10.0)
 
+NuciXNA.Gui.ArchitectureTests/        # Architecture/fitness test project
+├── ArchitectureResources.cs          # Embedded production, test, and project sources
+├── ProductionArchitecture.cs         # Reusable ArchUnitNET production model
+├── SourceParsing.cs                  # Shared Roslyn parsing helpers
+├── DependencyRuleTests.cs            # Assemblies, namespaces, references, public surface
+├── DependencyPinConventionTests.cs   # Exact package versions, references, non-vacuity guards
+├── ProjectConventionTests.cs         # Project properties, packages, and references
+├── SolutionConventionTests.cs        # SDK-style solution structure and order
+├── SourceFileConventionTests.cs      # Files, namespaces, syntax, using directives
+├── LayoutAndApiConventionTests.cs    # Namespace/folder mapping, layout, collections, contracts
+├── TypeDeclarationConventionTests.cs # Contracts, colocation, XML documentation
+├── TypeSurfaceConventionTests.cs     # Enumerations, interface docs, static state, suite self-checks
+├── MemberOrganisationTests.cs        # Accessibility, field/member order, formatting
+├── NamingConventionTests.cs          # Type, method, field, and fixture naming
+├── FrameworkUsageConventionTests.cs  # MonoGame/NuciXNA wrappers, async, dummies, lifecycle ownership
+├── TestSourceConventionTests.cs      # Fixture attributes, Given/When/Then names, reflection, case counts
+└── NuciXNA.Gui.ArchitectureTests.csproj # Architecture project file (net10.0)
+
 .github/
 └── workflows/
     └── dotnet.yml                    # CI/CD pipeline (build, test)
@@ -82,6 +100,16 @@ Root files:
 | **Controls** | Unit tests for control behavior | `GuiControlLifecycleTests`, `GuiControlPropertyTests`, `GuiMenuItemTests`, etc. |
 | **Screens** | Unit tests for screen behavior | `ScreenTests`, `ScreenExtendedTests` |
 | **Helpers** | Test doubles and utilities | `DummyControl`, `DummyScreen` |
+
+### NuciXNA.Gui.ArchitectureTests (Architecture/Fitness Test Project)
+
+| Module | Responsibility | Key Types |
+|--------|----------------|-----------|
+| **Dependencies** | Assembly, namespace, reference, and public-surface rules over the loaded ArchUnitNET model | `DependencyRuleTests`, `ProductionArchitecture` |
+| **Project/Solution** | Project properties, package ordering, pinned versions, references, and solution structure | `ProjectConventionTests`, `SolutionConventionTests`, `DependencyPinConventionTests` |
+| **Source Conventions** | Roslyn rules for files, namespaces, syntax, using directives, contracts, documentation, member organisation, naming, layout, and framework usage | `SourceFileConventionTests`, `LayoutAndApiConventionTests`, `TypeDeclarationConventionTests`, `TypeSurfaceConventionTests`, `MemberOrganisationTests`, `NamingConventionTests`, `FrameworkUsageConventionTests` |
+| **Test Conventions** | Fixture attributes, test naming, reflection bans, case counts, assertion form | `TestSourceConventionTests` |
+| **Shared** | Embedded-source access and Roslyn parsing helpers | `ArchitectureResources`, `SourceParsing` |
 
 ## Project Files
 
@@ -122,15 +150,49 @@ Root files:
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
-    <PackageReference Include="NuciXNA.Primitives" Version="2.1.7" />
-    <PackageReference Include="NUnit" Version="4.6.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="6.2.0" />
+    <PackageReference Include="NuciXNA.Primitives" Version="2.1.8" />
+    <PackageReference Include="NUnit" Version="5.0.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NuciXNA.Gui\NuciXNA.Gui.csproj" />
+  </ItemGroup>
+</Project>
+```
+
+### NuciXNA.Gui.ArchitectureTests.csproj
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>NuciXNA.Gui.ArchitectureTests</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="NUnit" Version="5.0.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
+    <PackageReference Include="TngTech.ArchUnitNET" Version="0.13.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -144,6 +206,7 @@ Root files:
 ```xml
 <Solution>
   <Project Path="NuciXNA.Gui\NuciXNA.Gui.csproj" />
+  <Project Path="NuciXNA.Gui.ArchitectureTests\NuciXNA.Gui.ArchitectureTests.csproj" />
   <Project Path="NuciXNA.Gui.UnitTests\NuciXNA.Gui.UnitTests.csproj" />
 </Solution>
 ```
@@ -152,6 +215,7 @@ Root files:
 
 - **NuciXNA.Gui.dll** — Main library assembly
 - **NuciXNA.Gui.UnitTests.dll** — Test assembly (not packaged)
+- **NuciXNA.Gui.ArchitectureTests.dll** — Architecture/fitness test assembly (not packaged)
 - **NuGet package** — `NuciXNA.Gui.{version}.nupkg` from `dotnet pack`
 
 ## Naming Conventions

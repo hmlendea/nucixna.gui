@@ -3,15 +3,21 @@
 ## Test Stack
 
 [`NuciXNA.Gui.UnitTests`](../NuciXNA.Gui.UnitTests/) targets `net10.0` and uses:
-- NUnit `4.6.1`.
-- NUnit3TestAdapter `6.2.0`.
-- Microsoft.NET.Test.Sdk `18.7.0`.
+- NUnit `5.0.0`.
+- NUnit3TestAdapter `6.3.1`.
+- Microsoft.NET.Test.Sdk `18.11.0`.
 - Direct reference to the library project.
 - `DummyControl` and `DummyScreen` test doubles.
 
+[`NuciXNA.Gui.ArchitectureTests`](../NuciXNA.Gui.ArchitectureTests/) targets `net10.0` and uses:
+- NUnit `5.0.0`, NUnit3TestAdapter `6.3.1`, and Microsoft.NET.Test.Sdk `18.11.0`.
+- ArchUnitNET `0.13.5` for compiled dependency and public-surface rules.
+- Microsoft.CodeAnalysis.CSharp `5.9.0` for source-file and test-source convention rules.
+- Embedded copies of the production, unit-test, and architecture-test sources, plus project and solution files, so rules never depend on the local file system.
+
 ## Current Validation
 
-On 2026-10-13, `dotnet test NuciXNA.GUI.slnx --configuration Release --no-build --verbosity minimal` discovered and passed 409 of 409 NUnit tests with no failures or skips. This is a point-in-time result, not a permanent coverage guarantee.
+On 2026-11-15, `dotnet test` across the solution discovered and passed 457 unit tests and 194 architecture tests with no failures or skips. This is a point-in-time result, not a permanent coverage guarantee.
 
 ## Commands
 
@@ -53,6 +59,74 @@ These use [`DummyControl.cs`](../NuciXNA.Gui.UnitTests/Helpers/DummyControl.cs) 
 - [`ScreenTests.cs`](../NuciXNA.Gui.UnitTests/Screens/ScreenTests.cs)
 - [`ScreenExtendedTests.cs`](../NuciXNA.Gui.UnitTests/Screens/ScreenExtendedTests.cs)
 - [`DummyScreen.cs`](../NuciXNA.Gui.UnitTests/Helpers/DummyScreen.cs)
+
+### Unit Tests
+
+The unit-test project covers control and screen behaviour:
+
+```text
+NuciXNA.Gui.UnitTests/
+├── Controls/
+│   ├── ControlTests.cs
+│   ├── GuiControlLifecycleTests.cs
+│   ├── GuiControlPropertyTests.cs
+│   ├── GuiMenuItemTests.cs
+│   ├── GuiMenuItemExtendedTests.cs
+│   ├── GuiMenuLinkTests.cs
+│   ├── GuiMenuLinkExtendedTests.cs
+│   ├── GuiMenuListSelectorTests.cs
+│   ├── GuiMenuListSelectorExtendedTests.cs
+│   ├── GuiMenuTextTests.cs
+│   ├── GuiMenuToggleTests.cs
+│   ├── GuiMenuToggleExtendedTests.cs
+│   └── ListSelectionEventArgsTests.cs
+├── Screens/
+│   ├── ScreenTests.cs
+│   └── ScreenExtendedTests.cs
+└── Helpers/
+    ├── DummyControl.cs
+    └── DummyScreen.cs
+```
+
+### Architecture Tests
+
+The architecture-test project enforces documented boundaries and conventions:
+
+```text
+NuciXNA.Gui.ArchitectureTests/
+├── ArchitectureResources.cs            # Embedded-source access
+├── ProductionArchitecture.cs           # Reusable ArchUnitNET model
+├── SourceParsing.cs                    # Roslyn parsing helpers
+├── DependencyRuleTests.cs              # Assemblies, namespaces, references, public surface
+├── DependencyPinConventionTests.cs     # Exact package versions, references, non-vacuity guards
+├── ProjectConventionTests.cs           # Project property, package, and reference rules
+├── SolutionConventionTests.cs          # SDK-style solution structure and order
+├── SourceFileConventionTests.cs        # Files, namespaces, syntax, using directives
+├── LayoutAndApiConventionTests.cs      # Namespace/folder mapping, layout, collections, contracts, coalescing
+├── TypeDeclarationConventionTests.cs   # Contracts, colocation, XML documentation
+├── TypeSurfaceConventionTests.cs       # Enumerations, interface docs, static state, suite self-checks
+├── MemberOrganisationTests.cs          # Accessibility, field/member order, formatting
+├── NamingConventionTests.cs            # Type, method, field, and fixture naming
+├── FrameworkUsageConventionTests.cs    # MonoGame/NuciXNA wrappers, async, dummies, assertions, lifecycle ownership
+└── TestSourceConventionTests.cs        # Fixture attributes, Given/When/Then names, reflection, case counts
+```
+
+### Enforced Convention Families
+
+| Family | Examples of enforced rules |
+|--------|--------------------------|
+| Compiled dependencies | Only the production assembly is modelled; no persistence, web, serialisation, or test-framework dependencies; `GuiManager` must not depend on `Screens`; no `InternalsVisibleTo` |
+| Public surface | Documented types and contracts exist; `Cursor` stays sealed and non-singleton; managers expose `Instance` |
+| Projects and solution | `net10.0`, explicit `ImplicitUsings`/`LangVersion`/`Nullable`, alphabetical exact-version packages, test flags, SDK-style `.slnx` with documented project order |
+| Source structure | One type per file matching its name, block namespaces matching folders, no nested types, no dedicated `.Interfaces`/`.Enums` namespaces |
+| Syntax bans | `var`, ternaries, tuples, `init`, `partial`, `const`, `ref`/`out`/optional parameters, `??`, `== null`, `#nullable`, regions, `#pragma warning disable`, `global using`, ignored tests |
+| Layout | Four-space indentation, single blank-line density, no blank line before closing delimiters, no `{ }` across lines, adjacency and parameter ordering of overloads, long parameter/argument lists wrapped at 96 characters |
+| Naming | PascalCase types/methods, `I`-prefixed interfaces, camelCase private fields, uppercase public/protected members, permitted boolean forms, `EventArgs` suffix |
+| Member organisation | Explicit accessibility, fields before members, static-readonly-before-instance field order, expression-bodied single-statement members and computed getters |
+| Documentation | XML summaries on public package types, members, and interface contracts |
+| Framework usage | `GuiImage`/`GuiText` wrappers instead of raw `Texture2D`/`SpriteFont`, no `async`/`CancellationToken`, `Point2D.Empty`/`Size2D.Zero`, controls driven only by managers |
+| Test sources | `[TestFixture]` on fixtures, `Given..._When..._Then...` names, `SetUp` naming, no non-public reflection, at least two `[TestCase]` values, expression-bodied single-assert tests, internal top-level dummies |
+| Suite integrity | Embedded sources and project files are present, the ArchUnitNET type provider is non-empty, and the required suite packages are declared |
 
 ## Coverage Map
 

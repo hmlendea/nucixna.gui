@@ -277,30 +277,9 @@ namespace NuciXNA.Gui.Screens
         }
 
         /// <summary>
-        /// Loads the content.
-        /// </summary>
-        protected abstract void DoLoadContent();
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
-        protected abstract void DoUnloadContent();
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
-        protected abstract void DoUpdate(GameTime gameTime);
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
-        protected abstract void DoDraw(SpriteBatch spriteBatch);
-
-        /// <summary>
         /// Disposes of this <see cref="Screen"/>.
         /// </summary>
+        /// <param name="disposing">Whether managed resources should be disposed.</param>
         protected void Dispose(bool disposing)
         {
             if (!disposing || IsDisposed)
@@ -321,6 +300,28 @@ namespace NuciXNA.Gui.Screens
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected abstract void DoLoadContent();
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected abstract void DoUnloadContent();
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected abstract void DoUpdate(GameTime gameTime);
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected abstract void DoDraw(SpriteBatch spriteBatch);
 
         /// <summary>
         /// Registers the events.

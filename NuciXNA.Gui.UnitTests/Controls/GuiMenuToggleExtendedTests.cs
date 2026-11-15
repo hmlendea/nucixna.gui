@@ -15,11 +15,9 @@ namespace NuciXNA.Gui.UnitTests.Controls
             toggle = new GuiMenuToggle();
         }
 
-
         [Test]
         public void GivenFreshToggle_WhenGettingIsOn_ThenIsFalse()
             => Assert.That(toggle.IsOn, Is.False);
-
 
         [TestCase(false, false, false)]
         [TestCase(true, true, true)]
@@ -54,7 +52,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(fireCount, Is.EqualTo(expectedFireCount));
         }
-
 
         [Test]
         public void GivenToggleOff_WhenSwitchOn_ThenIsOnIsTrue()
@@ -108,7 +105,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(fireCount, Is.EqualTo(1));
         }
-
 
         [Test]
         public void GivenToggleOn_WhenSwitchOff_ThenIsOnIsFalse()
@@ -164,7 +160,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-
         [Test]
         public void GivenToggleOff_WhenSwitchState_ThenIsOnIsTrue()
         {
@@ -215,7 +210,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(switchCount));
         }
 
-
         [Test]
         public void GivenToggleOff_WhenSetStateTrue_ThenIsOnIsTrue()
         {
@@ -256,7 +250,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-
         [Test]
         public void GivenToggle_WhenOnOffOnOff_ThenStateChangedFiresFourTimes()
         {
@@ -284,8 +277,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         [Test]
         public void GivenToggle_WhenIsSelectableAlwaysInherited_ThenIsSelectableIsTrue()
-        {
-            Assert.That(toggle.IsSelectable);
-        }
+            => Assert.That(toggle.IsSelectable);
     }
 }

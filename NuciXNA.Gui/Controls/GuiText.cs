@@ -40,6 +40,10 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the outline colour of the rendered text.
+        /// </summary>
+        /// <value>The outline colour.</value>
         public Colour OutlineColour
         {
             get => outlineColour;
@@ -52,6 +56,10 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the outline applied to the rendered text.
+        /// </summary>
+        /// <value>The font outline.</value>
         public FontOutline FontOutline
         {
             get => fontOutline;

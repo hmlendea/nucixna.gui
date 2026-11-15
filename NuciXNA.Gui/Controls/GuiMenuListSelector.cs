@@ -49,6 +49,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The selected value.</value>
         public string SelectedValue => currentSelectionValue;
 
+        /// <summary>
+        /// Gets the number of items in this selector.
+        /// </summary>
+        /// <value>The item count.</value>
         public int ItemsCount => items.Count;
 
         /// <summary>
@@ -70,6 +74,9 @@ namespace NuciXNA.Gui.Controls
             SelectedIndex = -1;
         }
 
+        /// <summary>
+        /// Selects the next item in the list, wrapping around when required.
+        /// </summary>
         public void SelectNextItem()
         {
             if (items.Count == 1)
@@ -87,6 +94,9 @@ namespace NuciXNA.Gui.Controls
             SelectItemByIndex(newIndex);
         }
 
+        /// <summary>
+        /// Selects the previous item in the list, wrapping around when required.
+        /// </summary>
         public void SelectPreviousItem()
         {
             if (items.Count == 1)
@@ -219,6 +229,10 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Replaces the items with the supplied display values, generating a key for each item.
+        /// </summary>
+        /// <param name="values">The display values.</param>
         public void SetItems(params string[] values)
         {
             IDictionary<string, string> itemsDictionary = values.ToDictionary(
@@ -228,6 +242,10 @@ namespace NuciXNA.Gui.Controls
             SetItems(itemsDictionary);
         }
 
+        /// <summary>
+        /// Replaces the items with the supplied key/value pairs.
+        /// </summary>
+        /// <param name="items">The key/value pairs.</param>
         public void SetItems(params KeyValuePair<string, string>[] items)
         {
             IDictionary<string, string> itemsDictionary = items.ToDictionary(
@@ -237,6 +255,10 @@ namespace NuciXNA.Gui.Controls
             SetItems(itemsDictionary);
         }
 
+        /// <summary>
+        /// Replaces the items with the supplied display values, generating a key for each item.
+        /// </summary>
+        /// <param name="values">The display values.</param>
         public void SetItems(IEnumerable<string> values)
         {
             IDictionary<string, string> itemsDictionary = values.ToDictionary(
@@ -246,6 +268,10 @@ namespace NuciXNA.Gui.Controls
             SetItems(itemsDictionary);
         }
 
+        /// <summary>
+        /// Replaces the items with the supplied key/value pairs.
+        /// </summary>
+        /// <param name="items">The key/value pairs.</param>
         public void SetItems(IEnumerable<KeyValuePair<string, string>> items)
         {
             IDictionary<string, string> itemsDictionary = items.ToDictionary(
@@ -255,6 +281,10 @@ namespace NuciXNA.Gui.Controls
             SetItems(itemsDictionary);
         }
 
+        /// <summary>
+        /// Replaces the items with the supplied dictionary and selects the first item when possible.
+        /// </summary>
+        /// <param name="newItems">The new items.</param>
         public void SetItems(IDictionary<string, string> newItems)
         {
             items = newItems.ToDictionary(newItem => newItem.Key, newItem => newItem.Value);
@@ -271,6 +301,10 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Gets a copy of the current items.
+        /// </summary>
+        /// <returns>The current items, keyed by their identifiers.</returns>
         public IDictionary<string, string> GetItems()
             => items.ToDictionary(item => item.Key, item => item.Value);
 
@@ -321,7 +355,7 @@ namespace NuciXNA.Gui.Controls
                 SelectItemByIndex(items.Count - 1);
             }
 
-            text.Text = Text + $" : {currentSelectionValue}";
+            TextControl.Text = Text + $" : {currentSelectionValue}";
         }
 
         /// <summary>

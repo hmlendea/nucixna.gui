@@ -40,6 +40,10 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the border size.
+        /// </summary>
+        /// <value>The border size.</value>
         public int BorderSize
         {
             get => borderSize;

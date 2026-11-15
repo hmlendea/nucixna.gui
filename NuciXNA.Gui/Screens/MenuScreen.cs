@@ -165,12 +165,21 @@ namespace NuciXNA.Gui.Screens
 
             while (!Items[normalisedItemNumber].IsSelectable && attempts < Items.Count)
             {
-                normalisedItemNumber = GetSafeItemNumber(
-                    wasLastDirectionBack ? normalisedItemNumber - 1 : normalisedItemNumber + 1);
+                normalisedItemNumber = GetAdjacentItemNumber(normalisedItemNumber);
                 attempts += 1;
             }
 
             return normalisedItemNumber;
+        }
+
+        private int GetAdjacentItemNumber(int itemNumber)
+        {
+            if (wasLastDirectionBack)
+            {
+                return GetSafeItemNumber(itemNumber - 1);
+            }
+
+            return GetSafeItemNumber(itemNumber + 1);
         }
 
         private int GetSafeItemNumber(int itemNumber)

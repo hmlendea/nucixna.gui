@@ -7,6 +7,9 @@ using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui
 {
+    /// <summary>
+    /// Cursor.
+    /// </summary>
     public sealed class Cursor
     {
         private ButtonState state;
@@ -17,8 +20,16 @@ namespace NuciXNA.Gui
         /// <value>The location.</value>
         public Point2D Location { get; set; }
 
+        /// <summary>
+        /// Gets or sets an offset applied to the reported location.
+        /// </summary>
+        /// <value>The location offset.</value>
         public Point2D LocationOffset { get; set; }
 
+        /// <summary>
+        /// Gets or sets the cursor button state.
+        /// </summary>
+        /// <value>The button state.</value>
         public ButtonState State
         {
             get
@@ -33,10 +44,22 @@ namespace NuciXNA.Gui
             set => state = value;
         }
 
+        /// <summary>
+        /// Gets or sets the number of animation frames.
+        /// </summary>
+        /// <value>The frame count.</value>
         public int Frames { get; set; }
 
+        /// <summary>
+        /// Gets or sets the size of the cursor sprite.
+        /// </summary>
+        /// <value>The sprite size.</value>
         public Size2D SpriteSize { get; set; }
 
+        /// <summary>
+        /// Gets or sets the scale of the cursor sprite.
+        /// </summary>
+        /// <value>The scale.</value>
         public Scale2D Scale { get; set; }
 
         /// <summary>
@@ -70,6 +93,9 @@ namespace NuciXNA.Gui
         private TextureSprite idleSprite;
         private TextureSprite clickSprite;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cursor"/> class.
+        /// </summary>
         public Cursor()
         {
             Frames = 1;

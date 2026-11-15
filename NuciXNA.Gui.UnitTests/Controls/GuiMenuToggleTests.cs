@@ -115,15 +115,14 @@ namespace NuciXNA.Gui.UnitTests.Controls
         public void GivenToggle_WhenSwitchStateMultipleTimes_ThenIsOnAlternates()
         {
             toggle.SwitchState();
-            Assert.That(toggle.IsOn, Is.True);
+            Assert.That(toggle.IsOn);
 
             toggle.SwitchState();
             Assert.That(toggle.IsOn, Is.False);
 
             toggle.SwitchState();
-            Assert.That(toggle.IsOn, Is.True);
+            Assert.That(toggle.IsOn);
         }
-
 
         [Test]
         public void GivenToggleOff_WhenSwitchOn_ThenFiresStateChanged()

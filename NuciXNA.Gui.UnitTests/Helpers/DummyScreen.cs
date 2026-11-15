@@ -5,7 +5,7 @@ using NuciXNA.Gui.Screens;
 
 namespace NuciXNA.Gui.UnitTests.Helpers
 {
-    public sealed class DummyScreen : Screen
+    internal sealed class DummyScreen : Screen
     {
         protected override void DoLoadContent() { }
 

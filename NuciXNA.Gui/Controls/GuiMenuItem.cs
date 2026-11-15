@@ -56,6 +56,10 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this item can receive menu navigation focus.
+        /// </summary>
+        /// <value><c>true</c> if selectable; otherwise, <c>false</c>.</value>
         public virtual bool IsSelectable
         {
             get => isSelectable;
@@ -92,7 +96,7 @@ namespace NuciXNA.Gui.Controls
         /// <summary>
         /// The text GUI control.
         /// </summary>
-        protected GuiText text;
+        protected GuiText TextControl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiMenuItem"/> class.
@@ -111,9 +115,9 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         protected override void DoLoadContent()
         {
-            text = new GuiText
+            TextControl = new GuiText
             {
-                Id = $"{Id}_{nameof(text)}",
+                Id = $"{Id}_text",
                 FontName = "MenuFont",
                 AreEffectsActive = true,
                 FadeEffect = new FadeEffect
@@ -123,7 +127,7 @@ namespace NuciXNA.Gui.Controls
                 }
             };
 
-            RegisterChild(text);
+            RegisterChild(TextControl);
 
             SetChildrenProperties();
             RegisterEvents();
@@ -151,7 +155,7 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         private void RegisterEvents()
         {
-            text.ContentLoaded += OnTextContentLoaded;
+            TextControl.ContentLoaded += OnTextContentLoaded;
 
             Clicked += OnClicked;
             KeyPressed += OnKeyPressed;
@@ -164,7 +168,7 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         private void UnregisterEvents()
         {
-            text.ContentLoaded -= OnTextContentLoaded;
+            TextControl.ContentLoaded -= OnTextContentLoaded;
 
             Clicked -= OnClicked;
             KeyPressed -= OnKeyPressed;
@@ -174,22 +178,52 @@ namespace NuciXNA.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            text.Text = Text;
-            text.Size = Size;
+            TextControl.Text = Text;
+            TextControl.Size = Size;
 
             if (IsFocused)
             {
-                text.AreEffectsActive = true;
-                text.ForegroundColour = SelectedTextColour;
+                TextControl.AreEffectsActive = true;
+                TextControl.ForegroundColour = SelectedTextColour;
             }
             else
             {
-                text.AreEffectsActive = false;
-                text.ForegroundColour = ForegroundColour;
+                TextControl.AreEffectsActive = false;
+                TextControl.ForegroundColour = ForegroundColour;
             }
         }
 
-        private void OnTextContentLoaded(object sender, EventArgs eventArguments) => text.FadeEffect.Activate();
+        private void OnTextContentLoaded(object sender, EventArgs eventArguments) => TextControl.FadeEffect.Activate();
+
+        /// <summary>
+        /// Invokes the click handling path, raising the <see cref="Triggered"/> event.
+        /// </summary>
+        public void PerformClick()
+            => OnClicked(
+                this,
+                new MouseButtonEventArgs(MouseButton.Left, NuciXNA.Input.ButtonState.Pressed, Point2D.Empty));
+
+        /// <summary>
+        /// Invokes the keyboard key handling path, raising the <see cref="Triggered"/> event when Enter or E is pressed.
+        /// </summary>
+        /// <param name="key">The pressed keyboard key.</param>
+        public void PerformKeyPress(Keys key)
+            => OnKeyPressed(this, new KeyboardKeyEventArgs(key, NuciXNA.Input.ButtonState.Pressed));
+
+        /// <summary>
+        /// Invokes the gamepad button handling path, raising the <see cref="Triggered"/> event when A is pressed.
+        /// </summary>
+        /// <param name="button">The pressed gamepad button.</param>
+        public void PerformGamepadPress(Buttons button)
+            => OnGamepadButtonPressed(
+                this,
+                new GamepadButtonEventArgs(button, NuciXNA.Input.ButtonState.Pressed, PlayerIndex.One));
+
+        /// <summary>
+        /// Invokes the mouse enter handling path.
+        /// </summary>
+        public void PerformMouseEnter()
+            => OnMouseEntered(this, new MouseEventArgs(Point2D.Empty, Point2D.Empty));
 
         private void OnClicked(object sender, MouseButtonEventArgs eventArguments) => Triggered?.Invoke(this, EventArgs.Empty);
 

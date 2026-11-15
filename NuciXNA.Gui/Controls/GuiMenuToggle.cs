@@ -20,12 +20,25 @@ namespace NuciXNA.Gui.Controls
         /// </summary>
         public event EventHandler StateChanged;
 
+        /// <summary>
+        /// Turns the toggle on.
+        /// </summary>
         public void SwitchOn() => SetState(true);
 
+        /// <summary>
+        /// Turns the toggle off.
+        /// </summary>
         public void SwitchOff() => SetState(false);
 
+        /// <summary>
+        /// Inverts the current toggle state.
+        /// </summary>
         public void SwitchState() => SetState(!IsOn);
 
+        /// <summary>
+        /// Sets the toggle state.
+        /// </summary>
+        /// <param name="state">The new state.</param>
         public void SetState(bool state)
         {
             if (IsOn == state)
@@ -72,7 +85,7 @@ namespace NuciXNA.Gui.Controls
                 stateLabel = " : On";
             }
 
-            text.Text = Text + stateLabel;
+            TextControl.Text = Text + stateLabel;
         }
 
         /// <summary>

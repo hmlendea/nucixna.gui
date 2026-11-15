@@ -5,7 +5,7 @@ using NuciXNA.Gui.Controls;
 
 namespace NuciXNA.Gui.UnitTests.Helpers
 {
-    public sealed class DummyControl : GuiControl
+    internal sealed class DummyControl : GuiControl
     {
         public void AddChild(DummyControl child) => RegisterChild(child);
 
