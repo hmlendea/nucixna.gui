@@ -38,6 +38,10 @@ See the root [Privacy Policy](../PRIVACY.md) and [State and Persistence](./state
 
 Direct runtime dependencies are listed in [Dependencies](./dependencies.md). Assets/fonts are resolved through NuciXNA.Graphics. The repository does not validate asset provenance, signature, size, or decoded resource limits. Treat content build inputs and package feeds as supply-chain boundaries.
 
+## Automated Scanning
+
+[`security.yml`](../.github/workflows/security.yml) restores the solution, reports vulnerable direct and transitive NuGet packages, and uploads CodeQL C# analysis to GitHub Code Scanning on pushes, pull requests, and a weekly schedule. It reports findings; it does not block merges or rewrite dependency versions. Remediation remains a maintainer decision recorded with the affected package, version, and execution path.
+
 ## Denial Of Service And Robustness
 
 Although there is no remote interface, a consuming application can feed adversarial/unbounded values. Relevant cases include:

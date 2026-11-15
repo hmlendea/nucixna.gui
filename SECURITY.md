@@ -8,6 +8,7 @@ This policy defines supported-release coverage and private, coordinated reportin
 - [Reporting a Vulnerability](#reporting-a-vulnerability)
 - [Scope](#scope)
 - [Disclosure Policy](#disclosure-policy)
+- [Automated Security Scanning](#automated-security-scanning)
 - [Safe Harbour](#safe-harbour)
 - [Recognition](#recognition)
 
@@ -32,6 +33,8 @@ To report a vulnerability:
 
 ## 📌 Scope
 
+The original maintainers are not responsible for changes, modifications, or security issues introduced by downstream forks.
+
 The subsequent report categories are in scope for this repository:
 - Unintended code execution, information exposure, or trust-boundary violation caused by the library's reflection, lifecycle, content, input, or event handling
 - Supply-chain vulnerabilities in declared dependencies with a demonstrated NuciXNA.Gui execution path
@@ -49,6 +52,14 @@ This project follows coordinated disclosure:
 2. A remediation plan is prepared and validated.
 3. Public disclosure is published after a fix, mitigation, or agreed risk decision is available.
 4. Credit is attributed in accordance with reporter preference and project policy.
+
+## 🔍 Automated Security Scanning
+
+This repository runs automated security scans on every push to and pull request against `master`, plus a weekly schedule. The scan includes:
+- **NuGet vulnerable package reporting** - restores the solution and lists vulnerable direct and transitive packages through `dotnet list package --vulnerable --include-transitive`.
+- **CodeQL static analysis of the C# sources** - builds the solution and uploads the analysis results to GitHub Code Scanning.
+
+Results are published to the [Security](https://github.com/hmlendea/nucixna.gui/security) tab and the [Actions](https://github.com/hmlendea/nucixna.gui/actions/workflows/security.yml) workflow page.
 
 ## 🧾 Safe Harbour
 

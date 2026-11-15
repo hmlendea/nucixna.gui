@@ -162,4 +162,4 @@ Until host-level automation exists, manually verify:
 
 ## CI Parity
 
-CI installs Microsoft core fonts on Ubuntu before restore/build/test. A local Linux failure involving fonts should first be compared with [the workflow](../.github/workflows/dotnet.yml). The workflow currently runs only against `master` push/pull-request events and does not report coverage.
+CI installs Microsoft core fonts on Ubuntu before restore/build/test. A local Linux failure involving fonts should first be compared with [the workflow](../.github/workflows/dotnet.yml). The workflow currently runs only against `master` push/pull-request events and does not report coverage. [The security workflow](../.github/workflows/security.yml) additionally reports vulnerable NuGet packages and uploads CodeQL C# analysis to GitHub Code Scanning on pushes, pull requests, and a weekly schedule.

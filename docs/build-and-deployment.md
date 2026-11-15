@@ -43,7 +43,7 @@ The library manifest currently declares:
 | Licence expression | `GPL-3.0-or-later` |
 | Tags | `XNA MonoGame` |
 
-The repository contains no release script, signing configuration, symbol/source package configuration, changelog automation, or NuGet publication workflow. `dotnet pack` builds an artefact; publication is a separate maintainer action not defined here.
+The repository contains no release script, signing configuration, symbol/source package configuration, or changelog automation. `dotnet pack` builds an artefact. Publication is automated by [`github-release.yml`](../.github/workflows/github-release.yml), which attaches the package and its SHA256 checksum to a published GitHub release, and by [`nuget-release.yml`](../.github/workflows/nuget-release.yml), which pushes the package to NuGet.org through an OIDC-obtained temporary API key.
 
 ## Continuous Integration
 
@@ -55,7 +55,20 @@ The repository contains no release script, signing configuration, symbol/source 
 5. `dotnet build --no-restore`.
 6. `dotnet test --no-build --verbosity normal`.
 
-CI does not pack, publish, upload artefacts, collect coverage, scan dependencies, sign packages, or create releases.
+CI does not pack, publish, upload artefacts, collect coverage, sign packages, or create releases.
+
+## Security Scanning
+
+[`.github/workflows/security.yml`](../.github/workflows/security.yml) runs for pushes and pull requests targeting `master`, plus a weekly schedule at `0 0 * * 0` on `ubuntu-latest`:
+1. `actions/checkout@v7`.
+2. `actions/setup-dotnet@v5` with `10.0.x`.
+3. `dotnet restore`.
+4. `dotnet list package --vulnerable --include-transitive`.
+5. CodeQL initialisation for `csharp`.
+6. `dotnet build --no-restore`.
+7. CodeQL analysis upload to GitHub Code Scanning.
+
+The job requests `security-events: write` for the SARIF upload and `contents: read` for source access. The vulnerable-package step reports findings in the job log but does not fail the build on its own.
 
 ## Consumer Deployment
 

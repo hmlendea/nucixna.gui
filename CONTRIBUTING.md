@@ -4,7 +4,7 @@ This document covers the guidelines and processes for contributing to this proje
 
 ## 📑 Table of Contents
 
-- [How to Contribute](#how-to-contribute)
+- [Contributing](#contributing)
   - [Reporting Issues](#reporting-issues)
   - [Suggesting Enhancements](#suggesting-enhancements)
   - [Code Contributions](#code-contributions)
@@ -19,7 +19,7 @@ This document covers the guidelines and processes for contributing to this proje
 - [License](#license)
 - [Getting Help](#getting-help)
 
-## 🤝 How to Contribute
+## 🤝 Contributing
 
 ### Reporting Issues
 
@@ -66,8 +66,8 @@ dotnet restore NuciXNA.GUI.slnx
 
 - Target the `master` branch.
 - Keep PRs focused and atomic.
-- Update documentation if applicable.
-- Add tests for any new functionality.
+- Revise documentation if applicable.
+- Include tests for any new functionality.
 - Ensure the CI checks pass.
 
 ### Testing
