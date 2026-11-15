@@ -172,6 +172,10 @@ namespace NuciXNA.Gui.Controls
         /// <value>The scale effect.</value>
         public ScaleEffect ScaleEffect { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rotation applied when drawing this image.
+        /// </summary>
+        /// <value>The rotation.</value>
         public float Rotation { get; set; }
 
         /// <summary>

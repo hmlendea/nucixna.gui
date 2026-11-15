@@ -299,7 +299,7 @@ Inspect the package before publishing it through the maintainer's authorised NuG
 
 ## 🗂️ Project Structure
 
-The solution contains the library and its NUnit test project, plus detailed documentation and one validation workflow.
+The solution contains the library, its NUnit test project, and its architecture test project, plus detailed documentation and one validation workflow.
 
 ### Projects and Packages
 
@@ -307,6 +307,7 @@ The solution contains the library and its NUnit test project, plus detailed docu
 |---------|------|---------|
 | `NuciXNA.Gui/NuciXNA.Gui.csproj` | .NET library/NuGet package | Controls, screens, managers, and cursor |
 | `NuciXNA.Gui.UnitTests/NuciXNA.Gui.UnitTests.csproj` | NUnit test project | Unit tests and test doubles |
+| `NuciXNA.Gui.ArchitectureTests/NuciXNA.Gui.ArchitectureTests.csproj` | NUnit architecture/fitness test project | ArchUnitNET and Roslyn rules enforcing boundaries, project/solution configuration, and source conventions |
 
 ### Directories
 
@@ -315,6 +316,7 @@ The solution contains the library and its NUnit test project, plus detailed docu
 | `NuciXNA.Gui/Controls/` | `GuiControl`, concrete controls, and selection event model |
 | `NuciXNA.Gui/Screens/` | `Screen`, `MenuScreen`, contracts, and `ScreenManager` |
 | `NuciXNA.Gui.UnitTests/` | Control/screen fixtures and test helpers |
+| `NuciXNA.Gui.ArchitectureTests/` | Architecture/fitness rules over the embedded production, test, and project sources |
 | `docs/` | Architecture, flows, API reference, concerns, and support guides |
 
 ## 🏗️ Architecture

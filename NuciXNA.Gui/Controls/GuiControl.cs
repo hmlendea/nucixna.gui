@@ -316,11 +316,34 @@ namespace NuciXNA.Gui.Controls
         /// <value>The parent.</value>
         public GuiControl Parent { get; set; } // TODO: Reconsider whether this property should be public.
 
+        /// <summary>
+        /// Gets or sets the site that hosts this control in a designer.
+        /// </summary>
+        /// <value>The hosting site.</value>
         public ISite Site { get; set; }
 
+        /// <summary>
+        /// Gets the container that owns this control, when it is hosted in a designer.
+        /// </summary>
+        /// <value>The owning container.</value>
         public IContainer Container => Site?.Container;
 
-        protected bool DesignMode => Site?.DesignMode ?? false;
+        /// <summary>
+        /// Gets a value indicating whether this control is hosted in design mode.
+        /// </summary>
+        /// <value><c>true</c> if hosted in design mode; otherwise, <c>false</c>.</value>
+        protected bool DesignMode
+        {
+            get
+            {
+                if (Site is null)
+                {
+                    return false;
+                }
+
+                return Site.DesignMode;
+            }
+        }
 
         /// <summary>
         /// Occurs when the <see cref="ForegroundColour"> was changed.
@@ -751,15 +774,27 @@ namespace NuciXNA.Gui.Controls
             Unfocused?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Registers a child control, which then follows this control's lifecycle.
+        /// </summary>
+        /// <param name="control">The child control.</param>
         protected void RegisterChild(IGuiControl control)
         {
             children.Add((GuiControl)control);
             control.Parent = this;
         }
 
+        /// <summary>
+        /// Registers multiple child controls, which then follow this control's lifecycle.
+        /// </summary>
+        /// <param name="controls">The child controls.</param>
         protected void RegisterChildren(params IGuiControl[] controls)
             => RegisterChildren((IEnumerable<IGuiControl>)controls);
 
+        /// <summary>
+        /// Registers multiple child controls, which then follow this control's lifecycle.
+        /// </summary>
+        /// <param name="controls">The child controls.</param>
         protected void RegisterChildren(IEnumerable<IGuiControl> controls)
         {
             foreach (IGuiControl control in controls)
@@ -769,8 +804,17 @@ namespace NuciXNA.Gui.Controls
             }
         }
 
+        /// <summary>
+        /// Gets the service associated with the supplied type.
+        /// </summary>
+        /// <param name="service">The service type.</param>
+        /// <returns>The matching service, or <c>null</c> when none is available.</returns>
         protected virtual object GetService(Type service) => Site?.GetService(service);
 
+        /// <summary>
+        /// Returns a textual representation of this control.
+        /// </summary>
+        /// <returns>The identifier when no site is assigned; otherwise the site name.</returns>
         public override string ToString()
         {
             if (Site is null)

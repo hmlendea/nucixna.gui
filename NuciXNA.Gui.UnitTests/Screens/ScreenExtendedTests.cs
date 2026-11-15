@@ -45,7 +45,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.Id, Is.EqualTo("SolairOfAstora"));
         }
 
-
         [Test]
         public void GivenFreshScreen_WhenGettingIsContentLoaded_ThenIsFalse()
         {
@@ -62,7 +61,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(screen.IsDisposed, Is.False);
         }
 
-
         [Test]
         public void GivenFreshScreen_WhenLoadContent_ThenContentLoadingFiresBeforeContentLoaded()
         {
@@ -78,7 +76,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
 
             Assert.That(loadingOrder, Is.LessThan(loadedOrder));
         }
-
 
         [Test]
         public void GivenLoadedScreen_WhenUnloadContent_ThenContentUnloadingFiresBeforeContentUnloaded()
@@ -108,7 +105,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
 
             Assert.That(screen.IsContentLoaded);
         }
-
 
         [Test]
         public void GivenLoadedScreen_WhenDispose_ThenDisposingFiresBeforeDisposed()
@@ -151,7 +147,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-
         [Test]
         public void GivenScreen_WhenSettingBackgroundColourTwice_ThenLastValueWins()
         {
@@ -174,7 +169,6 @@ namespace NuciXNA.Gui.UnitTests.Screens
 
             Assert.That(fireCount, Is.EqualTo(2));
         }
-
 
         [Test]
         public void GivenScreen_WhenSettingForegroundColourTwice_ThenLastValueWins()

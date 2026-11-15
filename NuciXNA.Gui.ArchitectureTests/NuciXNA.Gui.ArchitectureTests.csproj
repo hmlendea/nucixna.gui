@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>NuciXNA.Gui.ArchitectureTests</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="NUnit" Version="5.0.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
+    <PackageReference Include="TngTech.ArchUnitNET" Version="0.13.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NuciXNA.Gui\NuciXNA.Gui.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\NuciXNA.Gui\**\*.cs" Exclude="..\NuciXNA.Gui\bin\**\*.cs;..\NuciXNA.Gui\obj\**\*.cs">
+      <LogicalName>ProductionSources/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NuciXNA.Gui.UnitTests\**\*.cs" Exclude="..\NuciXNA.Gui.UnitTests\bin\**\*.cs;..\NuciXNA.Gui.UnitTests\obj\**\*.cs">
+      <LogicalName>UnitTestSources/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NuciXNA.Gui.ArchitectureTests\**\*.cs" Exclude="..\NuciXNA.Gui.ArchitectureTests\bin\**\*.cs;..\NuciXNA.Gui.ArchitectureTests\obj\**\*.cs">
+      <LogicalName>ArchitectureTestSources/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NuciXNA.GUI.slnx">
+      <LogicalName>ProjectFiles/NuciXNA.GUI.slnx</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NuciXNA.Gui\NuciXNA.Gui.csproj">
+      <LogicalName>ProjectFiles/NuciXNA.Gui/NuciXNA.Gui.csproj</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NuciXNA.Gui.UnitTests\NuciXNA.Gui.UnitTests.csproj">
+      <LogicalName>ProjectFiles/NuciXNA.Gui.UnitTests/NuciXNA.Gui.UnitTests.csproj</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NuciXNA.Gui.ArchitectureTests\NuciXNA.Gui.ArchitectureTests.csproj">
+      <LogicalName>ProjectFiles/NuciXNA.Gui.ArchitectureTests/NuciXNA.Gui.ArchitectureTests.csproj</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

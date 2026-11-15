@@ -35,9 +35,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         [Test]
         public void GivenFreshControl_WhenNotDisposed_ThenIsDisposedIsFalse()
-        {
-            Assert.That(loadedControl.IsDisposed, Is.False);
-        }
+            => Assert.That(loadedControl.IsDisposed, Is.False);
 
         [Test]
         public void GivenLoadedControl_WhenShow_ThenIsVisibleIsTrue()

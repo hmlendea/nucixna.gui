@@ -19,7 +19,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
         [Test]
         public void GivenFreshMenuItem_WhenGettingIsSelectable_ThenIsTrue()
-            => Assert.That(menuItem.IsSelectable, Is.True);
+            => Assert.That(menuItem.IsSelectable);
 
         [Test]
         public void GivenFreshMenuItem_WhenGettingSelectedTextColour_ThenIsGold()
@@ -81,7 +81,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             menuItem.IsSelectable = false;
             menuItem.IsSelectable = true;
 
-            Assert.That(menuItem.IsSelectable, Is.True);
+            Assert.That(menuItem.IsSelectable);
         }
 
         [Test]

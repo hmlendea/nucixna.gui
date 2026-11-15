@@ -17,19 +17,39 @@ namespace NuciXNA.Gui
     /// </summary>
     public class GuiManager
     {
-        private static volatile GuiManager instance;
         private static readonly Lock syncRoot = new();
+        private static volatile GuiManager instance;
 
         private readonly Dictionary<string, GuiControl> guiControls;
 
+        /// <summary>
+        /// Gets or sets the default background colour applied to controls without an explicit value.
+        /// </summary>
+        /// <value>The default background colour.</value>
         public Colour DefaultBackgroundColour { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default foreground colour applied to controls without an explicit value.
+        /// </summary>
+        /// <value>The default foreground colour.</value>
         public Colour DefaultForegroundColour { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default font name applied to controls without an explicit value.
+        /// </summary>
+        /// <value>The default font name.</value>
         public string DefaultFontName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default texture layout applied to controls without an explicit value.
+        /// </summary>
+        /// <value>The default texture layout.</value>
         public TextureLayout DefaultTextureLayout { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default text margins applied to controls without an explicit value.
+        /// </summary>
+        /// <value>The default margins.</value>
         public int DefaultMargins { get; set; }
 
         /// <summary>
@@ -52,6 +72,9 @@ namespace NuciXNA.Gui
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuiManager"/> class.
+        /// </summary>
         public GuiManager()
         {
             guiControls = [];
@@ -136,12 +159,24 @@ namespace NuciXNA.Gui
             }
         }
 
+        /// <summary>
+        /// Registers a root control by its identifier.
+        /// </summary>
+        /// <param name="control">The root control.</param>
         public void RegisterControl(GuiControl control)
             => guiControls.Add(control.Id, control);
 
+        /// <summary>
+        /// Registers multiple root controls by their identifiers.
+        /// </summary>
+        /// <param name="controls">The root controls.</param>
         public void RegisterControls(params GuiControl[] controls)
             => RegisterControls((IEnumerable<GuiControl>)controls);
 
+        /// <summary>
+        /// Registers multiple root controls by their identifiers.
+        /// </summary>
+        /// <param name="controls">The root controls.</param>
         public void RegisterControls(IEnumerable<GuiControl> controls)
         {
             foreach (GuiControl control in controls)

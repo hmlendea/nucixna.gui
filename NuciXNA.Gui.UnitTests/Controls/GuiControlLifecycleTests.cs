@@ -78,7 +78,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.Throws<InvalidOperationException>(control.LoadContent);
         }
 
-
         [Test]
         public void GivenLoadedControl_WhenUnloadContent_ThenIsContentLoadedIsFalse()
         {
@@ -163,7 +162,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(child.Parent, Is.Null);
         }
-
 
         [Test]
         public void GivenLoadedControl_WhenDispose_ThenIsDisposedIsTrue()
@@ -264,7 +262,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(1));
         }
 
-
         [Test]
         public void GivenFreshControl_WhenFocus_ThenIsFocusedIsTrue()
         {
@@ -322,7 +319,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(fireCount, Is.EqualTo(2));
         }
-
 
         [Test]
         public void GivenFreshControl_WhenGettingIsEnabled_ThenIsTrue()
@@ -382,7 +378,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-
         [Test]
         public void GivenFreshControl_WhenGettingIsVisible_ThenIsTrue()
         {
@@ -441,7 +436,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired);
         }
 
-
         [Test]
         public void GivenFreshControl_WhenGettingId_ThenIdIsNotNullOrEmpty()
         {
@@ -481,7 +475,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(control.Id, Is.EqualTo("SolairOfAstora"));
         }
-
 
         [Test]
         public void GivenLoadedParentWithLoadedChild_WhenParentDisposed_ThenChildIsDisposed()

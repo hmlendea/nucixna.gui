@@ -19,7 +19,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             selector = new GuiMenuListSelector();
         }
 
-
         [Test]
         public void GivenFreshSelector_WhenGettingSelectedIndex_ThenIsMinusOne()
             => Assert.That(selector.SelectedIndex, Is.EqualTo(-1));
@@ -43,7 +42,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
         [Test]
         public void GivenFreshSelector_WhenGettingValues_ThenIsEmpty()
             => Assert.That(selector.Values, Is.Empty);
-
 
         [Test]
         public void GivenItemsAlreadySet_WhenSetItemsCalledAgain_ThenItemsCountMatchesNewCollection()
@@ -112,7 +110,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(fireCount, Is.EqualTo(2));
         }
 
-
         [TestCase("Dark Souls III")]
         [TestCase("Minecraft", "Terraria", "RuneScape", "Narivia", "SokoGrump")]
         public void GivenStringParams_WhenSetItems_ThenItemsCountMatchesValues(params string[] values)
@@ -138,7 +135,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(selector.SelectedValue, Is.EqualTo("Dark Souls III"));
         }
-
 
         [Test]
         public void GivenKeyValuePairParams_WhenSetItems_ThenAllKeysArePresent()
@@ -176,7 +172,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.ItemsCount, Is.EqualTo(3));
         }
 
-
         [TestCase(0, "a", "Apple")]
         [TestCase(1, "b", "Banana")]
         [TestCase(2, "c", "Cherry")]
@@ -201,7 +196,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo(expectedValue));
         }
 
-
         [TestCase("a", 0, "Apple")]
         [TestCase("b", 1, "Banana")]
         [TestCase("c", 2, "Cherry")]
@@ -218,7 +212,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo(expectedValue));
         }
 
-
         [TestCase("Apple", 0, "a")]
         [TestCase("Banana", 1, "b")]
         [TestCase("Cherry", 2, "c")]
@@ -234,7 +227,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedIndex, Is.EqualTo(expectedIndex));
             Assert.That(selector.SelectedKey, Is.EqualTo(expectedKey));
         }
-
 
         [Test]
         public void GivenItemsAtFirstIndex_WhenSelectNextItem_ThenCacheIsCorrect()
@@ -282,7 +274,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedValue, Is.EqualTo("Banana"));
         }
 
-
         [Test]
         public void GivenThreeItems_WhenCyclingNextThreeTimes_ThenReturnsToFirstIndex()
         {
@@ -322,7 +313,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(selector.SelectedIndex, Is.EqualTo(1));
         }
 
-
         [Test]
         public void GivenItems_WhenTrySelectItemByValueWithValidValue_ThenSelectedValueUpdated()
         {
@@ -355,7 +345,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(eventFired, Is.False);
         }
 
-
         [Test]
         public void GivenItems_WhenTrySelectItemByCurrentIndex_ThenDoesNotFireSelectedItemChanged()
         {
@@ -385,7 +374,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(selector.SelectedIndex, Is.EqualTo(0));
         }
-
 
         [Test]
         public void GivenItems_WhenGetItemsReturnedAndModified_ThenOriginalIsUnchanged()
@@ -422,7 +410,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.That(result.Count, Is.EqualTo(0));
         }
-
 
         [Test]
         public void GivenItems_WhenSelectNextItem_ThenSelectedItemChangedArgsAreCorrect()
@@ -479,7 +466,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
             Assert.That(receivedArgs.SelectedValue, Is.EqualTo("Banana"));
         }
 
-
         [Test]
         public void GivenSingleItem_WhenSelectItemByIndex0_ThenCacheIsCorrect()
         {
@@ -497,7 +483,6 @@ namespace NuciXNA.Gui.UnitTests.Controls
 
             Assert.Throws<IndexOutOfRangeException>(() => selector.SelectItemByIndex(1));
         }
-
 
         [Test]
         public void GivenThreeItems_WhenGettingKeys_ThenCountIsThree()

@@ -2,12 +2,13 @@ using System.Reflection;
 
 using Microsoft.Xna.Framework.Input;
 
+using NuciXNA.Input;
+using NuciXNA.Primitives;
+
 using NUnit.Framework;
 
 using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.UnitTests.Helpers;
-using NuciXNA.Input;
-using NuciXNA.Primitives;
 
 namespace NuciXNA.Gui.UnitTests.Controls
 {
@@ -121,9 +122,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuLink.Triggered += delegate { triggeredFired = true; };
 
-            typeof(GuiMenuItem)
-                .GetMethod("OnClicked", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.Invoke(menuLink, [this, new MouseButtonEventArgs(MouseButton.Left, Input.ButtonState.Pressed, Point2D.Empty)]);
+            menuLink.PerformClick();
 
             Assert.That(triggeredFired);
         }
@@ -134,9 +133,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuLink.Triggered += delegate { triggeredFired = true; };
 
-            typeof(GuiMenuItem)
-                .GetMethod("OnKeyPressed", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.Invoke(menuLink, [this, new KeyboardKeyEventArgs(Keys.Enter, Input.ButtonState.Pressed)]);
+            menuLink.PerformKeyPress(Keys.Enter);
 
             Assert.That(triggeredFired);
         }
@@ -147,9 +144,7 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuLink.Triggered += delegate { triggeredFired = true; };
 
-            typeof(GuiMenuItem)
-                .GetMethod("OnKeyPressed", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.Invoke(menuLink, [this, new KeyboardKeyEventArgs(Keys.E, Input.ButtonState.Pressed)]);
+            menuLink.PerformKeyPress(Keys.E);
 
             Assert.That(triggeredFired);
         }
@@ -160,16 +155,14 @@ namespace NuciXNA.Gui.UnitTests.Controls
             bool triggeredFired = false;
             menuLink.Triggered += delegate { triggeredFired = true; };
 
-            typeof(GuiMenuItem)
-                .GetMethod("OnGamepadButtonPressed", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.Invoke(menuLink, [this, new GamepadButtonEventArgs(Buttons.A, Input.ButtonState.Pressed, Microsoft.Xna.Framework.PlayerIndex.One)]);
+            menuLink.PerformGamepadPress(Buttons.A);
 
             Assert.That(triggeredFired);
         }
 
         [Test]
         public void GivenFreshMenuLink_WhenGettingIsSelectable_ThenIsTrue()
-            => Assert.That(menuLink.IsSelectable, Is.True);
+            => Assert.That(menuLink.IsSelectable);
 
         [Test]
         public void GivenFreshMenuLink_WhenGettingSelectedTextColour_ThenIsGold()
