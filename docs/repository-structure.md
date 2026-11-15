@@ -69,7 +69,10 @@ NuciXNA.Gui.ArchitectureTests/        # Architecture/fitness test project
 
 .github/
 └── workflows/
-    └── dotnet.yml                    # CI/CD pipeline (build, test)
+    ├── dotnet.yml                    # CI pipeline (build, test)
+    ├── security.yml                  # Dependency vulnerability check and CodeQL analysis
+    ├── github-release.yml            # Package upload to the GitHub release
+    └── nuget-release.yml             # Package publication to NuGet.org
 
 Root files:
 ├── ARCHITECTURE.md                   # Architecture documentation

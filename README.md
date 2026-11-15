@@ -1,6 +1,7 @@
 [![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/funding)
 [![Latest Release](https://img.shields.io/github/v/release/hmlendea/nucixna.gui)](https://github.com/hmlendea/nucixna.gui/releases/latest)
 [![Build Status](https://github.com/hmlendea/nucixna.gui/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hmlendea/nucixna.gui/actions/workflows/dotnet.yml)
+[![Security Scan](https://github.com/hmlendea/nucixna.gui/actions/workflows/security.yml/badge.svg)](https://github.com/hmlendea/nucixna.gui/actions/workflows/security.yml)
 [![NuGet](https://img.shields.io/nuget/v/NuciXNA.Gui)](https://nuget.org/packages/NuciXNA.Gui)
 [![License](https://img.shields.io/github/license/hmlendea/nucixna.gui)](https://github.com/hmlendea/nucixna.gui/blob/master/LICENSE)
 
@@ -46,6 +47,7 @@ GUI management and lightweight widgets for the NuciXNA stack on top of MonoGame/
 - [Code of Conduct](#code-of-conduct)
 - [Related Projects](#related-projects)
 - [Security](#security)
+- [Support](#support)
 - [Project Engagement](#project-engagement)
 - [License](#license)
 
@@ -296,10 +298,13 @@ Inspect the package before publishing it through the maintainer's authorised NuG
 | Workflow | Purpose | What it does |
 |----------|---------|--------------|
 | [.NET](https://github.com/hmlendea/nucixna.gui/blob/master/.github/workflows/dotnet.yml) | Validate pushes and pull requests to `master` | Installs .NET 10 and Microsoft core fonts, then restores, builds, and tests on Ubuntu |
+| [Security](https://github.com/hmlendea/nucixna.gui/blob/master/.github/workflows/security.yml) | Scan pushes, pull requests, and a weekly schedule for vulnerabilities | Restores the solution, reports vulnerable NuGet packages, and uploads CodeQL C# analysis results to GitHub Code Scanning |
+| [GitHub Release](https://github.com/hmlendea/nucixna.gui/blob/master/.github/workflows/github-release.yml) | Publish the package on a published GitHub release | Packs `NuciXNA.Gui`, uploads the `.nupkg` to the release, and appends its SHA256 checksum |
+| [NuGet.org Release](https://github.com/hmlendea/nucixna.gui/blob/master/.github/workflows/nuget-release.yml) | Publish the package to NuGet.org on a published GitHub release | Packs `NuciXNA.Gui`, obtains a temporary API key through OIDC, and pushes the package |
 
 ## 🗂️ Project Structure
 
-The solution contains the library, its NUnit test project, and its architecture test project, plus detailed documentation and one validation workflow.
+The solution contains the library, its NUnit test project, and its architecture test project, plus detailed documentation and four workflows.
 
 ### Projects and Packages
 
@@ -323,7 +328,7 @@ The solution contains the library, its NUnit test project, and its architecture 
 
 NuciXNA.Gui uses retained control trees, a global root-control manager, screen lifecycle templates, synchronous NuciXNA.Input events, and per-frame MonoGame rendering.
 
-See the [architecture documentation](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
+See the [Architecture Documentation](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
 
 ## 📚 Documentation
 
@@ -380,11 +385,15 @@ See the [Code of Conduct](./CODE_OF_CONDUCT.md) for the standards of conduct exp
 
 NuciXNA.Gui executes in the consuming process and has no built-in network, persistence, authentication, telemetry, or logging boundary.
 
-For information on reporting security vulnerabilities, see [SECURITY.md](./SECURITY.md).
+For information on reporting security vulnerabilities, see the [Security Policy](./SECURITY.md).
+
+## 💬 Support
+
+For support, please [open an issue](https://github.com/hmlendea/nucixna.gui/issues).
 
 ## 💝 Project Engagement
 
-Discovered a problem or have a suggestion? [Open an issue](https://github.com/hmlendea/nucixna.gui/issues)!
+Discovered a problem with NuciXNA.Gui or have a suggestion for it? [Open an issue](https://github.com/hmlendea/nucixna.gui/issues)!
 
 If you find this project useful, consider [funding it](https://hmlendea.go.ro/funding) or starring ⭐️ it on GitHub!
 
@@ -393,4 +402,4 @@ If you find this project useful, consider [funding it](https://hmlendea.go.ro/fu
 ## 📄 License
 
 This project is being distributed under the `GNU General Public License v3.0` or later.
-See [LICENSE](./LICENSE) for further information.
+See [LICENSE](./LICENSE) for additional information.
